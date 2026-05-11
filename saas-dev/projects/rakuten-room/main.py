@@ -61,9 +61,11 @@ def add_today_count(n: int):
     DAILY_COUNT_FILE.parent.mkdir(parents=True, exist_ok=True)
     data = json.loads(DAILY_COUNT_FILE.read_text()) if DAILY_COUNT_FILE.exists() else {}
     data[today] = data.get(today, 0) + n
-    # 直近7日分だけ保持
-    keys = sorted(data.keys())[-7:]
-    DAILY_COUNT_FILE.write_text(json.dumps({k: data[k] for k in keys}))
+    # _total_override を累積更新
+    data["_total_override"] = data.get("_total_override", 0) + n
+    # 直近7日分 + _total_override を保持
+    date_keys = sorted(k for k in data if k != "_total_override")[-7:]
+    DAILY_COUNT_FILE.write_text(json.dumps({k: data[k] for k in date_keys} | {"_total_override": data["_total_override"]}))
 
 
 def extract_item_key_from_url(url: str) -> str:
