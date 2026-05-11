@@ -251,6 +251,37 @@ def collect_investment_bots():
     return sorted(bots_map.values(), key=lambda x: x["name"])
 
 
+def collect_gumroad() -> dict:
+    """Gumroad: PDCAレポート・戦略データ"""
+    data_dir = ROOT / "saas-dev/projects/gumroad/data"
+    result = {
+        "monthly_revenue_usd": 0.0,
+        "goal_usd": 2000,
+        "progress_pct": 0.0,
+        "total_products": 0,
+        "top_niches": [],
+        "next_type": None,
+        "next_niches": [],
+        "generated_at": None,
+    }
+    pdca_f = data_dir / "pdca_report.json"
+    if pdca_f.exists():
+        try:
+            pdca = json.loads(pdca_f.read_text(encoding="utf-8"))
+            result["monthly_revenue_usd"] = pdca.get("monthly_revenue_usd", 0.0)
+            result["goal_usd"]            = pdca.get("goal_usd", 2000)
+            result["progress_pct"]        = pdca.get("progress_pct", 0.0)
+            result["total_products"]      = pdca.get("total_products", 0)
+            result["top_niches"]          = pdca.get("top_niches", [])
+            ng = pdca.get("next_generation", {})
+            result["next_type"]           = ng.get("type")
+            result["next_niches"]         = ng.get("niches", [])
+            result["generated_at"]        = (pdca.get("generated_at") or "")[:10]
+        except Exception:
+            pass
+    return result
+
+
 def collect_redbubble():
     """Redbubble: アップロード状況"""
     sf = ROOT / "saas-dev/projects/redbubble/data/state.json"
@@ -280,6 +311,7 @@ def build_dashboard_data():
     kdp_books           = collect_kindle_kdp()
     bots                = collect_investment_bots()
     redbubble           = collect_redbubble()
+    gumroad             = collect_gumroad()
 
     # 直近30日の日付リスト
     today = datetime.now(JST).date()
@@ -380,6 +412,7 @@ def build_dashboard_data():
         },
         "investment_bots": bots,
         "redbubble": redbubble,
+        "gumroad": gumroad,
     }
 
 
@@ -455,6 +488,11 @@ def generate_html(data: dict) -> str:
     <div class="card-label">Redbubble 出品数</div>
     <div class="card-value" id="rb-total">0</div>
     <div class="card-sub" id="rb-sub">残り0件</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Gumroad 月収</div>
+    <div class="card-value" id="gm-revenue">$0</div>
+    <div class="card-sub" id="gm-progress">目標$2,000の0%</div>
   </div>
 </div>
 
@@ -552,6 +590,46 @@ def generate_html(data: dict) -> str:
       <thead><tr><th>日付</th><th>タイトル</th><th>ステータス</th></tr></thead>
       <tbody id="kdp-table"></tbody>
     </table>
+  </div>
+</div>
+
+<div class="section" style="margin-bottom:20px">
+  <h2>Gumroad デジタル商品（月水金 自動出品）</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">月収（USD）</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#fff" id="gm-rev-card">$0</div>
+    </div>
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">目標達成率</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#50e3a4" id="gm-pct-card">0%</div>
+    </div>
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">出品中商品数</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#fff" id="gm-prods-card">0</div>
+    </div>
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">目標</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#f5a623" id="gm-goal-card">$2,000/月</div>
+    </div>
+  </div>
+  <div style="background:#252838;border-radius:8px;padding:10px 14px;margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#888;margin-bottom:6px">
+      <span>進捗</span><span id="gm-bar-label">$0 / $2,000</span>
+    </div>
+    <div style="background:#1a1d2e;border-radius:4px;height:8px">
+      <div id="gm-bar" style="height:8px;border-radius:4px;background:linear-gradient(90deg,#7c9ff5,#50e3a4);width:0%;transition:width 0.8s"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:0.85rem">
+    <div>
+      <div style="color:#888;margin-bottom:6px">売れ筋ニッチ Top3</div>
+      <div id="gm-niches" style="color:#aaa">-</div>
+    </div>
+    <div>
+      <div style="color:#888;margin-bottom:6px">次回生成ターゲット</div>
+      <div id="gm-next" style="color:#7c9ff5">-</div>
+    </div>
   </div>
 </div>
 
@@ -773,6 +851,24 @@ async function triggerRefresh() {{
 document.getElementById('kdp-table').innerHTML = D.kindle_kdp.recent.length
   ? D.kindle_kdp.recent.map(e => `<tr><td>${{e.published_at.slice(0,10)}}</td><td>${{e.title.slice(0,30)}}</td><td style="color:${{e.status==='published'?'#50e3a4':'#f5a623'}}">${{e.status}}</td></tr>`).join('')
   : '<tr><td colspan="3" style="color:#666">まだ出版なし</td></tr>';
+
+// Gumroad
+const gm = D.gumroad;
+document.getElementById('gm-revenue').textContent = '$' + gm.monthly_revenue_usd.toFixed(2);
+document.getElementById('gm-progress').textContent = '目標$' + gm.goal_usd.toLocaleString() + 'の' + gm.progress_pct + '%';
+document.getElementById('gm-rev-card').textContent = '$' + gm.monthly_revenue_usd.toFixed(2);
+document.getElementById('gm-pct-card').textContent = gm.progress_pct + '%';
+document.getElementById('gm-prods-card').textContent = gm.total_products;
+document.getElementById('gm-goal-card').textContent = '$' + gm.goal_usd.toLocaleString() + '/月';
+document.getElementById('gm-bar-label').textContent = '$' + gm.monthly_revenue_usd.toFixed(2) + ' / $' + gm.goal_usd.toLocaleString();
+document.getElementById('gm-bar').style.width = Math.min(gm.progress_pct, 100) + '%';
+document.getElementById('gm-niches').innerHTML = gm.top_niches.length
+  ? gm.top_niches.map(([n, r]) => `<div style="margin-bottom:4px"><span style="color:#fff">${{n}}</span> <span style="color:#f5a623;float:right">$${{r.toFixed(2)}}</span></div>`).join('')
+  : '<span style="color:#555">まだ売上なし</span>';
+document.getElementById('gm-next').innerHTML = gm.next_niches.length
+  ? `<div style="margin-bottom:4px">タイプ: <strong style="color:#50e3a4">${{gm.next_type || 'auto'}}</strong></div>` +
+    gm.next_niches.map(n => `<div style="color:#aaa;font-size:0.8rem">・${{n}}</div>`).join('')
+  : '-';
 
 // ROOM PDCA インサイト
 const rp = D.rakuten_room.pdca;
