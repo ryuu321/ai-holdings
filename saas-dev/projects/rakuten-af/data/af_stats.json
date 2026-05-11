@@ -1,0 +1,250 @@
+[
+  {
+    "date": "2026-05-01",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-02",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-03",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-04",
+    "commission": 0,
+    "clicks": 1,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-05",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-06",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-07",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-08",
+    "commission": 0,
+    "clicks": 1,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-09",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-10",
+    "commission": 99,
+    "clicks": 0,
+    "purchases": 1,
+    "sales": 1980,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-11",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-12",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-13",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-14",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-15",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-16",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-17",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-18",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-19",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-20",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-21",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-22",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-23",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-24",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-25",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-26",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-27",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-28",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-29",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-30",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  },
+  {
+    "date": "2026-05-31",
+    "commission": 0,
+    "clicks": 0,
+    "purchases": 0,
+    "sales": 0,
+    "cvr": 0.0
+  }
+]
