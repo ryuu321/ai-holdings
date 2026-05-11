@@ -565,6 +565,16 @@ document.getElementById('kdp-total').textContent = D.kindle_kdp.total_books;
 document.getElementById('rb-total').textContent = D.redbubble.next_index + '件';
 document.getElementById('rb-sub').textContent = '残り' + (D.redbubble.total - D.redbubble.next_index) + '件 / 全' + D.redbubble.total + '件';
 
+const labels = D.dates.map(d => d.slice(5));
+const chartOpts = (color) => ({{
+  responsive: true, maintainAspectRatio: false,
+  plugins: {{ legend: {{ display: false }} }},
+  scales: {{
+    x: {{ ticks: {{ color: '#666', maxTicksLimit: 8 }}, grid: {{ color: '#2a2d3e' }} }},
+    y: {{ ticks: {{ color: '#666' }}, grid: {{ color: '#2a2d3e' }}, beginAtZero: true }}
+  }}
+}});
+
 // AF パフォーマンスカード
 const afp = D.af_performance;
 document.getElementById('af-clicks').textContent     = afp.total_clicks.toLocaleString();
@@ -603,16 +613,6 @@ if (afp.pdca && afp.pdca.overall_insight) {{
   document.getElementById('af-pdca-insight').textContent = afp.pdca.overall_insight;
   document.getElementById('af-pdca-niche').textContent   = afp.pdca.niche_recommendation || '-';
 }}
-
-const labels = D.dates.map(d => d.slice(5));
-const chartOpts = (color) => ({{
-  responsive: true, maintainAspectRatio: false,
-  plugins: {{ legend: {{ display: false }} }},
-  scales: {{
-    x: {{ ticks: {{ color: '#666', maxTicksLimit: 8 }}, grid: {{ color: '#2a2d3e' }} }},
-    y: {{ ticks: {{ color: '#666' }}, grid: {{ color: '#2a2d3e' }}, beginAtZero: true }}
-  }}
-}});
 
 new Chart(document.getElementById('noteChart'), {{
   type: 'bar',
