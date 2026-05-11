@@ -1,0 +1,41 @@
+name: ダッシュボード生成（毎朝）
+
+on:
+  schedule:
+    - cron: '0 22 * * *'   # JST 07:00
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: ダッシュボード生成
+        run: python dashboard/generate.py
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: コミット & プッシュ
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add docs/index.html
+          git add saas-dev/projects/note-auto/state_*.json 2>/dev/null || true
+          git add saas-dev/projects/rakuten-af/data/rakuten_af.db 2>/dev/null || true
+          git add saas-dev/projects/rakuten-room/data/daily_count.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "dashboard: $(date -u '+%Y-%m-%d') 自動更新 [skip ci]"
+          git pull --rebase -X theirs
+          git push

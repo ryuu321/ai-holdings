@@ -1,0 +1,54 @@
+{
+  "venture": "medium_publisher",
+  "params": {
+    "priority_genre": null,
+    "writing_style": "conversational and data-driven",
+    "target_length": "900-1300 words"
+  },
+  "performance_history": [
+    {
+      "date": "2026-04-29",
+      "genre": "AI & Productivity",
+      "title_en": "The 80% Rule: How to Turn Your ‘Toxic’ Resignation Reason Into a Job Offer",
+      "status": "failed",
+      "articles_total": 0
+    },
+    {
+      "date": "2026-04-29",
+      "genre": "AI & Productivity",
+      "title_en": "How to Turn Your 'Toxic Job' Story Into a $20,000 Raise: 10 Interview Reframes That Work",
+      "status": "success",
+      "articles_total": 1
+    },
+    {
+      "date": "2026-05-08",
+      "genre": "AI & Productivity",
+      "title_en": "100% Success Rate: The Reference Check Playbook for When You Hate Your Former Boss",
+      "status": "success",
+      "articles_total": 2
+    },
+    {
+      "date": "2026-05-09",
+      "genre": "AI & Productivity",
+      "title_en": "How to Hack the Recruiter ‘Algorithm’ and Boost Your Job Offer Rate by 250%",
+      "status": "success",
+      "articles_total": 3
+    },
+    {
+      "date": "2026-05-10",
+      "genre": "AI & Productivity",
+      "title_en": "How I Tripled My High-Value Job Offers: 15 Rules to Hack Your Career Profile",
+      "status": "success",
+      "articles_total": 4
+    }
+  ],
+  "learnings": [],
+  "last_optimized": null,
+  "posted_titles": [
+    "書類通過率が80%上がる！ネガティブな本音を「即採用」に変える退職理由の言い換え全10パターン",
+    "【保存版】リファレンスチェック突破率100%へ。前職と疎遠・不仲でも内定を逃さない『推薦人依頼と事前準備』完全マニュアル",
+    "内定率が2.5倍上がる「エージェント操縦術」：優良な非公開求人を引き出す5つの返信テンプレ",
+    "【公開】ビズリーチのプラチナスカウトを3倍に増やした『プロフィール入力』15の鉄則"
+  ],
+  "articles_published": 4
+}

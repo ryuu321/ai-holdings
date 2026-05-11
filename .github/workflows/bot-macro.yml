@@ -1,0 +1,44 @@
+name: macro-bot
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'   # 毎週月曜 02:00 UTC（日曜夜〜月曜朝）
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  run-macro-bot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: コードを取得
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 依存パッケージインストール
+        run: pip install -r requirements.txt
+
+      - name: macroボット実行
+        run: |
+          cd saas-dev/projects/auto-invest/macro
+          python -u main.py
+
+      - name: 結果をリポジトリに保存
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add saas-dev/projects/auto-invest/data/*.json
+          git add saas-dev/projects/auto-invest/data/*.log 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "bot(macro): update $(date -u '+%Y-%m-%d %H:%M') [skip ci]"
+          git pull --rebase -X theirs
+          git push

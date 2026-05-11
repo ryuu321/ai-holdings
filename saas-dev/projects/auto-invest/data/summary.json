@@ -1,0 +1,407 @@
+{
+  "updated_at": "2026-05-10T09:27:03.565042+00:00",
+  "portfolios": {
+    "LONG": {
+      "balance": 9757.298694807883,
+      "initial_balance": 10000.0,
+      "last_run": "2026-05-04T05:36:44.447197+00:00",
+      "positions": {
+        "MSFT": {
+          "ticker": "MSFT",
+          "shares": 0.9615553417985012,
+          "buy_price": 422.79,
+          "bought_at": "2026-04-20T05:15:05.717280+00:00",
+          "cost_basis": 406.5359829589883,
+          "peak_price": 424.6,
+          "ladder_hits": [],
+          "last_dca_date": "2026-04-27T05:26:44.171567+00:00"
+        }
+      },
+      "short_positions": {}
+    },
+    "MEDIUM": {
+      "balance": 9365.413253716106,
+      "initial_balance": 10000.0,
+      "last_run": "2026-05-10T04:46:56.500638+00:00",
+      "positions": {
+        "BTC-USD": {
+          "ticker": "BTC-USD",
+          "shares": 0.004423858462940281,
+          "buy_price": 75725.75,
+          "bought_at": "2026-04-19T04:15:56.883648+00:00",
+          "cost_basis": 335.0,
+          "peak_price": 80909.66,
+          "ladder_hits": [
+            "0.05"
+          ],
+          "last_dca_date": ""
+        },
+        "QQQ": {
+          "ticker": "QQQ",
+          "shares": 0.47207594748943116,
+          "buy_price": 674.15,
+          "bought_at": "2026-05-02T04:19:42.088439+00:00",
+          "cost_basis": 318.25,
+          "peak_price": 711.23,
+          "ladder_hits": [
+            "0.05"
+          ],
+          "last_dca_date": ""
+        }
+      },
+      "short_positions": {}
+    },
+    "SHORT": {
+      "balance": 5000.0,
+      "initial_balance": 10000.0,
+      "last_run": "2026-05-10T09:27:03.564702+00:00",
+      "positions": {
+        "bitcoin": {
+          "ticker": "bitcoin",
+          "shares": 0.013465655844767919,
+          "buy_price": 74263.0,
+          "bought_at": "2026-04-14T22:10:56.484481+00:00",
+          "cost_basis": 1000.0,
+          "peak_price": 75065.0,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        },
+        "MSFT": {
+          "ticker": "MSFT",
+          "shares": 2.4314926933644565,
+          "buy_price": 411.27,
+          "bought_at": "2026-04-16T10:35:41.962143+00:00",
+          "cost_basis": 1000.0,
+          "peak_price": 411.27,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        },
+        "NVDA": {
+          "ticker": "NVDA",
+          "shares": 5.028410519434806,
+          "buy_price": 198.87,
+          "bought_at": "2026-04-16T10:38:35.416580+00:00",
+          "cost_basis": 1000.0,
+          "peak_price": 198.87,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        },
+        "AAPL": {
+          "ticker": "AAPL",
+          "shares": 3.7533310813346845,
+          "buy_price": 266.43,
+          "bought_at": "2026-04-16T10:38:45.262226+00:00",
+          "cost_basis": 1000.0,
+          "peak_price": 266.43,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        },
+        "SPY": {
+          "ticker": "SPY",
+          "shares": 1.4288980338363053,
+          "buy_price": 699.84,
+          "bought_at": "2026-04-16T11:01:00.949038+00:00",
+          "cost_basis": 1000.0,
+          "peak_price": 699.84,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        }
+      },
+      "short_positions": {}
+    },
+    "MACRO": {
+      "balance": 8036.381611468116,
+      "initial_balance": 10000.0,
+      "last_run": "2026-05-04T05:35:15.001003+00:00",
+      "positions": {
+        "MSFT": {
+          "ticker": "MSFT",
+          "shares": 4.731736700110761,
+          "buy_price": 424.6,
+          "bought_at": "2026-04-27T05:24:29.598303+00:00",
+          "cost_basis": 2009.0954028670292,
+          "peak_price": 424.6,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        }
+      },
+      "short_positions": {}
+    },
+    "ATTACK": {
+      "balance": 500.0,
+      "initial_balance": 10000.0,
+      "positions": {
+        "AMD": {
+          "shares": 26.30985992295885,
+          "buy_price": 360.7202785491943,
+          "cost": 9500.0,
+          "peak": 455.19000244140625,
+          "entry_date": "2026-05-02T16:43:18.445656+00:00"
+        }
+      },
+      "last_run": "2026-05-02T16:43:18.445656+00:00",
+      "trade_count": 1,
+      "total_realized_pnl": 0.0
+    },
+    "VOLT": {
+      "balance": 6230.123522561635,
+      "initial_balance": 10000.0,
+      "positions": {
+        "AMD": {
+          "shares": 9.235774029177174,
+          "buy_price": 408.18197430218294,
+          "cost": 3769.876477438366
+        }
+      },
+      "last_run": "2026-05-06T15:12:20.925727+00:00",
+      "trade_count": 1,
+      "total_realized_pnl": 0.0
+    }
+  },
+  "recent_trades": [
+    {
+      "timestamp": "2026-05-09T04:25:47.783687+00:00",
+      "action": "SELL",
+      "coin": "QQQ",
+      "price": 711.23,
+      "amount": 0.2325150189127049,
+      "value_usd": 165.3716569012831,
+      "balance_after": 9365.413253716106,
+      "pnl": 8.621656901283103,
+      "reasoning": "ラダー利確 +5%: 33%売却",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
+    {
+      "timestamp": "2026-05-04T04:42:05.074175+00:00",
+      "action": "SELL",
+      "coin": "BTC-USD",
+      "price": 80334.28,
+      "amount": 0.0021789153623437206,
+      "value_usd": 175.0415968148219,
+      "balance_after": 9200.041596814823,
+      "pnl": 10.0415968148219,
+      "reasoning": "ラダー利確 +5%: 33%売却",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
+    {
+      "timestamp": "2026-05-02T04:19:42.088457+00:00",
+      "action": "BUY",
+      "coin": "QQQ",
+      "price": 674.15,
+      "amount": 0.704590966402136,
+      "value_usd": 475.0,
+      "balance_after": 9025.0,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+5.0 → BUY | ADX=29.7 強トレンド(上昇) → 方向性明確 | 価格が200MA上 → 長期上昇トレンド | 価格が50MA上 → 中期上昇トレンド | VIX=17.…",
+      "confidence": 0.71,
+      "risk_level": "MEDIUM",
+      "bot_type": "MEDIUM"
+    },
+    {
+      "timestamp": "2026-04-27T05:26:44.171520+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 424.6,
+      "amount": 0.2403888354496253,
+      "value_usd": 102.06909953191091,
+      "balance_after": 9757.298694807883,
+      "pnl": 0.43510379216381523,
+      "reasoning": "DCA週次利確: +0.4%  20%売却",
+      "confidence": 0.7,
+      "risk_level": "MEDIUM",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-04-27T05:24:29.598321+00:00",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 424.6,
+      "amount": 4.731736700110761,
+      "value_usd": 2009.0954028670292,
+      "balance_after": 8036.381611468116,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+5.0 → BUY | フェーズ:LATE_EXPANSION | エネルギー・素材・ヘルスケアに比重移動。保有株の一部利確を検討。 | 経済サイクル: 成長後期（過熱注意） → 過熱注…",
+      "confidence": 0.83,
+      "risk_level": "MEDIUM",
+      "bot_type": "MACRO"
+    },
+    {
+      "timestamp": "2026-04-20T05:15:05.717300+00:00",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 422.79,
+      "amount": 1.2019441772481265,
+      "value_usd": 508.1699786987354,
+      "balance_after": 9655.229595275972,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+6.0 → BUY | M2 YoY=4.9% 緩やかに拡大 | 売上成長=16.7% 成長継続 | 利益率=39.0% 高収益 | D/E=32 財務健全 | ROE=34.4% 資本…",
+      "confidence": 0.86,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-04-19T04:15:56.883669+00:00",
+      "action": "BUY",
+      "coin": "BTC-USD",
+      "price": 75725.75,
+      "amount": 0.006602773825284002,
+      "value_usd": 500.0,
+      "balance_after": 9500.0,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+4.0 → BUY | ADX=19.3 レンジ相場 → トレンドフォロー無効 | 価格が200MA下 → 長期下降トレンド | 価格が50MA上 → 中期上昇トレンド | BTC-ET…",
+      "confidence": 0.44,
+      "risk_level": "MEDIUM",
+      "bot_type": "MEDIUM"
+    },
+    {
+      "timestamp": "2026-04-16T10:38:45.262226+00:00",
+      "action": "BUY",
+      "coin": "AAPL",
+      "price": 411.3,
+      "amount": 2.4313153415998054,
+      "value_usd": 1000.0,
+      "balance_after": 6000.0,
+      "pnl": 0.0,
+      "reasoning": "手動売買",
+      "confidence": 1.0,
+      "risk_level": "MANUAL",
+      "bot_type": "SHORT"
+    },
+    {
+      "timestamp": "2026-04-16T10:38:35.416580+00:00",
+      "action": "BUY",
+      "coin": "NVDA",
+      "price": 411.3,
+      "amount": 2.4313153415998054,
+      "value_usd": 1000.0,
+      "balance_after": 7000.0,
+      "pnl": 0.0,
+      "reasoning": "手動売買",
+      "confidence": 1.0,
+      "risk_level": "MANUAL",
+      "bot_type": "SHORT"
+    },
+    {
+      "timestamp": "2026-04-16T10:35:41.962143+00:00",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 411.27,
+      "amount": 2.4314926933644565,
+      "value_usd": 1000.0,
+      "balance_after": 8000.0,
+      "pnl": 0.0,
+      "reasoning": "手動売買",
+      "confidence": 1.0,
+      "risk_level": "MANUAL",
+      "bot_type": "SHORT"
+    },
+    {
+      "timestamp": "2026-04-16T10:30:08.367268+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 411.27,
+      "amount": 4.044543910265053,
+      "value_usd": 1663.3995739747081,
+      "balance_after": 10163.399573974708,
+      "pnl": 163.39957397470812,
+      "reasoning": "手動売買",
+      "confidence": 1.0,
+      "risk_level": "MANUAL",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-04-14T22:41:54.236569+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 393.11,
+      "amount": 5.203319717980071,
+      "value_usd": 2045.477014335146,
+      "balance_after": 10045.477014335145,
+      "pnl": 45.477014335145896,
+      "reasoning": "マクロテーゼ崩壊: 経済フェーズ=CONTRACTION: 先行指標が景気後退を示す",
+      "confidence": 0.95,
+      "risk_level": "LOW",
+      "bot_type": "MACRO"
+    },
+    {
+      "timestamp": "2026-04-14T22:10:56.484481+00:00",
+      "action": "BUY",
+      "coin": "bitcoin",
+      "price": 74263.0,
+      "amount": 0.013465655844767919,
+      "value_usd": 1000.0,
+      "balance_after": 9000.0,
+      "pnl": 0.0,
+      "reasoning": "ルールベースBUY（portfolio補完）",
+      "confidence": 0.6,
+      "risk_level": "MEDIUM",
+      "bot_type": "SHORT"
+    },
+    {
+      "timestamp": "2026-04-14T13:23:02.672191+00:00",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 384.37,
+      "amount": 5.203319717980071,
+      "value_usd": 2000.0,
+      "balance_after": 8000.0,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+5.0 → BUY | フェーズ:LATE_EXPANSION | エネルギー・素材・ヘルスケアに比重移動。保有株の一部利確を検討。 | 経済サイクル: 成長後期（過熱注意） → 過熱注",
+      "confidence": 0.83,
+      "risk_level": "MEDIUM",
+      "bot_type": "MACRO"
+    },
+    {
+      "timestamp": "2026-04-12T18:18:29.882328+00:00",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 370.87,
+      "amount": 4.044543910265053,
+      "value_usd": 1500.0,
+      "balance_after": 8500.0,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+7 → BUY | PER=23.2 適正（15〜25） | 売上成長率=16.7% 成長中 | 利益率=39.0% 高収益企業 | D/E=32 低負債 → 財務健全 | 高値から-3",
+      "confidence": 1.0,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-04-12T17:39:05.262599+00:00",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 370.87,
+      "amount": 4.044543910265053,
+      "value_usd": 1500.0,
+      "balance_after": 8500.0,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+7 → BUY | PER=23.2 適正（15〜25） | 売上成長率=16.7% 成長中 | 利益率=39.0% 高収益企業 | D/E=32 低負債 → 財務健全 | 高値から-3",
+      "confidence": 1.0,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-04-12T17:35:16.698447",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 370.87,
+      "amount": 2.696362606843368,
+      "value_usd": 1000.0,
+      "balance_after": 9000.0,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+7 → BUY | PER=23.2 適正（15〜25） | 売上成長率=16.7% 成長中 | 利益率=39.0% 高収益企業 | D/E=32 低負債 → 財務健全 | 高値から-3",
+      "confidence": 1.0,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    }
+  ],
+  "stats": {
+    "total_buys": 12,
+    "total_sells": 5,
+    "realized_pnl": 227.97,
+    "win_rate": 100.0
+  }
+}

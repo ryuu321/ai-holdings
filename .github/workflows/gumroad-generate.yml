@@ -1,0 +1,58 @@
+name: Gumroad Generate & Publish
+
+on:
+  schedule:
+    - cron: '0 0 * * 1,3,5'   # 月水金 JST9時（UTC0時）
+  workflow_dispatch:
+    inputs:
+      niche:
+        description: 'ニッチ指定（空でPDCA自動選択）'
+        required: false
+      type:
+        description: 'ai_prompts or notion_template（空で自動）'
+        required: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r saas-dev/projects/gumroad/requirements.txt
+
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Restore Gumroad session
+        run: |
+          mkdir -p saas-dev/projects/gumroad/data
+          echo "${{ secrets.GUMROAD_SESSION_B64 }}" | base64 -d > saas-dev/projects/gumroad/data/gumroad_session.json
+
+      - name: Generate & Publish
+        working-directory: saas-dev/projects/gumroad
+        env:
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          GROQ_API_KEY:         ${{ secrets.GROQ_API_KEY }}
+          TELEGRAM_BOT_TOKEN:   ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID:  ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          GUMLOAD_EMAIL:        ${{ secrets.GUMROAD_EMAIL }}
+          GUMLOAD_PASSWORD:     ${{ secrets.GUMROAD_PASSWORD }}
+        run: |
+          ARGS=""
+          [ -n "${{ github.event.inputs.niche }}" ] && ARGS="$ARGS --niche '${{ github.event.inputs.niche }}'"
+          [ -n "${{ github.event.inputs.type }}"  ] && ARGS="$ARGS --type ${{ github.event.inputs.type }}"
+          python pipeline.py $ARGS
+
+      - name: Commit generated files & PDCA
+        run: |
+          git config user.name "gumroad-bot"
+          git config user.email "bot@ai-holdings"
+          git add saas-dev/projects/gumroad/data/
+          git diff --cached --quiet || git commit -m "gumroad: auto-publish $(date -u +%Y-%m-%d) [skip ci]"
+          git push

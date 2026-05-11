@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-05-11T16:21:46.236625+00:00",
+  "monthly_revenue_usd": 0,
+  "goal_usd": 2000,
+  "progress_pct": 0.0,
+  "total_products": 0,
+  "underperforming": [],
+  "top_niches": [
+    [
+      "Freelance Copywriters",
+      0.0
+    ],
+    [
+      "Real Estate Agents",
+      0.0
+    ],
+    [
+      "Etsy Sellers",
+      0.0
+    ]
+  ],
+  "next_generation": {
+    "type": null,
+    "niches": [
+      "Freelance Copywriters",
+      "Real Estate Agents",
+      "Etsy Sellers"
+    ]
+  },
+  "product_summary": {}
+}

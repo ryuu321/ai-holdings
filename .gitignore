@@ -1,0 +1,26 @@
+.env
+*.env
+saas-dev/projects/auto-invest/.git/
+# バイナリDBはgit管理しない（コンフリクト防止）
+saas-dev/projects/auto-invest/data/*.db
+
+# セッション・認証情報（公開禁止）
+saas-dev/projects/gumroad/data/gumroad_session.json
+saas-dev/projects/redbubble/data/rb_auth.json
+saas-dev/projects/rakuten-room/data/rakuten_session.json
+saas-dev/projects/note-auto/data/session_*.json
+
+# 個人情報・経営ログ（公開禁止）
+secretary/knowledge/state.json
+secretary/briefings/*.md
+secretary/daily-logs/*.md
+
+# キャッシュ・一時ファイル
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+tmp-screenshots/
+debug*.png

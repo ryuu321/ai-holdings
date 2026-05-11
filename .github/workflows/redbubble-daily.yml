@@ -1,0 +1,48 @@
+name: redbubble-daily
+
+on:
+  # 廃止: Cloudflare Turnstileで自動化不可（2026-05-01）
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: saas-dev/projects/redbubble
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install playwright pillow playwright-stealth && playwright install chromium --with-deps
+
+      - name: Upload designs
+        env:
+          REDBUBBLE_EMAIL:    ${{ secrets.REDBUBBLE_EMAIL }}
+          REDBUBBLE_PASSWORD: ${{ secrets.REDBUBBLE_PASSWORD }}
+        run: python main.py
+
+      - name: Upload debug screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: redbubble-debug-${{ github.run_id }}
+          path: saas-dev/projects/redbubble/logs/
+          if-no-files-found: ignore
+
+      - name: Commit state
+        if: success()
+        run: |
+          cd $GITHUB_WORKSPACE
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add saas-dev/projects/redbubble/data/
+          git diff --cached --quiet || git commit -m "bot(redbubble): update $(date +%Y-%m-%d) [skip ci]"
+          git push

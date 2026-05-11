@@ -1,0 +1,39 @@
+name: 毎日リサーチ（Gemini）
+
+on:
+  schedule:
+    - cron: '0 22 * * *'   # 毎日 日本時間 7:00（UTC 22:00）に実行
+  workflow_dispatch:         # 手動実行ボタン
+
+env:
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: コードを取得
+        uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 依存パッケージインストール
+        run: pip install -r requirements.txt
+
+      - name: リサーチ実行
+        run: python shared/tools/research_daily.py
+
+      - name: 結果をコミット・プッシュ
+        run: |
+          git config user.name "research-bot"
+          git config user.email "bot@ai-holdings"
+          git add research/output/
+          git diff --cached --quiet || git commit -m "research: $(date +'%Y-%m-%d') 自動リサーチレポート"
+          git push

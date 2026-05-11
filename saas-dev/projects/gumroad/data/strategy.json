@@ -1,0 +1,42 @@
+{
+  "niche_weights": {
+    "Freelance Copywriters": 1.0,
+    "Real Estate Agents": 1.0,
+    "Etsy Sellers": 1.0,
+    "Fitness Coaches": 1.0,
+    "Podcast Creators": 1.0,
+    "ADHD Productivity": 1.0,
+    "Solopreneurs": 1.0,
+    "UX Designers": 1.0,
+    "Virtual Assistants": 1.0,
+    "E-commerce Entrepreneurs": 1.0,
+    "Content Creators": 1.0,
+    "Life Coaches": 1.0,
+    "SaaS Founders": 1.0,
+    "Graphic Designers": 1.0,
+    "Remote Team Managers": 1.0
+  },
+  "preferred_type": null,
+  "updated_at": "2026-05-11T16:21:46.236625+00:00",
+  "niche_revenue": {
+    "Freelance Copywriters": 0.0,
+    "Real Estate Agents": 0.0,
+    "Etsy Sellers": 0.0,
+    "Fitness Coaches": 0.0,
+    "Podcast Creators": 0.0,
+    "ADHD Productivity": 0.0,
+    "Solopreneurs": 0.0,
+    "UX Designers": 0.0,
+    "Virtual Assistants": 0.0,
+    "E-commerce Entrepreneurs": 0.0,
+    "Content Creators": 0.0,
+    "Life Coaches": 0.0,
+    "SaaS Founders": 0.0,
+    "Graphic Designers": 0.0,
+    "Remote Team Managers": 0.0
+  },
+  "type_revenue": {
+    "ai_prompts": 0.0,
+    "notion_template": 0.0
+  }
+}

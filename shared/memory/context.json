@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-12",
+  "group_strategy": {
+    "focus_themes": ["AI活用", "個人ブランド", "SaaS"],
+    "quarter_goal": "月次売上100万円達成",
+    "priority_projects": []
+  },
+  "active_tasks": [],
+  "synergy_queue": [],
+  "company_status": {
+    "saas-dev": { "phase": "初期", "active_project": null },
+    "note-biz": { "phase": "初期", "monthly_articles": 0 },
+    "sns-ops": { "phase": "初期", "follower_x": 0 },
+    "consulting": { "phase": "初期", "active_clients": 0 },
+    "macro-biz": { "phase": "初期", "last_report": null }
+  }
+}

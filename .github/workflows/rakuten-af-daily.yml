@@ -1,0 +1,57 @@
+name: 楽天アフィリエイト自動投稿（毎日）
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 毎日 UTC 21:00（日本時間 6:00）
+  workflow_dispatch:
+
+env:
+  GROQ_API_KEY:         ${{ secrets.GROQ_API_KEY }}
+  RAKUTEN_APP_ID:       ${{ secrets.RAKUTEN_APP_ID }}
+  RAKUTEN_ACCESS_KEY:   ${{ secrets.RAKUTEN_ACCESS_KEY }}
+  RAKUTEN_AFFILIATE_ID: ${{ secrets.RAKUTEN_AFFILIATE_ID }}
+  # はてなブログ（1アカウント・複数ブログ）
+  HATENA_ID:        ${{ secrets.HATENA_ID }}
+  HATENA_API_KEY:   ${{ secrets.HATENA_API_KEY }}
+  HATENA_BLOG_ID:   ${{ secrets.HATENA_BLOG_ID }}
+  # ブログ追加: HATENA_BLOG_2_ID, HATENA_BLOG_3_ID をSecretsに追加するだけでOK
+  HATENA_BLOG_1_ID: ${{ secrets.HATENA_BLOG_1_ID }}
+  HATENA_BLOG_2_ID: ${{ secrets.HATENA_BLOG_2_ID }}
+  HATENA_BLOG_3_ID: ${{ secrets.HATENA_BLOG_3_ID }}
+  HATENA_BLOG_4_ID: ${{ secrets.HATENA_BLOG_4_ID }}
+  HATENA_BLOG_5_ID: ${{ secrets.HATENA_BLOG_5_ID }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  post-articles:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 依存パッケージインストール
+        run: pip install -r saas-dev/projects/rakuten-af/requirements.txt
+
+      - name: 楽天アフィリエイト記事自動投稿
+        run: |
+          cd saas-dev/projects/rakuten-af
+          python -u main.py
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: DBをリポジトリに保存
+        if: always()
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add saas-dev/projects/rakuten-af/data/ 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "rakuten-af: $(date -u '+%Y-%m-%d') 自動投稿 [skip ci]"
+          git pull --rebase -X theirs
+          git push

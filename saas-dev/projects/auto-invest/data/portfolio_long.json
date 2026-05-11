@@ -1,0 +1,18 @@
+{
+  "balance": 9757.298694807883,
+  "initial_balance": 10000.0,
+  "last_run": "2026-05-04T05:36:44.447197+00:00",
+  "positions": {
+    "MSFT": {
+      "ticker": "MSFT",
+      "shares": 0.9615553417985012,
+      "buy_price": 422.79,
+      "bought_at": "2026-04-20T05:15:05.717280+00:00",
+      "cost_basis": 406.5359829589883,
+      "peak_price": 424.6,
+      "ladder_hits": [],
+      "last_dca_date": "2026-04-27T05:26:44.171567+00:00"
+    }
+  },
+  "short_positions": {}
+}

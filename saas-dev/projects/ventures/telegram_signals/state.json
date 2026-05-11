@@ -1,0 +1,72 @@
+{
+  "venture": "telegram_signals",
+  "params": {
+    "include_bots": [
+      "ATTACK",
+      "VOLT",
+      "SHORT"
+    ],
+    "note_cta": true,
+    "sort_by_pnl": true
+  },
+  "performance_history": [
+    {
+      "date": "2026-04-28",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 0,
+      "bots_included": 4
+    },
+    {
+      "date": "2026-04-29",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 4
+    },
+    {
+      "date": "2026-04-29",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 4
+    },
+    {
+      "date": "2026-05-07",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 6
+    },
+    {
+      "date": "2026-05-08",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 6
+    },
+    {
+      "date": "2026-05-09",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 6
+    },
+    {
+      "date": "2026-05-10",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 6
+    }
+  ],
+  "learnings": [
+    {
+      "date": "2026-05-10",
+      "insight": "毎日配信は継続できているものの登録者が0名で推移しており、6種のBotを同時に流すことで情報の専門性が薄れ、新規ユーザーにとっての訴求力が分散している可能性があります。",
+      "action": "配信対象をパフォーマンスの変動が激しく注目されやすい3種のBotに厳選し、情報の希少性と専門性を高めて反応率の変化を検証してください。"
+    }
+  ],
+  "last_optimized": "2026-05-10T02:38:17.894214+00:00",
+  "posts_sent": 6
+}
