@@ -181,17 +181,28 @@ def load_stats(days: int = 30) -> list[dict]:
 
 def setup_session():
     with sync_playwright() as p:
-        # 楽天はEdge必須のため msedge を使用
         try:
-            browser = p.chromium.launch(channel="msedge", headless=False)
+            browser = p.chromium.launch(
+                channel="msedge",
+                headless=False,
+                args=["--disable-blink-features=AutomationControlled"],
+            )
         except Exception:
             log.warning("Edgeが見つかりません。Chromiumで試みます。")
-            browser = p.chromium.launch(headless=False)
-        context = browser.new_context()
-        page    = context.new_page()
+            browser = p.chromium.launch(
+                headless=False,
+                args=["--disable-blink-features=AutomationControlled"],
+            )
+        context = browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+            locale="ja-JP",
+        )
+        # webdriver フラグを隠す
+        context.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        page = context.new_page()
         page.goto(LOGIN_URL)
-        print("\n楽天アフィリエイトにEdgeでログインしてください。")
-        print("レポートページが表示されたら Enter を押してください。")
+        print("\n楽天アフィリエイトにログインしてください。")
+        print("ログイン完了・ホーム画面が表示されたら Enter を押してください。")
         input(">>> Enter: ")
         SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
         context.storage_state(path=str(SESSION_FILE))
