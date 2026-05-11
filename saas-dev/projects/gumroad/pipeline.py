@@ -257,10 +257,11 @@ recommended_type must be exactly ai_prompts or notion_template. Choose the niche
 
 # ───────────────────────────── Claude 生成 ─────────────────────────────
 
-def _build_prompt(product_type: str, niche: str, title_hint: str = "") -> str:
+def _build_prompt(product_type: str, niche: str, title_hint: str = "", used_titles: list = None) -> str:
     hint_line = f'\nTitle direction (adapt freely, must be compelling): "{title_hint}"' if title_hint else ""
+    avoid_line = f'\nDO NOT use any of these already-published titles (must be unique): {used_titles}' if used_titles else ""
     if product_type == "ai_prompts":
-        return f"""Create a premium AI prompt pack for {niche} professionals.{hint_line}
+        return f"""Create a premium AI prompt pack for {niche} professionals.{hint_line}{avoid_line}
 
 Output a JSON object with EXACTLY these keys:
 {{
@@ -271,7 +272,7 @@ Output a JSON object with EXACTLY these keys:
 
 Output ONLY the JSON. No markdown, no code fences."""
     else:
-        return f"""Create a premium Notion template for {niche} professionals.{hint_line}
+        return f"""Create a premium Notion template for {niche} professionals.{hint_line}{avoid_line}
 
 Output a JSON object with EXACTLY these keys:
 {{
@@ -290,7 +291,7 @@ def _load_strategy() -> dict:
             return json.loads(STRATEGY_FILE.read_text(encoding="utf-8"))
         except Exception:
             pass
-    return {"niche_weights": {n: 1.0 for n in NICHES}, "preferred_type": None}
+    return {"niche_weights": {n: 1.0 for n in NICHES}, "preferred_type": None, "used_titles": [], "used_niches_recent": []}
 
 
 def _weighted_choice(weights: dict) -> str:
@@ -325,24 +326,31 @@ def generate_product(product_type: str = None, niche: str = None) -> dict:
     else:
         product_type = research.get("recommended_type") or random.choice(PRODUCT_TYPES)
 
+    used_titles  = strategy.get("used_titles", [])
+    recent_niches = strategy.get("used_niches_recent", [])
+
     if niche:
-        # CLI明示指定を優先
-        pass
+        pass  # CLI明示指定を優先
     else:
         research_niche = research.get("recommended_niche", "")
-        # リサーチ結果のnicheがNICHESリストにない場合は重み付き選択にfallback
-        if research_niche and research_niche in NICHES:
+        # 直近3回と同じnicheは避ける
+        if research_niche and research_niche in NICHES and research_niche not in recent_niches[-3:]:
             niche = research_niche
             log.info(f"市場調査推薦ニッチを使用: {niche}")
         else:
-            niche = _weighted_choice(strategy.get("niche_weights", {n: 1.0 for n in NICHES}))
-            log.info(f"重み付き選択ニッチを使用: {niche}")
+            # 重み付き選択。直近使ったnicheは一時的に重みを下げる
+            weights = dict(strategy.get("niche_weights", {n: 1.0 for n in NICHES}))
+            for n in recent_niches[-3:]:
+                weights[n] = weights.get(n, 1.0) * 0.1
+            niche = _weighted_choice(weights)
+            log.info(f"重み付き選択ニッチを使用（直近回避）: {niche}")
 
     title_hint = research.get("title_idea", "")
     log.info(f"生成開始: type={product_type} niche={niche} title_hint={title_hint!r}")
+    log.info(f"使用済みタイトル({len(used_titles)}件)を回避")
 
     client = Groq(api_key=GROQ_KEY)
-    prompt = _build_prompt(product_type, niche, title_hint=title_hint)
+    prompt = _build_prompt(product_type, niche, title_hint=title_hint, used_titles=used_titles[-10:])
 
     try:
         message = client.chat.completions.create(
@@ -376,10 +384,20 @@ def generate_product(product_type: str = None, niche: str = None) -> dict:
     file_path = PRODUCTS_DIR / filename
     file_path.write_text(data.get("content", ""), encoding="utf-8")
 
+    title = data.get("title", "")
+
+    # 使用済みタイトル・ニッチを記録してstrategy.jsonに即保存
+    used_titles.append(title)
+    recent_niches.append(niche)
+    strategy["used_titles"]       = used_titles[-50:]   # 最大50件保持
+    strategy["used_niches_recent"] = recent_niches[-10:]
+    STRATEGY_FILE.parent.mkdir(parents=True, exist_ok=True)
+    STRATEGY_FILE.write_text(json.dumps(strategy, ensure_ascii=False, indent=2), encoding="utf-8")
+
     meta = {
         "product_type": product_type,
         "niche":        niche,
-        "title":        data.get("title", ""),
+        "title":        title,
         "description":  data.get("description", ""),
         "file_path":    str(file_path),
         "generated_at": ts,
