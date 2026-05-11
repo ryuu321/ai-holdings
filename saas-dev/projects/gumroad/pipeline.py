@@ -603,6 +603,24 @@ def publish_to_gumroad(meta: dict) -> str:
         thumb_path = DATA_DIR / "thumbnails" / f"{permalink}.png"
         if _generate_thumbnail(meta["title"], meta["product_type"], thumb_path):
             upload_cover_image(permalink, str(thumb_path))
+
+            # 5. Pinterest自動ピン投稿
+            try:
+                import sys as _sys
+                _traffic = Path(__file__).parent.parent / "traffic"
+                if str(_traffic) not in _sys.path:
+                    _sys.path.insert(0, str(_traffic))
+                from pinterest import pin_product
+                pin_product(
+                    title=meta["title"],
+                    niche=meta["niche"],
+                    product_type=meta["product_type"],
+                    image_path=str(thumb_path),
+                    gumroad_url=short_url,
+                    product_id=product_id,
+                )
+            except Exception as e:
+                log.warning(f"Pinterest投稿スキップ（セッション未設定?）: {e}")
     else:
         log.warning("permalinkが取得できませんでした")
 

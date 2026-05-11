@@ -31,10 +31,15 @@ jobs:
       - name: Install Playwright browsers
         run: playwright install chromium --with-deps
 
-      - name: Restore Gumroad session
+      - name: Install traffic dependencies
+        run: pip install -r saas-dev/projects/traffic/requirements.txt
+
+      - name: Restore sessions
         run: |
           mkdir -p saas-dev/projects/gumroad/data
           echo "${{ secrets.GUMROAD_SESSION_B64 }}" | base64 -d > saas-dev/projects/gumroad/data/gumroad_session.json
+          mkdir -p saas-dev/projects/traffic/data
+          echo "${{ secrets.PINTEREST_SESSION_B64 }}" | base64 -d > saas-dev/projects/traffic/data/pinterest_session.json 2>/dev/null || true
 
       - name: Generate & Publish
         working-directory: saas-dev/projects/gumroad
@@ -51,10 +56,16 @@ jobs:
           [ -n "${{ github.event.inputs.type }}"  ] && ARGS="$ARGS --type ${{ github.event.inputs.type }}"
           python pipeline.py $ARGS
 
-      - name: Commit generated files & PDCA
+      - name: Save updated sessions & commit
         run: |
+          SESSION=$(base64 -w 0 saas-dev/projects/gumroad/data/gumroad_session.json 2>/dev/null || echo "")
+          if [ -n "$SESSION" ]; then echo "$SESSION" | gh secret set GUMROAD_SESSION_B64; fi
+          PIN=$(base64 -w 0 saas-dev/projects/traffic/data/pinterest_session.json 2>/dev/null || echo "")
+          if [ -n "$PIN" ]; then echo "$PIN" | gh secret set PINTEREST_SESSION_B64; fi
           git config user.name "gumroad-bot"
           git config user.email "bot@ai-holdings"
-          git add saas-dev/projects/gumroad/data/
+          git add saas-dev/projects/gumroad/data/ saas-dev/projects/traffic/data/ 2>/dev/null || true
           git diff --cached --quiet || git commit -m "gumroad: auto-publish $(date -u +%Y-%m-%d) [skip ci]"
           git push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
