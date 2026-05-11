@@ -9,7 +9,7 @@ SESSION_FILE = Path(__file__).parent.parent / "data" / "af_session.json"
 STATS_FILE   = Path(__file__).parent.parent / "data" / "af_stats.json"
 JST          = timezone(timedelta(hours=9))
 LOGIN_URL    = "https://affiliate.rakuten.co.jp/"
-REPORT_URL   = "https://affiliate.rakuten.co.jp/tools/report/"
+REPORT_URL   = "https://affiliate.rakuten.co.jp/report"
 
 log = logging.getLogger(__name__)
 
@@ -26,38 +26,36 @@ def scrape_af_stats(days: int = 30) -> list[dict]:
         page    = context.new_page()
         try:
             page.goto(REPORT_URL, wait_until="networkidle", timeout=30000)
-            page.wait_for_timeout(3000)
+            page.wait_for_timeout(2000)
 
-            if "login" in page.url or "sign_in" in page.url or "member.rakuten" in page.url:
+            if "login" in page.url or "member.rakuten" in page.url:
                 log.error("セッション切れ。--setup で再ログインしてください")
                 return []
 
-            end_date   = datetime.now(JST)
-            start_date = end_date - timedelta(days=days)
+            # 期間別タブをクリック
+            page.locator("text=期間別").first.click()
+            page.wait_for_timeout(3000)
 
-            # 期間開始日
-            for sel in ["input[name='start_date']", "input[id*='start']", "[placeholder*='開始']", "input[name='from']"]:
-                loc = page.locator(sel).first
-                if loc.count() > 0:
-                    loc.fill(start_date.strftime("%Y/%m/%d"))
-                    break
-
-            # 期間終了日
-            for sel in ["input[name='end_date']", "input[id*='end']", "[placeholder*='終了']", "input[name='to']"]:
-                loc = page.locator(sel).first
-                if loc.count() > 0:
-                    loc.fill(end_date.strftime("%Y/%m/%d"))
-                    break
-
-            # 検索ボタン
-            for sel in ["button:has-text('表示')", "button:has-text('検索')", "input[type='submit']", "button[type='submit']"]:
-                loc = page.locator(sel).first
-                if loc.count() > 0:
-                    loc.click()
-                    page.wait_for_timeout(3000)
-                    break
-
-            stats = _parse_report_table(page)
+            # テーブルを解析
+            # 列: [日付, 成果報酬(¥), クリック数, 売上件数, 売上金額(¥)]
+            stats = []
+            rows = page.locator("table tr").all()
+            for row in rows[2:]:  # 0行目=ヘッダー、1行目=合計をスキップ
+                cells = [c.inner_text().strip() for c in row.locator("td").all()]
+                if len(cells) < 5:
+                    continue
+                date_norm = _normalize_date(cells[0])
+                if not date_norm:
+                    continue
+                stats.append({
+                    "date":       date_norm,
+                    "commission": _parse_int(cells[1]),   # 成果報酬(¥)
+                    "clicks":     _parse_int(cells[2]),   # クリック数
+                    "purchases":  _parse_int(cells[3]),   # 売上件数
+                    "sales":      _parse_int(cells[4]),   # 売上金額(¥)
+                    "cvr": round(_parse_int(cells[3]) / _parse_int(cells[2]) * 100, 2)
+                           if _parse_int(cells[2]) > 0 else 0.0,
+                })
 
             context.storage_state(path=str(SESSION_FILE))
             log.info(f"AF stats取得: {len(stats)}日分")
