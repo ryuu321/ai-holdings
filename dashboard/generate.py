@@ -271,7 +271,7 @@ def collect_gumroad() -> dict:
             result["monthly_revenue_usd"] = pdca.get("monthly_revenue_usd", 0.0)
             result["goal_usd"]            = pdca.get("goal_usd", 2000)
             result["progress_pct"]        = pdca.get("progress_pct", 0.0)
-            result["total_products"]      = pdca.get("total_products", 0)
+            result["total_products"]      = pdca.get("total_published", pdca.get("total_products", 0))
             result["top_niches"]          = pdca.get("top_niches", [])
             ng = pdca.get("next_generation", {})
             result["next_type"]           = ng.get("type")

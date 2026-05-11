@@ -683,12 +683,31 @@ def _notify(msg: str):
 
 # ───────────────────────────── PDCA ─────────────────────────────
 
+def _fetch_published_products() -> list[dict]:
+    """Gumroad API で公開済み商品一覧を取得する。"""
+    if not GUMROAD_TOKEN:
+        return []
+    try:
+        r = requests.get(
+            f"{GUMROAD_API}/products",
+            headers={"Authorization": f"Bearer {GUMROAD_TOKEN}"},
+            timeout=30,
+        )
+        r.raise_for_status()
+        return [p for p in r.json().get("products", []) if p.get("published")]
+    except Exception as e:
+        log.warning(f"商品一覧取得失敗: {e}")
+        return []
+
+
 def run_pdca() -> dict:
     """
     売上分析 → ニッチ重み更新 → strategy.json保存 → Telegram報告。
     PDCAの結果が次回の generate_product に自動反映される。
     """
     sales = check_sales()
+    published_products = _fetch_published_products()
+    total_published = len(published_products)
     now = datetime.now(timezone.utc)
 
     # ── 製品別集計 ──
@@ -749,11 +768,13 @@ def run_pdca() -> dict:
     preferred_type = max(type_revenue, key=type_revenue.get) if any(type_revenue.values()) else None
 
     new_strategy = {
-        "niche_weights":  weights,
-        "preferred_type": preferred_type,
-        "updated_at":     now.isoformat(),
-        "niche_revenue":  niche_revenue,
-        "type_revenue":   type_revenue,
+        "niche_weights":       weights,
+        "preferred_type":      preferred_type,
+        "updated_at":          now.isoformat(),
+        "niche_revenue":       niche_revenue,
+        "type_revenue":        type_revenue,
+        "used_titles":         strategy.get("used_titles", []),
+        "used_niches_recent":  strategy.get("used_niches_recent", []),
     }
     STRATEGY_FILE.parent.mkdir(parents=True, exist_ok=True)
     STRATEGY_FILE.write_text(json.dumps(new_strategy, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -786,6 +807,7 @@ def run_pdca() -> dict:
         "monthly_revenue_usd": round(monthly_revenue, 2),
         "goal_usd":            2000,
         "progress_pct":        progress_pct,
+        "total_published":     total_published,
         "total_products":      len(product_sales),
         "underperforming":     underperforming,
         "top_niches":          top_niches,
@@ -801,7 +823,7 @@ def run_pdca() -> dict:
     _notify(
         f"📊 *Gumroad PDCA Report*\n"
         f"月収: ${monthly_revenue:.2f} / $2,000 ({progress_pct}%)\n"
-        f"出品数: {len(product_sales)}本\n\n"
+        f"出品中: {total_published}本\n\n"
         f"🏆 売れ筋ニッチ:\n{top_str}\n\n"
         f"🎯 次回生成ターゲット: {next_str}\n"
         f"📦 優先タイプ: {preferred_type or 'ランダム'}"
