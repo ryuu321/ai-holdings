@@ -322,6 +322,18 @@ def api_live_prices():
         data = fetch_github_json(fname)
         if data:
             tickers += list(data.get("positions", {}).keys())
+    # ATTACK: position = {ticker, ...}（単一オブジェクト）
+    attack = fetch_github_json("portfolio_attack.json")
+    if attack and isinstance(attack.get("position"), dict):
+        t = attack["position"].get("ticker")
+        if t:
+            tickers.append(t)
+    # VOLT: ticker フィールドが直接ある
+    volt = fetch_github_json("portfolio_volt.json")
+    if volt and volt.get("shares", 0) > 1e-9:
+        t = volt.get("ticker")
+        if t:
+            tickers.append(t)
     tickers = list(set(tickers))
     prices = fetch_live_prices(tickers)
     return jsonify({"prices": prices, "updated_at": datetime.now(timezone.utc).isoformat()})
