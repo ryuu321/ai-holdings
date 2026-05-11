@@ -165,12 +165,17 @@ def collect_investment_bots():
     data_dir = ROOT / "saas-dev/projects/auto-invest/data"
     bots_map = {}
 
+    # ライブ価格計算が必要なボット（単一ポジション・キャッシュ残高のみ記録）
+    LIVE_PRICE_BOTS = {"ATTACK", "VOLT"}
+
     # summary.json（LONG/MEDIUM/SHORT/MACRO）
     sf = data_dir / "summary.json"
     if sf.exists():
         try:
             summary = json.loads(sf.read_text(encoding="utf-8"))
             for name, p in summary.get("portfolios", {}).items():
+                if name in LIVE_PRICE_BOTS:
+                    continue  # portfolio_*.json ブロックでライブ価格付きで処理
                 bal  = p.get("balance", 0)
                 init = p.get("initial_balance", 10000)
                 bots_map[name] = {
@@ -185,7 +190,7 @@ def collect_investment_bots():
         except Exception:
             pass
 
-    # portfolio_*.json（ATTACK / VOLT など summary にないボット）
+    # portfolio_*.json（ATTACK / VOLT: ライブ価格でエクイティ計算）
     for pf in sorted(data_dir.glob("portfolio_*.json")):
         name = pf.stem.replace("portfolio_", "").upper()
         if name in bots_map:
