@@ -217,6 +217,7 @@ def run_cycle():
             return
 
         print("  → HOLD（出口条件未達）")
+        state["last_updated"] = now.isoformat()
         save_state(state)
         return
 
