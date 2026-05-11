@@ -8,6 +8,8 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: saas-dev/projects/ventures/digital_templates
