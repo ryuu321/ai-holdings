@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: 依存インストール
+        run: pip install yfinance
+
       - name: ダッシュボード生成
         run: python dashboard/generate.py
         env:

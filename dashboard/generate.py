@@ -176,15 +176,26 @@ def collect_investment_bots():
             for name, p in summary.get("portfolios", {}).items():
                 if name in LIVE_PRICE_BOTS:
                     continue  # portfolio_*.json ブロックでライブ価格付きで処理
-                bal  = p.get("balance", 0)
-                init = p.get("initial_balance", 10000)
+                cash      = p.get("balance", 0)
+                init      = p.get("initial_balance", 10000)
+                positions = p.get("positions", {})
+
+                # equity = cash + ライブ価格×保有株数
+                equity = cash
+                for ticker, pos_data in positions.items():
+                    shares = pos_data.get("shares", 0)
+                    if shares > 0:
+                        live  = _fetch_live_price(ticker)
+                        price = live if live else pos_data.get("buy_price", 0)
+                        equity += price * shares
+
                 bots_map[name] = {
                     "name":      name,
-                    "balance":   bal,
+                    "balance":   equity,
                     "initial":   init,
-                    "pnl":       bal - init,
-                    "pnl_pct":   (bal - init) / init * 100 if init else 0,
-                    "positions": list(p.get("positions", {}).keys()),
+                    "pnl":       equity - init,
+                    "pnl_pct":   (equity - init) / init * 100 if init else 0,
+                    "positions": list(positions.keys()),
                     "last_run":  p.get("last_run", "")[:10],
                 }
         except Exception:
