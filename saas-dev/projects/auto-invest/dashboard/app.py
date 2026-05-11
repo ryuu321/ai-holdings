@@ -334,9 +334,53 @@ def api_live_prices():
         t = volt.get("ticker")
         if t:
             tickers.append(t)
+    # SCALP: position.ticker
+    scalp = fetch_github_json("portfolio_scalp.json")
+    if scalp and isinstance(scalp.get("position"), dict):
+        t = scalp["position"].get("ticker", "BTC-USD")
+        if t:
+            tickers.append(t)
     tickers = list(set(tickers))
     prices = fetch_live_prices(tickers)
     return jsonify({"prices": prices, "updated_at": datetime.now(timezone.utc).isoformat()})
+
+
+@app.route("/api/scalp")
+def api_scalp():
+    """SCALPボット専用データ（ポートフォリオ・トレード・戦略・オプティマイザー）"""
+    pf = fetch_github_json("portfolio_scalp.json")
+    if not pf:
+        pf = {"balance": 10000, "initial_balance": 10000, "position": None,
+              "trade_count": 0, "win_count": 0, "total_realized_pnl": 0.0}
+
+    trades_data, opt_log, strategy = [], [], {}
+    for fname, target in [
+        ("scalp_trades.json",       lambda d: trades_data.extend(d) if isinstance(d, list) else None),
+        ("scalp_optimizer_log.json",lambda d: opt_log.extend(d) if isinstance(d, list) else None),
+        ("scalp_strategy.json",     lambda d: strategy.update(d) if isinstance(d, dict) else None),
+    ]:
+        d = fetch_github_json(fname)
+        if d is not None:
+            target(d)
+
+    wins = sum(1 for t in trades_data if t.get("pnl_pct", 0) > 0)
+
+    # ライブ価格でポジション評価
+    pos = pf.get("position")
+    live_btc = None
+    if pos:
+        live_btc = fetch_live_price("BTC-USD")
+
+    return jsonify({
+        "portfolio":           pf,
+        "trade_count":         len(trades_data),
+        "win_count":           wins,
+        "win_rate":            round(wins / len(trades_data) * 100, 1) if trades_data else 0,
+        "recent_trades":       trades_data[-15:][::-1],
+        "strategy":            strategy,
+        "latest_optimization": opt_log[-1] if opt_log else None,
+        "live_btc":            live_btc,
+    })
 
 
 @app.route("/api/history/<ticker>")
@@ -1171,6 +1215,54 @@ HTML = """<!DOCTYPE html>
   </div>
   <div id="positions-section" class="grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));"></div>
 
+  <!-- SCALP Bot セクション -->
+  <div class="section-title" style="margin-top:48px">
+    SCALP Bot
+    <span style="font-size:12px;color:var(--muted);font-weight:400;margin-left:8px">BTC 5分足 ｜ 毎日AIが戦略を自動改善</span>
+  </div>
+  <div id="scalp-section">
+    <div class="grid" style="grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:16px">
+      <div class="card" style="padding:16px">
+        <div style="font-size:11px;color:var(--muted)">残高</div>
+        <div id="scalp-balance" style="font-size:20px;font-weight:800;font-family:monospace">$--</div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div style="font-size:11px;color:var(--muted)">損益</div>
+        <div id="scalp-pnl" style="font-size:20px;font-weight:800;font-family:monospace">--</div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div style="font-size:11px;color:var(--muted)">トレード数</div>
+        <div id="scalp-trades" style="font-size:20px;font-weight:800">--</div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div style="font-size:11px;color:var(--muted)">勝率</div>
+        <div id="scalp-winrate" style="font-size:20px;font-weight:800;color:#6366f1">--%</div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div style="font-size:11px;color:var(--muted)">戦略バージョン</div>
+        <div id="scalp-version" style="font-size:20px;font-weight:800;color:var(--muted)">v--</div>
+      </div>
+    </div>
+    <div id="scalp-position" style="margin-bottom:16px"></div>
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+      <div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px">直近トレード</div>
+        <div class="card" style="padding:12px;overflow-x:auto">
+          <table style="font-size:12px">
+            <thead><tr><th>日時</th><th>BUY</th><th>SELL</th><th>PnL%</th><th>保有</th><th>理由</th><th>RSI</th></tr></thead>
+            <tbody id="scalp-trades-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px">AIオプティマイザー 最新更新</div>
+        <div class="card" style="padding:16px" id="scalp-optimizer">
+          <div style="color:var(--muted);font-size:12px">データ取得中...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="grid" style="grid-template-columns: 1.6fr 1fr; margin-top: 48px;">
     <div>
       <div class="section-title">トレード履歴</div>
@@ -1268,7 +1360,7 @@ async function renderStats(s) {
     document.getElementById('last-update').textContent = '最終実行: ' + jstStr + ' JST';
   }
   // 各ボットの最終実行時刻（portfolio JSONのlast_runから取得）
-  const botNames = { SHORT: '短期', MEDIUM: '中期', LONG: '長期', MACRO: 'マクロ', ATTACK: '攻撃型', VOLT: 'ボラ型' };
+  const botNames = { SHORT: '短期', MEDIUM: '中期', LONG: '長期', MACRO: 'マクロ', ATTACK: '攻撃型', VOLT: 'ボラ型', SCALP: 'スキャルプ' };
   const botRunEl = document.getElementById('bot-last-run');
   if (botRunEl) {
     const portfolios = s.portfolios || {};
@@ -1293,7 +1385,8 @@ async function renderPositions(s, livePrices = {}) {
     SHORT:  { label: '短期戦略', class: 'badge-short' },
     MACRO:  { label: 'マクロ戦略', class: 'badge-macro' },
     ATTACK: { label: '攻撃型トレンド', class: 'badge-short' },
-    VOLT:   { label: 'ボラ型', class: 'badge-medium' }
+    VOLT:   { label: 'ボラ型', class: 'badge-medium' },
+    SCALP:  { label: 'スキャルプ', class: 'badge-short' }
   };
 
   Object.entries(portfolios).forEach(([botKey, data]) => {
@@ -1455,6 +1548,97 @@ async function drawSparkline(botKey, ticker, canvasId) {
   canvas.style.opacity = '1';
 }
 
+async function renderScalp() {
+  const data = await fetch('/api/scalp').then(r=>r.json()).catch(()=>null);
+  if (!data || data.error) return;
+
+  const pf   = data.portfolio || {};
+  const init = pf.initial_balance || 10000;
+  const cash = pf.balance || 0;
+  const pos  = pf.position;
+
+  // エクイティ = キャッシュ + ポジション時価
+  let equity = cash;
+  if (pos && data.live_btc) {
+    equity = cash + pos.shares * data.live_btc;
+  } else if (pos) {
+    equity = cash + pos.shares * pos.price;
+  }
+
+  const pnl    = equity - init;
+  const pnlPct = pnl / init * 100;
+  const pnlCol = pnl >= 0 ? '#22c55e' : '#ef4444';
+
+  document.getElementById('scalp-balance').textContent  = '$' + fmt(equity);
+  document.getElementById('scalp-pnl').style.color      = pnlCol;
+  document.getElementById('scalp-pnl').textContent      = (pnl>=0?'+':'') + '$' + fmt(pnl) + ' (' + (pnlPct>=0?'+':'') + fmt(pnlPct,1) + '%)';
+  document.getElementById('scalp-trades').textContent   = data.trade_count + '回';
+  document.getElementById('scalp-winrate').textContent  = data.win_rate + '%';
+  document.getElementById('scalp-winrate').style.color  = data.win_rate >= 50 ? '#22c55e' : '#ef4444';
+  const s = data.strategy || {};
+  document.getElementById('scalp-version').textContent  = 'v' + (s.version || '--');
+
+  // ポジションカード
+  const posEl = document.getElementById('scalp-position');
+  if (pos) {
+    const livePrice = data.live_btc || pos.price;
+    const posChg    = (livePrice - pos.price) / pos.price * 100;
+    const posVal    = pos.shares * livePrice;
+    posEl.innerHTML = `
+      <div class="card" style="padding:16px;border-left:4px solid #6366f1">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <span style="font-size:18px;font-weight:900">BTC-USD</span>
+            <span class="badge badge-short" style="margin-left:8px">保有中</span>
+          </div>
+          <div style="text-align:right;font-size:12px;color:var(--muted)">
+            <div>取得: $${fmt(pos.price)}</div>
+            <div>数量: ${fmt(pos.shares,6)} BTC</div>
+            <div>RSI(entry): ${pos.rsi_at_entry ? fmt(pos.rsi_at_entry,1) : '--'}</div>
+          </div>
+        </div>
+        <div style="font-size:24px;font-weight:800;font-family:monospace;margin-top:8px">$${fmt(livePrice)}</div>
+        <div style="font-weight:700;color:${posChg>=0?'#22c55e':'#ef4444'}">${posChg>=0?'+':''}${fmt(posChg,2)}% &nbsp; 評価額: $${fmt(posVal)}</div>
+      </div>`;
+  } else {
+    posEl.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px">現在ポジションなし</div>';
+  }
+
+  // 直近トレード
+  const rows = (data.recent_trades || []).map(t => {
+    const c = t.pnl_pct >= 0 ? '#22c55e' : '#ef4444';
+    const rStr = t.reason === 'TP' ? '✓TP' : t.reason === 'SL' ? '✗SL' : '⏱';
+    return `<tr>
+      <td style="font-size:10px;color:var(--muted)">${(t.exit_time||'').slice(5,16).replace('T',' ')}</td>
+      <td style="font-family:monospace;font-size:11px">$${fmt(t.entry_price)}</td>
+      <td style="font-family:monospace;font-size:11px">$${fmt(t.exit_price)}</td>
+      <td style="color:${c};font-weight:700">${t.pnl_pct>=0?'+':''}${fmt(t.pnl_pct,2)}%</td>
+      <td style="font-size:11px;color:var(--muted)">${fmt(t.hold_min,0)}分</td>
+      <td style="font-size:11px;color:${t.reason==='TP'?'#22c55e':t.reason==='SL'?'#ef4444':'#888'}">${rStr}</td>
+      <td style="font-size:11px;color:var(--muted)">${t.rsi_at_entry!=null?fmt(t.rsi_at_entry,1):'--'}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('scalp-trades-body').innerHTML = rows || '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:12px">まだトレードなし</td></tr>';
+
+  // オプティマイザー最新
+  const opt = data.latest_optimization;
+  const optEl = document.getElementById('scalp-optimizer');
+  if (opt) {
+    const m = opt.metrics || {};
+    optEl.innerHTML = `
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px">${(opt.timestamp||'').slice(0,10)} ｜ v${opt.version}</div>
+      <div style="font-size:12px;color:var(--text);margin-bottom:10px;line-height:1.5">${opt.reasoning || '--'}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;color:var(--muted)">
+        <div>SL: <strong style="color:var(--text)">${((opt.strategy||{}).stop_loss_pct||0)*100|0 != 0 ? ((opt.strategy.stop_loss_pct)*100).toFixed(1)+'%' : '--'}</strong></div>
+        <div>TP: <strong style="color:var(--text)">${((opt.strategy||{}).take_profit_pct||0)*100 != 0 ? ((opt.strategy.take_profit_pct)*100).toFixed(1)+'%' : '--'}</strong></div>
+        <div>RSI閾値: <strong style="color:var(--text)">${(opt.strategy||{}).rsi_oversold||'--'}</strong></div>
+        <div>最大保有: <strong style="color:var(--text)">${(opt.strategy||{}).max_hold_minutes||'--'}分</strong></div>
+      </div>`;
+  } else {
+    optEl.innerHTML = '<div style="color:var(--muted);font-size:12px">まだ最適化未実行（3トレード後に開始）</div>';
+  }
+}
+
 async function loadAll() {
   const btn = document.querySelector('.refresh-btn');
   const originalText = btn.innerText;
@@ -1511,6 +1695,8 @@ async function loadAll() {
         <td class="${sn.rsi>70?'red':sn.rsi<30?'green':''}" style="font-weight:700">${fmt(sn.rsi,1)}</td>
         <td>${sn.fear_greed_value ? sn.fear_greed_value + ' (' + sn.fear_greed_label + ')' : '--'}</td>
       </tr>`).join('');
+
+    await renderScalp();
 
     const pData = await fetch('/api/pnl_chart').then(r=>r.json());
     const ctx = document.getElementById('pnl-chart').getContext('2d');
