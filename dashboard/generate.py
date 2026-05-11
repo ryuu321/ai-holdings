@@ -116,6 +116,17 @@ def collect_af_pdca() -> dict:
         return {}
 
 
+def collect_room_pdca() -> dict:
+    """楽天ROOM PDCA（カテゴリ戦略・キャプション最適化結果）"""
+    f = ROOT / "saas-dev/projects/rakuten-af/data/room_pdca_log.json"
+    if not f.exists():
+        return {}
+    try:
+        return json.loads(f.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 def collect_revenue():
     """手動入力収益データ"""
     f = ROOT / "dashboard/revenue.json"
@@ -248,6 +259,7 @@ def build_dashboard_data():
     af_articles         = collect_rakuten_af()
     af_stats            = collect_af_stats(days=30)
     af_pdca             = collect_af_pdca()
+    room_pdca           = collect_room_pdca()
     revenue             = collect_revenue()
     kdp_books           = collect_kindle_kdp()
     bots                = collect_investment_bots()
@@ -324,6 +336,7 @@ def build_dashboard_data():
         "rakuten_room": {
             "total_posted": room_total,
             "by_date": [room_by_date.get(d, 0) for d in dates],
+            "pdca": room_pdca,
         },
         "af_performance": {
             "total_clicks":     total_af_clicks,
@@ -442,11 +455,19 @@ def generate_html(data: dict) -> str:
   <div class="section">
     <h2>楽天ROOM 出品数（30日）</h2>
     <div class="chart-wrap"><canvas id="roomChart"></canvas></div>
+    <div id="room-pdca-box" style="margin-top:14px;padding:12px;background:#1a1d2e;border-radius:8px;font-size:0.82rem;color:#aaa;display:none">
+      <div style="margin-bottom:6px"><span style="color:#f5a623;font-weight:600">ROOM PDCA:</span> <span id="room-pdca-insight"></span></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div><span style="color:#888">優先カテゴリ:</span> <span id="room-pdca-cat" style="color:#fff"></span></div>
+        <div><span style="color:#888">フック例:</span> <span id="room-pdca-hook" style="color:#7c9ff5"></span></div>
+        <div><span style="color:#888">CTA:</span> <span id="room-pdca-cta" style="color:#50e3a4"></span></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="section" style="margin-bottom:20px">
-  <h2>楽天AF パフォーマンス（30日）</h2>
+  <h2>楽天AF / ROOM パフォーマンス（30日）</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
     <div style="background:#252838;border-radius:10px;padding:14px">
       <div style="font-size:0.7rem;color:#888">クリック合計</div>
@@ -736,6 +757,16 @@ async function triggerRefresh() {{
 document.getElementById('kdp-table').innerHTML = D.kindle_kdp.recent.length
   ? D.kindle_kdp.recent.map(e => `<tr><td>${{e.published_at.slice(0,10)}}</td><td>${{e.title.slice(0,30)}}</td><td style="color:${{e.status==='published'?'#50e3a4':'#f5a623'}}">${{e.status}}</td></tr>`).join('')
   : '<tr><td colspan="3" style="color:#666">まだ出版なし</td></tr>';
+
+// ROOM PDCA インサイト
+const rp = D.rakuten_room.pdca;
+if (rp && rp.overall_insight) {{
+  document.getElementById('room-pdca-box').style.display = 'block';
+  document.getElementById('room-pdca-insight').textContent = rp.overall_insight;
+  document.getElementById('room-pdca-cat').textContent = rp.priority_category || '';
+  document.getElementById('room-pdca-hook').textContent = rp.hook_short || '';
+  document.getElementById('room-pdca-cta').textContent = rp.cta_text || '';
+}}
 </script>
 </body>
 </html>"""

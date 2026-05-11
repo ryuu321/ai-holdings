@@ -16,8 +16,8 @@ from utils.product_picker import get_pending, mark_posted, count_pending
 JST = timezone(timedelta(hours=9))
 AUTH_JSON = Path(__file__).parent / "auth.json"
 TONE_INDEX_FILE = Path(__file__).parent / "data" / "tone_index.txt"
-POSTS_PER_RUN = 60
-DAILY_MAX = 250            # 1日の絶対上限（バン対策）
+POSTS_PER_RUN = 70
+DAILY_MAX = 280            # 1日の絶対上限（8000件/月目標 = 267/日）
 LOW_STOCK_THRESHOLD = 2000  # 在庫がこれを下回ったら自動補充
 DAILY_COUNT_FILE = Path(__file__).parent / "data" / "daily_count.json"
 

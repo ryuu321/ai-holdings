@@ -90,6 +90,123 @@ def _summarize_stats(stats: list[dict]) -> dict:
     }
 
 
+def _load_room_category_stats() -> dict:
+    """products.csv からカテゴリ別投稿済み件数・平均スコアを集計（pandas不使用）。"""
+    import csv
+    csv_path = Path(__file__).parent.parent.parent / "rakuten-room" / "data" / "products.csv"
+    if not csv_path.exists():
+        return {}
+    cats: dict[str, dict] = {}
+    try:
+        with open(csv_path, encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                cat = row.get("category", "不明") or "不明"
+                if cat not in cats:
+                    cats[cat] = {"posted": 0, "pending": 0, "total_score": 0.0, "count": 0}
+                posted = row.get("posted", "") == "True"
+                score  = float(row.get("score", 0) or 0)
+                if posted:
+                    cats[cat]["posted"] += 1
+                else:
+                    cats[cat]["pending"] += 1
+                cats[cat]["total_score"] += score
+                cats[cat]["count"] += 1
+    except Exception:
+        pass
+    for v in cats.values():
+        v["avg_score"] = round(v["total_score"] / v["count"], 2) if v["count"] else 0
+    return cats
+
+
+def run_room_pdca(client: Groq, summary: dict):
+    """楽天ROOM投稿のキャプション・カテゴリ戦略を週次で最適化する。"""
+    cat_stats = _load_room_category_stats()
+
+    # カテゴリ別に「保留数 × 平均スコア」でソート → 優先カテゴリ上位5
+    top_cats = sorted(
+        cat_stats.items(),
+        key=lambda kv: kv[1]["pending"] * kv[1]["avg_score"],
+        reverse=True,
+    )[:8]
+    cat_text = "\n".join(
+        f"  {c}: 未投稿{v['pending']}件 / 投稿済み{v['posted']}件 / 平均スコア{v['avg_score']}"
+        for c, v in top_cats
+    )
+
+    prompt = f"""あなたは楽天ROOMアフィリエイトのマーケティング専門家です。
+楽天ROOMの投稿キャプション（SNS風の紹介文）を最適化し、クリック率とCVRを上げてください。
+楽天ROOMは画像+短文キャプションでユーザーが商品を紹介するSNSです。購入はキャプション内のリンクから発生します。
+
+## 過去30日の実績（楽天AF = ROOM経由100%）
+- クリック合計: {summary['total_clicks']}
+- 購入合計:     {summary['total_purchases']}
+- 平均CVR:      {summary['avg_cvr']}%
+- 報酬合計:     ¥{summary['total_commission']}
+- トレンド:     {summary['trend']}
+
+## 投稿カテゴリ在庫（未投稿 × スコア順）
+{cat_text or '  データなし'}
+
+## 出力（JSONのみ）
+{{
+  "priority_category": "最優先で投稿すべきカテゴリ名（1つ）",
+  "hook_short": "短文フック例（40字以内）。共感・驚き・数字のどれかを必ず入れる",
+  "hook_mom": "ママ向けフック例（40字以内）。育児・家事・節約で共感を引く",
+  "cta_text": "商品リンク誘導のCTA（20字以内）。例：↓詳細はこちら",
+  "avoid_pattern": "NGワード・避けるべき表現（50字以内）",
+  "overall_insight": "最優先改善ポイント（80字以内）",
+  "weekly_target_posts": 投稿目標件数（整数）
+}}"""
+
+    result = None
+    for attempt in range(3):
+        try:
+            resp = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.4,
+                max_tokens=600,
+            )
+            text = resp.choices[0].message.content.strip()
+            m = re.search(r"\{[\s\S]+\}", text)
+            if m:
+                result = json.loads(m.group(), strict=False)
+            break
+        except Exception as e:
+            if attempt < 2:
+                print(f"  [ROOM PDCA] Groqエラー。リトライ... ({e})")
+                time.sleep(15)
+            else:
+                print(f"  [ROOM PDCA] 失敗: {e}")
+                return
+
+    if not result:
+        print("  [ROOM PDCA] JSON解析失敗。スキップ。")
+        return
+
+    log_path = Path(__file__).parent.parent / "data" / "room_pdca_log.json"
+    from datetime import datetime, timezone
+    entry = {
+        "updated_at":        datetime.now(timezone.utc).isoformat(),
+        "priority_category": result.get("priority_category", ""),
+        "hook_short":        result.get("hook_short", ""),
+        "hook_mom":          result.get("hook_mom", ""),
+        "cta_text":          result.get("cta_text", ""),
+        "avoid_pattern":     result.get("avoid_pattern", ""),
+        "overall_insight":   result.get("overall_insight", ""),
+        "weekly_target_posts": result.get("weekly_target_posts", 0),
+        "af_summary":        summary,
+    }
+    log_path.write_text(json.dumps(entry, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    print(f"\n[ROOM PDCA]")
+    print(f"  優先カテゴリ:  {result.get('priority_category', '')}")
+    print(f"  フック例:      {result.get('hook_short', '')}")
+    print(f"  CTA:           {result.get('cta_text', '')}")
+    print(f"  気づき:        {result.get('overall_insight', '')}")
+    print(f"  週間目標:      {result.get('weekly_target_posts', 0)}件")
+
+
 def run_optimization():
     db = Database()
     client = Groq(api_key=settings.GROQ_API_KEY)
@@ -101,7 +218,6 @@ def run_optimization():
     summary = _summarize_stats(stats)
 
     articles = db.get_recent_articles(limit=30)
-    template_stats = db.get_template_stats()
 
     print("\n=== 週次PDCA最適化 ===")
     print(f"  クリック合計: {summary['total_clicks']}")
@@ -110,7 +226,10 @@ def run_optimization():
     print(f"  報酬合計:     ¥{summary['total_commission']}")
     print(f"  トレンド:     {summary['trend']}")
 
-    # タイトル一覧（テンプレート別）
+    # ① ROOM PDCA（主軸）
+    run_room_pdca(client, summary)
+
+    # ② Hatena ブログテンプレート改善（サブ）
     titles_by_template: dict[str, list[str]] = {}
     for a in articles:
         t = a.get("template", "ranking")
