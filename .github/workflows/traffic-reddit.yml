@@ -1,19 +1,17 @@
-name: Twitter AIティップス自動投稿
+name: Reddit 有益コメント自動投稿
 
 on:
   schedule:
-    - cron: '0 1 * * *'    # JST10時
-    - cron: '0 7 * * *'    # JST16時
-    - cron: '0 13 * * *'   # JST22時
+    - cron: '0 2 * * *'   # JST11時（毎日）
   workflow_dispatch:
     inputs:
-      num_posts:
-        description: '投稿数（デフォルト: 1）'
+      max_comments:
+        description: '最大コメント数（デフォルト: 5）'
         required: false
-        default: '1'
+        default: '5'
 
 jobs:
-  tweet:
+  reddit:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,33 +24,33 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install -r saas-dev/projects/traffic/requirements.txt
+        run: |
+          pip install -r saas-dev/projects/traffic/requirements.txt
+          pip install -r saas-dev/projects/gumroad/requirements.txt
 
       - name: Install Playwright browsers
         run: playwright install chromium --with-deps
 
-      - name: Restore Twitter session
+      - name: Restore sessions
         run: |
           mkdir -p saas-dev/projects/traffic/data
-          echo "${{ secrets.TWITTER_SESSION_B64 }}" | base64 -d > saas-dev/projects/traffic/data/twitter_session.json
+          echo "${{ secrets.REDDIT_SESSION_B64 }}" | base64 -d > saas-dev/projects/traffic/data/reddit_session.json
 
-      - name: Post tweets
+      - name: Post helpful comments
         working-directory: saas-dev/projects/traffic
         env:
           GROQ_API_KEY:         ${{ secrets.GROQ_API_KEY }}
           GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
-        run: python twitter.py ${{ github.event.inputs.num_posts || '1' }}
+        run: python reddit.py ${{ github.event.inputs.max_comments || '5' }}
 
       - name: Save updated session & log
         run: |
-          SESSION=$(base64 -w 0 saas-dev/projects/traffic/data/twitter_session.json 2>/dev/null || echo "")
-          if [ -n "$SESSION" ]; then
-            echo "$SESSION" | gh secret set TWITTER_SESSION_B64
-          fi
+          SESSION=$(base64 -w 0 saas-dev/projects/traffic/data/reddit_session.json 2>/dev/null || echo "")
+          if [ -n "$SESSION" ]; then echo "$SESSION" | gh secret set REDDIT_SESSION_B64; fi
           git config user.name "traffic-bot"
           git config user.email "bot@ai-holdings"
           git add saas-dev/projects/traffic/data/ 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "traffic: twitter post log $(date -u +%Y-%m-%d) [skip ci]"
+          git diff --cached --quiet || git commit -m "traffic: reddit log $(date -u +%Y-%m-%d) [skip ci]"
           git push || true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
