@@ -36,6 +36,7 @@ jobs:
       - name: AFセッション復元
         run: |
           mkdir -p saas-dev/projects/rakuten-af/data
+          echo "${{ secrets.RAKUTEN_AF_SESSION_B64 }}" | base64 -d | python3 -c "import sys,gzip,json; print(gzip.decompress(sys.stdin.buffer.read()).decode())" > saas-dev/projects/rakuten-af/data/af_session.json 2>/dev/null || \
           echo "${{ secrets.RAKUTEN_AF_SESSION_B64 }}" | base64 -d > saas-dev/projects/rakuten-af/data/af_session.json 2>/dev/null || true
 
       - name: AFレポートスクレイプ（実クリック・CVRデータ取得）
