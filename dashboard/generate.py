@@ -259,6 +259,24 @@ def collect_investment_bots():
         except Exception:
             pass
 
+    # SCALP: トレード統計を追加
+    scalp_trades_f = data_dir / "scalp_trades.json"
+    scalp_opt_f    = data_dir / "scalp_optimizer_log.json"
+    for bot in bots_map.values():
+        if bot["name"] != "SCALP":
+            continue
+        try:
+            trades = json.loads(scalp_trades_f.read_text(encoding="utf-8")) if scalp_trades_f.exists() else []
+            wins   = sum(1 for t in trades if t.get("pnl_pct", 0) > 0)
+            bot["trade_count"] = len(trades)
+            bot["win_rate"]    = round(wins / len(trades) * 100, 1) if trades else 0
+            # 現在の戦略バージョン
+            if scalp_opt_f.exists():
+                log = json.loads(scalp_opt_f.read_text(encoding="utf-8"))
+                bot["strategy_version"] = log[-1]["version"] if log else 1
+        except Exception:
+            pass
+
     return sorted(bots_map.values(), key=lambda x: x["name"])
 
 
@@ -795,12 +813,16 @@ document.getElementById('bot-cards').innerHTML = D.investment_bots.length
       const sign   = b.pnl >= 0 ? '+' : '';
       const pos    = b.positions.length ? b.positions.join('/') : 'なし';
       const posCol = b.positions.length ? '#7c9ff5' : '#555';
+      const extra = b.name === 'SCALP' && b.trade_count != null
+        ? `<div style="font-size:0.7rem;color:#888;margin-top:3px">${{b.trade_count}}T 勝率${{b.win_rate||0}}% v${{b.strategy_version||1}}</div>`
+        : '';
       return `<div style="background:#252838;border-radius:10px;padding:14px">
         <div style="font-size:0.7rem;color:#888;letter-spacing:0.08em">${{b.name}}</div>
         <div style="font-size:1.3rem;font-weight:700;color:#fff;margin:4px 0">$${{Math.round(b.balance).toLocaleString()}}</div>
         <div style="font-size:0.8rem;color:${{color}}">${{sign}}${{b.pnl_pct.toFixed(1)}}%</div>
         <div style="font-size:0.75rem;color:${{posCol}};margin-top:4px">${{pos}}</div>
         <div style="font-size:0.7rem;color:#444;margin-top:2px">${{b.last_run || '-'}}</div>
+        ${{extra}}
       </div>`;
     }}).join('')
   : '<p style="color:#666">データなし</p>';
