@@ -4,3 +4,4 @@ loguru
 python-dotenv
 beautifulsoup4
 requests
+playwright>=1.40.0

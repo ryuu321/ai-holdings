@@ -30,19 +30,46 @@ jobs:
       - name: 依存パッケージインストール
         run: pip install -r saas-dev/projects/rakuten-af/requirements.txt
 
-      - name: 週次プロンプト最適化
+      - name: Playwright インストール
+        run: playwright install chromium --with-deps
+
+      - name: AFセッション復元
+        run: |
+          mkdir -p saas-dev/projects/rakuten-af/data
+          echo "${{ secrets.RAKUTEN_AF_SESSION_B64 }}" | base64 -d > saas-dev/projects/rakuten-af/data/af_session.json 2>/dev/null || true
+
+      - name: AFレポートスクレイプ（実クリック・CVRデータ取得）
+        run: |
+          cd saas-dev/projects/rakuten-af
+          python -u -c "
+from modules.af_scraper import scrape_af_stats, save_stats
+stats = scrape_af_stats(days=30)
+if stats:
+    save_stats(stats)
+    print(f'取得完了: {len(stats)}日分')
+else:
+    print('スクレイプ失敗（セッションなし or レイアウト変更）')
+"
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: 週次PDCA最適化（実データ反映）
         run: |
           cd saas-dev/projects/rakuten-af
           python -u -c "from modules.optimizer import run_optimization; run_optimization()"
         env:
           PYTHONIOENCODING: utf-8
 
-      - name: 最適化結果をリポジトリに保存
+      - name: セッション・最適化結果を保存
         if: always()
         run: |
+          SESSION=$(base64 -w 0 saas-dev/projects/rakuten-af/data/af_session.json 2>/dev/null || echo "")
+          if [ -n "$SESSION" ]; then echo "$SESSION" | gh secret set RAKUTEN_AF_SESSION_B64; fi
           git config user.email "actions@github.com"
           git config user.name "Auto Bot"
           git add saas-dev/projects/rakuten-af/data/ 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "rakuten-af: 週次最適化 $(date -u '+%Y-%m-%d') [skip ci]"
+          git diff --staged --quiet || git commit -m "rakuten-af: 週次PDCA $(date -u '+%Y-%m-%d') [skip ci]"
           git pull --rebase -X theirs
           git push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

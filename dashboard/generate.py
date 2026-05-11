@@ -91,6 +91,31 @@ def collect_rakuten_af():
     return result
 
 
+def collect_af_stats(days: int = 30) -> list[dict]:
+    """楽天AF 日別クリック・CVR・報酬データ"""
+    f = ROOT / "saas-dev/projects/rakuten-af/data/af_stats.json"
+    if not f.exists():
+        return []
+    try:
+        all_stats = json.loads(f.read_text(encoding="utf-8"))
+        today = datetime.now(JST).date()
+        cutoff = (today - timedelta(days=days)).isoformat()
+        return [s for s in all_stats if s["date"] >= cutoff]
+    except Exception:
+        return []
+
+
+def collect_af_pdca() -> dict:
+    """楽天AF PDCAログ（最新の最適化結果）"""
+    f = ROOT / "saas-dev/projects/rakuten-af/data/pdca_log.json"
+    if not f.exists():
+        return {}
+    try:
+        return json.loads(f.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 def collect_revenue():
     """手動入力収益データ"""
     f = ROOT / "dashboard/revenue.json"
@@ -221,6 +246,8 @@ def build_dashboard_data():
     note_posts          = collect_note()
     room_posts, room_total_override = collect_rakuten_room()
     af_articles         = collect_rakuten_af()
+    af_stats            = collect_af_stats(days=30)
+    af_pdca             = collect_af_pdca()
     revenue             = collect_revenue()
     kdp_books           = collect_kindle_kdp()
     bots                = collect_investment_bots()
@@ -262,6 +289,18 @@ def build_dashboard_data():
         ab_stats[a["date"]][a.get("strategy", "A")] += a["count"]
     ab_total = {"A": sum(v["A"] for v in ab_stats.values()), "B": sum(v["B"] for v in ab_stats.values())}
 
+    # AF実績データ（日別）
+    af_stats_by_date = {s["date"]: s for s in af_stats}
+    af_clicks_by_date     = {d: af_stats_by_date[d]["clicks"]     for d in af_stats_by_date}
+    af_purchases_by_date  = {d: af_stats_by_date[d]["purchases"]  for d in af_stats_by_date}
+    af_cvr_by_date        = {d: af_stats_by_date[d]["cvr"]        for d in af_stats_by_date}
+    af_commission_by_date = {d: af_stats_by_date[d]["commission"] for d in af_stats_by_date}
+
+    total_af_clicks    = sum(s["clicks"]     for s in af_stats)
+    total_af_purchases = sum(s["purchases"]  for s in af_stats)
+    total_af_commission = sum(s["commission"] for s in af_stats)
+    avg_cvr = round(total_af_purchases / total_af_clicks * 100, 2) if total_af_clicks > 0 else 0.0
+
     # 最近の収益エントリ（新しい順10件）
     recent_revenue = sorted(revenue, key=lambda x: x["date"], reverse=True)[:10]
 
@@ -285,6 +324,17 @@ def build_dashboard_data():
         "rakuten_room": {
             "total_posted": room_total,
             "by_date": [room_by_date.get(d, 0) for d in dates],
+        },
+        "af_performance": {
+            "total_clicks":     total_af_clicks,
+            "total_purchases":  total_af_purchases,
+            "total_commission": total_af_commission,
+            "avg_cvr":          avg_cvr,
+            "clicks_by_date":     [af_clicks_by_date.get(d, 0)     for d in dates],
+            "purchases_by_date":  [af_purchases_by_date.get(d, 0)  for d in dates],
+            "cvr_by_date":        [af_cvr_by_date.get(d, None)     for d in dates],
+            "commission_by_date": [af_commission_by_date.get(d, 0) for d in dates],
+            "pdca": af_pdca,
         },
         "rakuten_af": {
             "total_articles": sum(a["count"] for a in af_articles),
@@ -395,6 +445,37 @@ def generate_html(data: dict) -> str:
   </div>
 </div>
 
+<div class="section" style="margin-bottom:20px">
+  <h2>楽天AF パフォーマンス（30日）</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">クリック合計</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#fff" id="af-clicks">-</div>
+    </div>
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">購入合計</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#fff" id="af-purchases">-</div>
+    </div>
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">平均CVR</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#50e3a4" id="af-cvr">-</div>
+    </div>
+    <div style="background:#252838;border-radius:10px;padding:14px">
+      <div style="font-size:0.7rem;color:#888">報酬合計</div>
+      <div style="font-size:1.4rem;font-weight:700;color:#f5a623" id="af-commission">-</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+    <div><div style="font-size:0.8rem;color:#aaa;margin-bottom:6px">クリック数（30日）</div><div class="chart-wrap"><canvas id="afClickChart"></canvas></div></div>
+    <div><div style="font-size:0.8rem;color:#aaa;margin-bottom:6px">CVR %（30日）</div><div class="chart-wrap"><canvas id="afCvrChart"></canvas></div></div>
+    <div><div style="font-size:0.8rem;color:#aaa;margin-bottom:6px">報酬 ¥（30日）</div><div class="chart-wrap"><canvas id="afCommissionChart"></canvas></div></div>
+  </div>
+  <div id="af-pdca-box" style="margin-top:14px;padding:12px;background:#1a1d2e;border-radius:8px;font-size:0.82rem;color:#aaa;display:none">
+    <span style="color:#7c9ff5;font-weight:600">PDCA最新知見:</span> <span id="af-pdca-insight"></span>
+    &nbsp;｜&nbsp; <span style="color:#50e3a4">次週注力:</span> <span id="af-pdca-niche"></span>
+  </div>
+</div>
+
 <div class="grid2">
   <div class="section">
     <h2>楽天AF 記事数（30日）</h2>
@@ -457,6 +538,45 @@ document.getElementById('af-total').textContent = D.rakuten_af.total_articles;
 document.getElementById('kdp-total').textContent = D.kindle_kdp.total_books;
 document.getElementById('rb-total').textContent = D.redbubble.next_index + '件';
 document.getElementById('rb-sub').textContent = '残り' + (D.redbubble.total - D.redbubble.next_index) + '件 / 全' + D.redbubble.total + '件';
+
+// AF パフォーマンスカード
+const afp = D.af_performance;
+document.getElementById('af-clicks').textContent     = afp.total_clicks.toLocaleString();
+document.getElementById('af-purchases').textContent  = afp.total_purchases.toLocaleString() + '件';
+document.getElementById('af-cvr').textContent        = afp.avg_cvr + '%';
+document.getElementById('af-commission').textContent = '¥' + afp.total_commission.toLocaleString();
+
+// AF クリックチャート
+new Chart(document.getElementById('afClickChart'), {{
+  type: 'bar',
+  data: {{ labels, datasets: [{{ data: afp.clicks_by_date, backgroundColor: '#7c9ff5', borderRadius: 2 }}] }},
+  options: {{ ...chartOpts('#7c9ff5'), plugins: {{ legend: {{ display: false }} }} }}
+}});
+
+// AF CVRチャート（折れ線・nullはスキップ）
+new Chart(document.getElementById('afCvrChart'), {{
+  type: 'line',
+  data: {{ labels, datasets: [{{
+    data: afp.cvr_by_date,
+    borderColor: '#50e3a4', backgroundColor: 'rgba(80,227,164,0.1)',
+    pointRadius: 2, spanGaps: true, tension: 0.3,
+  }}] }},
+  options: {{ ...chartOpts('#50e3a4'), plugins: {{ legend: {{ display: false }} }} }}
+}});
+
+// AF 報酬チャート
+new Chart(document.getElementById('afCommissionChart'), {{
+  type: 'bar',
+  data: {{ labels, datasets: [{{ data: afp.commission_by_date, backgroundColor: '#f5a623', borderRadius: 2 }}] }},
+  options: {{ ...chartOpts('#f5a623'), plugins: {{ legend: {{ display: false }} }} }}
+}});
+
+// PDCA最新知見
+if (afp.pdca && afp.pdca.overall_insight) {{
+  document.getElementById('af-pdca-box').style.display = 'block';
+  document.getElementById('af-pdca-insight').textContent = afp.pdca.overall_insight;
+  document.getElementById('af-pdca-niche').textContent   = afp.pdca.niche_recommendation || '-';
+}}
 
 const labels = D.dates.map(d => d.slice(5));
 const chartOpts = (color) => ({{
