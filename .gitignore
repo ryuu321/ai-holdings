@@ -9,6 +9,11 @@ saas-dev/projects/gumroad/data/gumroad_session.json
 saas-dev/projects/redbubble/data/rb_auth.json
 saas-dev/projects/rakuten-room/data/rakuten_session.json
 saas-dev/projects/note-auto/data/session_*.json
+saas-dev/projects/rakuten-af/data/af_session.json
+saas-dev/projects/traffic/data/pinterest_session.json
+saas-dev/projects/traffic/data/reddit_session.json
+saas-dev/projects/rakuten-af/data/af_debug.png
+saas-dev/projects/rakuten-af/data/af_scrape_error.png
 
 # 個人情報・経営ログ（公開禁止）
 secretary/knowledge/state.json
