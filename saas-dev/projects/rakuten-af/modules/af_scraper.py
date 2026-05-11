@@ -181,11 +181,16 @@ def load_stats(days: int = 30) -> list[dict]:
 
 def setup_session():
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        # 楽天はEdge必須のため msedge を使用
+        try:
+            browser = p.chromium.launch(channel="msedge", headless=False)
+        except Exception:
+            log.warning("Edgeが見つかりません。Chromiumで試みます。")
+            browser = p.chromium.launch(headless=False)
         context = browser.new_context()
         page    = context.new_page()
         page.goto(LOGIN_URL)
-        print("\n楽天アフィリエイトにログインしてください。")
+        print("\n楽天アフィリエイトにEdgeでログインしてください。")
         print("レポートページが表示されたら Enter を押してください。")
         input(">>> Enter: ")
         SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
