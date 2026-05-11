@@ -40,24 +40,12 @@ jobs:
           echo "${{ secrets.RAKUTEN_AF_SESSION_B64 }}" | base64 -d > saas-dev/projects/rakuten-af/data/af_session.json 2>/dev/null || true
 
       - name: AFレポートスクレイプ（実クリック・CVRデータ取得）
-        run: |
-          cd saas-dev/projects/rakuten-af
-          python -u -c "
-from modules.af_scraper import scrape_af_stats, save_stats
-stats = scrape_af_stats(days=30)
-if stats:
-    save_stats(stats)
-    print(f'取得完了: {len(stats)}日分')
-else:
-    print('スクレイプ失敗（セッションなし or レイアウト変更）')
-"
+        run: cd saas-dev/projects/rakuten-af && python -u run_scrape.py
         env:
           PYTHONIOENCODING: utf-8
 
       - name: 週次PDCA最適化（実データ反映）
-        run: |
-          cd saas-dev/projects/rakuten-af
-          python -u -c "from modules.optimizer import run_optimization; run_optimization()"
+        run: cd saas-dev/projects/rakuten-af && python -u run_optimize.py
         env:
           PYTHONIOENCODING: utf-8
 
