@@ -59,7 +59,19 @@ KDP_CATEGORY_TO_ACCOUNT = {
     "メンタル・心理": 3,
 }
 
-BOOKS_JSON = Path(__file__).parent.parent / "kindle-kdp" / "data" / "books.json"
+BOOKS_JSON    = Path(__file__).parent.parent / "kindle-kdp" / "data" / "books.json"
+STRATEGY_FILE = Path(__file__).parent / "pdca_strategy.json"
+
+
+def load_account_strategy(account_id: int) -> dict:
+    """pdca_strategy.json からアカウント別戦略を読み込む。なければ空。"""
+    if not STRATEGY_FILE.exists():
+        return {}
+    try:
+        data = json.loads(STRATEGY_FILE.read_text(encoding="utf-8"))
+        return data.get("account_strategy", {}).get(str(account_id), {})
+    except Exception:
+        return {}
 
 
 def find_unlinked_kindle_book(account_id: int) -> dict | None:
@@ -97,9 +109,25 @@ def load_posted_topics(account_id: int) -> list:
 
 
 def research_topic(account_id: int) -> dict:
-    genre = GENRES[account_id]
-    posted = load_posted_topics(account_id)
-    avoid = "、".join(posted[-20:]) if posted else "なし"
+    genre    = GENRES[account_id]
+    posted   = load_posted_topics(account_id)
+    avoid    = "、".join(posted[-20:]) if posted else "なし"
+    strategy = load_account_strategy(account_id)
+
+    # PDCA戦略ヒントを構築
+    pdca_hint = ""
+    if strategy:
+        focus      = strategy.get("focus", "")
+        next_topics = strategy.get("next_topics", [])
+        rec_price  = strategy.get("recommended_price", "")
+        title_hook = strategy.get("title_hook", "")
+        pdca_hint  = f"""
+## PDCA戦略（優先的に従うこと）
+- 今週の重点方向性: {focus}
+- 推奨テーマ候補（この中から選ぶか、この方向性で新テーマを発掘）: {', '.join(next_topics)}
+- 推奨価格: ¥{rec_price}
+- 今週のタイトルパターン: {title_hook}
+"""
 
     prompt = f"""
 あなたはnoteで月30万円以上稼いでいるライターのマネージャーです。
@@ -107,7 +135,7 @@ def research_topic(account_id: int) -> dict:
 
 ## ジャンル（このジャンル内で選ぶこと）
 {genre['focus']}
-
+{pdca_hint}
 ## 条件
 - 有料記事（¥300〜¥980）として売れる具体的なハウツー
 - 読んだ人が「今すぐ使える」と感じる内容
@@ -119,7 +147,7 @@ def research_topic(account_id: int) -> dict:
 - ¥500: 実践的ガイド・手順明確・10分で読める
 - ¥980: 完全マニュアル・これ1本で完結・15分以上
 
-## 最近投稿済み（重複回避）
+## 最近投稿済み（重複回避・必ずこれと被らないこと）
 {avoid}
 
 ## 出力形式（JSONのみ・余分なテキスト不要）

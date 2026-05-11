@@ -1,0 +1,41 @@
+name: note週次PDCA（毎週日曜）
+
+on:
+  schedule:
+    - cron: '0 20 * * 0'   # 毎週日曜 UTC 20:00（月曜 JST 5:00）
+  workflow_dispatch:
+
+env:
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  pdca:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 依存インストール
+        run: pip install -r saas-dev/projects/note-auto/requirements.txt
+
+      - name: note PDCA実行
+        run: python -u saas-dev/projects/note-auto/pdca.py
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: 戦略ファイルをコミット
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add saas-dev/projects/note-auto/pdca_strategy.json
+          git diff --staged --quiet || git commit -m "note: PDCA週次更新 $(date -u '+%Y-%m-%d') [skip ci]"
+          git pull --rebase -X theirs
+          git push

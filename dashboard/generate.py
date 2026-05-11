@@ -127,6 +127,17 @@ def collect_room_pdca() -> dict:
         return {}
 
 
+def collect_note_pdca() -> dict:
+    """note PDCA戦略（週次更新）"""
+    f = ROOT / "saas-dev/projects/note-auto/pdca_strategy.json"
+    if not f.exists():
+        return {}
+    try:
+        return json.loads(f.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
 def collect_revenue():
     """手動入力収益データ"""
     f = ROOT / "dashboard/revenue.json"
@@ -302,6 +313,7 @@ NOTE_ACCOUNTS = {1: "takumi_ai_f", 2: "yuuki_nisa", 3: "ken_nenshu_up"}
 
 def build_dashboard_data():
     note_posts          = collect_note()
+    note_pdca           = collect_note_pdca()
     room_posts, room_total_override = collect_rakuten_room()
     af_articles         = collect_rakuten_af()
     af_stats            = collect_af_stats(days=30)
@@ -380,6 +392,7 @@ def build_dashboard_data():
             "total_posts": len(note_posts),
             "by_date": [note_by_date.get(d, 0) for d in dates],
             "recent": note_posts[-5:][::-1],
+            "pdca": note_pdca,
         },
         "rakuten_room": {
             "total_posted": room_total,
@@ -505,6 +518,10 @@ def generate_html(data: dict) -> str:
   <div class="section">
     <h2>note 投稿数（30日）</h2>
     <div class="chart-wrap"><canvas id="noteChart"></canvas></div>
+    <div id="note-pdca-box" style="margin-top:14px;padding:12px;background:#1a1d2e;border-radius:8px;font-size:0.82rem;color:#aaa;display:none">
+      <div style="margin-bottom:8px"><span style="color:#7c9ff5;font-weight:600">PDCA洞察:</span> <span id="note-pdca-insight"></span></div>
+      <div id="note-pdca-accounts" style="display:flex;flex-direction:column;gap:6px"></div>
+    </div>
   </div>
   <div class="section">
     <h2>楽天ROOM 出品数（30日）</h2>
@@ -869,6 +886,23 @@ document.getElementById('gm-next').innerHTML = gm.next_niches.length
   ? `<div style="margin-bottom:4px">タイプ: <strong style="color:#50e3a4">${{gm.next_type || 'auto'}}</strong></div>` +
     gm.next_niches.map(n => `<div style="color:#aaa;font-size:0.8rem">・${{n}}</div>`).join('')
   : '-';
+
+// note PDCA インサイト
+const np = D.note.pdca;
+if (np && np.global_insight) {{
+  document.getElementById('note-pdca-box').style.display = 'block';
+  document.getElementById('note-pdca-insight').textContent = np.global_insight;
+  const accs = np.account_strategy || {{}};
+  const acctNames = {{'1':'たくみ(AI副業)','2':'ゆうき(節約投資)','3':'けんじ(転職)'}};
+  document.getElementById('note-pdca-accounts').innerHTML = Object.entries(accs).map(([id, s]) =>
+    `<div style="border-left:2px solid #7c9ff5;padding-left:8px">
+      <span style="color:#ccc;font-size:0.8rem">${{acctNames[id]||'Acct'+id}}</span>
+      <span style="color:#888;font-size:0.75rem;margin-left:6px">¥${{s.recommended_price}}</span>
+      <div style="color:#aaa;margin-top:2px">${{s.focus}}</div>
+      <div style="color:#666;font-size:0.75rem;margin-top:2px">候補: ${{(s.next_topics||[]).join(' / ')}}</div>
+    </div>`
+  ).join('');
+}}
 
 // ROOM PDCA インサイト
 const rp = D.rakuten_room.pdca;
