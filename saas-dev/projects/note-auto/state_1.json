@@ -26,7 +26,8 @@
     "Make.com×ChatGPT自動化",
     "AIオンライン講座作成",
     "Difyによる記事量産自動化",
-    "LINEマーケティングシナリオ構築"
+    "LINEマーケティングシナリオ構築",
+    "MEO運用代行×ChatGPT"
   ],
   "articles": [
     {
@@ -216,6 +217,13 @@
       "title": "【未経験から月10万】ChatGPTで『LINE公式アカウント・Lステップ』のシナリオ作成を自動化する完全攻略マニュアル",
       "price": 980,
       "url": "https://note.com/notes/n0c32c0606162",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-12",
+      "title": "【月5万の継続収入】ChatGPTで完結する「Googleマップ(MEO)運用代行」未経験からの完全マニュアル",
+      "price": 980,
+      "url": "https://note.com/notes/nc1f9d67fafa4",
       "status": "success"
     }
   ]
