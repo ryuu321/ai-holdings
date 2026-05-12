@@ -2,11 +2,9 @@
   "venture": "telegram_signals",
   "params": {
     "include_bots": [
-      "ATTACK",
-      "VOLT",
-      "SHORT"
+      "ATTACK"
     ],
-    "note_cta": true,
+    "note_cta": false,
     "sort_by_pnl": true
   },
   "performance_history": [
@@ -58,6 +56,13 @@
       "daily_growth": 0,
       "post_sent": 1,
       "bots_included": 6
+    },
+    {
+      "date": "2026-05-12",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 3
     }
   ],
   "learnings": [
@@ -65,8 +70,13 @@
       "date": "2026-05-10",
       "insight": "毎日配信は継続できているものの登録者が0名で推移しており、6種のBotを同時に流すことで情報の専門性が薄れ、新規ユーザーにとっての訴求力が分散している可能性があります。",
       "action": "配信対象をパフォーマンスの変動が激しく注目されやすい3種のBotに厳選し、情報の希少性と専門性を高めて反応率の変化を検証してください。"
+    },
+    {
+      "date": "2026-05-12",
+      "insight": "ボットを3種に絞り込んでも登録者が0のままなのは、情報の専門性がまだ不十分であるか、初期段階でのnote誘導（CTA）がユーザーの心理的ハードルとなり離脱を招いている可能性があります。",
+      "action": "配信対象を最も爆発力のある『ATTACK』1種のみに限定する「特化型」へ振り切り、note誘導を一時停止して、まずは無料情報の的中実績による信頼構築と登録者獲得を最優先してください。"
     }
   ],
-  "last_optimized": "2026-05-10T02:38:17.894214+00:00",
-  "posts_sent": 6
+  "last_optimized": "2026-05-12T02:40:30.684101+00:00",
+  "posts_sent": 7
 }
