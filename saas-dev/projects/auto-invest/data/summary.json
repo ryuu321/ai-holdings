@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-13T14:28:07.516146+00:00",
+  "updated_at": "2026-05-13T18:00:03.540425+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9757.298694807883,
@@ -54,7 +54,7 @@
     "SHORT": {
       "balance": 5000.0,
       "initial_balance": 10000.0,
-      "last_run": "2026-05-13T14:28:07.515895+00:00",
+      "last_run": "2026-05-13T18:00:03.540080+00:00",
       "positions": {
         "bitcoin": {
           "ticker": "bitcoin",
@@ -139,23 +139,23 @@
           "entry_date": "2026-05-02T16:43:18.445656+00:00"
         }
       },
-      "last_run": "2026-05-13T10:25:10.952192+00:00",
+      "last_run": "2026-05-13T14:28:39.780966+00:00",
       "trade_count": 1,
       "total_realized_pnl": 0.0
     },
     "VOLT": {
-      "balance": 6230.123522561635,
+      "balance": 7159.918663867695,
       "initial_balance": 10000.0,
       "positions": {
         "AMD": {
-          "shares": 9.235774029177174,
-          "buy_price": 408.18197430218294,
-          "cost": 3769.876477438366
+          "shares": 7.147947651930574,
+          "buy_price": 408.181974302183,
+          "cost": 2917.663384773675
         }
       },
-      "last_run": "2026-05-06T15:12:20.925727+00:00",
-      "trade_count": 1,
-      "total_realized_pnl": 0.0
+      "last_run": "2026-05-13T15:26:24.113760+00:00",
+      "trade_count": 2,
+      "total_realized_pnl": 77.5820486413686
     }
   },
   "recent_trades": [
