@@ -27,7 +27,8 @@
     "AIオンライン講座作成",
     "Difyによる記事量産自動化",
     "LINEマーケティングシナリオ構築",
-    "MEO運用代行×ChatGPT"
+    "MEO運用代行×ChatGPT",
+    "AIストックフォト副業"
   ],
   "articles": [
     {
@@ -224,6 +225,13 @@
       "title": "【月5万の継続収入】ChatGPTで完結する「Googleマップ(MEO)運用代行」未経験からの完全マニュアル",
       "price": 980,
       "url": "https://note.com/notes/nc1f9d67fafa4",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-13",
+      "title": "【不労所得】Adobe Stock×AI生成で「月3万円」を積み上げる！審査突破プロンプトと売れる構図の正解",
+      "price": 500,
+      "url": "https://note.com/notes/ne3277d2535c3",
       "status": "success"
     }
   ]
