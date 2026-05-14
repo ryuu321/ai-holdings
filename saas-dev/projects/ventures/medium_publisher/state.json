@@ -1,9 +1,9 @@
 {
   "venture": "medium_publisher",
   "params": {
-    "priority_genre": null,
-    "writing_style": "conversational and data-driven",
-    "target_length": "900-1300 words"
+    "priority_genre": "Career Development & Salary Negotiation",
+    "writing_style": "conversational, data-driven, and ROI-focused (emphasizing specific monetary gains)",
+    "target_length": "1000-1400 words"
   },
   "performance_history": [
     {
@@ -54,17 +54,31 @@
       "title_en": "The 100-Point Job Comparison Sheet: How to Choose Your Next Role Without Regret",
       "status": "success",
       "articles_total": 6
+    },
+    {
+      "date": "2026-05-14",
+      "genre": "Career Development",
+      "title_en": "The $12,000 Mistake: A No-Nonsense Guide to Negotiating Your Salary Without Losing the Offer",
+      "status": "success",
+      "articles_total": 7
     }
   ],
-  "learnings": [],
-  "last_optimized": null,
+  "learnings": [
+    {
+      "date": "2026-05-14",
+      "insight": "具体的な金額（$20,000等）や高い改善率（250%等）をフックにした「給与交渉・キャリアアップ」記事が極めて高い成功率を記録しており、抽象的な法則よりも直接的な経済的利益を示すスタイルが機能しています。",
+      "action": "「具体的な金額の損失回避」をテーマに、チェックリストや計算式などの実用的なツールを記事内で提供する構成で1記事執筆してください。"
+    }
+  ],
+  "last_optimized": "2026-05-14T05:46:45.318828+00:00",
   "posted_titles": [
     "書類通過率が80%上がる！ネガティブな本音を「即採用」に変える退職理由の言い換え全10パターン",
     "【保存版】リファレンスチェック突破率100%へ。前職と疎遠・不仲でも内定を逃さない『推薦人依頼と事前準備』完全マニュアル",
     "内定率が2.5倍上がる「エージェント操縦術」：優良な非公開求人を引き出す5つの返信テンプレ",
     "【公開】ビズリーチのプラチナスカウトを3倍に増やした『プロフィール入力』15の鉄則",
     "転職サイトに頼らない！採用担当者のDMをこじ開け、1通のメッセージで内定を引き寄せる「直談判」の全手順",
-    "複数内定から1社を絞る『後悔しない条件比較シート』：年収・環境・将来性を100点満点で可視化する技術"
+    "複数内定から1社を絞る『後悔しない条件比較シート』：年収・環境・将来性を100点満点で可視化する技術",
+    "【年収120万円UP】内定取り消しを回避し、希望額を確実にもぎ取る「年収交渉」完全マニュアル"
   ],
-  "articles_published": 6
+  "articles_published": 7
 }
