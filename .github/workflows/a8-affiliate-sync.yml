@@ -1,0 +1,39 @@
+name: A8アフィリエイト同期（週次）
+
+on:
+  schedule:
+    - cron: '0 20 * * 0'   # 毎週日曜 JST 5:00
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 依存インストール
+        run: pip install playwright && playwright install chromium --with-deps
+
+      - name: A8アフィリエイト取得
+        run: python -u saas-dev/projects/note-auto/a8_scraper.py
+        env:
+          PYTHONIOENCODING: utf-8
+          A8_EMAIL:    ${{ secrets.A8_EMAIL }}
+          A8_PASSWORD: ${{ secrets.A8_PASSWORD }}
+
+      - name: 結果をコミット
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add saas-dev/projects/note-auto/data/affiliate_links.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "a8: アフィリエイトリンク更新 $(date -u +%Y-%m-%d) [skip ci]"
+          git pull --rebase -X theirs
+          git push

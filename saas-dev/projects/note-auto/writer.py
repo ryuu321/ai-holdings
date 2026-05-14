@@ -3,6 +3,7 @@ writer.py — Geminiで記事を生成する
 """
 import os
 import re
+import json
 import time
 from pathlib import Path
 
@@ -25,6 +26,21 @@ client = genai.Client(api_key=API_KEY)
 MODEL = "gemini-flash-latest"
 
 SEPARATOR = "|||SPLIT|||"
+AFFILIATE_FILE = Path(__file__).parent / "data" / "affiliate_links.json"
+
+
+def load_best_affiliate(account_id: int) -> dict | None:
+    """アカウントテーマに合う最高単価のアフィリ案件を返す"""
+    if not AFFILIATE_FILE.exists():
+        return None
+    try:
+        data = json.loads(AFFILIATE_FILE.read_text(encoding="utf-8"))
+        progs = data.get("by_account", {}).get(str(account_id), [])
+        # URLが取得済みのものだけ対象
+        valid = [p for p in progs if p.get("url") and not p["url"].startswith("__pending__")]
+        return valid[0] if valid else None
+    except Exception:
+        return None
 
 # アカウントごとのペルソナ定義
 PERSONAS = {
@@ -71,6 +87,25 @@ Kindleで読めるので、ぜひチェックしてみてください。」"""
     else:
         kindle_cta_instruction = ""
 
+    # アフィリエイトリンクCTA
+    affiliate = load_best_affiliate(account_id)
+    if affiliate:
+        affiliate_cta_instruction = f"""
+
+## アフィリエイト案件の紹介（必須・有料部分の末尾に自然に挿入）
+記事の内容に関連するサービスを、キャラクターとして「自分が実際に使っている・試した」という形で紹介してください。
+宣伝臭くならないように。読者の悩みの解決策として自然に出す。
+
+サービス名: {affiliate['name']}
+リンク: {affiliate['url']}
+報酬情報（読者には見せない、あなたの参考情報）: {affiliate['commission_text']}
+
+紹介文の例:
+「ぼく自身はこれを使って〇〇できました。無料から始められるので試してみてください。→ {affiliate['url']}」
+（キャラクターの言葉でアレンジしてOK。URLはそのまま入れること）"""
+    else:
+        affiliate_cta_instruction = ""
+
     prompt = f"""あなたは以下のキャラクターとして、自分の実体験をベースにnoteの有料記事を書いてください。
 
 ## あなたのキャラクター
@@ -103,7 +138,7 @@ Kindleで読めるので、ぜひチェックしてみてください。」"""
 実体験ベースで手順・ノウハウを書く。
 失敗談→気づき→解決策の流れ。
 最後は「まとめ」と「次にやること」で締める。
-{kindle_cta_instruction}
+{kindle_cta_instruction}{affiliate_cta_instruction}
 
 ## 出力形式（以下のフォーマットを厳守。JSONは使わない）
 
