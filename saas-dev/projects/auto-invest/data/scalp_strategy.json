@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "rsi_period": 14,
+  "rsi_oversold": 35,
+  "rsi_overbought": 65,
+  "bb_period": 20,
+  "bb_std": 2.0,
+  "stop_loss_pct": 0.008,
+  "take_profit_pct": 0.015,
+  "invest_pct": 0.80,
+  "max_hold_minutes": 120,
+  "require_bb": true,
+  "require_rsi": true,
+  "require_volume_spike": false
+}
