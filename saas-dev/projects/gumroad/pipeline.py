@@ -24,7 +24,9 @@ GUMROAD_API     = "https://api.gumroad.com/v2"        # 売上・分析
 GUMROAD_TOKEN   = os.environ.get("GUMROAD_ACCESS_TOKEN", "")
 GROQ_KEY        = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL      = "llama-3.3-70b-versatile"
-PRICE_CENTS     = 3900  # $39
+PRICE_MIN_CENTS = 1000  # $10 絶対下限
+PRICE_MAX_CENTS = 2500  # $25 上限（新商品）
+PRICE_DEFAULT   = 1500  # $15 フォールバック
 TELEGRAM_TOKEN  = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT   = os.environ.get("TELEGRAM_CHANNEL_ID", "")
 
@@ -119,6 +121,125 @@ def _scrape_gumroad_playwright() -> list[str]:
     except Exception as e:
         log.warning(f"Playwright Gumroadスクレイピング失敗: {e}")
     return items[:20]
+
+
+def _scrape_gumroad_prices(niche: str) -> list[dict]:
+    """Gumroad Discoverでニッチ検索し、競合商品のタイトルと価格を取得する。"""
+    from playwright.sync_api import sync_playwright
+    items = []
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(user_agent=SCRAPE_HEADERS["User-Agent"])
+            page = context.new_page()
+            query = niche.replace(" ", "+")
+            page.goto(f"https://gumroad.com/discover?query={query}", wait_until="networkidle", timeout=30000)
+            page.wait_for_timeout(3000)
+
+            # 商品カードを横断してタイトル＋価格を取得
+            for card_sel in ["[data-testid*='product']", "article", "[class*='product-card']", "[class*='ProductCard']"]:
+                cards = page.query_selector_all(card_sel)
+                for card in cards[:25]:
+                    try:
+                        title = ""
+                        for ts in ["h3", "h4", "h2", "[class*='name']", "[class*='title']"]:
+                            el = card.query_selector(ts)
+                            if el:
+                                title = el.inner_text().strip()
+                                break
+                        price_text = ""
+                        for ps in ["[class*='price']", "[data-price]", "[class*='Price']"]:
+                            el = card.query_selector(ps)
+                            if el:
+                                price_text = el.inner_text().strip()
+                                break
+                        if not title:
+                            continue
+                        price = None
+                        if price_text:
+                            m = re.search(r'[\d.]+', price_text.replace(",", ""))
+                            if m:
+                                price = float(m.group())
+                        items.append({"title": title, "price": price})
+                    except Exception:
+                        pass
+                if items:
+                    break
+
+            # カードが取れなかった場合はページテキストから価格を抽出
+            if not items:
+                all_text = page.inner_text("body")
+                prices_raw = re.findall(r'\$\s*([\d.]+)', all_text)
+                for pv in prices_raw[:15]:
+                    v = float(pv)
+                    if 1 <= v <= 200:
+                        items.append({"title": "", "price": v})
+
+            browser.close()
+        log.info(f"Gumroad価格スクレイピング ({niche}): {len(items)}件")
+    except Exception as e:
+        log.warning(f"Gumroad価格スクレイピング失敗: {e}")
+    return items
+
+
+def research_price(niche: str, product_type: str) -> int:
+    """
+    市場調査に基づいて最適価格をセント単位で返す。
+    競合価格をGroqに渡し、$10〜$25の範囲で推奨価格を決定。
+    """
+    items = _scrape_gumroad_prices(niche)
+    paid_prices = sorted([
+        it["price"] for it in items
+        if it.get("price") and 1.0 <= it["price"] <= 200
+    ])
+
+    if not paid_prices:
+        log.info(f"価格データなし → デフォルト ${PRICE_DEFAULT/100:.0f}")
+        return PRICE_DEFAULT * 100  # cents
+
+    median = paid_prices[len(paid_prices) // 2]
+    avg    = sum(paid_prices) / len(paid_prices)
+    low    = paid_prices[0]
+    high   = paid_prices[-1]
+    log.info(f"競合価格 ({niche}): 中央値=${median:.2f} 平均=${avg:.2f} 範囲=${low:.2f}〜${high:.2f}")
+
+    recommended_usd = PRICE_DEFAULT / 100  # fallback
+
+    if GROQ_KEY:
+        prompt = f"""You are a Gumroad pricing strategist. Recommend the optimal price for a new digital product.
+
+Niche: {niche}
+Product type: {product_type}
+Competitor prices on Gumroad (USD): {paid_prices}
+Market stats: median=${median:.2f}, avg=${avg:.2f}, range=${low:.2f}-${high:.2f}
+
+Pricing rules:
+- Absolute minimum: $10 (never go below)
+- Target range: $12-$25
+- Do NOT be the cheapest — signals low quality
+- Position in the upper-mid tier to signal value
+- Round to a clean price ($12, $15, $17, $19, $22, $25)
+
+Respond with ONLY valid JSON (no markdown):
+{{"recommended_price_usd": 15, "reasoning": "one sentence"}}"""
+        try:
+            client = Groq(api_key=GROQ_KEY)
+            resp = client.chat.completions.create(
+                model=GROQ_MODEL, max_tokens=120,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            raw = resp.choices[0].message.content.strip()
+            m = re.search(r"\{.*\}", raw, re.DOTALL)
+            if m:
+                result = json.loads(m.group())
+                recommended_usd = float(result.get("recommended_price_usd", PRICE_DEFAULT / 100))
+                log.info(f"Groq価格推奨: ${recommended_usd:.2f} — {result.get('reasoning', '')}")
+        except Exception as e:
+            log.warning(f"Groq価格推奨失敗: {e}")
+
+    # $10〜$25 にクランプ
+    clamped = max(PRICE_MIN_CENTS / 100, min(PRICE_MAX_CENTS / 100, recommended_usd))
+    return int(round(clamped)) * 100
 
 
 def _scrape_reddit_demand() -> list[str]:
@@ -559,11 +680,13 @@ def publish_to_gumroad(meta: dict) -> str:
 
     headers = {"Authorization": f"Bearer {GUMROAD_TOKEN}"}
 
-    # 1. 製品作成
+    # 1. 製品作成（市場調査ベースの価格設定）
+    price_cents = research_price(meta.get("niche", ""), meta.get("product_type", "ai_prompts"))
+    log.info(f"市場調査価格: ${price_cents/100:.2f}")
     payload = {
         "name":              meta["title"],
         "description":       meta["description"],
-        "price":             PRICE_CENTS,
+        "price":             price_cents,
         "currency":          "usd",
         "published":         False,  # ファイルアップ後に公開
         "require_shipping":  False,
