@@ -24,9 +24,10 @@ GUMROAD_API     = "https://api.gumroad.com/v2"        # 売上・分析
 GUMROAD_TOKEN   = os.environ.get("GUMROAD_ACCESS_TOKEN", "")
 GROQ_KEY        = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL      = "llama-3.3-70b-versatile"
-PRICE_MIN_CENTS = 1000  # $10 絶対下限
-PRICE_MAX_CENTS = 2500  # $25 上限（新商品）
-PRICE_DEFAULT   = 1500  # $15 フォールバック
+PRICE_MIN_CENTS  = 1500   # $15 絶対下限
+PRICE_DEFAULT    = 3700   # $37 フォールバック（チャーム価格）
+# チャーム価格リスト（行動経済学: 端数が高級感と割安感を両立）
+CHARM_PRICES_USD = [17, 27, 37, 47, 57, 67, 77, 97]
 TELEGRAM_TOKEN  = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT   = os.environ.get("TELEGRAM_CHANNEL_ID", "")
 
@@ -184,48 +185,57 @@ def _scrape_gumroad_prices(niche: str) -> list[dict]:
 
 def research_price(niche: str, product_type: str) -> int:
     """
-    市場調査に基づいて最適価格をセント単位で返す。
-    競合価格をGroqに渡し、$10〜$25の範囲で推奨価格を決定。
+    行動経済学・市場調査に基づいて価格を極大化する。
+    競合上位20%に位置づけ、チャーム価格（$X7/$X7）で価値認知を最大化。
+    下限$15のみ設定、上限なし。
     """
     items = _scrape_gumroad_prices(niche)
     paid_prices = sorted([
         it["price"] for it in items
-        if it.get("price") and 1.0 <= it["price"] <= 200
+        if it.get("price") and 1.0 <= it["price"] <= 500
     ])
 
     if not paid_prices:
         log.info(f"価格データなし → デフォルト ${PRICE_DEFAULT/100:.0f}")
-        return PRICE_DEFAULT * 100  # cents
+        return PRICE_DEFAULT * 100
 
     median = paid_prices[len(paid_prices) // 2]
     avg    = sum(paid_prices) / len(paid_prices)
     low    = paid_prices[0]
     high   = paid_prices[-1]
-    log.info(f"競合価格 ({niche}): 中央値=${median:.2f} 平均=${avg:.2f} 範囲=${low:.2f}〜${high:.2f}")
+    p80_idx = int(len(paid_prices) * 0.8)
+    p80    = paid_prices[min(p80_idx, len(paid_prices) - 1)]
+    log.info(f"競合価格 ({niche}): 中央値=${median:.2f} 平均=${avg:.2f} 80th=${p80:.2f} 範囲=${low:.2f}〜${high:.2f}")
 
-    recommended_usd = PRICE_DEFAULT / 100  # fallback
+    recommended_usd = PRICE_DEFAULT / 100
 
     if GROQ_KEY:
-        prompt = f"""You are a Gumroad pricing strategist. Recommend the optimal price for a new digital product.
+        prompt = f"""You are a behavioral economics pricing strategist for Gumroad digital products.
+Your goal is to MAXIMIZE revenue per sale — not minimize price.
 
 Niche: {niche}
 Product type: {product_type}
 Competitor prices on Gumroad (USD): {paid_prices}
-Market stats: median=${median:.2f}, avg=${avg:.2f}, range=${low:.2f}-${high:.2f}
+Market stats: median=${median:.2f}, avg=${avg:.2f}, 80th percentile=${p80:.2f}, range=${low:.2f}-${high:.2f}
 
-Pricing rules:
-- Absolute minimum: $10 (never go below)
-- Target range: $12-$25
-- Do NOT be the cheapest — signals low quality
-- Position in the upper-mid tier to signal value
-- Round to a clean price ($12, $15, $17, $19, $22, $25)
+Pricing philosophy to apply:
+1. CHARM PRICING: Use prices ending in 7 ($27, $37, $47, $67, $97) — they feel less round yet signal premium
+2. VEBLEN EFFECT: Higher price = higher perceived quality for digital products
+3. UPPER-TIER POSITIONING: Target the top 20% of competitor prices to signal expertise
+4. VALUE-BASED: Price based on what the buyer GAINS (time saved, income potential), not production cost
+5. NO artificial cap — if the market supports $97+, recommend it
+6. Absolute minimum: $15
+
+Available charm prices to choose from: {CHARM_PRICES_USD} (or higher if market supports it)
+
+Consider: a buyer spending $47 on AI prompts to make $500/month sees 10x ROI instantly.
 
 Respond with ONLY valid JSON (no markdown):
-{{"recommended_price_usd": 15, "reasoning": "one sentence"}}"""
+{{"recommended_price_usd": 47, "reasoning": "one sentence on why this price maximizes revenue"}}"""
         try:
             client = Groq(api_key=GROQ_KEY)
             resp = client.chat.completions.create(
-                model=GROQ_MODEL, max_tokens=120,
+                model=GROQ_MODEL, max_tokens=150,
                 messages=[{"role": "user", "content": prompt}],
             )
             raw = resp.choices[0].message.content.strip()
@@ -236,10 +246,19 @@ Respond with ONLY valid JSON (no markdown):
                 log.info(f"Groq価格推奨: ${recommended_usd:.2f} — {result.get('reasoning', '')}")
         except Exception as e:
             log.warning(f"Groq価格推奨失敗: {e}")
+            # フォールバック: 競合80パーセンタイルを最も近いチャーム価格に丸める
+            recommended_usd = p80
 
-    # $10〜$25 にクランプ
-    clamped = max(PRICE_MIN_CENTS / 100, min(PRICE_MAX_CENTS / 100, recommended_usd))
-    return int(round(clamped)) * 100
+    # 最も近いチャーム価格に丸める（$15以上）
+    valid = [c for c in CHARM_PRICES_USD if c >= PRICE_MIN_CENTS / 100]
+    nearest_charm = min(valid, key=lambda c: abs(c - recommended_usd))
+    # Groqが高い価格を推薦した場合はチャームリスト外でも尊重
+    if recommended_usd > max(CHARM_PRICES_USD):
+        # $100以上は$7刻みのチャーム価格に丸める
+        nearest_charm = int(recommended_usd / 10) * 10 + 7
+    final_usd = max(PRICE_MIN_CENTS / 100, nearest_charm)
+    log.info(f"最終価格: ${final_usd}")
+    return int(final_usd) * 100
 
 
 def _scrape_reddit_demand() -> list[str]:
