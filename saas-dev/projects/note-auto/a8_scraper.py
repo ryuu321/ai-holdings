@@ -78,8 +78,19 @@ def scrape_a8_approved() -> list[dict]:
         page.goto("https://www.a8.net/a8v2/login.html", wait_until="networkidle", timeout=30000)
         _save_debug(page, "01_login")
 
-        # ページ内のinput要素を全列挙してデバッグ
-        page.wait_for_load_state("domcontentloaded", timeout=15000)
+        # JS描画を待ってからinputを列挙
+        print(f"[A8] ページURL: {page.url}")
+        print(f"[A8] ページタイトル: {page.title()}")
+        try:
+            page.wait_for_selector("input", timeout=15000)
+        except Exception:
+            print("[A8] input要素がタイムアウトまでに現れませんでした")
+            # HTMLソースをダンプして原因確認
+            html = page.content()
+            (DEBUG_DIR / "login_page.html").write_text(html[:5000], encoding="utf-8")
+            _save_debug(page, "01b_no_input")
+            browser.close()
+            return []
         inputs = page.query_selector_all("input")
         print(f"[A8] input要素数: {len(inputs)}")
         for inp in inputs:
