@@ -74,59 +74,51 @@ def scrape_a8_approved() -> list[dict]:
         page = context.new_page()
 
         # ── 1. ログイン ──────────────────────────────────────────
-        # pub.a8.net/login はSPAのためJS描画完了を待つ必要がある
-        print("[A8] ログイン中...")
+        # パブリッシャーのログインフォームは www.a8.net/ のトップページに埋め込まれている
+        # (pub.a8.net/ はサーバーサイドリダイレクト→www.a8.net/)
+        print("[A8] ログイン中... (www.a8.net トップページのフォームを使用)")
 
-        login_url = None
+        page.goto("https://www.a8.net/", wait_until="networkidle", timeout=30000)
+        _save_debug(page, "00_top")
+        print(f"[A8] トップページ: {page.url} | {page.title()}")
 
-        page.goto("https://pub.a8.net/login", wait_until="domcontentloaded", timeout=20000)
-        time.sleep(1)
-        print(f"[A8] ログインページ: {page.url} | {page.title()}")
-        _save_debug(page, "00_login_raw")
+        # 全フォームを確認してパブリッシャー用フォームを特定
+        forms = page.query_selector_all("form")
+        print(f"[A8] フォーム数: {len(forms)}")
+        for i, form in enumerate(forms):
+            try:
+                action = form.get_attribute("action") or ""
+                inputs_in_form = form.query_selector_all("input")
+                print(f"  form[{i}]: action={action!r} inputs={len(inputs_in_form)}")
+            except Exception:
+                pass
 
-        # パスワード入力欄が現れるまで最大10秒待つ
-        try:
-            page.wait_for_selector('input[type="password"]', timeout=10000)
-            login_url = page.url
-            print(f"[A8] ログインフォーム確認 (password input): {login_url}")
-        except Exception:
-            # iframeの中にフォームがあるか確認
-            frames = page.frames
-            print(f"[A8] フレーム数: {len(frames)}")
-            for i, frame in enumerate(frames):
+        # 全inputを確認
+        all_inputs = page.query_selector_all("input")
+        print(f"[A8] 全input数: {len(all_inputs)}")
+        for inp in all_inputs:
+            try:
+                n = inp.get_attribute("name") or ""
+                t = inp.get_attribute("type") or ""
+                iid = inp.get_attribute("id") or ""
+                vis = inp.is_visible()
+                print(f"  input name={n!r} type={t!r} id={iid!r} visible={vis}")
+            except Exception:
+                pass
+
+        def try_fill(selectors, value, label):
+            for sel in selectors:
                 try:
-                    frame_url = frame.url
-                    frame_inp = frame.query_selector_all("input")
-                    print(f"  frame[{i}]: {frame_url} / inputs={len(frame_inp)}")
-                    if frame.query_selector('input[type="password"]'):
-                        login_url = frame_url
-                        print(f"[A8] iframeにフォーム発見: {login_url}")
-                        break
+                    el = page.query_selector(sel)
+                    if el and el.is_visible():
+                        el.fill(value)
+                        print(f"[A8] {label} フィールド: {sel}")
+                        return True
                 except Exception:
                     pass
+            print(f"[A8] {label} フィールドが見つかりません")
+            return False
 
-        if not login_url:
-            # HTMLをダンプして原因特定
-            html = page.content()
-            (DEBUG_DIR / "login_page.html").write_text(html[:8000], encoding="utf-8")
-            inputs = page.query_selector_all("input")
-            print(f"[A8] input要素数: {len(inputs)}")
-            for inp in inputs[:10]:
-                try:
-                    print(f"  input name={inp.get_attribute('name')!r} type={inp.get_attribute('type')!r}")
-                except Exception:
-                    pass
-            print("[A8] ログインページ自動検出失敗")
-            _save_debug(page, "00_login_fail")
-
-        _save_debug(page, "01_login")
-
-        if not login_url:
-            browser.close()
-            return []
-
-        # フォームフィールドを動的に特定
-        # 候補セレクタをリストで試す
         email_selectors = [
             'input[name="login_id"]',
             'input[name="mail"]',
@@ -146,19 +138,6 @@ def scrape_a8_approved() -> list[dict]:
             'input[id="password"]',
             'input[type="password"]',
         ]
-
-        def try_fill(selectors, value, label):
-            for sel in selectors:
-                try:
-                    el = page.query_selector(sel)
-                    if el and el.is_visible():
-                        el.fill(value)
-                        print(f"[A8] {label} フィールド: {sel}")
-                        return True
-                except Exception:
-                    pass
-            print(f"[A8] {label} フィールドが見つかりません")
-            return False
 
         if not try_fill(email_selectors, A8_EMAIL, "メール"):
             _save_debug(page, "02_login_fail_email")
@@ -201,6 +180,8 @@ def scrape_a8_approved() -> list[dict]:
         # ── 2. 提携済みプログラム一覧 ────────────────────────────
         approved_url = None
         for candidate in [
+            "https://pub.a8.net/a8v2/asAffiliate.do?action=index&affiliateStatus=2",
+            "https://pub.a8.net/a8v2/asAffiliate.do?action=index",
             "https://www.a8.net/member/affiliate/",
             "https://www.a8.net/a8v2/sMediaAffiliate.do?action=index&affiliateStatus=2",
             "https://www.a8.net/affiliate/",
