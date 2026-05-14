@@ -47,8 +47,11 @@ def _save_debug(page, name: str):
 
 def _extract_a8_url(text: str) -> str:
     """テキストからpx.a8.netのURLを抽出"""
-    m = re.search(r'https?://px\.a8\.net/[^\s\'"<>\)]+', text)
-    return m.group(0).rstrip('.,;') if m else ""
+    m = re.search(r'https?://px\.a8\.net/[^\s\'"<>\)&]+', text)
+    if not m:
+        return ""
+    url = m.group(0).rstrip('.,;')
+    return url
 
 
 def _extract_program_name(raw: str) -> str:
@@ -377,8 +380,10 @@ def scrape_a8_approved() -> list[dict]:
                         except Exception:
                             pass
 
-                # 報酬テキストを既存データから使用
-                commission_text = entry.get("commission_text", "")
+                # 報酬テキストをクリーンアップ（"成果報酬\nXXX円" の部分だけ抽出）
+                raw_commission = entry.get("commission_text", "")
+                m_c = re.search(r'成果報酬\n(.+?)(?:\nEPC|\n確定率|$)', raw_commission, re.DOTALL)
+                commission_text = m_c.group(1).strip() if m_c else raw_commission[:60]
                 commission_value = _parse_commission(commission_text)
 
                 programs.append({
