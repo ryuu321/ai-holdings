@@ -51,6 +51,20 @@ def _extract_a8_url(text: str) -> str:
     return m.group(0).rstrip('.,;') if m else ""
 
 
+def _extract_program_name(raw: str) -> str:
+    """テーブルセルの全テキストからプログラム名を抽出"""
+    m = re.search(r'プログラム名\n(.+?)(?:\n|$)', raw)
+    if m:
+        name = re.sub(r'[（(]\d{2}-\d{4}[）)]$', '', m.group(1)).strip()
+        return name
+    # フォールバック: 最初の有意な行
+    for line in raw.splitlines():
+        line = line.strip()
+        if line and line not in ("広告主名", "プログラム名", "対応デバイス", "成果報酬", "EPC", "確定率"):
+            return line
+    return raw[:50]
+
+
 def scrape_a8_approved() -> list[dict]:
     """
     A8.netにログインし、承認済みプログラムのアフィリリンクを取得する。
@@ -277,71 +291,110 @@ def scrape_a8_approved() -> list[dict]:
             except Exception:
                 pass
 
-        # マージ
-        all_program_entries = row_programs if row_programs else [
-            {"name": p["name"], "href": p["href"], "commission_text": ""} for p in program_links
-        ]
-        print(f"[A8] プログラム候補: {len(all_program_entries)}件")
+        # 名前クリーンアップ＆フィルタ
+        JUNK_NAMES = {"条件を追加する", "広告主名", "A8セルフバック", "【A8セルフバック】"}
+        cleaned_entries = []
+        for entry in (row_programs if row_programs else
+                      [{"name": p["name"], "href": p["href"], "commission_text": ""} for p in program_links]):
+            clean_name = _extract_program_name(entry["name"])
+            if any(junk in clean_name for junk in JUNK_NAMES) or any(junk in entry["name"] for junk in JUNK_NAMES):
+                continue
+            entry["clean_name"] = clean_name
+            cleaned_entries.append(entry)
+
+        print(f"[A8] プログラム候補: {len(cleaned_entries)}件（全{len(row_programs or program_links)}件中）")
 
         # ── 4. 各プログラムのリンク素材ページへ遷移してURLを取得 ──
-        for i, entry in enumerate(all_program_entries[:30]):  # 最大30件
+        for i, entry in enumerate(cleaned_entries[:20]):  # 最大20件
             if not entry.get("href"):
                 continue
             try:
-                print(f"  [{i+1}] {entry['name'][:30]} → リンク取得中...")
+                clean_name = entry.get("clean_name", entry["name"][:30])
+                print(f"  [{i+1}] {clean_name[:40]} → リンク取得中...")
                 page.goto(entry["href"], wait_until="networkidle", timeout=20000)
-                time.sleep(1)
+                time.sleep(0.5)
 
-                # リンク素材ページへのリンクを探す
-                material_link = page.query_selector(
-                    "a:has-text('リンク素材'), a:has-text('広告素材'), "
-                    "a:has-text('テキストリンク'), a[href*='material'], a[href*='link']"
-                )
-                if material_link:
-                    mat_href = material_link.get_attribute("href") or ""
-                    mat_full = mat_href if mat_href.startswith("http") else f"https://pub.a8.net{mat_href}"
-                    page.goto(mat_full, wait_until="networkidle", timeout=20000)
-                    time.sleep(1)
+                # 最初の1件だけスクリーンショット保存
+                if i == 0:
+                    _save_debug(page, "04_link_page_sample")
 
-                # px.a8.net URLを全ページから検索
-                page_html = page.content()
-                affiliate_url = _extract_a8_url(page_html)
+                # px.a8.net URLを多重手段で取得
+                def _get_px_url() -> str:
+                    # 1) ページHTML全体
+                    html = page.content()
+                    found = _extract_a8_url(html)
+                    if found:
+                        return found
+                    # 2) textareaのvalue (JS評価)
+                    try:
+                        vals = page.evaluate("Array.from(document.querySelectorAll('textarea')).map(t=>t.value)")
+                        for v in vals:
+                            found = _extract_a8_url(str(v))
+                            if found:
+                                return found
+                    except Exception:
+                        pass
+                    # 3) input[value*=px.a8.net]
+                    for inp in page.query_selector_all("input"):
+                        try:
+                            v = inp.get_attribute("value") or ""
+                            found = _extract_a8_url(v)
+                            if found:
+                                return found
+                        except Exception:
+                            pass
+                    # 4) a[href*=px.a8.net]
+                    for anc in page.query_selector_all("a[href]"):
+                        try:
+                            h = anc.get_attribute("href") or ""
+                            if "px.a8.net" in h:
+                                return h.rstrip('.,;')
+                        except Exception:
+                            pass
+                    return ""
 
-                # inputフィールドのvalue属性も確認
+                affiliate_url = _get_px_url()
+
+                # まだ見つからなければ テキストリンク系のリンクを経由
                 if not affiliate_url:
-                    inputs = page.query_selector_all("input[value*='px.a8.net'], textarea")
-                    for inp in inputs:
-                        val = inp.get_attribute("value") or inp.inner_text()
-                        found = _extract_a8_url(val)
-                        if found:
-                            affiliate_url = found
-                            break
+                    for sel in [
+                        "a:has-text('テキストリンク')",
+                        "a:has-text('リンク素材')",
+                        "a:has-text('リンクコード')",
+                        "a[href*='textLink']",
+                        "a[href*='linkCode']",
+                    ]:
+                        try:
+                            el = page.query_selector(sel)
+                            if el:
+                                mat_href = el.get_attribute("href") or ""
+                                mat_full = mat_href if mat_href.startswith("http") else f"https://pub.a8.net{mat_href}"
+                                page.goto(mat_full, wait_until="networkidle", timeout=15000)
+                                time.sleep(0.5)
+                                affiliate_url = _get_px_url()
+                                if affiliate_url:
+                                    break
+                        except Exception:
+                            pass
 
-                # 報酬テキストを取得
+                # 報酬テキストを既存データから使用
                 commission_text = entry.get("commission_text", "")
-                if not commission_text:
-                    # ページから報酬情報を探す
-                    body_text = page.inner_text("body")
-                    m = re.search(r'(?:報酬|成果報酬|単価)[^\n]{0,50}[\d,]+円', body_text)
-                    if m:
-                        commission_text = m.group().strip()
-
                 commission_value = _parse_commission(commission_text)
 
                 programs.append({
-                    "name":             entry["name"],
+                    "name":             clean_name,
                     "url":              affiliate_url,
                     "commission_text":  commission_text,
                     "commission_value": commission_value,
                     "detail_url":       entry["href"],
                 })
-                status = f"✓ {affiliate_url[:50]}..." if affiliate_url else "URL未取得"
-                print(f"     {status} | 報酬: {commission_text or '不明'}")
+                status = f"✓ {affiliate_url[:60]}..." if affiliate_url else "×URL未取得"
+                print(f"     {status} | 報酬: {commission_value}円")
 
             except Exception as e:
                 print(f"  [{i+1}] エラー: {e}")
                 programs.append({
-                    "name":             entry["name"],
+                    "name":             entry.get("clean_name", entry["name"][:50]),
                     "url":              "",
                     "commission_text":  entry.get("commission_text", ""),
                     "commission_value": _parse_commission(entry.get("commission_text", "")),
