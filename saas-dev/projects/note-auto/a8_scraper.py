@@ -291,13 +291,13 @@ def scrape_a8_approved() -> list[dict]:
             except Exception:
                 pass
 
-        # 名前クリーンアップ＆フィルタ
-        JUNK_NAMES = {"条件を追加する", "広告主名", "A8セルフバック", "【A8セルフバック】"}
+        # 名前クリーンアップ＆フィルタ（クリーン名ベース）
+        JUNK_NAMES = {"条件を追加する", "A8セルフバック", "【A8セルフバック】", "成果反映用"}
         cleaned_entries = []
         for entry in (row_programs if row_programs else
                       [{"name": p["name"], "href": p["href"], "commission_text": ""} for p in program_links]):
             clean_name = _extract_program_name(entry["name"])
-            if any(junk in clean_name for junk in JUNK_NAMES) or any(junk in entry["name"] for junk in JUNK_NAMES):
+            if any(junk in clean_name for junk in JUNK_NAMES):
                 continue
             entry["clean_name"] = clean_name
             cleaned_entries.append(entry)
