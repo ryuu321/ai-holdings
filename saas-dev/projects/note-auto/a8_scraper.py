@@ -78,20 +78,87 @@ def scrape_a8_approved() -> list[dict]:
         page.goto("https://www.a8.net/a8v2/login.html", wait_until="networkidle", timeout=30000)
         _save_debug(page, "01_login")
 
-        # A8.netのフォームフィールド名は login_id / login_pass
-        try:
-            page.fill('input[name="login_id"]', A8_EMAIL)
-            page.fill('input[name="login_pass"]', A8_PASSWORD)
-        except Exception:
-            # フォールバック
-            page.fill('input[type="email"], input[type="text"]', A8_EMAIL)
-            page.fill('input[type="password"]', A8_PASSWORD)
+        # ページ内のinput要素を全列挙してデバッグ
+        page.wait_for_load_state("domcontentloaded", timeout=15000)
+        inputs = page.query_selector_all("input")
+        print(f"[A8] input要素数: {len(inputs)}")
+        for inp in inputs:
+            try:
+                n = inp.get_attribute("name") or ""
+                t = inp.get_attribute("type") or ""
+                i = inp.get_attribute("id") or ""
+                print(f"  input name={n!r} type={t!r} id={i!r}")
+            except Exception:
+                pass
 
-        page.click('input[type="submit"], button[type="submit"]')
+        # フォームフィールドを動的に特定
+        # 候補セレクタをリストで試す
+        email_selectors = [
+            'input[name="login_id"]',
+            'input[name="mail"]',
+            'input[name="email"]',
+            'input[name="userId"]',
+            'input[name="user_id"]',
+            'input[id="login_id"]',
+            'input[id="mail"]',
+            'input[type="email"]',
+        ]
+        pass_selectors = [
+            'input[name="login_pass"]',
+            'input[name="password"]',
+            'input[name="passwd"]',
+            'input[name="pass"]',
+            'input[id="login_pass"]',
+            'input[id="password"]',
+            'input[type="password"]',
+        ]
+
+        def try_fill(selectors, value, label):
+            for sel in selectors:
+                try:
+                    el = page.query_selector(sel)
+                    if el and el.is_visible():
+                        el.fill(value)
+                        print(f"[A8] {label} フィールド: {sel}")
+                        return True
+                except Exception:
+                    pass
+            print(f"[A8] {label} フィールドが見つかりません")
+            return False
+
+        if not try_fill(email_selectors, A8_EMAIL, "メール"):
+            _save_debug(page, "02_login_fail_email")
+            browser.close()
+            return []
+        if not try_fill(pass_selectors, A8_PASSWORD, "パスワード"):
+            _save_debug(page, "02_login_fail_pass")
+            browser.close()
+            return []
+
+        # サブミット
+        submitted = False
+        for submit_sel in ['input[type="submit"]', 'button[type="submit"]',
+                           'button:has-text("ログイン")', 'input[value*="ログイン"]']:
+            try:
+                el = page.query_selector(submit_sel)
+                if el and el.is_visible():
+                    el.click()
+                    submitted = True
+                    print(f"[A8] サブミット: {submit_sel}")
+                    break
+            except Exception:
+                pass
+        if not submitted:
+            print("[A8] サブミットボタンが見つかりません")
+            _save_debug(page, "02_no_submit")
+            browser.close()
+            return []
+
         page.wait_for_load_state("networkidle", timeout=20000)
         _save_debug(page, "02_after_login")
+        print(f"[A8] ログイン後URL: {page.url}")
 
-        if "login" in page.url.lower():
+        if "login" in page.url.lower() or "ログイン" in page.title():
             print(f"[A8] ログイン失敗 (URL: {page.url})")
             browser.close()
             return []
