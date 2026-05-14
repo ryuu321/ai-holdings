@@ -1,14 +1,14 @@
 {
   "top_niches": [
+    "Graphic Designers",
     "Content Creators",
-    "UX Designers",
-    "Graphic Designers"
+    "E-commerce Entrepreneurs"
   ],
-  "recommended_niche": "Content Creators",
+  "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Create Viral",
-  "cached_at": "2026-05-11T16:28:43.836889+00:00",
+  "title_idea": "Procreate AI",
+  "cached_at": "2026-05-14T21:32:13.383341+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
-  "reddit_topics_count": 25
+  "reddit_topics_count": 0
 }
