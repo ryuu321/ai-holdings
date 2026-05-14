@@ -190,40 +190,33 @@ def scrape_a8_approved() -> list[dict]:
             except Exception:
                 pass
 
+        # 「参加中プログラム」= 承認済みアフィリエイトプログラムのリスト
         approved_url = None
-        # ダッシュボードから提携プログラムへのリンクを探す
-        affiliate_keywords = ["提携", "プログラム", "affiliate", "Affiliate", "参加中"]
         for lk in all_nav_links:
             try:
                 lt = lk.inner_text().strip()
                 lh = lk.get_attribute("href") or ""
-                if any(kw in lt for kw in affiliate_keywords) or "affiliate" in lh.lower():
+                if "参加中" in lt or "partnerProgram" in lh:
                     full = lh if lh.startswith("http") else f"https://pub.a8.net{lh}"
-                    if "pub.a8.net" in full or "a8.net" in full:
-                        print(f"[A8] 提携リンク候補: {lt!r} → {full}")
-                        r = page.goto(full, wait_until="networkidle", timeout=20000)
-                        if r and r.status < 400 and "見つかりません" not in page.title():
-                            approved_url = page.url
-                            print(f"[A8] 提携プログラムページ: {approved_url}")
-                            break
+                    print(f"[A8] 参加中プログラムリンク: {lt!r} → {full}")
+                    r = page.goto(full, wait_until="networkidle", timeout=20000)
+                    if r and r.status < 400 and "見つかりません" not in page.title():
+                        approved_url = page.url
+                        print(f"[A8] 参加中プログラムページ: {approved_url}")
+                        break
             except Exception:
                 pass
 
         if not approved_url:
-            # 直接URLを試す（pub.a8.netのURLパターン）
-            for candidate in [
-                "https://pub.a8.net/a8v2/asAffiliate.do",
-                "https://pub.a8.net/a8v2/asAffiliate.do?action=index",
-                "https://pub.a8.net/a8v2/asAffiliate.do?action=index&affiliateStatus=2",
-            ]:
-                try:
-                    r = page.goto(candidate, wait_until="networkidle", timeout=15000)
-                    print(f"[A8] 直接試行: {candidate} → {page.url} | {page.title()}")
-                    if r and r.status < 400 and "見つかりません" not in page.title() and "login" not in page.url.lower():
-                        approved_url = page.url
-                        break
-                except Exception as e:
-                    print(f"[A8] {candidate} 失敗: {e}")
+            # 直接URLで試す
+            candidate = "https://pub.a8.net/a8v2/media/partnerProgramListAction.do?act=search&viewPage="
+            try:
+                r = page.goto(candidate, wait_until="networkidle", timeout=20000)
+                print(f"[A8] 直接試行: {page.url} | {page.title()}")
+                if r and r.status < 400 and "見つかりません" not in page.title():
+                    approved_url = page.url
+            except Exception as e:
+                print(f"[A8] 直接試行失敗: {e}")
 
         time.sleep(1)
         _save_debug(page, "03_approved_list")
@@ -245,7 +238,8 @@ def scrape_a8_approved() -> list[dict]:
                 text = link.inner_text().strip()
                 # A8.netのプログラム詳細リンクパターン
                 if any(kw in href for kw in ["sAffiliate", "sProgramDetail", "affiliateId", "programId",
-                                             "asAffiliate", "asProgramDetail"]):
+                                             "asAffiliate", "asProgramDetail", "partnerProgram", "programDetail",
+                                             "media/program"]):
                     if href not in seen_hrefs and text and len(text) > 1:
                         seen_hrefs.add(href)
                         base = "https://pub.a8.net" if not href.startswith("http") else ""
@@ -273,7 +267,7 @@ def scrape_a8_approved() -> list[dict]:
                 # リンク
                 link_el = row.query_selector("a[href]")
                 href = link_el.get_attribute("href") if link_el else ""
-                full_href = href if href.startswith("http") else f"https://www.a8.net{href}" if href else ""
+                full_href = href if href.startswith("http") else f"https://pub.a8.net{href}" if href else ""
                 if name_cell and len(name_cell) > 1:
                     row_programs.append({
                         "name": name_cell,
@@ -305,7 +299,7 @@ def scrape_a8_approved() -> list[dict]:
                 )
                 if material_link:
                     mat_href = material_link.get_attribute("href") or ""
-                    mat_full = mat_href if mat_href.startswith("http") else f"https://www.a8.net{mat_href}"
+                    mat_full = mat_href if mat_href.startswith("http") else f"https://pub.a8.net{mat_href}"
                     page.goto(mat_full, wait_until="networkidle", timeout=20000)
                     time.sleep(1)
 
