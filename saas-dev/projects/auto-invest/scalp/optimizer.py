@@ -66,7 +66,12 @@ def load_trades() -> list:
 
 def calc_metrics(trades: list) -> dict:
     if not trades:
-        return {"total": 0, "win_rate": 0, "total_pnl_pct": 0}
+        return {
+            "total": 0, "win_rate": 0, "total_pnl_pct": 0,
+            "avg_win_pct": 0, "avg_loss_pct": 0,
+            "recent_7d_trades": 0, "recent_7d_pnl_pct": 0.0,
+            "max_drawdown_pct": 0.0, "exit_reasons": {}, "avg_hold_min": 0,
+        }
 
     pnls   = [t["pnl_pct"] for t in trades]
     wins   = [p for p in pnls if p > 0]
