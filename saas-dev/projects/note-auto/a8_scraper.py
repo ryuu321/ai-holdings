@@ -74,43 +74,39 @@ def scrape_a8_approved() -> list[dict]:
         page = context.new_page()
 
         # ── 1. ログイン ──────────────────────────────────────────
+        # pub.a8.net/login はDOMロード直後にログインフォームがある
+        # networkidle まで待つとJSリダイレクトで www.a8.net に飛ばされるため
+        # domcontentloaded で止めて直接フォームを埋める
         print("[A8] ログイン中...")
 
         login_url = None
 
-        # pub.a8.net がメディア（パブリッシャー）側のドメイン
-        # asXxx.do 系がパブリッシャー向けサーブレット
-        media_candidates = [
-            "https://pub.a8.net/a8v2/asLogin.do",
-            "https://pub.a8.net/a8v2/asLoginMedia.do",
-            "https://pub.a8.net/a8v2/sLogin.do",
-            "https://pub.a8.net/a8v2/sPublisherLogin.do",
+        login_candidates = [
             "https://pub.a8.net/login",
+            "https://pub.a8.net/a8v2/asLogin.do",
             "https://pub.a8.net/",
         ]
-        for candidate in media_candidates:
+        for candidate in login_candidates:
             try:
-                r = page.goto(candidate, wait_until="networkidle", timeout=15000)
+                page.goto(candidate, wait_until="domcontentloaded", timeout=15000)
+                time.sleep(0.8)
                 title = page.title()
                 url   = page.url
                 print(f"[A8] 試行: {candidate} → {url} | {title}")
-                # pub.a8.net に着地してログイン/入力画面っぽければOK
-                if (r and r.status < 400
-                        and "見つかりません" not in title
-                        and "規約" not in title
-                        and "pub.a8.net" in url):
-                    # リンク一覧をダンプして構造確認
-                    links = page.query_selector_all("a[href]")
-                    for lk in links[:30]:
-                        try:
-                            lt = lk.inner_text().strip()
-                            lh = lk.get_attribute("href") or ""
-                            if lt:
-                                print(f"  [LINK] {lt!r} → {lh}")
-                        except Exception:
-                            pass
+                # メール・パスワード入力欄が揃っているか確認
+                has_email = any(
+                    page.query_selector(s) for s in [
+                        'input[type="email"]', 'input[name*="mail"]',
+                        'input[name*="id"]', 'input[name*="user"]',
+                        'input[type="text"]',
+                    ]
+                )
+                has_pass = bool(page.query_selector('input[type="password"]'))
+                inputs = page.query_selector_all("input")
+                print(f"  input数: {len(inputs)} / email:{has_email} pass:{has_pass}")
+                if has_email and has_pass:
                     login_url = url
-                    print(f"[A8] メディアログインURL確認: {url}")
+                    print(f"[A8] ログインフォーム発見: {url}")
                     break
             except Exception as e:
                 print(f"[A8] {candidate} 失敗: {e}")
@@ -120,71 +116,21 @@ def scrape_a8_approved() -> list[dict]:
                     pass
 
         if not login_url:
-            # pub.a8.net トップのリンクを全スキャン
-            try:
-                page.goto("https://pub.a8.net/", wait_until="domcontentloaded", timeout=20000)
-            except Exception as e:
-                print(f"[A8] pub.a8.net トップ失敗: {e}")
-                try:
-                    page.goto("https://www.a8.net/", wait_until="domcontentloaded", timeout=20000)
-                except Exception:
-                    pass
+            print("[A8] ログインページ自動検出失敗。スクリーンショット保存します")
             _save_debug(page, "00_top")
-            all_links = page.query_selector_all("a[href]")
-            print(f"[A8] リンク数: {len(all_links)}")
-            for link in all_links:
+            inputs = page.query_selector_all("input")
+            print(f"[A8] 現在のページ input数: {len(inputs)}")
+            for inp in inputs[:10]:
                 try:
-                    text = link.inner_text().strip()
-                    href = link.get_attribute("href") or ""
-                    full = href if href.startswith("http") else f"https://pub.a8.net{href}"
-                    print(f"  [LINK] {text!r} → {full}")
+                    print(f"  input: name={inp.get_attribute('name')!r} type={inp.get_attribute('type')!r}")
                 except Exception:
                     pass
-            # ログイン系リンクを探す
-            for link in all_links:
-                try:
-                    text = link.inner_text().strip()
-                    href = link.get_attribute("href") or ""
-                    full = href if href.startswith("http") else f"https://pub.a8.net{href}"
-                    if ("ログイン" in text or "login" in full.lower()) and "adv-console" not in full and "新規" not in text and "登録" not in text:
-                        print(f"[A8] ログインリンク候補: {text!r} → {full}")
-                        try:
-                            r = page.goto(full, wait_until="domcontentloaded", timeout=15000)
-                            if r and r.status < 400 and "adv-console" not in page.url:
-                                login_url = page.url
-                                break
-                        except Exception as e2:
-                            print(f"[A8] リンク遷移失敗: {e2}")
-                except Exception:
-                    pass
-            if login_url:
-                print(f"[A8] メディアログインURL（リンクから）: {login_url}")
 
         _save_debug(page, "01_login")
 
-        # JS描画を待ってからinputを列挙
-        print(f"[A8] ページURL: {page.url}")
-        print(f"[A8] ページタイトル: {page.title()}")
-        try:
-            page.wait_for_selector("input", timeout=15000)
-        except Exception:
-            print("[A8] input要素がタイムアウトまでに現れませんでした")
-            # HTMLソースをダンプして原因確認
-            html = page.content()
-            (DEBUG_DIR / "login_page.html").write_text(html[:5000], encoding="utf-8")
-            _save_debug(page, "01b_no_input")
+        if not login_url:
             browser.close()
             return []
-        inputs = page.query_selector_all("input")
-        print(f"[A8] input要素数: {len(inputs)}")
-        for inp in inputs:
-            try:
-                n = inp.get_attribute("name") or ""
-                t = inp.get_attribute("type") or ""
-                i = inp.get_attribute("id") or ""
-                print(f"  input name={n!r} type={t!r} id={i!r}")
-            except Exception:
-                pass
 
         # フォームフィールドを動的に特定
         # 候補セレクタをリストで試す
