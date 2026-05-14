@@ -3,10 +3,11 @@
   "params": {
     "include_bots": [
       "ATTACK",
-      "TREND"
+      "TREND",
+      "SCALPING"
     ],
     "note_cta": true,
-    "sort_by_pnl": true
+    "sort_by_pnl": false
   },
   "performance_history": [
     {
@@ -71,6 +72,13 @@
       "daily_growth": 0,
       "post_sent": 1,
       "bots_included": 1
+    },
+    {
+      "date": "2026-05-14",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 1
     }
   ],
   "learnings": [
@@ -88,8 +96,13 @@
       "date": "2026-05-13",
       "insight": "1種類のBotへの絞り込みとCTAの停止は、情報の専門性を高めた一方で「活動感の欠如」と「登録後のメリット（ベネフィット）」の消失を招き、ユーザーが参加する動機を削いでいる可能性があります。",
       "action": "爆発力のあるATTACKに安定性の高いTRENDを加えて配信に動きを出し、CTAを復活させて『無料シグナルの具体的な活用法』へユーザーを強く誘導してください。"
+    },
+    {
+      "date": "2026-05-14",
+      "insight": "Botを2種に絞りCTAを有効化しても登録者が0のままなのは、PNL順のソートにより『過去の集計データ』という印象が強まり、テレグラム特有の『今すぐ乗るべき速報性』が欠けている可能性があります。",
+      "action": "短期売買のシグナルが多い『SCALPING』を加えて投稿頻度を上げ、ソートを最新順（false）に変更することで、チャンネル全体のライブ感と情報の鮮度を強調してください。"
     }
   ],
-  "last_optimized": "2026-05-13T02:46:27.770998+00:00",
-  "posts_sent": 8
+  "last_optimized": "2026-05-14T02:47:47.723539+00:00",
+  "posts_sent": 9
 }
