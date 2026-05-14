@@ -30,10 +30,11 @@ jobs:
           A8_PASSWORD: ${{ secrets.A8_PASSWORD }}
 
       - name: 結果をコミット
+        if: always()
         run: |
           git config user.email "actions@github.com"
           git config user.name "Auto Bot"
-          git add saas-dev/projects/note-auto/data/affiliate_links.json 2>/dev/null || true
+          git add saas-dev/projects/note-auto/data/ 2>/dev/null || true
           git diff --staged --quiet || git commit -m "a8: アフィリエイトリンク更新 $(date -u +%Y-%m-%d) [skip ci]"
           git pull --rebase -X theirs
           git push
