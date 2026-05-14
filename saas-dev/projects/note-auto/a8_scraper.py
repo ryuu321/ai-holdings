@@ -78,33 +78,47 @@ def scrape_a8_approved() -> list[dict]:
 
         # トップページからログインページを探す（URL変更に強い）
         login_url = None
-        for candidate in [
+
+        # メディア（パブリッシャー）用ログインURLを直接試す
+        media_candidates = [
+            "https://member.a8.net/login/",
+            "https://member.a8.net/",
             "https://www.a8.net/member/login/",
-            "https://www.a8.net/login/",
-            "https://www.a8.net/a8v2/login.html",
-        ]:
+            "https://www.a8.net/a8v2/sMediaTop.do",
+        ]
+        for candidate in media_candidates:
             try:
                 r = page.goto(candidate, wait_until="networkidle", timeout=15000)
-                if r and r.status < 400 and "見つかりません" not in page.title():
-                    login_url = candidate
-                    print(f"[A8] ログインURL確認: {candidate}")
+                title = page.title()
+                url   = page.url
+                print(f"[A8] 試行: {candidate} → {url} | {title}")
+                if r and r.status < 400 and "見つかりません" not in title and "adv-console" not in url:
+                    login_url = url
+                    print(f"[A8] メディアログインURL確認: {url}")
                     break
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[A8] {candidate} 失敗: {e}")
 
         if not login_url:
-            # トップページからログインリンクを辿る
+            # トップページからメディア専用のログインリンクを探す
             page.goto("https://www.a8.net/", wait_until="networkidle", timeout=20000)
-            for sel in ['a:has-text("ログイン")', 'a[href*="login"]', 'a:has-text("会員ログイン")']:
+            _save_debug(page, "00_top")
+            all_links = page.query_selector_all("a[href]")
+            print(f"[A8] トップページリンク数: {len(all_links)}")
+            for link in all_links:
                 try:
-                    el = page.query_selector(sel)
-                    if el:
-                        href = el.get_attribute("href") or ""
-                        if href:
-                            full = href if href.startswith("http") else f"https://www.a8.net{href}"
-                            page.goto(full, wait_until="networkidle", timeout=15000)
-                            login_url = full
-                            print(f"[A8] ログインURL（リンクから）: {full}")
+                    text = link.inner_text().strip()
+                    href = link.get_attribute("href") or ""
+                    # 広告主コンソールは除外、メディア/会員系を優先
+                    if "adv-console" in href or "広告主" in text:
+                        continue
+                    if any(kw in text for kw in ["メディア", "会員", "アフィリエイト登録", "パブリッシャー"]):
+                        full = href if href.startswith("http") else f"https://www.a8.net{href}"
+                        print(f"[A8] メディアリンク候補: {text!r} → {full}")
+                        r = page.goto(full, wait_until="networkidle", timeout=15000)
+                        if r and r.status < 400 and "adv-console" not in page.url:
+                            login_url = page.url
+                            print(f"[A8] メディアログインURL（リンクから）: {login_url}")
                             break
                 except Exception:
                     pass
