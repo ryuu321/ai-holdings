@@ -832,12 +832,15 @@ document.getElementById('bot-table').innerHTML = D.investment_bots.length
   ? D.investment_bots.map(b => {{
       const color = b.pnl >= 0 ? '#50e3a4' : '#e35050';
       const sign  = b.pnl >= 0 ? '+' : '';
+      const posCell = b.name === 'SCALP' && b.trade_count != null
+        ? `${{b.positions.join(', ')||'なし'}} <span style="color:#888;font-size:0.75rem">(${{b.trade_count}}T 勝率${{b.win_rate||0}}% v${{b.strategy_version||1}})</span>`
+        : (b.positions.join(', ')||'なし');
       return `<tr>
         <td style="font-weight:700">${{b.name}}</td>
         <td>$${{Math.round(b.balance).toLocaleString()}}</td>
         <td style="color:${{color}}">${{sign}}$${{Math.round(b.pnl).toLocaleString()}}</td>
         <td style="color:${{color}}">${{sign}}${{b.pnl_pct.toFixed(1)}}%</td>
-        <td style="font-size:0.8rem;color:#aaa">${{b.positions.join(', ')||'なし'}}</td>
+        <td style="font-size:0.8rem;color:#aaa">${{posCell}}</td>
         <td style="color:#666">${{b.last_run}}</td>
       </tr>`;
     }}).join('')

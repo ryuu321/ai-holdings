@@ -1002,7 +1002,9 @@ HTML = """<!DOCTYPE html>
 
   .grid { display: grid; gap: 24px; }
   .grid-4 { grid-template-columns: repeat(4, 1fr); }
-  @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+  .grid-6 { grid-template-columns: repeat(6, 1fr); }
+  @media (max-width: 1300px) { .grid-6 { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-6 { grid-template-columns: repeat(2, 1fr); } }
 
   .card {
     background: var(--card); backdrop-filter: blur(10px);
@@ -1196,11 +1198,13 @@ HTML = """<!DOCTYPE html>
 </div>
 
 <div class="container">
-  <div class="grid grid-4" style="margin-bottom: 40px;">
+  <div class="grid grid-6" style="margin-bottom: 40px;">
     <div class="card"><div class="stat-label">確定損益 (Realized)</div><div class="stat" id="kpi-pnl">--</div><div class="stat-sub">決済済みの利益合計</div></div>
     <div class="card"><div class="stat-label">未実現損益 (Floating)</div><div class="stat" id="kpi-unrealized">--</div><div class="stat-sub">保有銘柄の評価損益</div></div>
     <div class="card"><div class="stat-label">勝率 (Win Rate)</div><div class="stat" id="kpi-winrate">--</div><div class="stat-sub">SELL取引の成功率</div></div>
     <div class="card"><div class="stat-label">総取引数 (Trades)</div><div class="stat" id="kpi-trades">--</div><div class="stat-sub">BUY / SELL 実行数</div></div>
+    <div class="card" style="border-top:2px solid #6366f1"><div class="stat-label">SCALP 残高</div><div class="stat" id="kpi-scalp-balance">--</div><div class="stat-sub" id="kpi-scalp-pnl" style="font-size:12px">損益: --</div></div>
+    <div class="card" style="border-top:2px solid #6366f1"><div class="stat-label">SCALP 勝率 / 取引数</div><div class="stat" id="kpi-scalp-wr">--%</div><div class="stat-sub" id="kpi-scalp-ver" style="font-size:12px">--回 ｜ v--</div></div>
   </div>
 
   <div class="section-title">
@@ -1577,6 +1581,25 @@ async function renderScalp() {
   document.getElementById('scalp-winrate').style.color  = data.win_rate >= 50 ? '#22c55e' : '#ef4444';
   const s = data.strategy || {};
   document.getElementById('scalp-version').textContent  = 'v' + (s.version || '--');
+
+  // ヘッダー KPI カードにも反映
+  const kpiBalEl = document.getElementById('kpi-scalp-balance');
+  if (kpiBalEl) {
+    kpiBalEl.textContent = '$' + fmt(equity);
+    kpiBalEl.className   = 'stat ' + (pnl >= 0 ? 'green' : 'red');
+  }
+  const kpiPnlEl = document.getElementById('kpi-scalp-pnl');
+  if (kpiPnlEl) {
+    kpiPnlEl.textContent = '損益: ' + (pnl>=0?'+':'') + '$' + fmt(pnl) + ' (' + (pnlPct>=0?'+':'') + fmt(pnlPct,1) + '%)';
+    kpiPnlEl.style.color = pnlCol;
+  }
+  const kpiWrEl = document.getElementById('kpi-scalp-wr');
+  if (kpiWrEl) {
+    kpiWrEl.textContent = data.win_rate + '%';
+    kpiWrEl.className   = 'stat ' + (data.win_rate >= 50 ? 'green' : 'red');
+  }
+  const kpiVerEl = document.getElementById('kpi-scalp-ver');
+  if (kpiVerEl) kpiVerEl.textContent = data.trade_count + '回 ｜ v' + (s.version || '--');
 
   // ポジションカード
   const posEl = document.getElementById('scalp-position');
