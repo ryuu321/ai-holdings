@@ -305,13 +305,27 @@ def api_summary_local():
     """優先的にGitHub（トークン使用）から取得し、失敗したらローカルを返す"""
     force = "refresh" in request.args
     data = fetch_github_json("summary.json", force_refresh=force)
-    if data:
-        return jsonify(data)
-    
-    path = DATA_DIR / "summary.json"
-    if path.exists():
-        return path.read_text(encoding="utf-8"), 200, {"Content-Type": "application/json"}
-    return jsonify({"portfolios": {}, "recent_trades": [], "stats": {}, "updated_at": ""})
+    if not data:
+        path = DATA_DIR / "summary.json"
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                data = None
+    if not data:
+        data = {"portfolios": {}, "recent_trades": [], "stats": {}, "updated_at": ""}
+
+    # SCALP / ATTACK / VOLT は summary.json に含まれないため個別に注入
+    for fname, key in [("portfolio_scalp.json", "SCALP"),
+                       ("portfolio_attack.json", "ATTACK"),
+                       ("portfolio_volt.json",   "VOLT")]:
+        pf = fetch_github_json(fname)
+        if pf and key not in data.get("portfolios", {}):
+            data.setdefault("portfolios", {})[key] = {
+                "last_run": pf.get("last_run") or pf.get("last_updated", ""),
+            }
+
+    return jsonify(data)
 
 
 @app.route("/api/live_prices")
@@ -1370,7 +1384,7 @@ async function renderStats(s) {
     const portfolios = s.portfolios || {};
     botRunEl.innerHTML = Object.entries(botNames).map(([k, name]) => {
       const pf = portfolios[k] || {};
-      const t = pf.last_run;
+      const t = pf.last_run || pf.last_updated;
       const timeStr = t ? toJST(t) : '未実行';
       return `<span style="margin-right:12px; font-size:11px; color:var(--muted)">${name}: <span style="color:var(--text)">${timeStr}</span></span>`;
     }).join('');
