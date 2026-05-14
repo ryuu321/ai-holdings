@@ -74,57 +74,50 @@ def scrape_a8_approved() -> list[dict]:
         page = context.new_page()
 
         # ── 1. ログイン ──────────────────────────────────────────
-        # pub.a8.net/login はDOMロード直後にログインフォームがある
-        # networkidle まで待つとJSリダイレクトで www.a8.net に飛ばされるため
-        # domcontentloaded で止めて直接フォームを埋める
+        # pub.a8.net/login はSPAのためJS描画完了を待つ必要がある
         print("[A8] ログイン中...")
 
         login_url = None
 
-        login_candidates = [
-            "https://pub.a8.net/login",
-            "https://pub.a8.net/a8v2/asLogin.do",
-            "https://pub.a8.net/",
-        ]
-        for candidate in login_candidates:
-            try:
-                page.goto(candidate, wait_until="domcontentloaded", timeout=15000)
-                time.sleep(0.8)
-                title = page.title()
-                url   = page.url
-                print(f"[A8] 試行: {candidate} → {url} | {title}")
-                # メール・パスワード入力欄が揃っているか確認
-                has_email = any(
-                    page.query_selector(s) for s in [
-                        'input[type="email"]', 'input[name*="mail"]',
-                        'input[name*="id"]', 'input[name*="user"]',
-                        'input[type="text"]',
-                    ]
-                )
-                has_pass = bool(page.query_selector('input[type="password"]'))
-                inputs = page.query_selector_all("input")
-                print(f"  input数: {len(inputs)} / email:{has_email} pass:{has_pass}")
-                if has_email and has_pass:
-                    login_url = url
-                    print(f"[A8] ログインフォーム発見: {url}")
-                    break
-            except Exception as e:
-                print(f"[A8] {candidate} 失敗: {e}")
+        page.goto("https://pub.a8.net/login", wait_until="domcontentloaded", timeout=20000)
+        time.sleep(1)
+        print(f"[A8] ログインページ: {page.url} | {page.title()}")
+        _save_debug(page, "00_login_raw")
+
+        # パスワード入力欄が現れるまで最大10秒待つ
+        try:
+            page.wait_for_selector('input[type="password"]', timeout=10000)
+            login_url = page.url
+            print(f"[A8] ログインフォーム確認 (password input): {login_url}")
+        except Exception:
+            # iframeの中にフォームがあるか確認
+            frames = page.frames
+            print(f"[A8] フレーム数: {len(frames)}")
+            for i, frame in enumerate(frames):
                 try:
-                    page.wait_for_load_state("domcontentloaded", timeout=3000)
+                    frame_url = frame.url
+                    frame_inp = frame.query_selector_all("input")
+                    print(f"  frame[{i}]: {frame_url} / inputs={len(frame_inp)}")
+                    if frame.query_selector('input[type="password"]'):
+                        login_url = frame_url
+                        print(f"[A8] iframeにフォーム発見: {login_url}")
+                        break
                 except Exception:
                     pass
 
         if not login_url:
-            print("[A8] ログインページ自動検出失敗。スクリーンショット保存します")
-            _save_debug(page, "00_top")
+            # HTMLをダンプして原因特定
+            html = page.content()
+            (DEBUG_DIR / "login_page.html").write_text(html[:8000], encoding="utf-8")
             inputs = page.query_selector_all("input")
-            print(f"[A8] 現在のページ input数: {len(inputs)}")
+            print(f"[A8] input要素数: {len(inputs)}")
             for inp in inputs[:10]:
                 try:
-                    print(f"  input: name={inp.get_attribute('name')!r} type={inp.get_attribute('type')!r}")
+                    print(f"  input name={inp.get_attribute('name')!r} type={inp.get_attribute('type')!r}")
                 except Exception:
                     pass
+            print("[A8] ログインページ自動検出失敗")
+            _save_debug(page, "00_login_fail")
 
         _save_debug(page, "01_login")
 
