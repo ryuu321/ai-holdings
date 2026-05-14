@@ -75,7 +75,40 @@ def scrape_a8_approved() -> list[dict]:
 
         # ── 1. ログイン ──────────────────────────────────────────
         print("[A8] ログイン中...")
-        page.goto("https://www.a8.net/a8v2/login.html", wait_until="networkidle", timeout=30000)
+
+        # トップページからログインページを探す（URL変更に強い）
+        login_url = None
+        for candidate in [
+            "https://www.a8.net/member/login/",
+            "https://www.a8.net/login/",
+            "https://www.a8.net/a8v2/login.html",
+        ]:
+            try:
+                r = page.goto(candidate, wait_until="networkidle", timeout=15000)
+                if r and r.status < 400 and "見つかりません" not in page.title():
+                    login_url = candidate
+                    print(f"[A8] ログインURL確認: {candidate}")
+                    break
+            except Exception:
+                pass
+
+        if not login_url:
+            # トップページからログインリンクを辿る
+            page.goto("https://www.a8.net/", wait_until="networkidle", timeout=20000)
+            for sel in ['a:has-text("ログイン")', 'a[href*="login"]', 'a:has-text("会員ログイン")']:
+                try:
+                    el = page.query_selector(sel)
+                    if el:
+                        href = el.get_attribute("href") or ""
+                        if href:
+                            full = href if href.startswith("http") else f"https://www.a8.net{href}"
+                            page.goto(full, wait_until="networkidle", timeout=15000)
+                            login_url = full
+                            print(f"[A8] ログインURL（リンクから）: {full}")
+                            break
+                except Exception:
+                    pass
+
         _save_debug(page, "01_login")
 
         # JS描画を待ってからinputを列挙
@@ -176,9 +209,34 @@ def scrape_a8_approved() -> list[dict]:
         print(f"[A8] ログイン成功")
 
         # ── 2. 提携済みプログラム一覧 ────────────────────────────
-        # status=2 が「提携中」、status=1 が「申請中」
-        approved_url = "https://www.a8.net/a8v2/sMediaAffiliate.do?action=index&affiliateStatus=2"
-        page.goto(approved_url, wait_until="networkidle", timeout=30000)
+        approved_url = None
+        for candidate in [
+            "https://www.a8.net/member/affiliate/",
+            "https://www.a8.net/a8v2/sMediaAffiliate.do?action=index&affiliateStatus=2",
+            "https://www.a8.net/affiliate/",
+        ]:
+            try:
+                r = page.goto(candidate, wait_until="networkidle", timeout=15000)
+                if r and r.status < 400 and "見つかりません" not in page.title():
+                    approved_url = candidate
+                    break
+            except Exception:
+                pass
+
+        if not approved_url:
+            # ログイン後のダッシュボードからリンクを探す
+            for sel in ['a:has-text("提携")', 'a:has-text("プログラム管理")', 'a[href*="affiliate"]']:
+                try:
+                    el = page.query_selector(sel)
+                    if el:
+                        href = el.get_attribute("href") or ""
+                        if href:
+                            approved_url = href if href.startswith("http") else f"https://www.a8.net{href}"
+                            page.goto(approved_url, wait_until="networkidle", timeout=15000)
+                            break
+                except Exception:
+                    pass
+
         time.sleep(2)
         _save_debug(page, "03_approved_list")
         print(f"[A8] 提携済み一覧: {page.url}")
