@@ -87,6 +87,14 @@ Kindleで読めるので、ぜひチェックしてみてください。」"""
     else:
         kindle_cta_instruction = ""
 
+    # 無料部分末尾CTA（アカウントテーマに合わせる）
+    FREE_CTAS = {
+        1: "🤖 ChatGPT副業の最新ネタ・使えるプロンプトを毎日配信中 → https://t.me/+yUiqVJi2uNFiOTA1",
+        2: "📊 AIが毎日6つのボットの投資シグナルを無料配信中 → https://t.me/+yUiqVJi2uNFiOTA1",
+        3: "💼 転職・年収交渉のリアルな情報を毎日配信中 → https://t.me/+yUiqVJi2uNFiOTA1",
+    }
+    free_cta = FREE_CTAS.get(account_id, FREE_CTAS[2])
+
     # アフィリエイトリンクCTA
     affiliate = load_best_affiliate(account_id)
     if affiliate:
@@ -132,7 +140,7 @@ Kindleで読めるので、ぜひチェックしてみてください。」"""
 キャラクターとして読者の悩みに共感する書き出し。
 「続きに全部書きました。」で締める。
 末尾に必ず以下を追加する（文言そのまま）:
-「📊 AIが毎日6つのボットの投資シグナルを無料配信中 → https://t.me/+yUiqVJi2uNFiOTA1」
+「{free_cta}」
 
 ## 有料部分（2500〜4000字）
 実体験ベースで手順・ノウハウを書く。
