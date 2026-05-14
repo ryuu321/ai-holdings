@@ -106,76 +106,74 @@ def scrape_a8_approved() -> list[dict]:
             except Exception:
                 pass
 
-        def try_fill(selectors, value, label):
-            for sel in selectors:
-                try:
-                    el = page.query_selector(sel)
-                    if el and el.is_visible():
-                        el.fill(value)
-                        print(f"[A8] {label} フィールド: {sel}")
-                        return True
-                except Exception:
-                    pass
-            print(f"[A8] {label} フィールドが見つかりません")
-            return False
-
-        email_selectors = [
-            'input[name="login_id"]',
-            'input[name="mail"]',
-            'input[name="email"]',
-            'input[name="userId"]',
-            'input[name="user_id"]',
-            'input[id="login_id"]',
-            'input[id="mail"]',
-            'input[type="email"]',
-        ]
-        pass_selectors = [
-            'input[name="login_pass"]',
-            'input[name="password"]',
-            'input[name="passwd"]',
-            'input[name="pass"]',
-            'input[id="login_pass"]',
-            'input[id="password"]',
-            'input[type="password"]',
-        ]
-
-        if not try_fill(email_selectors, A8_EMAIL, "メール"):
-            _save_debug(page, "02_login_fail_email")
-            browser.close()
-            return []
-        if not try_fill(pass_selectors, A8_PASSWORD, "パスワード"):
-            _save_debug(page, "02_login_fail_pass")
-            browser.close()
-            return []
-
-        # サブミット
-        submitted = False
-        for submit_sel in ['input[type="submit"]', 'button[type="submit"]',
-                           'button:has-text("ログイン")', 'input[value*="ログイン"]']:
+        # パブリッシャーフォーム（action=pub.a8.net/a8v2/asLoginAction.do）を特定して直接入力
+        pub_form = None
+        for form in forms:
             try:
-                el = page.query_selector(submit_sel)
-                if el and el.is_visible():
-                    el.click()
-                    submitted = True
-                    print(f"[A8] サブミット: {submit_sel}")
+                action = form.get_attribute("action") or ""
+                if "asLoginAction" in action and "pub.a8.net" in action:
+                    pub_form = form
+                    print(f"[A8] パブリッシャーフォーム発見: {action}")
                     break
             except Exception:
                 pass
-        if not submitted:
-            print("[A8] サブミットボタンが見つかりません")
-            _save_debug(page, "02_no_submit")
+
+        if not pub_form:
+            print("[A8] パブリッシャーログインフォームが見つかりません")
+            _save_debug(page, "02_no_pub_form")
             browser.close()
             return []
+
+        # フォーム内のフィールドを探して入力
+        login_field = pub_form.query_selector('input[name="login"]') or pub_form.query_selector('input[type="text"]')
+        pass_field  = pub_form.query_selector('input[name="passwd"]') or pub_form.query_selector('input[type="password"]')
+        submit_btn  = pub_form.query_selector('input[type="submit"]') or pub_form.query_selector('button[type="submit"]')
+
+        if not login_field:
+            print("[A8] ログインフィールドが見つかりません")
+            _save_debug(page, "02_no_login_field")
+            browser.close()
+            return []
+        if not pass_field:
+            print("[A8] パスワードフィールドが見つかりません")
+            _save_debug(page, "02_no_pass_field")
+            browser.close()
+            return []
+
+        login_field.fill(A8_EMAIL)
+        print(f"[A8] メール入力完了")
+        pass_field.fill(A8_PASSWORD)
+        print(f"[A8] パスワード入力完了")
+
+        if submit_btn:
+            submit_btn.click()
+            print(f"[A8] フォームサブミット")
+        else:
+            # Enterキーでサブミット
+            pass_field.press("Enter")
+            print(f"[A8] Enterキーでサブミット")
 
         page.wait_for_load_state("networkidle", timeout=20000)
         _save_debug(page, "02_after_login")
         print(f"[A8] ログイン後URL: {page.url}")
 
-        if "login" in page.url.lower() or "ログイン" in page.title():
-            print(f"[A8] ログイン失敗 (URL: {page.url})")
+        current_url = page.url
+        current_title = page.title()
+        print(f"[A8] ログイン後: {current_url} | {current_title}")
+        # asLoginAction.do は認証処理URL（リダイレクト途中）なので成功扱いにしない
+        # ログイン失敗 = ログインフォームに戻る or エラーページ
+        login_failed = (
+            ("login" in current_url.lower() and "Action" not in current_url)
+            or "ログイン" in current_title
+            or "ログインエラー" in current_title
+            or ("a8.net" in current_url and "login" in current_url and "pub.a8.net" not in current_url)
+        )
+        if login_failed:
+            print(f"[A8] ログイン失敗")
+            _save_debug(page, "02_login_fail")
             browser.close()
             return []
-        print(f"[A8] ログイン成功")
+        print(f"[A8] ログイン成功（{current_url[:60]}）")
 
         # ── 2. 提携済みプログラム一覧 ────────────────────────────
         approved_url = None
