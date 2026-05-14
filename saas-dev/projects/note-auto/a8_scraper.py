@@ -76,15 +76,17 @@ def scrape_a8_approved() -> list[dict]:
         # ── 1. ログイン ──────────────────────────────────────────
         print("[A8] ログイン中...")
 
-        # トップページからログインページを探す（URL変更に強い）
         login_url = None
 
-        # メディア（パブリッシャー）用ログインURLを直接試す
+        # pub.a8.net がメディア（パブリッシャー）側のドメイン
+        # asXxx.do 系がパブリッシャー向けサーブレット
         media_candidates = [
-            "https://member.a8.net/login/",
-            "https://member.a8.net/",
-            "https://www.a8.net/member/login/",
-            "https://www.a8.net/a8v2/sMediaTop.do",
+            "https://pub.a8.net/a8v2/asLogin.do",
+            "https://pub.a8.net/a8v2/asLoginMedia.do",
+            "https://pub.a8.net/a8v2/sLogin.do",
+            "https://pub.a8.net/a8v2/sPublisherLogin.do",
+            "https://pub.a8.net/login",
+            "https://pub.a8.net/",
         ]
         for candidate in media_candidates:
             try:
@@ -92,36 +94,71 @@ def scrape_a8_approved() -> list[dict]:
                 title = page.title()
                 url   = page.url
                 print(f"[A8] 試行: {candidate} → {url} | {title}")
-                if r and r.status < 400 and "見つかりません" not in title and "adv-console" not in url:
+                # pub.a8.net に着地してログイン/入力画面っぽければOK
+                if (r and r.status < 400
+                        and "見つかりません" not in title
+                        and "規約" not in title
+                        and "pub.a8.net" in url):
+                    # リンク一覧をダンプして構造確認
+                    links = page.query_selector_all("a[href]")
+                    for lk in links[:30]:
+                        try:
+                            lt = lk.inner_text().strip()
+                            lh = lk.get_attribute("href") or ""
+                            if lt:
+                                print(f"  [LINK] {lt!r} → {lh}")
+                        except Exception:
+                            pass
                     login_url = url
                     print(f"[A8] メディアログインURL確認: {url}")
                     break
             except Exception as e:
                 print(f"[A8] {candidate} 失敗: {e}")
+                try:
+                    page.wait_for_load_state("domcontentloaded", timeout=3000)
+                except Exception:
+                    pass
 
         if not login_url:
-            # トップページからメディア専用のログインリンクを探す
-            page.goto("https://www.a8.net/", wait_until="networkidle", timeout=20000)
+            # pub.a8.net トップのリンクを全スキャン
+            try:
+                page.goto("https://pub.a8.net/", wait_until="domcontentloaded", timeout=20000)
+            except Exception as e:
+                print(f"[A8] pub.a8.net トップ失敗: {e}")
+                try:
+                    page.goto("https://www.a8.net/", wait_until="domcontentloaded", timeout=20000)
+                except Exception:
+                    pass
             _save_debug(page, "00_top")
             all_links = page.query_selector_all("a[href]")
-            print(f"[A8] トップページリンク数: {len(all_links)}")
+            print(f"[A8] リンク数: {len(all_links)}")
             for link in all_links:
                 try:
                     text = link.inner_text().strip()
                     href = link.get_attribute("href") or ""
-                    # 広告主コンソールは除外、メディア/会員系を優先
-                    if "adv-console" in href or "広告主" in text:
-                        continue
-                    if any(kw in text for kw in ["メディア", "会員", "アフィリエイト登録", "パブリッシャー"]):
-                        full = href if href.startswith("http") else f"https://www.a8.net{href}"
-                        print(f"[A8] メディアリンク候補: {text!r} → {full}")
-                        r = page.goto(full, wait_until="networkidle", timeout=15000)
-                        if r and r.status < 400 and "adv-console" not in page.url:
-                            login_url = page.url
-                            print(f"[A8] メディアログインURL（リンクから）: {login_url}")
-                            break
+                    full = href if href.startswith("http") else f"https://pub.a8.net{href}"
+                    print(f"  [LINK] {text!r} → {full}")
                 except Exception:
                     pass
+            # ログイン系リンクを探す
+            for link in all_links:
+                try:
+                    text = link.inner_text().strip()
+                    href = link.get_attribute("href") or ""
+                    full = href if href.startswith("http") else f"https://pub.a8.net{href}"
+                    if ("ログイン" in text or "login" in full.lower()) and "adv-console" not in full and "新規" not in text and "登録" not in text:
+                        print(f"[A8] ログインリンク候補: {text!r} → {full}")
+                        try:
+                            r = page.goto(full, wait_until="domcontentloaded", timeout=15000)
+                            if r and r.status < 400 and "adv-console" not in page.url:
+                                login_url = page.url
+                                break
+                        except Exception as e2:
+                            print(f"[A8] リンク遷移失敗: {e2}")
+                except Exception:
+                    pass
+            if login_url:
+                print(f"[A8] メディアログインURL（リンクから）: {login_url}")
 
         _save_debug(page, "01_login")
 
