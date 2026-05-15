@@ -277,17 +277,30 @@ async def scrape(total: int):
 
 
 def _extract_from_json(data, out: list):
-    """JSON再帰探索: 楽天商品URLを含むオブジェクトを収集"""
+    """JSON再帰探索: 楽天商品URLまたはshopCode+itemCodeを含むオブジェクトを収集"""
     if isinstance(data, dict):
         url = (data.get("itemUrl") or data.get("url") or
-               data.get("item_url") or data.get("affiliateUrl") or "")
-        if "item.rakuten.co.jp" in str(url) or "hb.afl.rakuten" in str(url):
+               data.get("item_url") or data.get("affiliateUrl") or
+               data.get("productUrl") or data.get("linkUrl") or "")
+        found = "item.rakuten.co.jp" in str(url) or "hb.afl.rakuten" in str(url)
+
+        # shopCode+itemCode で合成URLを試みる
+        if not found:
+            shop = data.get("shopCode") or data.get("shop_code") or data.get("shopId") or ""
+            item = (data.get("itemCode") or data.get("item_code") or
+                    data.get("itemId") or data.get("item_id") or "")
+            if shop and item:
+                url = f"https://item.rakuten.co.jp/{shop}/{item}/"
+                found = True
+
+        if found:
             out.append({
                 "url": url,
-                "name": data.get("name") or data.get("itemName") or "",
-                "price": data.get("price") or data.get("itemPrice") or 0,
+                "name": (data.get("name") or data.get("itemName") or
+                         data.get("title") or data.get("itemTitle") or ""),
+                "price": data.get("price") or data.get("itemPrice") or data.get("minPrice") or 0,
                 "rating": data.get("rating") or data.get("reviewAverage") or 0,
-                "review_count": data.get("reviewCount") or 0,
+                "review_count": data.get("reviewCount") or data.get("review_count") or 0,
             })
         for v in data.values():
             if isinstance(v, (dict, list)):
