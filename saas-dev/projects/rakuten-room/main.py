@@ -111,56 +111,33 @@ async def do_login(page, context=None) -> bool:
             print("  既にログイン済み（login_status確認済み）")
             return True
 
-        # ログインページに直接遷移
-        await page.goto("https://login.account.rakuten.com/sso/auth?client_id=room&redirect_uri=https%3A%2F%2Froom.rakuten.co.jp%2F&response_type=code&scope=openid+profile", wait_until="domcontentloaded", timeout=30000)
+        # grp01ログインページへ直接遷移（setup_auth.pyと同じ安定URL）
+        login_url = "https://grp01.id.rakuten.co.jp/rms/nid/login?service_id=room&return_url=https://room.rakuten.co.jp/items"
+        await page.goto(login_url, wait_until="domcontentloaded", timeout=30000)
         await asyncio.sleep(2)
-
         print(f"  ログインページ: {page.url}")
 
-        # ユーザーID入力（複数のセレクタを試す）
-        filled = False
-        for sel in ['input[name="login_id"]', 'input[id="login_id"]', 'input[name="u"]',
-                    'input[type="email"]', 'input[type="text"]']:
-            els = await page.query_selector_all(sel)
-            if els:
-                await els[0].fill(RAKUTEN_ID)
-                filled = True
-                break
-        if not filled:
+        # ユーザーID入力欄が現れるまで最大10秒待つ
+        try:
+            await page.wait_for_selector('input[name="u"]', timeout=10000)
+        except Exception:
             print("  ログインID入力欄が見つかりません")
             return False
 
-        await asyncio.sleep(0.8)
+        await page.fill('input[name="u"]', RAKUTEN_ID)
+        await asyncio.sleep(0.5)
 
-        # 「次へ」ボタンがある場合はクリック（2ステップログイン対応）
-        for next_sel in ['button[data-loginid-submit]', 'button:has-text("次へ")',
-                         'button:has-text("Next")', 'button[type="submit"]']:
-            try:
-                next_el = await page.query_selector(next_sel)
-                if next_el and await next_el.is_visible():
-                    await next_el.click()
-                    await asyncio.sleep(2)
-                    break
-            except Exception:
-                pass
-
-        # パスワード欄が出るまで待つ
+        # パスワード入力（同一フォームにある場合）
         try:
-            await page.wait_for_selector('input[type="password"]', timeout=10000)
+            await page.wait_for_selector('input[name="p"]', timeout=5000)
+            await page.fill('input[name="p"]', RAKUTEN_PASSWORD)
+            await asyncio.sleep(0.5)
         except Exception:
-            pass
-
-        # パスワード入力
-        pwd_el = await page.query_selector('input[type="password"]')
-        if not pwd_el:
-            print("  パスワード入力欄が見つかりません")
+            print("  パスワード欄が見つかりません")
             return False
-        await pwd_el.fill(RAKUTEN_PASSWORD)
-        await asyncio.sleep(0.8)
 
         # ログインボタンをクリック
-        for submit_sel in ['button[type="submit"]', 'input[type="submit"]',
-                           'button:has-text("ログイン")', 'button:has-text("Login")']:
+        for submit_sel in ['input[type="submit"]', 'button[type="submit"]']:
             try:
                 sub_el = await page.query_selector(submit_sel)
                 if sub_el and await sub_el.is_visible():
