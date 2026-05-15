@@ -45,20 +45,12 @@ def _extract_shop(url: str) -> str:
 
 def get_pending(n: int = 5) -> pd.DataFrame:
     df = _load()
-    posted = df[df["posted"] == "True"]
-    priority_shops = set(posted["url"].apply(_extract_shop)) - {""}
-
     pending = df[df["posted"] != "True"].copy()
-    pending["_shop"] = pending["url"].apply(_extract_shop)
-    pending["_priority"] = pending["_shop"].isin(priority_shops).astype(int)
     pending["_score"] = pd.to_numeric(pending.get("score", 0), errors="coerce").fillna(0)
 
-    # 優先ショップを先に、それ以外はcaptured_at順
-    pending = pending.sort_values(
-        ["_priority", "_score", "captured_at"],
-        ascending=[False, False, True],
-    )
-    return pending.drop(columns=["_shop", "_priority", "_score"]).head(n)
+    # score降順（ROOM直接スクレイプ品=0.99が最優先）、同スコアはcaptured_at昇順
+    pending = pending.sort_values(["_score", "captured_at"], ascending=[False, True])
+    return pending.drop(columns=["_score"]).head(n)
 
 
 def mark_posted(url: str, tone_used: str):
