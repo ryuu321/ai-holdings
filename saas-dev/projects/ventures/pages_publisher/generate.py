@@ -269,6 +269,15 @@ def main():
     <ul>{product_links}</ul>
   </div>
   <div class="section">
+    <h2>Free Guides — 15 Prompts Each</h2>
+    <ul>
+      <li><a href="guides/chatgpt-prompts-for-adhd.html">ChatGPT Prompts for ADHD</a> — Beat procrastination & build focus</li>
+      <li><a href="guides/chatgpt-prompts-for-etsy-sellers.html">ChatGPT Prompts for Etsy Sellers</a> — Better listings, more sales</li>
+      <li><a href="guides/chatgpt-prompts-for-content-creators.html">ChatGPT Prompts for Content Creators</a> — Go viral faster</li>
+      <li><a href="guides/ai-prompts-for-side-hustles.html">AI Prompts for Side Hustles</a> — Launch &amp; scale to $2K+/month</li>
+    </ul>
+  </div>
+  <div class="section">
     <h2>Free Tools</h2>
     <ul>
       <li><a href="tools/prompt-sampler.html">Free ChatGPT Prompt Generator</a> — Get 5 free AI prompts for your niche</li>
