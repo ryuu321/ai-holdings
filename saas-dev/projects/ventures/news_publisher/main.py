@@ -22,6 +22,8 @@ SITE_URL    = "https://ryuu321.github.io/ai-holdings"
 
 GEMINI_KEY  = os.environ.get("GEMINI_API_KEY", "")
 DEVTO_KEY   = os.environ.get("DEVTO_API_KEY", "")
+TG_TOKEN    = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TG_CHANNEL  = os.environ.get("TELEGRAM_CHANNEL_ID", "")
 
 # AI/Tech関連キーワード（スコア30以上 + これらのワードを含む記事のみ）
 AI_KEYWORDS = [
@@ -227,6 +229,40 @@ def _save_html(article: dict, slug: str, canonical_url: str, date_str: str):
     (BLOG_EN_DIR / f"{slug}.html").write_text(html, encoding="utf-8")
 
 
+# ─── Telegram 配信 ───────────────────────────────────────────────────
+
+def _send_telegram(title: str, subtitle: str, devto_url: str, canonical_url: str):
+    if not TG_TOKEN or not TG_CHANNEL:
+        return
+    link = devto_url or canonical_url
+    short_desc = subtitle[:120] + "..." if len(subtitle) > 120 else subtitle
+    msg = (
+        f"📰 <b>Today's AI Digest</b>\n\n"
+        f"<b>{title}</b>\n"
+        f"{short_desc}\n\n"
+        f"<a href='{link}'>Read full digest →</a>\n\n"
+        f"📊 Free daily AI signals: @ai_investment_signals"
+    )
+    data = json.dumps({
+        "chat_id": TG_CHANNEL,
+        "text": msg,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": True,
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
+        data=data,
+        headers={"Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            result = json.loads(r.read())
+        if result.get("ok"):
+            print("  Telegram配信完了")
+    except Exception as e:
+        print(f"  [Telegram SKIP] {e}")
+
+
 # ─── 状態管理 ────────────────────────────────────────────────────────
 
 def _load_state() -> dict:
@@ -296,6 +332,13 @@ def main():
         state.setdefault("published_dates", []).append(today)
         state["total"] = state.get("total", 0) + 1
         _save_state(state)
+        # Step5: Telegramチャンネルに配信
+        _send_telegram(
+            article.get("title", ""),
+            article.get("subtitle", ""),
+            url,
+            canonical_url,
+        )
     except Exception as e:
         print(f"  [Dev.to ERROR] {e}")
 

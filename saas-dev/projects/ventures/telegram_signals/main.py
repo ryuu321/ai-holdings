@@ -12,6 +12,32 @@ from shared.metrics import load_state, save_state, record_performance, apply_opt
 from signal_reader import read_signals, format_message
 from bot import send_message, get_member_count
 
+# 3日ごとにローテーションするプロダクトCTA
+_PRODUCT_PROMOS = [
+    ("🧠 ADHD Unlocked",      "50 AI prompts that work WITH your ADHD brain — task breakdown, focus systems, routine building. Not generic advice.", "https://ryuumg.gumroad.com/l/akikab"),
+    ("🚀 AI Content Boost",   "50 prompts for content creators: viral hooks, content calendars, repurposing systems. Publish more, burn out less.", "https://ryuumg.gumroad.com/l/qhanl"),
+    ("🛍️ Etsy Seller Boost", "50 prompts for Etsy sellers: SEO titles, product descriptions, customer messages. Save hours every week.", "https://ryuumg.gumroad.com/l/nnijeb"),
+    ("🎨 DesignGenie",        "50 AI prompts for graphic designers: creative briefs, client communication, portfolio copy. Less admin, more design.", "https://ryuumg.gumroad.com/l/zkiwh"),
+    ("🔥 Viral Content",      "50 prompts reverse-engineered from viral posts. Hooks, storytelling frameworks, trend newsjacking.", "https://ryuumg.gumroad.com/l/rboqqr"),
+    ("✏️ Procreate AI",       "50 AI prompts for Procreate artists: composition, color palettes, character design, finding your style.", "https://ryuumg.gumroad.com/l/yugogd"),
+]
+
+
+def _maybe_send_product_promo(posts_sent: int) -> None:
+    """3日ごとにシグナルの後にプロダクトプロモを配信。"""
+    if posts_sent % 3 != 0:
+        return
+    idx = (posts_sent // 3) % len(_PRODUCT_PROMOS)
+    name, desc, url = _PRODUCT_PROMOS[idx]
+    msg = (
+        f"\n\n💼 <b>AI Tool Spotlight</b>\n\n"
+        f"<b>{name}</b>\n{desc}\n\n"
+        f"📦 <a href='{url}'>Get it on Gumroad →</a> (one-time · instant download)\n"
+        f"🆓 Free tools &amp; guides: https://ryuu321.github.io/ai-holdings/start.html"
+    )
+    send_message(msg)
+    print(f"  製品プロモ配信: {name}")
+
 STATE_PATH = Path(__file__).parent / "state.json"
 
 DEFAULT_STATE = {
@@ -49,6 +75,7 @@ def main():
     if ok:
         state["posts_sent"] = state.get("posts_sent", 0) + 1
         print(f"  配信完了（通算{state['posts_sent']}件）")
+        _maybe_send_product_promo(state["posts_sent"])
     else:
         print("  配信スキップ（Bot未設定 or エラー）")
 
