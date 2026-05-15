@@ -2,6 +2,7 @@
 ventures/medium_publisher/main.py
 毎日実行: note記事を英訳 → Medium投稿 → Geminiで翻訳戦略を最適化
 """
+import os
 import sys
 from pathlib import Path
 
@@ -10,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from shared.optimizer import optimize
 from shared.metrics import load_state, save_state, record_performance, apply_optimization
 from translator import translate_article, pick_next_article
-from publisher import publish, _get_api_key
+from publisher import publish, publish_hashnode, _get_api_key
 
 STATE_PATH  = Path(__file__).parent / "state.json"
 NOTE_OUTPUT = Path(__file__).parent.parent.parent.parent.parent / "note-biz" / "output"
@@ -54,7 +55,7 @@ def main():
     translated = translate_article(article, state["params"])
     print(f"  英題: {translated['title']}")
 
-    # Step3: Medium投稿
+    # Step3: Dev.to投稿
     try:
         url = publish(
             translated["title"], translated.get("subtitle", ""),
@@ -68,6 +69,19 @@ def main():
         print(f"  [ERROR] {e}")
         url = None
         status = "failed"
+
+    # Step3b: Hashnode同時投稿
+    hn_key  = os.environ.get("HASHNODE_API_KEY", "")
+    hn_pub  = os.environ.get("HASHNODE_PUBLICATION_ID", "")
+    if hn_key and hn_pub and status == "success":
+        try:
+            hn_url = publish_hashnode(
+                translated["title"], translated["body"],
+                translated.get("tags", []), hn_key, hn_pub,
+            )
+            print(f"  Hashnode投稿完了: {hn_url}")
+        except Exception as e:
+            print(f"  [Hashnode SKIP] {e}")
 
     # Step4: メトリクス記録
     state = record_performance(state, {

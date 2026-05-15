@@ -27,8 +27,10 @@ jobs:
 
       - name: Publish to Medium
         env:
-          GEMINI_API_KEY:  ${{ secrets.GEMINI_API_KEY }}
-          DEVTO_API_KEY:   ${{ secrets.DEVTO_API_KEY }}
+          GEMINI_API_KEY:          ${{ secrets.GEMINI_API_KEY }}
+          DEVTO_API_KEY:           ${{ secrets.DEVTO_API_KEY }}
+          HASHNODE_API_KEY:        ${{ secrets.HASHNODE_API_KEY }}
+          HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
         run: python main.py
 
       - name: Commit state

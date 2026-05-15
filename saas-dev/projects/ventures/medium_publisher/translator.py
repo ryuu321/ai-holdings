@@ -26,7 +26,7 @@ client = genai.Client(api_key=API_KEY)
 
 GUMROAD_PRODUCTS = {
     "Personal Finance": {
-        "url": "https://gumroad.com/l/personal-finance-prompts",
+        "url": "https://ryuumg.gumroad.com/l/ndtsjv",
         "label": "Personal Finance AI Prompts — 50 ChatGPT prompts to save more & invest smarter",
     },
     "Career Development": {

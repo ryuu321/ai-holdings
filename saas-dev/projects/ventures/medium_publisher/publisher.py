@@ -1,6 +1,7 @@
 """
-dev.to (Forem) API publisher
-APIキー: dev.to/settings/extensions → API Keys
+Multi-platform publisher: Dev.to + Hashnode
+Dev.to APIキー: dev.to/settings/extensions → API Keys
+Hashnode APIキー: hashnode.com/account/developer → API Keys
 """
 import json
 import os
@@ -18,6 +19,36 @@ def _get_api_key() -> str:
             if line.startswith("DEVTO_API_KEY="):
                 return line.split("=", 1)[1].strip()
     return ""
+
+
+def publish_hashnode(title: str, body: str, tags: list, api_key: str, publication_id: str) -> str:
+    """Hashnodeにマークダウン記事を投稿。URLを返す。"""
+    if not api_key or not publication_id:
+        return ""
+    query = """
+    mutation PublishPost($input: PublishPostInput!) {
+      publishPost(input: $input) {
+        post { id url }
+      }
+    }"""
+    clean_tags = [{"slug": t.lower().replace(" ", "-")[:20], "name": t[:20]} for t in tags[:5] if t.strip()]
+    variables = {
+        "input": {
+            "publicationId": publication_id,
+            "title": title,
+            "contentMarkdown": body,
+            "tags": clean_tags,
+        }
+    }
+    payload = json.dumps({"query": query, "variables": variables}).encode("utf-8")
+    req = urllib.request.Request(
+        "https://gql.hashnode.com/",
+        data=payload,
+        headers={"Authorization": api_key, "Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        result = json.loads(resp.read())
+        return result["data"]["publishPost"]["post"]["url"]
 
 
 def publish(title: str, subtitle: str, body: str, tags: list, api_key: str) -> str:

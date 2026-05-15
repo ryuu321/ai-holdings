@@ -205,10 +205,150 @@ def setup_session():
         browser.close()
 
 
+def _fetch_gumroad_products() -> list[dict]:
+    """Gumroad APIから公開済み商品一覧を取得。"""
+    import requests
+    token = os.environ.get("GUMROAD_ACCESS_TOKEN", "")
+    if not token:
+        log.warning("GUMROAD_ACCESS_TOKEN未設定")
+        return []
+    try:
+        r = requests.get(
+            "https://api.gumroad.com/v2/products",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=15,
+        )
+        r.raise_for_status()
+        return [p for p in r.json().get("products", []) if p.get("published")]
+    except Exception as e:
+        log.warning(f"Gumroad商品取得失敗: {e}")
+        return []
+
+
+def _make_thumbnail(title: str, product_type: str, out_path: Path) -> bool:
+    """Pillowで1000×1500 Pinterestサイズのサムネイルを生成。"""
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        W, H = 1000, 1500
+        is_prompts = "prompt" in product_type.lower() or "ai" in title.lower()
+        bg     = (12, 20, 55)    if is_prompts else (25, 12, 45)
+        accent = (56, 139, 253)  if is_prompts else (130, 80, 255)
+        img    = Image.new("RGB", (W, H), bg)
+        draw   = ImageDraw.Draw(img)
+        # グラデーション背景
+        for i in range(400):
+            t = i / 400
+            r = int(bg[0] * (1 - t * 0.5))
+            g = int(bg[1] * (1 - t * 0.5))
+            b = int(bg[2] + (255 - bg[2]) * t * 0.1)
+            draw.line([(0, i), (W, i)], fill=(r, g, b))
+        # アクセントバー
+        draw.rectangle([0, 0, 12, H], fill=accent)
+        draw.rectangle([0, H - 12, W, H], fill=accent)
+        # フォント
+        font_cands = [
+            ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 72),
+            ("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf", 72),
+            ("C:/Windows/Fonts/arialbd.ttf", 72),
+        ]
+        sub_cands = [
+            ("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 42),
+            ("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf", 42),
+            ("C:/Windows/Fonts/arial.ttf", 42),
+        ]
+        font_lg = ImageFont.load_default()
+        font_sm = ImageFont.load_default()
+        for fp, sz in font_cands:
+            if Path(fp).exists():
+                try: font_lg = ImageFont.truetype(fp, sz); break
+                except Exception: pass
+        for fp, sz in sub_cands:
+            if Path(fp).exists():
+                try: font_sm = ImageFont.truetype(fp, sz); break
+                except Exception: pass
+        # タイトル（20文字/行で折り返し）
+        words = title.split()
+        lines, cur = [], []
+        for w in words:
+            cur.append(w)
+            if len(" ".join(cur)) > 18:
+                lines.append(" ".join(cur[:-1])) if len(cur) > 1 else lines.append(" ".join(cur))
+                cur = [w] if len(cur) > 1 else []
+        if cur: lines.append(" ".join(cur))
+        lh = 90
+        y = (H - len(lines) * lh - 120) // 2
+        for line in lines:
+            bb = draw.textbbox((0, 0), line, font=font_lg)
+            tw = bb[2] - bb[0]
+            draw.text(((W - tw) // 2, y), line, fill=(255, 255, 255), font=font_lg)
+            y += lh
+        # バッジ
+        badge = "✨ AI Prompt Pack — 50 Prompts" if is_prompts else "📋 Notion Template"
+        bb = draw.textbbox((0, 0), badge, font=font_sm)
+        tw = bb[2] - bb[0]
+        draw.text(((W - tw) // 2, H - 120), badge, fill=accent, font=font_sm)
+        price_lbl = "⬇ Get it on Gumroad"
+        bb2 = draw.textbbox((0, 0), price_lbl, font=font_sm)
+        tw2 = bb2[2] - bb2[0]
+        draw.text(((W - tw2) // 2, H - 70), price_lbl, fill=(200, 200, 200), font=font_sm)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        img.save(str(out_path), "PNG")
+        return True
+    except Exception as e:
+        log.warning(f"サムネイル生成失敗: {e}")
+        return False
+
+
+def run_daily(max_pins: int = 5):
+    """未ピンのGumroad商品をPinterestにピン投稿する。"""
+    products = _fetch_gumroad_products()
+    if not products:
+        log.warning("Gumroad商品なし → スキップ")
+        return 0
+
+    posted = _load_posted()
+    pending = [p for p in products if p.get("id", "") not in posted]
+    log.info(f"未ピン商品: {len(pending)}/{len(products)}件")
+
+    success = 0
+    for p in pending[:max_pins]:
+        pid   = p.get("id", "")
+        name  = p.get("name", "")
+        url   = p.get("short_url", "")
+        ptype = "ai_prompts" if any(w in name.lower() for w in ["prompt", "ai", "gpt"]) else "notion_template"
+
+        thumb = Path(__file__).parent / "data" / "thumbnails" / f"pin_{pid[:8]}.png"
+        if not _make_thumbnail(name, ptype, thumb):
+            log.warning(f"サムネイル失敗: {name}")
+            continue
+
+        niche = name  # 商品名をnicheとして使う
+        ok = pin_product(
+            title=name,
+            niche=niche,
+            product_type=ptype,
+            image_path=str(thumb),
+            gumroad_url=url,
+            product_id=pid,
+        )
+        if ok:
+            success += 1
+            log.info(f"ピン完了 ({success}): {name}")
+            time.sleep(30)
+        else:
+            log.warning(f"ピン失敗: {name}")
+
+    log.info(f"Pinterest daily完了: {success}/{len(pending[:max_pins])}件")
+    return success
+
+
 if __name__ == "__main__":
     import sys
     logging.basicConfig(level=logging.INFO, format="[pinterest] %(asctime)s %(message)s")
     if "--setup" in sys.argv:
         setup_session()
+    elif "--daily" in sys.argv:
+        n = int(sys.argv[2]) if len(sys.argv) > 2 else 5
+        run_daily(max_pins=n)
     else:
-        print("Usage: python pinterest.py --setup")
+        print("Usage: python pinterest.py --setup | --daily [N]")

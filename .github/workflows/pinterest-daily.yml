@@ -1,0 +1,46 @@
+name: Pinterest 日次ピン投稿
+
+on:
+  schedule:
+    - cron: '0 4 * * *'    # JST 13:00
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  pin:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 依存インストール
+        run: pip install -r saas-dev/projects/traffic/requirements.txt
+
+      - name: Playwright Chromiumインストール
+        run: playwright install chromium --with-deps
+
+      - name: Pinterestセッション復元
+        env:
+          PINTEREST_SESSION_B64: ${{ secrets.PINTEREST_SESSION_B64 }}
+        run: |
+          mkdir -p saas-dev/projects/traffic/data
+          echo "$PINTEREST_SESSION_B64" | base64 -d > saas-dev/projects/traffic/data/pinterest_session.json
+          echo "セッション復元完了"
+
+      - name: Pinterest日次ピン投稿
+        env:
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          GROQ_API_KEY:         ${{ secrets.GROQ_API_KEY }}
+          PYTHONIOENCODING: utf-8
+        run: |
+          cd saas-dev/projects/traffic
+          python -u pinterest.py --daily 5
