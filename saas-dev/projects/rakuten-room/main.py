@@ -328,13 +328,23 @@ async def run():
         print(f"ページタイトル: {title[:60]}")
         print(f"ログイン状態: {login_status}")
 
-        # セッション切れ検出: ログインページにリダイレクトされた場合
-        if "login" in current_url or "account.rakuten.com" in current_url:
+        # セッション切れ検出: URLリダイレクト OR login_status=off
+        session_expired = (
+            "login" in current_url
+            or "account.rakuten.com" in current_url
+            or login_status == "off"
+        )
+        if session_expired:
             print("セッション切れ検出 → 自動ログイン")
             ok = await do_login(page, context)
             login_attempted = True
             if ok:
                 await save_cookies(context, AUTH_JSON)
+                import base64 as _b64
+                encoded = _b64.b64encode(AUTH_JSON.read_bytes()).decode()
+                b64_path = AUTH_JSON.parent / "auth_session_b64.txt"
+                b64_path.write_text(encoded)
+                print(f"auth更新完了（{len(encoded)}bytes）")
             else:
                 print("ログイン失敗 → 終了")
                 await browser.close()

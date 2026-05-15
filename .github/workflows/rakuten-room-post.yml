@@ -63,6 +63,17 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: cd saas-dev/projects/rakuten-room && python -u main.py
 
+      - name: 新authをSecretに保存（ログイン成功時のみ）
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          B64_FILE="saas-dev/projects/rakuten-room/auth_session_b64.txt"
+          if [ -f "$B64_FILE" ] && [ -s "$B64_FILE" ]; then
+            cat "$B64_FILE" | gh secret set RAKUTEN_AUTH_JSON
+            echo "RAKUTEN_AUTH_JSON Secret を新しいセッションで更新しました"
+          fi
+
       - name: CSVをリポジトリに保存
         if: always()
         run: |
