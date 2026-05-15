@@ -167,17 +167,25 @@ def _auto_login(page, context, browser) -> bool:
     log.info("セッション切れ → 自動ログイン開始")
 
     try:
-        page.goto("https://www.amazon.co.jp/ap/signin?openid.pape.max_auth_age=0"
-                  "&openid.ns=http://specs.openid.net/auth/2.0"
-                  "&openid.mode=checkid_setup"
-                  "&openid.return_to=https://kdp.amazon.co.jp/en_US/",
-                  wait_until="domcontentloaded", timeout=30000)
-        page.wait_for_timeout(2000)
+        # KDPトップからログインページにリダイレクトさせる（より自然なフロー）
+        page.goto(f"{KDP_URL}/en_US/", wait_until="domcontentloaded", timeout=30000)
+        page.wait_for_timeout(3000)
+
+        # ログインページが出た場合そのまま使用、まだKDPにいる場合は直接遷移
+        if "signin" not in page.url and "login" not in page.url and "ap/signin" not in page.url:
+            page.goto("https://www.amazon.co.jp/ap/signin"
+                      "?openid.return_to=https://kdp.amazon.co.jp/en_US/",
+                      wait_until="domcontentloaded", timeout=30000)
+            page.wait_for_timeout(3000)
+
+        log.info(f"ログインページURL: {page.url[:80]}")
+        _screenshot(page)  # デバッグ用スクリーンショット
 
         # メールアドレス入力
         email_input = page.locator("input[name='email'], input[type='email'], #ap_email").first
         if email_input.count() == 0:
-            log.error("メールフィールドが見つかりません")
+            log.error(f"メールフィールドが見つかりません（URL: {page.url[:80]}）")
+            _screenshot(page)
             return False
         email_input.fill(KDP_EMAIL)
 
