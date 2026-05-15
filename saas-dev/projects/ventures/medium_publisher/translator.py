@@ -24,10 +24,35 @@ if not API_KEY:
 client = genai.Client(api_key=API_KEY)
 
 
+GUMROAD_PRODUCTS = {
+    "Personal Finance": {
+        "url": "https://gumroad.com/l/personal-finance-prompts",
+        "label": "Personal Finance AI Prompts — 50 ChatGPT prompts to save more & invest smarter",
+    },
+    "Career Development": {
+        "url": "https://app.gumroad.com/d/uNOVzVYiwY3R",
+        "label": "ADHD Unlocked — focus system for high-achievers",
+    },
+    "AI & Productivity": {
+        "url": "https://app.gumroad.com/d/uNOVzVYiwY3R",
+        "label": "ADHD Unlocked — AI productivity toolkit for high-achievers",
+    },
+}
+_DEFAULT_PRODUCT = {
+    "url": "https://app.gumroad.com/d/uNOVzVYiwY3R",
+    "label": "ADHD Unlocked — AI focus system for high-achievers",
+}
+
+
 def translate_article(article: dict, params: dict) -> dict:
     style = params.get("writing_style", "conversational and data-driven")
     length = params.get("target_length", "900-1300 words")
     focus = params.get("priority_genre", article.get("genre", ""))
+
+    genre = article.get("genre", focus)
+    product = GUMROAD_PRODUCTS.get(genre, _DEFAULT_PRODUCT)
+    product_url = product["url"]
+    product_label = product["label"]
 
     prompt = f"""You are a professional content writer converting Japanese personal finance/career articles to English for Medium.
 
@@ -48,7 +73,7 @@ Requirements:
   "---
   📊 I share daily AI investment signals for free on Telegram → https://t.me/+yUiqVJi2uNFiOTA1
 
-  🛠️ If this was helpful, check out my AI productivity toolkit on Gumroad: https://app.gumroad.com/d/uNOVzVYiwY3R (ADHD Unlocked — focus system for high-achievers)"
+  🛠️ If this was helpful, check out my toolkit on Gumroad: {product_url} ({product_label})"
 
 Return JSON only:
 {{

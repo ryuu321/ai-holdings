@@ -3,6 +3,7 @@ name: ventures-medium-publisher
 on:
   schedule:
     - cron: '0 2 * * *'   # 毎日 JST 11:00
+    - cron: '0 11 * * *'  # 毎日 JST 20:00
   workflow_dispatch:
 
 jobs:
