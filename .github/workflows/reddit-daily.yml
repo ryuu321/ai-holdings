@@ -1,0 +1,60 @@
+name: Reddit 日次コメント（Gumroad誘導）
+
+on:
+  schedule:
+    - cron: '0 2 * * *'    # JST 11:00
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 依存インストール
+        run: pip install -r saas-dev/projects/traffic/requirements.txt
+
+      - name: Playwright Chromiumインストール
+        run: playwright install chromium --with-deps
+
+      - name: Redditセッション復元
+        env:
+          REDDIT_SESSION_B64: ${{ secrets.REDDIT_SESSION_B64 }}
+        run: |
+          if [ -n "$REDDIT_SESSION_B64" ]; then
+            mkdir -p saas-dev/projects/traffic/data
+            echo "$REDDIT_SESSION_B64" | base64 -d > saas-dev/projects/traffic/data/reddit_session.json
+            echo "Redditセッション復元完了"
+          else
+            echo "REDDIT_SESSION_B64未設定 → スキップ"
+            exit 1
+          fi
+
+      - name: Gumroadセッション復元
+        env:
+          GUMROAD_SESSION_B64: ${{ secrets.GUMROAD_SESSION_B64 }}
+        run: |
+          if [ -n "$GUMROAD_SESSION_B64" ]; then
+            mkdir -p saas-dev/projects/gumroad/data
+            echo "$GUMROAD_SESSION_B64" | base64 -d > saas-dev/projects/gumroad/data/session.json
+          fi
+
+      - name: Reddit日次コメント実行
+        env:
+          GROQ_API_KEY:           ${{ secrets.GROQ_API_KEY }}
+          GUMROAD_ACCESS_TOKEN:   ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          PYTHONIOENCODING: utf-8
+        run: |
+          cd saas-dev/projects/traffic
+          python -u reddit.py 5

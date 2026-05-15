@@ -38,6 +38,11 @@ NICHE_SUBREDDITS = {
     "E-commerce Entrepreneurs": ["r/ecommerce", "r/dropship"],
     "Real Estate Agents":   ["r/RealEstate", "r/realtors"],
     "Freelance Copywriters":["r/copywriting", "r/freelanceWriters"],
+    "Personal Finance Beginners": ["r/personalfinance", "r/povertyfinance"],
+    "Side Hustle Seekers":        ["r/sidehustle", "r/WorkOnline"],
+    "Budgeters and Savers":       ["r/Frugal", "r/personalfinance"],
+    "FIRE Movement Followers":    ["r/financialindependence", "r/leanfire"],
+    "Passive Income Builders":    ["r/passive_income", "r/Entrepreneur"],
 }
 # 全ニッチ共通の大きなサブレdit
 GENERAL_SUBREDDITS = ["r/ChatGPT", "r/artificial", "r/Notion", "r/productivity"]
