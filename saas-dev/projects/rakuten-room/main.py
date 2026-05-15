@@ -1,6 +1,7 @@
 """楽天ROOM自動投稿 - APIベース（Playwright fetch経由）"""
 import asyncio
 import json
+import os
 import random
 import re
 import subprocess
@@ -12,6 +13,9 @@ from urllib.parse import urlparse, parse_qs
 from playwright.async_api import async_playwright
 
 from utils.product_picker import get_pending, mark_posted, count_pending
+
+RAKUTEN_ID = os.environ.get("RAKUTEN_ID", "")
+RAKUTEN_PASSWORD = os.environ.get("RAKUTEN_PASSWORD", "")
 
 JST = timezone(timedelta(hours=9))
 AUTH_JSON = Path(__file__).parent / "auth.json"
@@ -85,6 +89,105 @@ def extract_item_key_from_url(url: str) -> str:
     return ''
 
 
+async def do_login(page, context=None) -> bool:
+    """楽天アカウントSSO経由でRoom用セッションを取得する。"""
+    if not RAKUTEN_ID or not RAKUTEN_PASSWORD:
+        print("RAKUTEN_ID/RAKUTEN_PASSWORD未設定 → 自動ログインスキップ")
+        return False
+    print("楽天ログイン実行中...")
+    try:
+        # クッキーをクリアしてRoomに移動 → 自然なSSO認証フローに乗る
+        if context:
+            await context.clear_cookies()
+        await page.goto("https://room.rakuten.co.jp/items", wait_until="domcontentloaded", timeout=30000)
+        await asyncio.sleep(3)
+
+        # ログインページへのリダイレクト確認
+        current = page.url
+        if "room.rakuten.co.jp" in current and "login" not in current:
+            print("  既にログイン済み（クッキーが有効）")
+            return True
+
+        # login.account.rakuten.com が表示されていなければ直接遷移
+        if "login.account.rakuten.com" not in current and "account.rakuten" not in current:
+            await page.goto("https://login.account.rakuten.com/sso/auth?client_id=room&redirect_uri=https%3A%2F%2Froom.rakuten.co.jp%2F&response_type=code&scope=openid+profile", wait_until="domcontentloaded", timeout=30000)
+            await asyncio.sleep(2)
+
+        print(f"  ログインページ: {page.url}")
+
+        # ユーザーID入力（複数のセレクタを試す）
+        filled = False
+        for sel in ['input[name="login_id"]', 'input[id="login_id"]', 'input[name="u"]',
+                    'input[type="email"]', 'input[type="text"]']:
+            els = await page.query_selector_all(sel)
+            if els:
+                await els[0].fill(RAKUTEN_ID)
+                filled = True
+                break
+        if not filled:
+            print("  ログインID入力欄が見つかりません")
+            return False
+
+        await asyncio.sleep(0.8)
+
+        # 「次へ」ボタンがある場合はクリック（2ステップログイン対応）
+        for next_sel in ['button[data-loginid-submit]', 'button:has-text("次へ")',
+                         'button:has-text("Next")', 'button[type="submit"]']:
+            try:
+                next_el = await page.query_selector(next_sel)
+                if next_el and await next_el.is_visible():
+                    await next_el.click()
+                    await asyncio.sleep(2)
+                    break
+            except Exception:
+                pass
+
+        # パスワード欄が出るまで待つ
+        try:
+            await page.wait_for_selector('input[type="password"]', timeout=10000)
+        except Exception:
+            pass
+
+        # パスワード入力
+        pwd_el = await page.query_selector('input[type="password"]')
+        if not pwd_el:
+            print("  パスワード入力欄が見つかりません")
+            return False
+        await pwd_el.fill(RAKUTEN_PASSWORD)
+        await asyncio.sleep(0.8)
+
+        # ログインボタンをクリック
+        for submit_sel in ['button[type="submit"]', 'input[type="submit"]',
+                           'button:has-text("ログイン")', 'button:has-text("Login")']:
+            try:
+                sub_el = await page.query_selector(submit_sel)
+                if sub_el and await sub_el.is_visible():
+                    await sub_el.click()
+                    break
+            except Exception:
+                pass
+
+        # ログイン完了待ち（room.rakuten.co.jpへのリダイレクト）
+        await page.wait_for_url(re.compile(r'room\.rakuten\.co\.jp'), timeout=30000)
+        await asyncio.sleep(2)
+        print(f"  ログイン後URL: {page.url}")
+        print("楽天ログイン成功")
+        return True
+    except Exception as e:
+        print(f"楽天ログインエラー: {e}")
+        return False
+
+
+async def save_cookies(context, path: Path):
+    """現在のブラウザコンテキストのクッキーをauth.jsonに保存する。"""
+    try:
+        cookies = await context.cookies()
+        path.write_text(json.dumps({"cookies": cookies}, ensure_ascii=False, indent=2))
+        print(f"auth.json更新完了 ({len(cookies)}件)")
+    except Exception as e:
+        print(f"auth.json保存エラー: {e}")
+
+
 async def post_product_api(page, csrf: str, item_key: str, item_name: str, caption: str) -> str:
     """APIで投稿。戻り値: 'ok' / 'duplicate' / 'not_found' / 'error'"""
     if len(item_key) > 32:
@@ -128,8 +231,10 @@ async def run():
     print(f"[rakuten-room] {now.strftime('%Y-%m-%d %H:%M JST')}")
 
     if not AUTH_JSON.exists():
-        print("auth.json が見つかりません。セットアップが必要です。")
-        return
+        if not RAKUTEN_ID or not RAKUTEN_PASSWORD:
+            print("auth.json が見つかりません。RAKUTEN_ID/RAKUTEN_PASSWORD も未設定のため終了。")
+            return
+        print("auth.json が見つかりません → ログインで取得します")
 
     pending_count = count_pending()
     print(f"未投稿商品: {pending_count}件")
@@ -155,20 +260,24 @@ async def run():
     print(f"待機: {wait}秒")
     await asyncio.sleep(wait)
 
-    auth = json.loads(AUTH_JSON.read_text())
-    cookies = [
-        {
-            'name': c['name'],
-            'value': c['value'],
-            'domain': c.get('domain', 'room.rakuten.co.jp'),
-            'path': c.get('path', '/'),
-        }
-        for c in auth.get('cookies', [])
-        if 'rakuten' in c.get('domain', '')
-    ]
+    cookies = []
+    if AUTH_JSON.exists():
+        auth = json.loads(AUTH_JSON.read_text())
+        cookies = [
+            {
+                'name': c['name'],
+                'value': c['value'],
+                'domain': c.get('domain', 'room.rakuten.co.jp'),
+                'path': c.get('path', '/'),
+            }
+            for c in auth.get('cookies', [])
+            if 'rakuten' in c.get('domain', '')
+        ]
+        print(f"auth.jsonからクッキー読込: {len(cookies)}件")
 
     success = 0
     fail = 0
+    login_attempted = False
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(
@@ -178,12 +287,33 @@ async def run():
         context = await browser.new_context(
             user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
         )
-        await context.add_cookies(cookies)
+        if cookies:
+            await context.add_cookies(cookies)
         page = await context.new_page()
 
         print("ROOM接続中...")
         await page.goto('https://room.rakuten.co.jp/items', wait_until='domcontentloaded', timeout=60000)
         await asyncio.sleep(3)
+
+        current_url = page.url
+        title = await page.title()
+        print(f"ページURL: {current_url}")
+        print(f"ページタイトル: {title[:60]}")
+
+        # セッション切れ検出: ログインページにリダイレクトされた場合
+        if "login" in current_url or "account.rakuten.com" in current_url:
+            print("セッション切れ検出 → 自動ログイン")
+            ok = await do_login(page, context)
+            login_attempted = True
+            if ok:
+                await save_cookies(context, AUTH_JSON)
+            else:
+                print("ログイン失敗 → 終了")
+                await browser.close()
+                return
+            current_url = page.url
+            title = await page.title()
+            print(f"ログイン後URL: {current_url}")
 
         page_content = await page.content()
         csrf_list = re.findall(
@@ -197,12 +327,6 @@ async def run():
 
         csrf = csrf_list[0]
         print(f"CSRF取得: {csrf[:16]}...")
-
-        # ログイン状態確認
-        current_url = page.url
-        title = await page.title()
-        print(f"ページURL: {current_url}")
-        print(f"ページタイトル: {title[:60]}")
 
         for _, row in products.iterrows():
             tone = get_current_tone()
@@ -229,6 +353,26 @@ async def run():
 
             print(f"    item_key: {item_key}")
             result = await post_product_api(page, csrf, item_key, product_name[:100], caption)
+
+            # 最初の403でセッション再取得を1回だけ試みる
+            if result == 'error' and not login_attempted and (success + fail) == 0:
+                print("    初回403 → セッション再取得を試みます")
+                ok = await do_login(page, context)
+                login_attempted = True
+                if ok:
+                    await save_cookies(context, AUTH_JSON)
+                    # 新しいCSRFを取得
+                    await page.goto('https://room.rakuten.co.jp/items', wait_until='domcontentloaded', timeout=30000)
+                    await asyncio.sleep(3)
+                    new_content = await page.content()
+                    new_csrf_list = re.findall(
+                        r'csrf[_-]?t(?:kn|oken)["\']?\s*[:=]\s*["\']([a-f0-9]{30,})["\']',
+                        new_content, re.I
+                    )
+                    if new_csrf_list:
+                        csrf = new_csrf_list[0]
+                        print(f"    新CSRF取得: {csrf[:16]}...")
+                        result = await post_product_api(page, csrf, item_key, product_name[:100], caption)
 
             if result == 'ok':
                 mark_posted(row["url"], tone)
