@@ -73,6 +73,8 @@ PRODUCT_SEO = {
     "DesignGenie":       {"kw": "graphic designer AI prompts creative briefs Canva", "desc": "50 AI prompts for graphic designers: creative briefs, client communication, design concepts."},
     "Procreate AI":      {"kw": "Procreate AI prompts digital art illustration iPad", "desc": "50 AI prompts for Procreate artists — composition ideas, style references, color palettes."},
     "Procreate Aid":     {"kw": "Procreate tips AI prompts digital art techniques", "desc": "Advanced AI prompts to level up your Procreate artwork — textures, lighting, character design."},
+    "Procreate Assets":  {"kw": "Procreate asset pack AI prompts digital products selling", "desc": "50 AI prompts for Procreate artists who want to create, sell, and grow — asset packs, client work, and brand illustration."},
+    "Etsy Success Boost":{"kw": "Etsy shop growth AI prompts scaling marketing revenue", "desc": "Advanced ChatGPT prompts for scaling your Etsy shop — launch campaigns, email lists, and $5K month strategy."},
 }
 
 
@@ -248,7 +250,7 @@ def main():
 
     # 3. サイトインデックスページ
     product_links = "".join(
-        f'<li><a href="products/{re.sub(r"[^a-z0-9]+-", "-", p.get("name","").lower()).strip("-")}.html">'
+        f'<li><a href="products/{re.sub(r"[^a-z0-9]+", "-", p.get("name","").lower()).strip("-")}.html">'
         f'{p.get("name","")} — ${p.get("price",0)/100:.0f}</a></li>'
         for p in products
     )
