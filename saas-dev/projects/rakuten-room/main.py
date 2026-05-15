@@ -220,10 +220,14 @@ async def post_product_api(page, csrf: str, item_key: str, item_name: str, capti
         if result.get('status') == 'success':
             return 'ok'
         msg_code = result.get('msg_code', '')
+        msg = str(result.get('msg', '') or result.get('message', ''))
         if msg_code == 'R200':
-            return 'duplicate'  # 既にROOMに投稿済み
+            return 'duplicate'
         if msg_code in ('R119', 'R108'):
-            return 'not_found'  # 商品がROOMに存在しない or item_key不正
+            return 'not_found'
+        if '上限' in msg or msg_code in ('R001', 'R900', 'R999'):
+            print(f"    ご利用上限 → 本日の投稿を終了")
+            return 'limit'
     print(f"    投稿失敗: {result}")
     return 'error'
 
@@ -242,9 +246,9 @@ async def run():
     pending_count = count_pending()
     print(f"未投稿商品: {pending_count}件")
     if pending_count < LOW_STOCK_THRESHOLD:
-        print(f"在庫 {pending_count}件 → 自動補充開始 (fetch_products.py --count 8000)")
-        fetch_script = Path(__file__).parent / "fetch_products.py"
-        subprocess.Popen([sys.executable, str(fetch_script), "--count", "8000"])
+        print(f"在庫 {pending_count}件 → ROOM直接スクレイプで補充開始")
+        fetch_script = Path(__file__).parent / "fetch_room_products.py"
+        subprocess.Popen([sys.executable, str(fetch_script), "--count", "500"])
     if pending_count == 0:
         print("在庫補充中です。数分後に再実行されます。")
         return
@@ -401,8 +405,10 @@ async def run():
                 mark_posted(row["url"], tone)
                 success += 1
                 print(f"    投稿成功")
+            elif result == 'limit':
+                # 利用上限 → ループ即終了
+                break
             elif result in ('duplicate', 'not_found'):
-                # ROOMに既にある or 存在しない商品 → 再試行しないよう済み扱い
                 mark_posted(row["url"], tone)
                 fail += 1
                 print(f"    スキップ({result}) → 投稿済みとしてマーク")

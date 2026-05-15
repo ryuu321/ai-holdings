@@ -43,6 +43,20 @@ jobs:
             echo "RAKUTEN_AUTH_JSON未設定、スキップ"
           fi
 
+      - name: ROOM商品スクレイプ（在庫補充）
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          cd saas-dev/projects/rakuten-room
+          PENDING=$(python -c "from utils.product_picker import count_pending; print(count_pending())")
+          echo "未投稿在庫: ${PENDING}件"
+          if [ "$PENDING" -lt 500 ]; then
+            echo "在庫不足 → ROOMスクレイプで補充"
+            python -u fetch_room_products.py --count 300
+          else
+            echo "在庫十分 → スクレイプスキップ"
+          fi
+
       - name: 投稿実行
         env:
           RAKUTEN_ID:           ${{ secrets.RAKUTEN_ID }}
