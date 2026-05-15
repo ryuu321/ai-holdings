@@ -31,6 +31,7 @@ jobs:
           DEVTO_API_KEY:           ${{ secrets.DEVTO_API_KEY }}
           HASHNODE_API_KEY:        ${{ secrets.HASHNODE_API_KEY }}
           HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
+          UNSPLASH_ACCESS_KEY:     ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: python main.py
 
       - name: Commit state and pages

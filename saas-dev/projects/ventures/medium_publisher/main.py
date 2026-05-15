@@ -136,6 +136,7 @@ def main():
             translated["title"], translated.get("subtitle", ""),
             translated["body"], translated.get("tags", []), api_key,
             canonical_url=canonical_url,
+            genre=article.get("genre", ""),
         )
         print(f"  投稿完了: {url}")
         state.setdefault("posted_titles", []).append(article["title"])

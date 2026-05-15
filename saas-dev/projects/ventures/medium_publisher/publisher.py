@@ -2,11 +2,39 @@
 Multi-platform publisher: Dev.to + Hashnode
 Dev.to APIキー: dev.to/settings/extensions → API Keys
 Hashnode APIキー: hashnode.com/account/developer → API Keys
+Unsplash: unsplash.com/developers → free 50req/hr, no approval needed for demo
 """
 import json
 import os
 import urllib.request
+import urllib.parse
 from pathlib import Path
+
+_UNSPLASH_KEY = os.environ.get("UNSPLASH_ACCESS_KEY", "")
+
+# ジャンル → Unsplash検索キーワードマッピング
+_GENRE_QUERIES = {
+    "AI & Productivity": "technology productivity workspace",
+    "Personal Finance":  "finance money investment coins",
+    "Career Development": "career office professional success",
+}
+_DEFAULT_QUERY = "technology abstract digital"
+
+
+def _fetch_cover_image(genre: str) -> str:
+    """Unsplash APIからジャンルに合った画像URLを取得。失敗時は空文字。"""
+    if not _UNSPLASH_KEY:
+        return ""
+    query = _GENRE_QUERIES.get(genre, _DEFAULT_QUERY)
+    encoded = urllib.parse.quote(query)
+    url = f"https://api.unsplash.com/photos/random?query={encoded}&orientation=landscape&w=1000"
+    try:
+        req = urllib.request.Request(url, headers={"Authorization": f"Client-ID {_UNSPLASH_KEY}"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            data = json.loads(r.read())
+            return data.get("urls", {}).get("regular", "")
+    except Exception:
+        return ""
 
 
 def _get_api_key() -> str:
@@ -55,7 +83,7 @@ def publish_hashnode(title: str, body: str, tags: list, api_key: str, publicatio
 
 
 def publish(title: str, subtitle: str, body: str, tags: list, api_key: str,
-            canonical_url: str = "") -> str:
+            canonical_url: str = "", genre: str = "") -> str:
     full_body = f"*{subtitle}*\n\n{body}" if subtitle else body
     # dev.toのタグは英数字・ハイフンのみ・最大4つ
     clean_tags = [t.lower().replace(" ", "")[:20] for t in tags[:4] if t.strip()]
@@ -68,6 +96,10 @@ def publish(title: str, subtitle: str, body: str, tags: list, api_key: str,
     }
     if canonical_url:
         article_payload["canonical_url"] = canonical_url
+
+    cover_image = _fetch_cover_image(genre)
+    if cover_image:
+        article_payload["main_image"] = cover_image
 
     payload = json.dumps({"article": article_payload}).encode("utf-8")
 
