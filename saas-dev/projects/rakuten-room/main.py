@@ -96,22 +96,24 @@ async def do_login(page, context=None) -> bool:
         return False
     print("楽天ログイン実行中...")
     try:
-        # クッキーをクリアしてRoomに移動 → 自然なSSO認証フローに乗る
-        if context:
-            await context.clear_cookies()
+        # ROOMに遷移してログイン状態を確認（クッキーはクリアしない）
         await page.goto("https://room.rakuten.co.jp/items", wait_until="domcontentloaded", timeout=30000)
         await asyncio.sleep(3)
 
-        # ログインページへのリダイレクト確認
+        # ページ内のlogin_status確認（楽天ROOMはURL変化なしに未ログイン状態を返す場合がある）
         current = page.url
-        if "room.rakuten.co.jp" in current and "login" not in current:
-            print("  既にログイン済み（クッキーが有効）")
+        page_content_check = await page.content()
+        already_logged_in = (
+            '"login_status":"on"' in page_content_check
+            or '"loginStatus":"on"' in page_content_check
+        )
+        if "login" not in current and "account.rakuten" not in current and already_logged_in:
+            print("  既にログイン済み（login_status確認済み）")
             return True
 
-        # login.account.rakuten.com が表示されていなければ直接遷移
-        if "login.account.rakuten.com" not in current and "account.rakuten" not in current:
-            await page.goto("https://login.account.rakuten.com/sso/auth?client_id=room&redirect_uri=https%3A%2F%2Froom.rakuten.co.jp%2F&response_type=code&scope=openid+profile", wait_until="domcontentloaded", timeout=30000)
-            await asyncio.sleep(2)
+        # ログインページに直接遷移
+        await page.goto("https://login.account.rakuten.com/sso/auth?client_id=room&redirect_uri=https%3A%2F%2Froom.rakuten.co.jp%2F&response_type=code&scope=openid+profile", wait_until="domcontentloaded", timeout=30000)
+        await asyncio.sleep(2)
 
         print(f"  ログインページ: {page.url}")
 
