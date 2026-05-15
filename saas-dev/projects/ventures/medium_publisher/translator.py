@@ -44,7 +44,11 @@ Requirements:
 - Use specific numbers, relatable examples for English readers
 - Keep the practical "how-to" value
 - End with a strong takeaway
-- Add this exact line at the very end of the body: "---\n📊 I share daily AI investment signals for free on Telegram → https://t.me/+yUiqVJi2uNFiOTA1"
+- Add this exact block at the very end of the body (after your final paragraph):
+  "---
+  📊 I share daily AI investment signals for free on Telegram → https://t.me/+yUiqVJi2uNFiOTA1
+
+  🛠️ If this was helpful, check out my AI productivity toolkit on Gumroad: https://app.gumroad.com/d/uNOVzVYiwY3R (ADHD Unlocked — focus system for high-achievers)"
 
 Return JSON only:
 {{
