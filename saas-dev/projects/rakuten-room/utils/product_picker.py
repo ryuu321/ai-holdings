@@ -1,7 +1,9 @@
 """products.csv の読み書き"""
+import re
 import pandas as pd
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
+from urllib.parse import urlparse, parse_qs, unquote
 
 CSV_PATH = Path(__file__).parent.parent / "data" / "products.csv"
 COLUMNS = [
@@ -30,11 +32,33 @@ def load_products() -> pd.DataFrame:
     return _load()
 
 
+def _extract_shop(url: str) -> str:
+    url = str(url)
+    if "hb.afl.rakuten" in url:
+        qs = parse_qs(urlparse(url).query)
+        actual = qs.get("pc", [""])[0]
+        if actual:
+            url = unquote(actual)
+    m = re.search(r"item\.rakuten\.co\.jp/([^/]+)/", url)
+    return m.group(1) if m else ""
+
+
 def get_pending(n: int = 5) -> pd.DataFrame:
     df = _load()
+    posted = df[df["posted"] == "True"]
+    priority_shops = set(posted["url"].apply(_extract_shop)) - {""}
+
     pending = df[df["posted"] != "True"].copy()
-    pending = pending.sort_values("captured_at")
-    return pending.head(n)
+    pending["_shop"] = pending["url"].apply(_extract_shop)
+    pending["_priority"] = pending["_shop"].isin(priority_shops).astype(int)
+    pending["_score"] = pd.to_numeric(pending.get("score", 0), errors="coerce").fillna(0)
+
+    # 優先ショップを先に、それ以外はcaptured_at順
+    pending = pending.sort_values(
+        ["_priority", "_score", "captured_at"],
+        ascending=[False, False, True],
+    )
+    return pending.drop(columns=["_shop", "_priority", "_score"]).head(n)
 
 
 def mark_posted(url: str, tone_used: str):
