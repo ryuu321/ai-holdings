@@ -39,7 +39,10 @@ jobs:
       - name: KDPアップロード（epub_readyの本を自動出品）
         working-directory: saas-dev/projects/kindle-kdp
         env:
-          KDP_SESSION_B64: ${{ secrets.KDP_SESSION_B64 }}
+          KDP_SESSION_B64:        ${{ secrets.KDP_SESSION_B64 }}
+          KDP_EMAIL:              ${{ secrets.KDP_EMAIL }}
+          KDP_PASSWORD:           ${{ secrets.KDP_PASSWORD }}
+          KDP_EMAIL_APP_PASSWORD: ${{ secrets.KDP_EMAIL_APP_PASSWORD }}
         run: python kdp_uploader.py
 
       - name: EPUBをgitにコミット（永続化）
