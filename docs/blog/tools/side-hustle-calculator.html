@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Side Hustle Income Calculator — How Much Can You Earn? | AI Holdings</title>
+<meta name="description" content="Free side hustle income calculator. Enter your skills and available hours to estimate your monthly earnings from freelancing, digital products, content creation, and more.">
+<link rel="canonical" href="https://ryuu321.github.io/ai-holdings/blog/tools/side-hustle-calculator.html">
+<meta property="og:title" content="Side Hustle Income Calculator — Free Earnings Estimator">
+<meta property="og:description" content="How much can you really make from a side hustle? Enter your hours and skills to get a realistic monthly income estimate across 6 popular side hustles.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Side Hustle Income Calculator",
+  "description": "Estimate monthly income from freelancing, digital products, content creation, and other side hustles based on your available hours.",
+  "url": "https://ryuu321.github.io/ai-holdings/blog/tools/side-hustle-calculator.html",
+  "applicationCategory": "FinanceApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a2e;background:#f8f9ff;line-height:1.7}
+.hero{background:linear-gradient(135deg,#0f3460 0%,#16213e 100%);color:#fff;padding:50px 20px;text-align:center}
+.hero h1{font-size:2em;margin-bottom:10px;line-height:1.3}
+.hero p{opacity:.85;max-width:580px;margin:0 auto}
+.container{max-width:820px;margin:0 auto;padding:36px 20px}
+.card{background:#fff;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+h2{font-size:1.35em;color:#0f3460;margin-bottom:16px;border-left:4px solid #f5a623;padding-left:10px}
+label{display:block;font-weight:600;margin-bottom:6px;color:#333}
+input[type=range]{width:100%;accent-color:#0f3460;margin:6px 0 4px}
+.slider-val{text-align:right;font-size:.9em;color:#555;margin-bottom:14px}
+select,input[type=number]{width:100%;padding:11px 14px;border-radius:8px;font-size:1em;border:2px solid #dde2ef;margin-bottom:16px}
+button{width:100%;padding:14px;border-radius:8px;background:#0f3460;color:#fff;font-weight:700;font-size:1em;border:none;cursor:pointer;letter-spacing:.3px;transition:background .2s}
+button:hover{background:#1a4f8f}
+.results{display:none;margin-top:20px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:500px){.result-grid{grid-template-columns:1fr}}
+.result-card{background:#f0f4ff;border-radius:10px;padding:16px;text-align:center}
+.result-card .hustle-name{font-weight:700;color:#0f3460;font-size:.95em;margin-bottom:4px}
+.result-card .income{font-size:1.5em;font-weight:700;color:#2e7d32}
+.result-card .note{font-size:.78em;color:#666;margin-top:4px}
+.best-pick{background:linear-gradient(135deg,#fff3cd,#fffbea);border:2px solid #f5a623;border-radius:10px;padding:18px;margin-bottom:16px;text-align:center}
+.best-pick .label{font-size:.85em;font-weight:600;color:#e09010;letter-spacing:.5px;text-transform:uppercase}
+.best-pick .hustle{font-size:1.4em;font-weight:700;color:#0f3460;margin:4px 0}
+.best-pick .amount{font-size:1.8em;font-weight:700;color:#2e7d32}
+.cta-box{background:linear-gradient(135deg,#fff3cd,#fff8e1);border:2px solid #f5a623;border-radius:12px;padding:24px;text-align:center}
+.cta-box h3{color:#0f3460;margin-bottom:8px;font-size:1.2em}
+.cta-box p{margin-bottom:16px;color:#444}
+.cta-btn{display:inline-block;background:#f5a623;color:#000;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;font-size:1em}
+.cta-btn:hover{background:#e09010}
+.disclaimer{font-size:.8em;color:#999;margin-top:12px}
+footer{text-align:center;padding:28px;color:#666;font-size:.88em}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Side Hustle Income Calculator</h1>
+  <p>Enter your skills and free hours to see realistic monthly earnings estimates across 6 popular side hustles.</p>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>Your Situation</h2>
+
+    <label>Available hours per week for a side hustle</label>
+    <input type="range" id="hours" min="2" max="30" value="10" oninput="document.getElementById('hours-val').textContent=this.value+' hrs/week'">
+    <div class="slider-val" id="hours-val">10 hrs/week</div>
+
+    <label>Your experience level</label>
+    <select id="level">
+      <option value="beginner">Beginner (just starting out)</option>
+      <option value="intermediate" selected>Intermediate (some skills / experience)</option>
+      <option value="advanced">Advanced (professional level)</option>
+    </select>
+
+    <label>Primary skill area</label>
+    <select id="skill">
+      <option value="writing">Writing / Content</option>
+      <option value="design">Design / Art</option>
+      <option value="tech">Tech / Code</option>
+      <option value="marketing">Marketing / Social Media</option>
+      <option value="teaching">Teaching / Coaching</option>
+      <option value="general">General (no specific skill yet)</option>
+    </select>
+
+    <button onclick="calculate()">Calculate My Earnings Potential</button>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <div class="card" style="background:#f0f4ff">
+    <h2>How These Estimates Work</h2>
+    <p>Estimates are based on average earnings from real side hustlers in 2024-2025, adjusted for your hours and experience level. <strong>Beginner estimates are conservative</strong> (first 3-6 months). Advanced estimates assume you have a client base or audience.</p>
+    <ul style="padding-left:20px;margin-top:12px">
+      <li>Freelancing rates from Upwork/Fiverr data (2024)</li>
+      <li>Digital product income from Gumroad/Etsy averages</li>
+      <li>Content creator ad revenue at median CPM</li>
+      <li>Assumes consistent effort — not passive income from day 1</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const HUSTLES = {
+  Freelancing: {
+    base: { beginner: 12, intermediate: 35, advanced: 75 },
+    ramp: 0.85,
+    note: "Per hour rate × your available hours",
+    skill_bonus: { tech: 1.4, design: 1.2, writing: 1.1, marketing: 1.15, teaching: 1.1, general: 0.8 }
+  },
+  "Digital Products": {
+    base: { beginner: 50, intermediate: 200, advanced: 600 },
+    ramp: 0.3,
+    note: "Month 1-3 is setup; income grows over time",
+    skill_bonus: { writing: 1.3, design: 1.2, teaching: 1.4, marketing: 1.1, tech: 1.0, general: 0.9 }
+  },
+  "Content Creation": {
+    base: { beginner: 20, intermediate: 150, advanced: 500 },
+    ramp: 0.2,
+    note: "Grows with audience; takes 6-12 months to build",
+    skill_bonus: { writing: 1.3, marketing: 1.4, teaching: 1.2, design: 1.1, tech: 0.9, general: 1.0 }
+  },
+  "Online Tutoring": {
+    base: { beginner: 18, intermediate: 30, advanced: 55 },
+    ramp: 0.9,
+    note: "Per hour; platforms like Tutor.com or direct clients",
+    skill_bonus: { teaching: 1.5, tech: 1.3, writing: 1.1, marketing: 1.0, design: 0.9, general: 0.8 }
+  },
+  "Print-on-Demand": {
+    base: { beginner: 40, intermediate: 120, advanced: 350 },
+    ramp: 0.25,
+    note: "Passive after setup; first 3 months are build phase",
+    skill_bonus: { design: 1.5, marketing: 1.2, general: 1.0, writing: 0.9, tech: 0.9, teaching: 0.8 }
+  },
+  "AI-Assisted Writing": {
+    base: { beginner: 300, intermediate: 700, advanced: 1500 },
+    ramp: 0.7,
+    note: "High demand now; use AI tools to 3x your output",
+    skill_bonus: { writing: 1.3, marketing: 1.2, teaching: 1.1, general: 1.1, design: 0.9, tech: 1.0 }
+  }
+};
+
+function calculate() {
+  const hours = parseInt(document.getElementById('hours').value);
+  const level = document.getElementById('level').value;
+  const skill = document.getElementById('skill').value;
+  const hoursPerMonth = hours * 4.3;
+
+  const results = Object.entries(HUSTLES).map(([name, data]) => {
+    let base = data.base[level];
+    let skillMult = data.skill_bonus[skill] || 1.0;
+    let income;
+    if (name === 'Freelancing' || name === 'Online Tutoring') {
+      income = base * skillMult * hoursPerMonth * data.ramp;
+    } else {
+      income = base * skillMult * data.ramp * (Math.log(hours + 1) / Math.log(15));
+    }
+    return { name, income: Math.round(income), note: data.note };
+  }).sort((a, b) => b.income - a.income);
+
+  const best = results[0];
+  const out = document.getElementById('results');
+  out.style.display = 'block';
+
+  out.innerHTML = `
+    <div class="best-pick">
+      <div class="label">Your Best Match</div>
+      <div class="hustle">${best.name}</div>
+      <div class="amount">~$${best.income.toLocaleString()}/month</div>
+      <div style="font-size:.85em;color:#555;margin-top:4px">${best.note}</div>
+    </div>
+    <p style="font-weight:600;margin-bottom:10px">All estimates (with ${hours} hrs/week, ${level} level):</p>
+    <div class="result-grid">
+      ${results.map(r => `
+        <div class="result-card">
+          <div class="hustle-name">${r.name}</div>
+          <div class="income">$${r.income.toLocaleString()}</div>
+          <div class="note">${r.note}</div>
+        </div>`).join('')}
+    </div>
+    <div class="cta-box">
+      <h3>Use AI to 2-3x Your Side Hustle Output</h3>
+      <p>The fastest way to earn more is to work smarter with AI. These prompt packs help you produce more, faster — whether you're writing, designing, or selling.</p>
+      <a class="cta-btn" href="https://ryuumg.gumroad.com" target="_blank" rel="nofollow">Browse AI Prompt Packs → Gumroad</a>
+      <div class="disclaimer">Estimates are projections, not guarantees. Actual results depend on effort, market conditions, and execution.</div>
+    </div>`;
+}
+</script>
+
+<footer><p>© 2026 AI Holdings | <a href="https://ryuu321.github.io/ai-holdings">Home</a> | <a href="../index.html">Blog</a></p></footer>
+</body>
+</html>

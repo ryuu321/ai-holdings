@@ -21,7 +21,8 @@ def _get_api_key() -> str:
     return ""
 
 
-def publish_hashnode(title: str, body: str, tags: list, api_key: str, publication_id: str) -> str:
+def publish_hashnode(title: str, body: str, tags: list, api_key: str, publication_id: str,
+                     canonical_url: str = "") -> str:
     """Hashnodeにマークダウン記事を投稿。URLを返す。"""
     if not api_key or not publication_id:
         return ""
@@ -40,6 +41,8 @@ def publish_hashnode(title: str, body: str, tags: list, api_key: str, publicatio
             "tags": clean_tags,
         }
     }
+    if canonical_url:
+        variables["input"]["originalArticleURL"] = canonical_url
     payload = json.dumps({"query": query, "variables": variables}).encode("utf-8")
     req = urllib.request.Request(
         "https://gql.hashnode.com/",
@@ -51,19 +54,22 @@ def publish_hashnode(title: str, body: str, tags: list, api_key: str, publicatio
         return result["data"]["publishPost"]["post"]["url"]
 
 
-def publish(title: str, subtitle: str, body: str, tags: list, api_key: str) -> str:
+def publish(title: str, subtitle: str, body: str, tags: list, api_key: str,
+            canonical_url: str = "") -> str:
     full_body = f"*{subtitle}*\n\n{body}" if subtitle else body
     # dev.toのタグは英数字・ハイフンのみ・最大4つ
     clean_tags = [t.lower().replace(" ", "")[:20] for t in tags[:4] if t.strip()]
 
-    payload = json.dumps({
-        "article": {
-            "title": title,
-            "body_markdown": full_body,
-            "published": True,
-            "tags": clean_tags,
-        }
-    }).encode("utf-8")
+    article_payload: dict = {
+        "title": title,
+        "body_markdown": full_body,
+        "published": True,
+        "tags": clean_tags,
+    }
+    if canonical_url:
+        article_payload["canonical_url"] = canonical_url
+
+    payload = json.dumps({"article": article_payload}).encode("utf-8")
 
     req = urllib.request.Request(
         "https://dev.to/api/articles",

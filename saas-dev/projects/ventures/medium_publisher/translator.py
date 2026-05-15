@@ -54,32 +54,33 @@ def translate_article(article: dict, params: dict) -> dict:
     product_url = product["url"]
     product_label = product["label"]
 
-    prompt = f"""You are a professional content writer converting Japanese personal finance/career articles to English for Medium.
+    prompt = f"""You are a professional English content writer. Convert the Japanese source into a high-quality English article.
 
-Original article:
-Title: {article['title']}
+Source (Japanese):
 Genre: {focus}
-Content (free section): {article['free_body'][:500]}
-Content (main section): {article['paid_body'][:2000]}
+Title: {article['title']}
+Free section: {article['free_body'][:400]}
+Main section: {article['paid_body'][:2000]}
 
-Requirements:
-- Write in {style} style
-- Target length: {length}
-- Sound authentic, NOT like a translation — rewrite naturally
-- Use specific numbers, relatable examples for English readers
-- Keep the practical "how-to" value
-- End with a strong takeaway
-- Add this exact block at the very end of the body (after your final paragraph):
-  "---
-  📊 I share daily AI investment signals for free on Telegram → https://t.me/+yUiqVJi2uNFiOTA1
+Writing requirements:
+- Style: {style}
+- Length: {length}
+- Rewrite naturally for English readers — NOT a translation
+- Use concrete numbers, real examples, actionable steps
+- SEO: include primary keyword in title and first paragraph
+- IMPORTANT: Use ONLY standard English ASCII characters in the title. No Japanese characters, no special Unicode symbols, no curly quotes — straight ASCII only.
 
-  🛠️ If this was helpful, check out my toolkit on Gumroad: {product_url} ({product_label})"
+End the body with this exact block (copy verbatim, do not translate):
+---
+📊 I share daily AI investment signals free on Telegram → https://t.me/+yUiqVJi2uNFiOTA1
 
-Return JSON only:
+🛠️ Grab my full toolkit: [{product_label}]({product_url})
+
+Respond with valid JSON only (no markdown fences, no extra text):
 {{
-  "title": "SEO-optimized English title (with numbers if possible)",
-  "subtitle": "One-sentence hook that makes people click",
-  "body": "Full article in Markdown (use ## headers, bullet points)",
+  "title": "Compelling SEO title in plain ASCII English (include a number if natural)",
+  "subtitle": "One punchy hook sentence under 120 chars",
+  "body": "Full article in Markdown with ## subheadings and bullet points",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
 }}"""
 

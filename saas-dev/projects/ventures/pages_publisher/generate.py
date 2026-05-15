@@ -100,7 +100,11 @@ def _product_page(p: dict) -> str:
     desc  = seo.get("desc", f"{name} — AI prompt pack for professionals. 50 ready-to-use ChatGPT prompts.")
     kw    = seo.get("kw", f"{name} AI prompts ChatGPT productivity")
 
+    json_ld = f"""<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"Product","name":"{name}","description":"{desc}","offers":{{"@type":"Offer","price":"{price:.2f}","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"{url}"}}}}
+</script>"""
     html = PAGE_HEAD.format(lang="en", title=f"{name} | AI Prompt Pack — ${price:.0f}", description=desc)
+    html = html.replace("</head>", f"{json_ld}\n</head>")
     html += f"""
 <div class="hero">
   <h1>{name}</h1>
@@ -265,6 +269,13 @@ def main():
     <ul>{product_links}</ul>
   </div>
   <div class="section">
+    <h2>Free Tools</h2>
+    <ul>
+      <li><a href="tools/prompt-sampler.html">Free ChatGPT Prompt Generator</a> — Get 5 free AI prompts for your niche</li>
+      <li><a href="tools/side-hustle-calculator.html">Side Hustle Income Calculator</a> — Estimate your monthly earnings potential</li>
+    </ul>
+  </div>
+  <div class="section">
     <h2>Free Resources</h2>
     <p>📊 Daily AI investment signals → <a href="https://t.me/+yUiqVJi2uNFiOTA1">Telegram Channel (Free)</a></p>
   </div>
@@ -273,6 +284,17 @@ def main():
     (BLOG_DIR / "index.html").write_text(index_html, encoding="utf-8")
     all_urls.append(f"{SITE_URL}/blog/")
     print("  ✅ blog/index.html生成")
+
+    # 3b. 英語記事ページをサイトマップに追加
+    en_dir = BLOG_DIR / "en"
+    if en_dir.exists():
+        for f in sorted(en_dir.glob("*.html")):
+            all_urls.append(f"{SITE_URL}/blog/en/{f.name}")
+        print(f"  英語記事: {len(list(en_dir.glob('*.html')))}件サイトマップ追加")
+
+    # 3c. ツールページをサイトマップに追加
+    all_urls.append(f"{SITE_URL}/blog/tools/prompt-sampler.html")
+    all_urls.append(f"{SITE_URL}/blog/tools/side-hustle-calculator.html")
 
     # 4. サイトマップ生成
     sitemap = _generate_sitemap(all_urls)

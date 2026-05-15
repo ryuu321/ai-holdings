@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free ChatGPT Prompt Generator — 50 AI Prompts by Niche | AI Holdings</title>
+<meta name="description" content="Free ChatGPT prompt generator. Get 5 AI prompts instantly for your niche: ADHD, content creation, Etsy, Procreate, and more. No signup required.">
+<link rel="canonical" href="https://ryuu321.github.io/ai-holdings/blog/tools/prompt-sampler.html">
+<meta property="og:title" content="Free ChatGPT Prompt Generator — AI Prompts by Niche">
+<meta property="og:description" content="Generate 5 free AI prompts for your niche instantly. ADHD productivity, content creation, Etsy selling, graphic design, and more.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free ChatGPT Prompt Generator",
+  "description": "Generate free AI prompts by niche: ADHD, content creation, Etsy, Procreate, graphic design.",
+  "url": "https://ryuu321.github.io/ai-holdings/blog/tools/prompt-sampler.html",
+  "applicationCategory": "ProductivityApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a2e;background:#f8f9ff;line-height:1.7}
+.hero{background:linear-gradient(135deg,#0f3460 0%,#16213e 100%);color:#fff;padding:50px 20px;text-align:center}
+.hero h1{font-size:2em;margin-bottom:10px;line-height:1.3}
+.hero p{opacity:.85;max-width:580px;margin:0 auto}
+.container{max-width:820px;margin:0 auto;padding:36px 20px}
+.card{background:#fff;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+h2{font-size:1.35em;color:#0f3460;margin-bottom:16px;border-left:4px solid #f5a623;padding-left:10px}
+select,button{width:100%;padding:13px 16px;border-radius:8px;font-size:1em;border:2px solid #dde2ef;margin-bottom:12px;cursor:pointer}
+button{background:#0f3460;color:#fff;border:none;font-weight:700;letter-spacing:.3px;transition:background .2s}
+button:hover{background:#1a4f8f}
+.prompts{display:none;margin-top:16px}
+.prompt-item{background:#f0f4ff;border-left:3px solid #0f3460;border-radius:6px;padding:14px 16px;margin-bottom:10px;font-size:.95em;position:relative}
+.copy-btn{position:absolute;top:8px;right:8px;background:#fff;border:1px solid #0f3460;color:#0f3460;padding:3px 10px;border-radius:4px;font-size:.78em;cursor:pointer;width:auto;margin:0}
+.copy-btn:hover{background:#0f3460;color:#fff}
+.cta-box{background:linear-gradient(135deg,#fff3cd,#fff8e1);border:2px solid #f5a623;border-radius:12px;padding:24px;text-align:center;margin-top:8px}
+.cta-box h3{color:#0f3460;margin-bottom:8px;font-size:1.2em}
+.cta-box p{margin-bottom:16px;color:#444}
+.cta-btn{display:inline-block;background:#f5a623;color:#000;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;font-size:1em}
+.cta-btn:hover{background:#e09010}
+.badge{display:inline-block;background:#e8f5e9;color:#2e7d32;padding:3px 9px;border-radius:16px;font-size:.82em;font-weight:600;margin-left:6px}
+footer{text-align:center;padding:28px;color:#666;font-size:.88em}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Free ChatGPT Prompt Generator</h1>
+  <p>Get 5 battle-tested AI prompts for your niche — instantly. No signup needed.</p>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>Generate Free Prompts</h2>
+    <select id="niche-select">
+      <option value="">— Select your niche —</option>
+      <option value="adhd">ADHD Productivity</option>
+      <option value="content">Content Creation</option>
+      <option value="etsy">Etsy Selling</option>
+      <option value="procreate">Procreate / Digital Art</option>
+      <option value="design">Graphic Design</option>
+      <option value="finance">Personal Finance</option>
+      <option value="career">Career Development</option>
+    </select>
+    <button onclick="generate()">Generate My Free Prompts</button>
+    <div class="prompts" id="prompts-output"></div>
+  </div>
+
+  <div class="card" style="background:#f0f4ff">
+    <h2>How to Use These Prompts</h2>
+    <ol style="padding-left:20px">
+      <li style="margin-bottom:8px">Copy a prompt by clicking the <strong>Copy</strong> button</li>
+      <li style="margin-bottom:8px">Paste into <strong>ChatGPT, Claude, or Gemini</strong></li>
+      <li style="margin-bottom:8px">Fill in the <strong>[brackets]</strong> with your specifics</li>
+      <li>Get results instantly — iterate and improve</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+const PROMPTS = {
+  adhd: {
+    title: "ADHD Productivity",
+    product: { url: "https://app.gumroad.com/d/uNOVzVYiwY3R", label: "ADHD Unlocked — 50 AI Prompts" },
+    items: [
+      "Act as an ADHD productivity coach. Help me break down [large task] into 5 micro-steps that take under 10 minutes each. Make each step feel achievable and add a dopamine hook to get me started.",
+      "I struggle with time blindness. Create a visual time-blocking schedule for my [day/week] that includes mandatory breaks, transition buffers between tasks, and realistic time estimates for [list of tasks].",
+      "Help me write a quick 'brain dump' template I can use every morning to clear mental clutter. Structure it so I capture tasks, worries, ideas, and 3 non-negotiables for the day in under 5 minutes.",
+      "I keep forgetting to do [recurring task]. Design a habit-stacking system where I attach this task to an existing habit I already do reliably. Be specific and practical.",
+      "Act as my external accountability partner. I need to finish [project] by [date]. Create a daily check-in prompt I can use to update you on progress, and include consequence framing if I fall behind.",
+    ]
+  },
+  content: {
+    title: "Content Creation",
+    product: { url: "https://ryuumg.gumroad.com/l/content-boost", label: "AI Content Boost — 50 Prompts" },
+    items: [
+      "You are a viral content strategist. Analyze [topic] and give me 10 content angles that would each appeal to a different emotional trigger: curiosity, FOMO, inspiration, controversy, and relatability.",
+      "Write a [Twitter/Instagram/LinkedIn] post about [topic] that opens with a pattern-interrupt first line, delivers one counterintuitive insight, and ends with a question that drives comments.",
+      "Help me repurpose this [blog post / YouTube video / podcast] into 5 different content formats: a thread, a carousel, a short video script, an email, and a quote graphic. Here's the source: [paste content]",
+      "Act as a headline optimizer. I have this headline: '[your headline]'. Rewrite it 7 ways — make it more specific, more urgent, more curiosity-driven, and more benefit-focused. Then rank them 1-7.",
+      "Create a 30-day content calendar for [niche/brand] with daily post ideas. Include a mix of educational (40%), entertaining (30%), and promotional (30%) content. Format as a table.",
+    ]
+  },
+  etsy: {
+    title: "Etsy Selling",
+    product: { url: "https://ryuumg.gumroad.com/l/etsy-seller-boost", label: "Etsy Seller Boost — 50 Prompts" },
+    items: [
+      "Act as an Etsy SEO expert. Analyze this product: [product description]. Rewrite the title (max 140 chars), write 13 relevant tags, and suggest the top 3 search phrases buyers would use to find it.",
+      "Write a compelling Etsy product description for [item] that: leads with the customer benefit, includes sensory details, mentions use cases, and ends with a clear call to action. Target buyer: [describe ideal customer].",
+      "I want to write a thank-you message for Etsy buyers that feels personal, encourages a 5-star review without being pushy, and promotes my other products subtly. My shop sells [type of products].",
+      "Help me price [product] correctly. It costs me $[X] in materials and takes [Y hours] to make. Research competitor pricing and suggest a price that reflects value, not just cost. Justify your recommendation.",
+      "I want to run an Etsy sale this [holiday/season]. Write: 1) A shop announcement, 2) A social media post, 3) An email to past buyers. All should create urgency without feeling spammy.",
+    ]
+  },
+  procreate: {
+    title: "Procreate / Digital Art",
+    product: { url: "https://ryuumg.gumroad.com/l/procreate-ai", label: "Procreate AI — 50 Art Prompts" },
+    items: [
+      "Act as an art director. I want to paint [subject] in Procreate. Suggest: 1) Composition rules to follow, 2) A limited 5-color palette with hex codes, 3) Which Procreate brushes to use for each element, 4) Lighting direction.",
+      "I'm stuck in an art style rut. Give me 7 unconventional style combinations to try in Procreate — for example, 'Studio Ghibli meets cyberpunk' — and describe the key visual elements of each.",
+      "Help me develop a consistent character design for [character description]. Define: facial proportions, signature colors, clothing style, recurring accessories, and 3 poses to practice first.",
+      "I want to improve my digital painting speed. Give me a 30-minute Procreate practice routine that targets: gesture drawing (5 min), value study (10 min), color mixing (10 min), and a quick study of [subject] (5 min).",
+      "Act as a senior illustrator. Review this concept: [describe your artwork idea]. Point out potential composition issues, suggest improvements to the focal point, and recommend a mood/lighting setup that matches my intent.",
+    ]
+  },
+  design: {
+    title: "Graphic Design",
+    product: { url: "https://ryuumg.gumroad.com/l/designgenie", label: "DesignGenie — 50 Design Prompts" },
+    items: [
+      "Act as a brand strategist. My client is [business type] targeting [audience]. Suggest: 1) Brand personality in 3 adjectives, 2) Color palette rationale with 4 hex codes, 3) Typography pairing (headline + body), 4) Logo style direction.",
+      "Write a creative brief for a [flyer / social media graphic / logo] project. Client: [describe]. Budget: [X]. Deadline: [date]. Include: objectives, target audience, key message, mandatory elements, and design constraints.",
+      "I need to write better copy for my designs. Take this weak text: '[paste text]' and rewrite it to be: shorter, more punchy, benefit-focused, and action-oriented. Give me 3 alternative versions.",
+      "Act as a design critic. I've created [describe your design]. Give me honest feedback on: visual hierarchy, whitespace usage, font readability, color contrast (WCAG standards), and one thing I should change immediately.",
+      "Help me pitch this design concept to a skeptical client who prefers safe, traditional styles. Write a professional explanation that addresses their likely objections and backs up my creative choices with design principles.",
+    ]
+  },
+  finance: {
+    title: "Personal Finance",
+    product: { url: "https://ryuumg.gumroad.com/l/ndtsjv", label: "Personal Finance AI Prompts — 50 Prompts" },
+    items: [
+      "Act as a personal finance advisor. I earn $[X]/month and spend $[Y]/month. Analyze my financial situation and give me a prioritized 90-day action plan to: 1) Build a $1,000 emergency fund, 2) Eliminate [type of debt], 3) Start investing.",
+      "Help me create a zero-based budget for [month]. My income is $[X]. My fixed expenses are [list]. Create a spreadsheet-ready budget that allocates every dollar, including a 'fun money' category so I actually stick to it.",
+      "I want to start investing but have only $[amount]. Compare: high-yield savings account vs index funds vs ETFs vs I-bonds for my situation. Explain risk, liquidity, and expected return for each in plain English.",
+      "Act as a debt payoff coach. I have these debts: [list with balances and interest rates]. Should I use the avalanche or snowball method? Create a month-by-month payoff timeline and calculate total interest saved.",
+      "Help me negotiate a lower interest rate on my credit card. Write a script I can use to call [bank name]. Include: how to open the conversation, key phrases that work, what to say if they say no, and escalation tactics.",
+    ]
+  },
+  career: {
+    title: "Career Development",
+    product: { url: "https://app.gumroad.com/d/uNOVzVYiwY3R", label: "ADHD Unlocked — AI Career Toolkit" },
+    items: [
+      "Act as a senior recruiter. Review my resume for [job title]. Identify: 1) The 3 weakest bullet points and how to strengthen them, 2) Keywords missing from the job description that I should add, 3) One section that's hurting me the most.",
+      "Help me answer the interview question 'Tell me about a time you failed' for a [job title] role at [company type]. Use the STAR method. Make it honest but reframe the failure as a learning story that demonstrates growth.",
+      "I'm preparing to negotiate my salary for [role]. My research shows market rate is $[X]-$[Y]. I currently earn $[Z]. Write a negotiation script that opens high but professionally, handles counteroffers, and secures extras if salary is firm.",
+      "Write a LinkedIn connection request to [type of person] that gets accepted. I want to [goal: get a referral / learn about their career / explore opportunities]. Make it specific, brief, and not immediately transactional.",
+      "I have a performance review in [timeframe]. Help me write a self-evaluation for [role] that: highlights my top 3 achievements with metrics, acknowledges one development area diplomatically, and positions me for a promotion.",
+    ]
+  }
+};
+
+function generate() {
+  const sel = document.getElementById('niche-select').value;
+  if (!sel) { alert('Please select a niche first.'); return; }
+  const data = PROMPTS[sel];
+  const out = document.getElementById('prompts-output');
+  out.style.display = 'block';
+  out.innerHTML = '<p style="margin-bottom:12px;font-weight:600;color:#0f3460">Your 5 free ' + data.title + ' prompts:</p>' +
+    data.items.map((p, i) => `
+      <div class="prompt-item" id="p${i}">
+        <strong>Prompt ${i+1}:</strong><br>${p}
+        <button class="copy-btn" onclick="copyPrompt(${i}, '${sel}')">Copy</button>
+      </div>`).join('') +
+    `<div class="cta-box">
+      <h3>Want all 50 prompts?</h3>
+      <p>These 5 are just a sample. The full pack includes 50 professionally crafted prompts, organized by use case — ready to paste into ChatGPT, Claude, or Gemini.</p>
+      <a class="cta-btn" href="${data.product.url}" target="_blank" rel="nofollow">Get All 50 Prompts — ${data.product.label}</a>
+      <br><small style="display:block;margin-top:8px;color:#666">One-time purchase · Instant download · Works with any AI</small>
+    </div>`;
+}
+
+function copyPrompt(i, niche) {
+  const text = PROMPTS[niche].items[i];
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(`#p${i} .copy-btn`);
+    btn.textContent = 'Copied!';
+    btn.style.background = '#0f3460';
+    btn.style.color = '#fff';
+    setTimeout(() => { btn.textContent = 'Copy'; btn.style.background=''; btn.style.color=''; }, 2000);
+  });
+}
+</script>
+
+<footer><p>© 2026 AI Holdings | <a href="https://ryuu321.github.io/ai-holdings">Home</a> | <a href="../index.html">Blog</a></p></footer>
+</body>
+</html>
