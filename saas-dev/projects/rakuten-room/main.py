@@ -300,8 +300,11 @@ async def run():
 
         current_url = page.url
         title = await page.title()
+        page_html = await page.content()
+        login_status = "on" if ('"login_status":"on"' in page_html or '"loginStatus":"on"' in page_html) else "off"
         print(f"ページURL: {current_url}")
         print(f"ページタイトル: {title[:60]}")
+        print(f"ログイン状態: {login_status}")
 
         # セッション切れ検出: ログインページにリダイレクトされた場合
         if "login" in current_url or "account.rakuten.com" in current_url:
