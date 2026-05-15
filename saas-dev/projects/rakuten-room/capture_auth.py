@@ -1,15 +1,13 @@
 """
 楽天ROOMの認証情報をローカルでキャプチャするスクリプト。
-実行後に auth.json が生成されるので、base64エンコードしてGitHub Secretsに登録する。
 
 使い方:
   python capture_auth.py
-  → ブラウザが開くので、楽天にログインしてROOMにも移動
-  → 90秒後に自動でauth.jsonが保存される
-  → auth_base64.txt の内容を GitHub Secrets (RAKUTEN_AUTH_JSON) に登録
+  → ブラウザが開くので楽天にログイン
+  → ROOMページでMYROOMをクリック（SSO発火）
+  → 自動検出してauth.jsonを保存
 """
 import asyncio
-import base64
 from pathlib import Path
 from playwright.async_api import async_playwright
 
@@ -22,61 +20,50 @@ async def main():
         context = await browser.new_context()
         page = await context.new_page()
 
+        # Step1: 楽天ログイン
         print("ブラウザを開いています...")
         await page.goto(
-            "https://grp01.id.rakuten.co.jp/rms/nid/login?service_id=room&return_url=https://room.rakuten.co.jp/",
+            "https://grp01.id.rakuten.co.jp/rms/nid/login?service_id=top",
             timeout=60000, wait_until="domcontentloaded"
         )
+        print("\n[Step 1] 楽天にログインしてください")
+        input("ログイン完了後、Enterを押してください > ")
 
-        print("\n==============================================")
-        print("1. ブラウザで楽天にログインしてください")
-        print("2. room.rakuten.co.jp に自動遷移するのを確認")
-        print("3. 右上にアカウント名が表示されたらOK")
-        print("==============================================")
-        print("\n300秒後に自動でcookieをキャプチャします...")
-        for i in range(300, 0, -10):
-            print(f"  残り {i}秒...")
-            await asyncio.sleep(10)
+        # Step2: ROOMへ手動移動
+        print("\n[Step 2] ブラウザのアドレスバーに以下を入力してEnterしてください:")
+        print("  https://room.rakuten.co.jp/items")
+        print("\n[Step 3] ROOMが表示されたら「MYROOM」または「マイルーム」をクリックしてください")
+        print("  SSO認証が走り、ログイン済みのMYROOMページに遷移します")
+        print("  遷移を検出したら自動でキャプチャします（最大60秒待機）...")
 
-        # ROOMにいない場合は遷移を試みる
-        try:
-            if "room.rakuten.co.jp" not in page.url:
-                print(f"現在のURL: {page.url} → ROOMへ移動...")
-                await page.goto("https://room.rakuten.co.jp/", timeout=60000, wait_until="domcontentloaded")
-                await asyncio.sleep(5)
-        except Exception as e:
-            print(f"ROOM遷移エラー（無視）: {e}")
+        # MYROOMクリック後のURL変化を検出（room_XXXXまたはmyページへの遷移）
+        detected = False
+        for _ in range(60):
+            await asyncio.sleep(1)
+            url = page.url
+            if any(x in url for x in ["/room_", "/mypage", "/my/", "myroom"]):
+                print(f"✓ MYROOMページ検出: {url}")
+                detected = True
+                break
 
-        # ログイン状態確認
-        try:
-            content = await page.content()
-            status = "on" if '"login_status":"on"' in content else "off"
-            print(f"ROOMログイン状態: {status}")
-            if status == "off":
-                print("警告: ROOMにログインできていません。auth.jsonは保存しますが効果が薄い可能性があります。")
-        except Exception:
-            print("ログイン状態確認スキップ")
+        if not detected:
+            print("自動検出できませんでした。現在のページでキャプチャします")
+            print(f"現在URL: {page.url}")
 
-        # cookieを保存（エラーがあっても保存を試みる）
-        try:
-            await context.storage_state(path=str(AUTH_JSON))
-            print(f"\nauth.json を保存しました: {AUTH_JSON}")
-        except Exception as e:
-            print(f"保存エラー: {e}")
-            await browser.close()
-            return
+        # セッション確立を待つ
+        print("セッション確立中（5秒待機）...")
+        await asyncio.sleep(5)
 
-        # base64エンコード
-        encoded = base64.b64encode(AUTH_JSON.read_bytes()).decode()
-        out = Path(__file__).parent / "auth_base64.txt"
-        out.write_text(encoded, encoding="utf-8")
+        # storage_state（クッキー＋localStorage）を保存
+        await context.storage_state(path=str(AUTH_JSON))
+        import json
+        data = json.loads(AUTH_JSON.read_text())
+        n_cookies = len(data.get("cookies", []))
+        n_origins = len(data.get("origins", []))
+        print(f"\n✓ auth.json 保存完了: Cookie {n_cookies}件 / Origin {n_origins}件")
 
-        print("\n==============================================")
-        print("auth_base64.txt に保存しました")
-        print("この内容を GitHub Secrets に登録してください:")
-        print("  Secret名: RAKUTEN_AUTH_JSON")
-        print("  場所: https://github.com/ryuu321/ai-holdings/settings/secrets/actions")
-        print("==============================================")
+        print("\n次のコマンドを実行してください:")
+        print("  python slim_auth.py")
 
         await browser.close()
 

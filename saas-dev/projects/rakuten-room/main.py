@@ -264,6 +264,7 @@ async def run():
     await asyncio.sleep(wait)
 
     cookies = []
+    origins = []
     if AUTH_JSON.exists():
         auth = json.loads(AUTH_JSON.read_text())
         cookies = [
@@ -276,7 +277,8 @@ async def run():
             for c in auth.get('cookies', [])
             if 'rakuten' in c.get('domain', '')
         ]
-        print(f"auth.jsonからクッキー読込: {len(cookies)}件")
+        origins = auth.get('origins', [])
+        print(f"auth.jsonからクッキー読込: {len(cookies)}件 / origin: {len(origins)}件")
 
     success = 0
     fail = 0
@@ -293,6 +295,21 @@ async def run():
         if cookies:
             await context.add_cookies(cookies)
         page = await context.new_page()
+
+        # localStorageを復元（セッション状態の維持に必要）
+        if origins:
+            for origin in origins:
+                url = origin.get('origin', '')
+                ls = origin.get('localStorage', [])
+                if url and ls:
+                    try:
+                        await page.goto(url, wait_until='domcontentloaded', timeout=15000)
+                        for item in ls:
+                            await page.evaluate(
+                                f"localStorage.setItem({json.dumps(item['name'])}, {json.dumps(item['value'])})"
+                            )
+                    except Exception:
+                        pass
 
         print("ROOM接続中...")
         await page.goto('https://room.rakuten.co.jp/items', wait_until='domcontentloaded', timeout=60000)
@@ -393,8 +410,10 @@ async def run():
                 fail += 1
                 print(f"    投稿失敗")
 
-            # 通常30〜90秒待機、10回に1回は2〜4分の長めブレーク（人間らしく）
-            if (success + fail) % 10 == 0:
+            # not_foundは短く待機、成功/重複は通常待機、10回に1回は長めブレーク
+            if result == 'not_found':
+                await asyncio.sleep(random.uniform(3, 5))
+            elif (success + fail) % 10 == 0:
                 pause = random.uniform(120, 240)
                 print(f"    [ブレーク] {pause:.0f}秒")
                 await asyncio.sleep(pause)
