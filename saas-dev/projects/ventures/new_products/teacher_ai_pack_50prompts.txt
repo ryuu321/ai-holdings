@@ -1,0 +1,204 @@
+TEACHER AI PACK — 50 ChatGPT Prompts for Educators
+© AI Holdings | ryuumg.gumroad.com
+Works with ChatGPT, Claude, and Gemini
+Replace every [bracket] with your specific information before using.
+
+════════════════════════════════════════
+SECTION 1: LESSON PLANNING & CURRICULUM (10 Prompts)
+════════════════════════════════════════
+
+PROMPT 1 — Complete Lesson Plan Generator
+Create a detailed lesson plan for teaching [topic/skill] to [grade level] students. Include: learning objective (written as "Students will be able to..."), materials list, 5-minute warm-up, 15-minute direct instruction with 3 key talking points, 15-minute guided practice activity with step-by-step instructions, 10-minute independent practice, and a 3-2-1 exit ticket. Also suggest one modification for students who need extra support and one extension for early finishers.
+
+PROMPT 2 — Week-at-a-Glance Planner
+I'm teaching [subject] to [grade level] next week. Unit focus: [topic]. Students already know: [prior knowledge]. Standards to address: [list standards]. Create a 5-day sequence with a title for each day, the main activity format (lecture, small group, independent, lab, discussion), and one formative check-in. Flag which day would work best for peer collaboration.
+
+PROMPT 3 — Essential Question Designer
+I'm starting a unit on [topic] with [grade level] students. Write 5 essential questions that are open-ended, connect content to students' lives, can't be answered with yes/no, and would still matter to students 10 years from now. Then recommend the strongest one for anchoring the unit and explain why.
+
+PROMPT 4 — Project-Based Learning Outline
+Design a 2-week project-based learning unit on [topic] for [grade level]. Include: the driving question, real-world context, daily activities that build toward the final product, what students will create as their final deliverable, how to facilitate peer feedback mid-project, and a simple rubric for the final product. Make it doable with limited materials.
+
+PROMPT 5 — Inquiry-Based Discussion Prompt Builder
+I want my [grade level] [subject] class to have a Socratic seminar on [topic]. Write 10 open-ended discussion questions that: build on each other from concrete to abstract, include at least 2 "what would happen if..." questions, connect to students' lives, and require evidence-based answers. Also write a brief protocol for how to run the discussion so all students participate.
+
+PROMPT 6 — Cross-Curricular Connection Finder
+I'm teaching [topic] in [subject] to [grade level]. Find 5 specific connections to other subject areas (math, ELA, science, social studies, art, etc.) and suggest a brief interdisciplinary activity for each connection that I could realistically add to my existing unit without major restructuring.
+
+PROMPT 7 — Standards-Aligned Objective Writer
+Write 5 measurable learning objectives for a lesson on [topic] aligned to [Common Core / state standard / your standard]. Each objective should use Bloom's Taxonomy action verbs, be observable and assessable, be achievable in a single 50-minute class period, and build toward the larger unit goal of [describe unit goal].
+
+PROMPT 8 — Technology Integration Ideas
+I'm teaching [topic] to [grade level] and want to meaningfully integrate technology. Suggest 5 specific ways to use technology (not just "use a Chromebook") that enhance learning, each with a free or low-cost tool, time estimate, student task, and how it connects to the learning objective. Include options for classes with limited 1:1 access.
+
+PROMPT 9 — Anchor Chart Text Generator
+Create text for an anchor chart about [concept or skill] for [grade level]. Include: a simple definition students can understand, 3-4 key vocabulary words with brief definitions, 2-3 visual representation ideas I can sketch, a step-by-step process or key rules if applicable, and 1-2 common mistakes to avoid. Format it so I can directly copy onto a poster.
+
+PROMPT 10 — Sub Plans Writer
+Write detailed substitute teacher plans for my [grade level] [subject] class for a day when I'm absent. Current unit: [topic]. Today's lesson would have covered: [what you had planned]. Write the sub plans so a non-specialist substitute can run the class, including: warm-up activity, clear step-by-step instructions for the main activity, how to handle common issues, and what to do if students finish early. Include a note for students.
+
+════════════════════════════════════════
+SECTION 2: ASSESSMENT & FEEDBACK (10 Prompts)
+════════════════════════════════════════
+
+PROMPT 11 — Rubric Builder
+Create a detailed rubric for assessing [assignment type] in [grade level] [subject]. The assignment requires students to [describe task]. Build a rubric with 4-5 criteria, 4 performance levels per criterion (Excellent / Proficient / Developing / Beginning), specific observable descriptors for each cell (not vague phrases), and point values that total 100. Format it as a table.
+
+PROMPT 12 — Exit Ticket Generator
+Write 5 different exit ticket options for a lesson on [topic] for [grade level] students. Include: 1 multiple choice question checking understanding of the key concept, 1 short-answer question requiring explanation, 1 "3-2-1" prompt (3 things learned, 2 questions, 1 connection), 1 error-analysis question (find and fix the mistake), and 1 self-assessment prompt. I'll choose which fits my lesson best.
+
+PROMPT 13 — Formative Assessment Strategy Pack
+I'm teaching [topic] to [grade level]. Suggest 6 formative assessment strategies I can use during the lesson (not just at the end). For each strategy: give it a name, explain how to implement it in under 2 minutes, describe what I'm looking for, and explain how to quickly adjust instruction based on what I see. Include at least 2 that don't require any materials or setup.
+
+PROMPT 14 — Feedback Comment Generator
+Write feedback comments for student work on [assignment type] in [grade level] [subject]. Here are my quick notes on each student:
+[Student 1 name]: Strength — [note]. Area for growth — [note].
+[Student 2 name]: Strength — [note]. Area for growth — [note].
+[Continue for all students]
+Write 3-4 sentence comments for each student that are specific to their work, acknowledge their effort, identify one clear actionable improvement, use encouraging language, and don't repeat the same phrases across students.
+
+PROMPT 15 — Test/Quiz Question Bank Builder
+Create a 30-question question bank for a [formative / summative] assessment on [topic] for [grade level]. Include: 10 multiple-choice questions at the "recall" level, 8 multiple-choice questions requiring application or analysis, 6 short-answer questions requiring explanation, 4 constructed-response questions, and 2 bonus/extension questions. Include an answer key. Vary the difficulty across all question types.
+
+PROMPT 16 — Progress Report Comment Writer
+Write progress report comments for [grade level] [subject] for the following students. For each, use the information I've provided to write a 40-60 word comment focused on academic skills and growth:
+[Student name] — Performing at: [level]. Specific strength: [note]. Area for growth: [note]. Recent improvement: [yes/no + detail].
+[Repeat for each student]
+Avoid generic phrases. Reference specific skills.
+
+PROMPT 17 — Grade Book Analysis Helper
+I've collected the following assessment data for my class of [X] students on [topic]: [describe or paste data: scores, skill mastery levels, etc.]. Analyze this data and tell me: 1) Which concepts most students mastered, 2) Which concepts need reteaching and for how many students, 3) Whether I should reteach to the whole class or use small groups, 4) Which students are ready for enrichment, 5) A suggested order of priorities for the next 2 lessons. Be specific.
+
+PROMPT 18 — Student Work Sample Analyzer
+I'm looking at this student work sample from a [grade level] [subject] assignment: [describe or paste the student work]. The assignment asked students to [describe the task]. The student received a score of [X/Y]. Analyze this work and help me: 1) Identify what the student does understand, 2) Pinpoint the specific misconception or gap, 3) Write targeted feedback I can give this student, 4) Suggest a specific remediation strategy for this student's gap. Be specific — not "needs more practice."
+
+PROMPT 19 — Portfolio Assessment Prompt Creator
+I want students to complete a portfolio reflection for their [subject] portfolio this [quarter/semester]. The portfolio includes work showing [describe what's in it]. Write 5 reflection prompts that help students: think critically about their learning growth, identify their strongest and weakest work with specific reasons, make connections between different pieces, set goals for next quarter, and write in a way that demonstrates metacognition. Make prompts grade-appropriate for [grade level].
+
+PROMPT 20 — Peer Review Protocol Designer
+Design a peer review protocol for [grade level] students reviewing [assignment type]. Include: a step-by-step process for the reviewer (not just "read and give feedback"), 5 specific sentence starters for constructive feedback, 3 sentence starters for positive feedback, what to do when a student doesn't know how to help their partner, and how I should monitor the room during peer review to ensure quality feedback. Make it structured enough for even reluctant students to participate.
+
+════════════════════════════════════════
+SECTION 3: DIFFERENTIATION & INCLUSION (8 Prompts)
+════════════════════════════════════════
+
+PROMPT 21 — Three-Level Activity Adapter
+I have this activity for my class: [describe or paste the original activity]. Adapt it into 3 versions: 1) Modified (for students 2+ years below grade level — simplify but keep the core skill), 2) On grade level (clean up formatting, keep as-is), 3) Extended (add complexity for students who need more challenge). Same learning objective across all three. Do not water down the modified version's intellectual demand — just reduce language and task complexity.
+
+PROMPT 22 — IEP Accommodation Implementation Guide
+A student in my class has these IEP accommodations: [list the accommodations]. I'm teaching: [describe lesson/unit]. Tell me specifically how to implement each accommodation in the context of this lesson, which of my planned activities might create barriers, how to modify those activities without lowering expectations, and 2 proactive strategies to include this student in whole-class activities naturally.
+
+PROMPT 23 — ELL Scaffolding Builder
+I have ELL students in my [grade level] [subject] class at [beginning/intermediate/advanced] proficiency. Lesson topic: [topic]. Create: a list of 8-10 key vocabulary words to pre-teach with simple definitions and visual suggestions, a sentence frame bank for the main activity, a graphic organizer outline I can sketch, and modified speaking/writing tasks for each proficiency level that maintain academic rigor. Be specific — not general ESL theory.
+
+PROMPT 24 — Gifted Student Extension Designer
+I have students in my class who finish work well before others and need more challenge. My current lesson is on [topic] for [grade level]. Design 5 extension activities that: go deeper into the same content (not just more of the same), require higher-order thinking (analysis, evaluation, synthesis), can be done independently without much teacher direction, connect to real-world applications, and take approximately 15-20 minutes each. Include brief instructions a student could follow without my help.
+
+PROMPT 25 — Universal Design for Learning (UDL) Lesson Reviewer
+Here is my lesson plan: [paste your lesson plan]. Review it through the UDL framework and tell me: which representation options I'm currently providing (how I'm teaching), which action/expression options I'm currently providing (how students show understanding), which engagement options I'm currently providing (how I'm motivating students), 2 specific additions I could make to better reach students who learn differently, and 1 quick win I could implement before tomorrow.
+
+PROMPT 26 — 504 Accommodation Integration Planner
+A student in my class has a 504 plan with these accommodations: [list accommodations]. My upcoming unit is: [describe unit — topic, duration, main activities, assessment types]. For each accommodation, describe exactly how I'll implement it during: 1) Direct instruction, 2) Group work, 3) Independent practice, 4) Assessment. Flag any activities where implementation will be challenging and suggest a practical workaround.
+
+PROMPT 27 — Reading Level Modifier
+I have this text/reading passage: [paste or describe the text]. I need versions for students reading at [X] grade level(s) below my current grade level. Rewrite the text at the lower reading level(s) while: keeping the key ideas intact, using shorter sentences, replacing complex vocabulary with simpler synonyms (or defining terms in context), keeping the same structure and main points, and maintaining academic language appropriate to the content.
+
+PROMPT 28 — Trauma-Informed Classroom Strategies Guide
+I'm creating a more trauma-informed classroom environment for [grade level] students. Suggest 10 specific classroom practices (not general concepts) that reduce stress triggers, build predictability, give students appropriate control, and create psychological safety. For each practice: describe what it looks like in action, when to use it, and how to implement it without singling out specific students. Focus on changes I can make without additional resources.
+
+════════════════════════════════════════
+SECTION 4: PARENT & GUARDIAN COMMUNICATION (7 Prompts)
+════════════════════════════════════════
+
+PROMPT 29 — Concern Email Writer
+Write a professional email to a parent/guardian about [academic concern / behavioral issue / attendance concern] for [Student first name]. Facts: [describe the specific situation]. What I've already tried: [list what you've done]. What I need from the family: [specific ask — meeting, conversation, support at home]. Tone: collaborative, non-accusatory, focused on the student's success. Under 200 words with subject line.
+
+PROMPT 30 — Positive Outreach Email
+Write a brief positive outreach email to the parent/guardian of [Student name] to share good news about [specific achievement, improvement, or contribution]. Keep it under 100 words. Sound genuine, not like a form letter. Include one specific detail that shows I notice this student as an individual.
+
+PROMPT 31 — Parent Conference Preparation Script
+I have a parent conference about [student situation: academic struggle / behavior / transition to next grade / giftedness concern / other]. I want to: share specific evidence, propose a concrete plan with clear roles, and end with a follow-up commitment. Write a structured 15-minute conference script with a positive opening, clear data presentation section, collaborative problem-solving section, and action plan close. Include transition phrases between sections.
+
+PROMPT 32 — Newsletter/Class Update Writer
+Write a class newsletter/update for [grade level] [subject] parents for [month/week]. Topics to cover: [list 2-4 things happening in class, upcoming dates, volunteer needs, any requests]. Tone: warm, informative, brief. Use bullet points for dates and key items. Keep the whole newsletter under 300 words. Include a subject line for email.
+
+PROMPT 33 — Difficult Conversation Script
+I need to have a difficult conversation with a parent who [is upset about a grade / disagrees with my discipline decision / is concerned I'm not challenging their child / is in denial about their child's struggles]. Write a script for this conversation that: opens with acknowledgment of their concern (not defensiveness), presents the facts clearly with specific examples, proposes a path forward, and closes with a relationship-preserving statement. Include how to respond if they escalate.
+
+PROMPT 34 — Student Support Plan Communication
+Write a letter to a parent explaining that we're recommending [intervention / evaluation / support services] for their child. Reason: [describe the academic or behavioral concern]. What the recommendation involves: [describe the process, timeline, what it means]. What the parent needs to do: [specific next step]. Tone: informative, supportive, not alarming. Avoid jargon. Under 300 words with a subject line.
+
+PROMPT 35 — Back-to-School Night Presentation Script
+Write a 10-minute Back-to-School Night presentation script for [grade level] [subject]. Cover: classroom philosophy and expectations, a brief curriculum overview, how I communicate with families (frequency, method, response time), how families can best support learning at home, grading/assessment overview, and 2 specific ways families can get involved. Make it engaging — not a policy recitation. Include 1-2 moments where I ask the audience a question.
+
+════════════════════════════════════════
+SECTION 5: CLASSROOM MANAGEMENT & ENGAGEMENT (8 Prompts)
+════════════════════════════════════════
+
+PROMPT 36 — Classroom Procedure Writer
+Write clear, step-by-step classroom procedures for [grade level] students for: [choose one — entering the room / turning in work / asking for help / transitioning between activities / end of class routine / bathroom protocol / group work roles]. Write each as a numbered list in student-friendly language that students can memorize. Also write a short script I can use to introduce and practice this procedure on day one.
+
+PROMPT 37 — Behavior Redirection Strategies
+I have a student who repeatedly [describe specific behavior: talks during instruction / refuses to start work / disrupts group work / uses phone / has emotional outbursts]. I've tried: [list what hasn't worked]. Write: 1) A low-profile in-class redirection strategy for each occurrence, 2) A script for a 2-minute private conversation with this student that's non-confrontational, 3) A proactive strategy to prevent the behavior, 4) What to say if a parent asks about this behavior.
+
+PROMPT 38 — Engagement Activity Generator
+My [grade level] class is losing engagement during [part of class: lecture / independent work / after lunch / end of day]. Generate 8 quick re-engagement strategies I can use immediately. For each: give it a name, describe implementation in under 60 seconds, estimate energy level (low/medium/high), note any setup required. At least 3 should require zero prep.
+
+PROMPT 39 — Restorative Conversation Script
+A student did [describe the behavior/incident] and I need to have a restorative conversation with them. My goal is to restore the relationship and help the student understand impact — not just assign consequences. Write a step-by-step restorative conversation script covering: what happened, who was affected and how, what needs to happen to make it right, and what the student needs from me. Use restorative questioning language throughout.
+
+PROMPT 40 — Group Work Structure Designer
+I want my [grade level] [subject] students to do collaborative work on [task]. Help me design a group work structure that: gives each student a clear role (with specific responsibilities, not just "leader"), prevents social loafing, includes built-in checkpoints so I can monitor progress, has an individual accountability component, and gives groups a process for resolving disagreements without coming to me. Also suggest how to form groups for this particular task.
+
+PROMPT 41 — Classroom Community Builder
+Design a 30-minute community-building activity for the first week of school with [grade level] students. The activity should: help students learn each other's names, surface student interests I can connect to content later, establish a classroom norm around [respect / risk-taking / curiosity / etc.], be inclusive for shy and introverted students, and not feel forced or corny. Include facilitation notes for me.
+
+PROMPT 42 — Brain Break Menu
+Create a menu of 10 brain breaks for [grade level] students that I can use to reset focus during class. For each brain break: give it a fun name, describe exactly how to facilitate it (step by step), estimate how long it takes, and note when it works best (after sitting too long / after high cognitive load / for morning energy / etc.). Include options for quiet days when I need low noise.
+
+PROMPT 43 — Motivational Intervention for Disengaged Students
+I have a student who seems disconnected — not doing work, disengaged in class, not participating. I know: [share any relevant context — home situation, interests, academic history, what does engage them]. Design a 2-week motivational intervention plan that: starts with relationship-building (specific strategies), adjusts my instruction to tap into their interests, gives them a meaningful role in class, gradually increases expectations, and includes a check-in protocol I use weekly. Be realistic — I have 28 other students.
+
+════════════════════════════════════════
+SECTION 6: TEACHER PRODUCTIVITY & PROFESSIONAL GROWTH (7 Prompts)
+════════════════════════════════════════
+
+PROMPT 44 — Professional Goal Setting Framework
+Help me set meaningful professional goals for this school year. I currently teach [grade/subject]. My school's priorities include: [list 1-2]. My personal areas for growth: [describe]. Write 3 SMART goals that are specific, measurable, achievable in one school year, relevant to student outcomes, and time-bound. For each goal, include: the specific action steps, how I'll measure progress midyear, and how I'll know I've achieved it at year end.
+
+PROMPT 45 — Observation Pre-Brief Writer
+I have a formal observation by [principal / instructional coach / department head] on [date]. I'm teaching [topic] to [grade level]. Write my pre-observation brief covering: context for this lesson in the unit, the learning objective, instructional strategy I'm using and why I chose it, how I'm differentiating, anticipated challenges and how I'll address them, and what specific feedback I'd find most helpful. Keep it professional and under 300 words.
+
+PROMPT 46 — Post-Observation Reflection Guide
+My observation went [well / there were challenges / mixed]. Here's what happened: [describe the lesson briefly — what worked, what didn't, any surprises]. Write a post-observation reflection that: honestly assesses what students learned, analyzes why specific moments went the way they did, identifies what I would change, connects to my professional goals, and shows growth mindset. This reflection will be submitted to my evaluator. Under 400 words.
+
+PROMPT 47 — Professional Email to Administration
+Write a professional email to my [principal / department head / curriculum coordinator] requesting [resource / schedule change / support / professional development / additional time]. My request: [specific ask]. Reason: [explain briefly — student need, program goal, data showing need]. What I've already tried: [if applicable]. Tone: professional, collegial, clear. Under 150 words with subject line.
+
+PROMPT 48 — Unit Debrief Analysis
+I just finished teaching a unit on [topic] to [grade level]. Here's how students performed: [describe assessment results or general impressions]. Here's what I felt went well: [list 2-3 things]. Here's what I want to improve: [list 2-3 things]. Analyze this information and give me: 1) The one highest-leverage change to make for next time, 2) 2 specific modifications to the unit itself, 3) Whether the issue was planning, instruction, or assessment, 4) What data I should collect differently next time. Be honest.
+
+PROMPT 49 — Book Study / PD Article Discussion Questions
+I'm leading a professional development book study/discussion on [book title or article]. The key themes are: [list 2-3]. Create 8 discussion questions that: move from surface understanding to deeper application, connect the reading to our specific school context, require teachers to share their own practice, challenge comfortable assumptions, and generate useful disagreement. Also write a brief warm-up prompt to open the session.
+
+PROMPT 50 — Self-Care & Burnout Prevention Plan
+I'm a [grade level] teacher feeling [describe how you're feeling — overwhelmed / starting to burn out / exhausted at a specific time of year / struggling with specific demands]. Help me design a realistic self-care plan that: fits within the demands of teaching (not "take a vacation"), addresses the specific pressure I've described, includes both immediate daily habits and longer-term boundary-setting, doesn't require significant money or time outside of school, and acknowledges the systemic pressures without pretending I can fix them. Be honest about what's realistic.
+
+════════════════════════════════════════
+HOW TO USE THIS PACK
+════════════════════════════════════════
+
+1. REPLACE THE BRACKETS: Every [bracket] should be replaced with your specific information before using. The more specific you are, the better the output.
+
+2. ITERATE: If the first output isn't quite right, reply with "Make it shorter" / "More specific" / "Change the tone to be more [formal/casual]" and the AI will adjust.
+
+3. REVIEW BEFORE USING: Always read the output before using it with students or sending to parents. AI can make mistakes — you are the professional.
+
+4. BUILD YOUR OWN LIBRARY: When you get a great output for a specific context, save it. Copy the prompt + the output into a personal document to reuse in similar situations.
+
+5. CHAIN PROMPTS: Use output from one prompt as input for another. Example: Use Prompt 1 to generate a lesson plan, then paste that plan into Prompt 25 (UDL Reviewer) to make it more inclusive.
+
+════════════════════════════════════════
+AI Holdings | Free daily AI resources at: ryuu321.github.io/ai-holdings
+Daily AI investment signals (free): t.me/+yUiqVJi2uNFiOTA1
+════════════════════════════════════════
