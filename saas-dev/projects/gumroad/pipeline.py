@@ -65,6 +65,11 @@ NICHES = [
     "SaaS Founders",
     "Graphic Designers",
     "Remote Team Managers",
+    "Personal Finance Beginners",
+    "Side Hustle Seekers",
+    "Budgeters and Savers",
+    "FIRE Movement Followers",
+    "Passive Income Builders",
 ]
 
 PRODUCT_TYPES = ["ai_prompts", "notion_template"]
@@ -961,6 +966,11 @@ def promote_on_reddit(meta: dict, product_url: str):
         "SaaS Founders":             ["SaaS", "startups"],
         "Graphic Designers":         ["graphic_design", "design"],
         "Remote Team Managers":      ["remotework", "management"],
+        "Personal Finance Beginners": ["personalfinance", "povertyfinance"],
+        "Side Hustle Seekers":        ["sidehustle", "WorkOnline"],
+        "Budgeters and Savers":       ["Frugal", "personalfinance"],
+        "FIRE Movement Followers":    ["financialindependence", "leanfire"],
+        "Passive Income Builders":    ["passive_income", "entrepreneur"],
     }
     subs = niche_subreddits.get(niche, [])
     if not subs:
