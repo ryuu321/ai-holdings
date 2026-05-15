@@ -296,6 +296,13 @@ def main():
     all_urls.append(f"{SITE_URL}/blog/tools/prompt-sampler.html")
     all_urls.append(f"{SITE_URL}/blog/tools/side-hustle-calculator.html")
 
+    # 3d. ガイド記事をサイトマップに追加
+    guides_dir = BLOG_DIR / "guides"
+    if guides_dir.exists():
+        for f in sorted(guides_dir.glob("*.html")):
+            all_urls.append(f"{SITE_URL}/blog/guides/{f.name}")
+    all_urls.append(f"{SITE_URL}/start.html")
+
     # 4. サイトマップ生成
     sitemap = _generate_sitemap(all_urls)
     (BLOG_DIR / "sitemap.xml").write_text(sitemap, encoding="utf-8")
