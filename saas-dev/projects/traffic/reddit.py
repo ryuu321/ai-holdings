@@ -102,28 +102,33 @@ def find_relevant_posts(subreddit: str, limit: int = 10) -> list[dict]:
         r.raise_for_status()
         posts = r.json().get("data", {}).get("children", [])
     except Exception:
-        # RSS fallback
+        # Atom/RSS fallback (Reddit uses Atom format)
         posts = []
         try:
             import xml.etree.ElementTree as ET
-            rss_headers = {**SCRAPE_HEADERS, "Accept": "application/rss+xml,application/xml"}
+            rss_headers = {**SCRAPE_HEADERS, "Accept": "application/rss+xml,application/xml,*/*"}
             rss_r = requests.get(
                 f"https://www.reddit.com/{subreddit}/hot.rss?limit={limit}",
                 headers=rss_headers, timeout=10,
             )
             rss_r.raise_for_status()
             root = ET.fromstring(rss_r.content)
-            ns = {"atom": "http://www.w3.org/2005/Atom"}
-            for entry in root.findall(".//item")[:limit]:
-                title_el = entry.find("title")
-                link_el  = entry.find("link")
-                desc_el  = entry.find("description")
+            # Reddit uses Atom: namespace is http://www.w3.org/2005/Atom
+            atom_ns = "http://www.w3.org/2005/Atom"
+            entries = root.findall(f"{{{atom_ns}}}entry") or root.findall(".//entry")
+            for entry in entries[:limit]:
+                # Atom title
+                title_el = (entry.find(f"{{{atom_ns}}}title") or entry.find("title"))
+                link_el  = (entry.find(f"{{{atom_ns}}}link")  or entry.find("link"))
+                content_el = (entry.find(f"{{{atom_ns}}}content") or entry.find("content")
+                               or entry.find(f"{{{atom_ns}}}summary") or entry.find("summary"))
+                id_el = (entry.find(f"{{{atom_ns}}}id") or entry.find("id"))
                 if title_el is None:
                     continue
-                title = title_el.text or ""
-                url   = (link_el.text or "") if link_el is not None else ""
-                body  = (desc_el.text or "")[:500] if desc_el is not None else ""
-                pid   = url.rstrip("/").split("/")[-1] if url else ""
+                title = (title_el.text or "").strip()
+                url   = link_el.get("href", "") if link_el is not None else ""
+                body  = ((content_el.text or "")[:500] if content_el is not None else "")
+                pid   = (id_el.text or "").rstrip("/").split("/")[-1] if id_el is not None else url.rstrip("/").split("/")[-2]
                 posts.append({"data": {
                     "id": pid, "title": title, "selftext": body,
                     "permalink": url.replace("https://www.reddit.com", ""),
