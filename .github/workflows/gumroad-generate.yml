@@ -51,11 +51,13 @@ jobs:
           TELEGRAM_CHANNEL_ID:  ${{ secrets.TELEGRAM_CHANNEL_ID }}
           GUMLOAD_EMAIL:        ${{ secrets.GUMROAD_EMAIL }}
           GUMLOAD_PASSWORD:     ${{ secrets.GUMROAD_PASSWORD }}
+          INPUT_NICHE: ${{ github.event.inputs.niche }}
+          INPUT_TYPE:  ${{ github.event.inputs.type }}
         run: |
-          ARGS=""
-          [ -n "${{ github.event.inputs.niche }}" ] && ARGS="$ARGS --niche '${{ github.event.inputs.niche }}'"
-          [ -n "${{ github.event.inputs.type }}"  ] && ARGS="$ARGS --type ${{ github.event.inputs.type }}"
-          python pipeline.py $ARGS
+          ARGS=()
+          [ -n "$INPUT_NICHE" ] && ARGS+=(--niche "$INPUT_NICHE")
+          [ -n "$INPUT_TYPE"  ] && ARGS+=(--type "$INPUT_TYPE")
+          python pipeline.py "${ARGS[@]}"
 
       - name: Save updated sessions & commit
         run: |
