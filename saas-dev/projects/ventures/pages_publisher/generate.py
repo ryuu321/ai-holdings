@@ -69,12 +69,11 @@ PRODUCT_SEO = {
     "AI Content Boost":  {"kw": "AI content creation prompts ChatGPT blog social media", "desc": "50 AI prompts for content creators to write faster, go viral, and grow audiences."},
     "Viral Content":     {"kw": "viral content prompts ChatGPT social media marketing", "desc": "50 battle-tested prompts for creating viral content across every platform."},
     "Etsy Seller Boost": {"kw": "Etsy seller AI prompts product listing SEO", "desc": "50 ChatGPT prompts to write better Etsy listings, boost SEO, and increase sales."},
-    "Etsy Success Boost":{"kw": "Etsy shop success AI prompts marketing", "desc": "Advanced ChatGPT prompts for scaling your Etsy shop — pricing, marketing, product development."},
-    "DesignGenie":       {"kw": "graphic designer AI prompts creative briefs Canva", "desc": "50 AI prompts for graphic designers: creative briefs, client communication, design concepts."},
-    "Procreate AI":      {"kw": "Procreate AI prompts digital art illustration iPad", "desc": "50 AI prompts for Procreate artists — composition ideas, style references, color palettes."},
-    "Procreate Aid":     {"kw": "Procreate tips AI prompts digital art techniques", "desc": "Advanced AI prompts to level up your Procreate artwork — textures, lighting, character design."},
-    "Procreate Assets":  {"kw": "Procreate asset pack AI prompts digital products selling", "desc": "50 AI prompts for Procreate artists who want to create, sell, and grow — asset packs, client work, and brand illustration."},
     "Etsy Success Boost":{"kw": "Etsy shop growth AI prompts scaling marketing revenue", "desc": "Advanced ChatGPT prompts for scaling your Etsy shop — launch campaigns, email lists, and $5K month strategy."},
+    "DesignGenie":       {"kw": "graphic designer AI prompts creative briefs client communication", "desc": "50 AI prompts for graphic designers: creative briefs, client communication, portfolio copy."},
+    "Procreate AI":      {"kw": "Procreate AI prompts digital art illustration composition", "desc": "50 AI prompts for Procreate artists — composition ideas, color palettes, style development."},
+    "Procreate Aid":     {"kw": "advanced Procreate AI prompts digital art techniques lighting", "desc": "Advanced AI prompts to level up your Procreate artwork — textures, lighting, character design."},
+    "Procreate Assets":  {"kw": "Procreate assets sell digital art AI prompts", "desc": "50 AI prompts for Procreate artists who want to create and sell assets, brushes, and client work."},
 }
 
 

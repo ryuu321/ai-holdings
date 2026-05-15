@@ -1,0 +1,39 @@
+name: youtube-shorts-daily
+
+on:
+  schedule:
+    # 毎日JST 10:00 (UTC 1:00) — 朝の投稿
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install Pillow
+          sudo apt-get install -y ffmpeg
+
+      - name: Generate and upload YouTube Short
+        env:
+          YOUTUBE_CLIENT_ID:     ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        working-directory: saas-dev/projects/ventures/youtube_shorts
+        run: python main.py
+
+      - name: Commit state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase -X theirs
+          git add saas-dev/projects/ventures/youtube_shorts/state.json
+          git diff --cached --quiet || git commit -m "youtube-shorts: $(date '+%Y-%m-%d') [skip ci]"
+          git push
