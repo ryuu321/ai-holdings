@@ -19,13 +19,28 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install -r saas-dev/projects/kindle-kdp/requirements.txt
+        run: |
+          pip install -r saas-dev/projects/kindle-kdp/requirements.txt
+          pip install playwright
+          playwright install chromium --with-deps
+
+      - name: KDPセッション復元
+        run: |
+          mkdir -p saas-dev/projects/kindle-kdp/data
+          B64="${{ secrets.KDP_SESSION_B64 }}"
+          [ -n "$B64" ] && echo "$B64" > /tmp/kdp_b64.txt || true
 
       - name: EPUB生成
         working-directory: saas-dev/projects/kindle-kdp
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python main.py
+
+      - name: KDPアップロード（epub_readyの本を自動出品）
+        working-directory: saas-dev/projects/kindle-kdp
+        env:
+          KDP_SESSION_B64: ${{ secrets.KDP_SESSION_B64 }}
+        run: python kdp_uploader.py
 
       - name: EPUBをgitにコミット（永続化）
         run: |
