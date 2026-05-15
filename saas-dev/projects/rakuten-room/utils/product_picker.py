@@ -43,12 +43,18 @@ def _extract_shop(url: str) -> str:
     return m.group(1) if m else ""
 
 
-def get_pending(n: int = 5) -> pd.DataFrame:
+def get_pending(n: int = 5, min_score: float = 0.0) -> pd.DataFrame:
     df = _load()
     pending = df[df["posted"] != "True"].copy()
     pending["_score"] = pd.to_numeric(pending.get("score", 0), errors="coerce").fillna(0)
 
-    # score降順（ROOM直接スクレイプ品=0.99が最優先）、同スコアはcaptured_at昇順
+    if min_score > 0:
+        room_items = pending[pending["_score"] >= min_score]
+        # ROOM確認済みが十分あればそれだけ返す、なければ全体から返す
+        if len(room_items) >= min(n, 5):
+            pending = room_items
+
+    # score降順（ROOM直接スクレイプ品=9.99が最優先）、同スコアはcaptured_at昇順
     pending = pending.sort_values(["_score", "captured_at"], ascending=[False, True])
     return pending.drop(columns=["_score"]).head(n)
 

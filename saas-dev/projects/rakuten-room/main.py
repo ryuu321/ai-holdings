@@ -226,9 +226,9 @@ async def post_product_api(page, csrf: str, item_key: str, item_name: str, capti
         if msg_code in ('R119', 'R108'):
             return 'not_found'
         if '上限' in msg or msg_code in ('R001', 'R900', 'R999'):
-            print(f"    ご利用上限 → 本日の投稿を終了")
+            print(f"    ご利用上限 [code={msg_code}] msg={msg[:80]} → 本日の投稿を終了")
             return 'limit'
-    print(f"    投稿失敗: {result}")
+    print(f"    投稿失敗: {json.dumps(result, ensure_ascii=False)[:200]}")
     return 'error'
 
 
@@ -261,7 +261,8 @@ async def run():
         return
 
     posts_this_run = min(POSTS_PER_RUN, remaining_quota)
-    products = get_pending(posts_this_run)
+    products = get_pending(posts_this_run, min_score=9.0)  # ROOM確認済み優先
+    print(f"投稿候補: {len(products)}件（ROOM確認済み優先）")
 
     wait = random.randint(0, 60)
     print(f"待機: {wait}秒")

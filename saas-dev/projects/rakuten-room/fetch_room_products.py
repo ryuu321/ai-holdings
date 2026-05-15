@@ -246,7 +246,7 @@ async def scrape(total: int):
                         "price": price,
                         "rating": float(matched.get("rating") or matched.get("reviewAverage") or 0),
                         "review_count": int(matched.get("review_count") or matched.get("reviewCount") or 0),
-                        "score": 0.99,  # ROOMに掲載済み確定 → 最優先
+                        "score": 9.99,  # ROOMに掲載済み確定 → 最優先（Ichiba最高1.0超え）
                         "hashtags": HASHTAG_MAP.get(category, "#楽天ROOM #おすすめ"),
                         "evidence_url": feed_url,
                         "captured_at": now_str,
