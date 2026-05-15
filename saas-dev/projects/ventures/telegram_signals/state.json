@@ -4,10 +4,11 @@
     "include_bots": [
       "ATTACK",
       "TREND",
-      "SCALPING"
+      "SCALPING",
+      "GRID"
     ],
     "note_cta": true,
-    "sort_by_pnl": false
+    "sort_by_pnl": true
   },
   "performance_history": [
     {
@@ -79,6 +80,13 @@
       "daily_growth": 0,
       "post_sent": 1,
       "bots_included": 1
+    },
+    {
+      "date": "2026-05-15",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 1
     }
   ],
   "learnings": [
@@ -101,8 +109,13 @@
       "date": "2026-05-14",
       "insight": "Botを2種に絞りCTAを有効化しても登録者が0のままなのは、PNL順のソートにより『過去の集計データ』という印象が強まり、テレグラム特有の『今すぐ乗るべき速報性』が欠けている可能性があります。",
       "action": "短期売買のシグナルが多い『SCALPING』を加えて投稿頻度を上げ、ソートを最新順（false）に変更することで、チャンネル全体のライブ感と情報の鮮度を強調してください。"
+    },
+    {
+      "date": "2026-05-15",
+      "insight": "配信頻度が1日1件と極めて低いため「シグナル配信」としてのライブ感が欠如しており、かつ実績（PNL）順のソートが無効なことで流入ユーザーに対し利益のインパクトを即座に提示できていません。",
+      "action": "Botの種類を4種に増やして活動量を底上げした上で、PNL順のソートを有効化し、最も利益率の高い実績をトップに表示させることでユーザーの登録意欲を刺激してください。"
     }
   ],
-  "last_optimized": "2026-05-14T02:47:47.723539+00:00",
-  "posts_sent": 9
+  "last_optimized": "2026-05-15T02:48:32.671623+00:00",
+  "posts_sent": 10
 }
