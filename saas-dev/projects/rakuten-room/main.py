@@ -135,9 +135,8 @@ async def do_login(page, context=None) -> bool:
                     pass
             if not found:
                 title = await page.title()
-                body = (await page.content())[:800]
                 print(f"  ログインID入力欄が見つかりません（URL: {page.url} / タイトル: {title}）")
-                print(f"  ページ先頭: {body[:300]}")
+                print("  → Rakutenがこの環境からのログインをブロックしています。RAKUTEN_AUTH_JSONシークレットをローカルで更新してください。")
                 return False
 
         # IDを入力（最初に見つかった入力欄に）
