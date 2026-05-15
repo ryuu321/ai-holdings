@@ -29,7 +29,8 @@
     "LINEマーケティングシナリオ構築",
     "MEO運用代行×ChatGPT",
     "AIストックフォト副業",
-    "ホワイトペーパー制作代行×AI"
+    "ホワイトペーパー制作代行×AI",
+    "教育系InstagramアカウントのAI自動運用"
   ],
   "articles": [
     {
@@ -240,6 +241,13 @@
       "title": "1本5万円を稼ぐ。ChatGPTで企業の顧客獲得を自動化する『ホワイトペーパー制作』完全攻略マニュアル",
       "price": 980,
       "url": "https://note.com/notes/n245a1113be5f",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-15",
+      "title": "【最短3ヶ月で5万フォロワー】ChatGPT×Canvaで作る「教育系インスタ垢」爆速量産術｜1日30分で月収20万を狙う完全ロードマップ",
+      "price": 980,
+      "url": "https://note.com/notes/n942164df2bbe",
       "status": "success"
     }
   ]
