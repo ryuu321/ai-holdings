@@ -21,6 +21,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r saas-dev/projects/gumroad/requirements.txt
 
+      - name: 価格バグ修正（$3700→$37）
+        working-directory: saas-dev/projects/gumroad
+        env:
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+        run: python pipeline.py --fix-prices
+
       - name: Run PDCA
         working-directory: saas-dev/projects/gumroad
         env:

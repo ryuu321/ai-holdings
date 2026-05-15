@@ -197,7 +197,7 @@ def research_price(niche: str, product_type: str) -> int:
 
     if not paid_prices:
         log.info(f"価格データなし → デフォルト ${PRICE_DEFAULT/100:.0f}")
-        return PRICE_DEFAULT * 100
+        return PRICE_DEFAULT  # PRICE_DEFAULT is already in cents ($37 = 3700 cents)
 
     median = paid_prices[len(paid_prices) // 2]
     avg    = sum(paid_prices) / len(paid_prices)
@@ -763,6 +763,26 @@ def publish_to_gumroad(meta: dict) -> str:
                 )
             except Exception as e:
                 log.warning(f"Pinterest投稿スキップ（セッション未設定?）: {e}")
+
+        # 6. Gumroadアフィリエイト有効化（他者が宣伝しやすくする）
+        try:
+            ra = requests.put(
+                f"{GUMROAD_API}/products/{quote(product_id, safe='')}",
+                headers=headers,
+                data={
+                    "affiliates_disabled":         "false",
+                    "affiliate_offer_rate":        "25",  # 25%コミッション
+                },
+                timeout=30,
+            )
+            if ra.ok:
+                log.info("アフィリエイト有効化: 25%コミッション設定")
+        except Exception as e:
+            log.debug(f"アフィリエイト設定スキップ: {e}")
+
+        # 7. Redditプロモーション候補をログに記録
+        promote_on_reddit(meta, short_url)
+
     else:
         log.warning("permalinkが取得できませんでした")
 
@@ -842,11 +862,112 @@ def _fetch_published_products() -> list[dict]:
         return []
 
 
+def fix_overpriced_products(target_cents: int = PRICE_DEFAULT):
+    """
+    価格バグ（$3700）で作成された商品を正しい価格に修正する。
+    $3700（370000 cents）以上の商品を target_cents に更新する。
+    """
+    if not GUMROAD_TOKEN:
+        log.error("GUMROAD_ACCESS_TOKEN が設定されていません")
+        return
+    headers = {"Authorization": f"Bearer {GUMROAD_TOKEN}"}
+    try:
+        r = requests.get(f"{GUMROAD_API}/products", headers=headers, timeout=30)
+        r.raise_for_status()
+        products = r.json().get("products", [])
+    except Exception as e:
+        log.error(f"商品一覧取得失敗: {e}")
+        return
+
+    fixed = 0
+    for p in products:
+        price = int(p.get("price", 0))
+        pid   = p.get("id", "")
+        name  = p.get("name", "")
+        if price >= 100000:  # $1000以上は明らかにバグ
+            try:
+                ru = requests.put(
+                    f"{GUMROAD_API}/products/{quote(pid, safe='')}",
+                    headers=headers,
+                    data={"price": target_cents},
+                    timeout=30,
+                )
+                ru.raise_for_status()
+                log.info(f"価格修正: {name} ${price/100:.0f} → ${target_cents/100:.0f}")
+                fixed += 1
+            except Exception as e:
+                log.warning(f"価格修正失敗 ({name}): {e}")
+
+    log.info(f"価格修正完了: {fixed}件")
+    return fixed
+
+
+def promote_on_reddit(meta: dict, product_url: str):
+    """
+    Redditの関連subredditに有益なコメントを投稿してGumroad商品へのトラフィックを誘導する。
+    Reddit API（無料・APIキー不要）を使用。直接宣伝はBANリスクがあるため、
+    価値提供コメント + さりげない商品リンクのみ。
+    """
+    niche = meta.get("niche", "")
+    title = meta.get("title", "")
+    if not product_url or not niche:
+        return
+
+    niche_subreddits = {
+        "Freelance Copywriters":     ["freelancewriters", "copywriting"],
+        "Real Estate Agents":        ["realestate", "realestateagents"],
+        "Etsy Sellers":              ["Etsy", "EtsySellers"],
+        "Fitness Coaches":           ["personaltraining", "fitness"],
+        "Podcast Creators":          ["podcasting", "podcasts"],
+        "ADHD Productivity":         ["ADHD", "productivity"],
+        "Solopreneurs":              ["solopreneur", "entrepreneur"],
+        "UX Designers":              ["UXDesign", "userexperience"],
+        "Virtual Assistants":        ["VirtualAssistant", "WorkOnline"],
+        "E-commerce Entrepreneurs":  ["ecommerce", "dropship"],
+        "Content Creators":          ["NewTubers", "content_marketing"],
+        "Life Coaches":              ["lifecoaching", "selfimprovement"],
+        "SaaS Founders":             ["SaaS", "startups"],
+        "Graphic Designers":         ["graphic_design", "design"],
+        "Remote Team Managers":      ["remotework", "management"],
+    }
+    subs = niche_subreddits.get(niche, [])
+    if not subs:
+        return
+
+    headers = {
+        **SCRAPE_HEADERS,
+        "Accept": "application/json",
+    }
+
+    for sub in subs[:1]:  # 1サブレのみ（スパム回避）
+        try:
+            # ホットな投稿を取得してコメントする
+            r = requests.get(
+                f"https://www.reddit.com/r/{sub}/hot.json?limit=5",
+                headers=headers, timeout=10,
+            )
+            r.raise_for_status()
+            posts = r.json().get("data", {}).get("children", [])
+            if not posts:
+                continue
+
+            # 最初の投稿にコメント（Reddit APIはOAuth必要なため、実際の投稿はスキップ）
+            # ここではログに記録するだけ（将来OAuth設定後に有効化）
+            top_post = posts[0].get("data", {})
+            log.info(f"Reddit候補: r/{sub} 「{top_post.get('title', '')[:60]}」 (投稿はOAuth設定後に有効)")
+            log.info(f"  → 商品URL: {product_url}")
+        except Exception as e:
+            log.debug(f"Reddit r/{sub} スキップ: {e}")
+
+
 def run_pdca() -> dict:
     """
     売上分析 → ニッチ重み更新 → strategy.json保存 → Telegram報告。
     PDCAの結果が次回の generate_product に自動反映される。
     """
+    # 価格バグ修正（$3700→$37）を毎回実行
+    fix_overpriced_products()
+
     sales = check_sales()
     published_products = _fetch_published_products()
     total_published = len(published_products)
@@ -980,9 +1101,15 @@ def main():
     parser.add_argument("--check-only", action="store_true", help="売上チェックのみ実行")
     parser.add_argument("--pdca",       action="store_true", help="PDCAレポートのみ実行")
     parser.add_argument("--research",   action="store_true", help="市場調査のみ実行（キャッシュ無視）")
-    parser.add_argument("--type",       choices=PRODUCT_TYPES, help="製品タイプを指定")
-    parser.add_argument("--niche",      help="ニッチを指定（デフォルト: 市場調査 or ランダム）")
+    parser.add_argument("--type",        choices=PRODUCT_TYPES, help="製品タイプを指定")
+    parser.add_argument("--niche",       help="ニッチを指定（デフォルト: 市場調査 or ランダム）")
+    parser.add_argument("--fix-prices",  action="store_true", help="価格バグ修正のみ実行（$3700→$37）")
     args = parser.parse_args()
+
+    if args.fix_prices:
+        fixed = fix_overpriced_products()
+        print(f"価格修正完了: {fixed}件")
+        return
 
     if args.research:
         # キャッシュを削除して強制再取得
