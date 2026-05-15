@@ -1,9 +1,9 @@
 {
   "venture": "medium_publisher",
   "params": {
-    "priority_genre": "Career Engineering & Salary Optimization (AI-enhanced job search)",
-    "writing_style": "ROI-driven, loss-aversion focused, and tool-centric (using specific monetary values, high-impact percentages, and 'hacking' terminology)",
-    "target_length": "1200-1500 words"
+    "priority_genre": "High-ROI Career Engineering & Strategic Salary Negotiation (AI-leveraged)",
+    "writing_style": "Artifact-centric (Sheets/Playbooks), extreme loss-aversion (mentioning $10k-$25k losses), and system-hacking terminology with 200%+ impact figures.",
+    "target_length": "1000-1300 words (high information density)"
   },
   "performance_history": [
     {
@@ -68,6 +68,13 @@
       "title_en": "30 High-Leverage ‘Reverse Questions’ to Skyrocket Your Interview Pass Rate and Negotiate a $20k Raise",
       "status": "success",
       "articles_total": 8
+    },
+    {
+      "date": "2026-05-15",
+      "genre": "Personal Finance",
+      "title_en": "The $400 Utility Hack: How I Optimized My Fixed Costs to Supercharge My New NISA 'Input Power'",
+      "status": "success",
+      "articles_total": 9
     }
   ],
   "learnings": [
@@ -80,9 +87,14 @@
       "date": "2026-05-15",
       "insight": "具体的な金額（$20,000等）と「ハック/アルゴリズム」という専門用語の組み合わせが極めて高い成功率を維持しており、抽象的な概念（80% Rule等）よりも損失回避とツール提供（Sheet, Playbook）に特化した内容が好まれています。",
       "action": "「AI選考アルゴリズムを逆手に取る」という切り口で、具体的な金額損失（$15,000等）を回避するための「職務経歴書最適化チェックリスト」を含む記事を執筆してください。"
+    },
+    {
+      "date": "2026-05-15",
+      "insight": "抽象的な法則（80% Rule等）よりも、具体的な金額損失（$12,000等）と即利用可能な成果物（Playbook, Sheet）を組み合わせた「システムのハック」記事が極めて高い成功率を記録しています。",
+      "action": "「年収$15,000の損失を防ぐベンチマーク・シート」を核に、市場価値の誤認を正して給与交渉を成功させる具体的なステップを執筆してください。"
     }
   ],
-  "last_optimized": "2026-05-15T05:54:18.163890+00:00",
+  "last_optimized": "2026-05-15T14:06:48.055099+00:00",
   "posted_titles": [
     "書類通過率が80%上がる！ネガティブな本音を「即採用」に変える退職理由の言い換え全10パターン",
     "【保存版】リファレンスチェック突破率100%へ。前職と疎遠・不仲でも内定を逃さない『推薦人依頼と事前準備』完全マニュアル",
@@ -91,7 +103,8 @@
     "転職サイトに頼らない！採用担当者のDMをこじ開け、1通のメッセージで内定を引き寄せる「直談判」の全手順",
     "複数内定から1社を絞る『後悔しない条件比較シート』：年収・環境・将来性を100点満点で可視化する技術",
     "【年収120万円UP】内定取り消しを回避し、希望額を確実にもぎ取る「年収交渉」完全マニュアル",
-    "【通過率が変わる】面接官の評価を爆上げする「逆質問」30選｜NG質問と役職別の最強テンプレート"
+    "【通過率が変わる】面接官の評価を爆上げする「逆質問」30選｜NG質問と役職別の最強テンプレート",
+    "「光熱費を年6万円下げる」2024年最新版：電力・ガス乗り換えで新NISA入金力を最大化する完全ガイド"
   ],
-  "articles_published": 8
+  "articles_published": 9
 }
