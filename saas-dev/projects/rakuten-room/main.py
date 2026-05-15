@@ -410,15 +410,11 @@ async def run():
                 fail += 1
                 print(f"    投稿失敗")
 
-            # not_foundは短く待機、成功/重複は通常待機、10回に1回は長めブレーク
+            # not_foundは短く、それ以外は1分前後
             if result == 'not_found':
                 await asyncio.sleep(random.uniform(3, 5))
-            elif (success + fail) % 10 == 0:
-                pause = random.uniform(120, 240)
-                print(f"    [ブレーク] {pause:.0f}秒")
-                await asyncio.sleep(pause)
             else:
-                await asyncio.sleep(random.uniform(30, 90))
+                await asyncio.sleep(random.uniform(50, 70))
 
         await browser.close()
 
