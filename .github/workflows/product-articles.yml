@@ -1,0 +1,37 @@
+name: product-articles-daily
+
+on:
+  schedule:
+    # 毎日JST 17:00 (UTC 8:00) — Dev.to夕方投稿
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install google-genai
+
+      - name: Run product articles publisher
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: python saas-dev/projects/ventures/product_articles/main.py
+
+      - name: Commit HTML + state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase -X theirs
+          git add docs/blog/en/ saas-dev/projects/ventures/product_articles/state.json
+          git diff --cached --quiet || git commit -m "product-articles: $(date '+%Y-%m-%d %H:%M') [skip ci]"
+          git push
