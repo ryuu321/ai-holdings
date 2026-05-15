@@ -20,8 +20,8 @@ RAKUTEN_PASSWORD = os.environ.get("RAKUTEN_PASSWORD", "")
 JST = timezone(timedelta(hours=9))
 AUTH_JSON = Path(__file__).parent / "auth.json"
 TONE_INDEX_FILE = Path(__file__).parent / "data" / "tone_index.txt"
-POSTS_PER_RUN = 70
-DAILY_MAX = 280            # 1日の絶対上限（8000件/月目標 = 267/日）
+POSTS_PER_RUN = 20          # 1回あたり上限（R利用上限回避：4回×20=80件/日）
+DAILY_MAX = 80             # 1日の絶対上限（rate limit余裕を持たせる）
 LOW_STOCK_THRESHOLD = 2000  # 在庫がこれを下回ったら自動補充
 DAILY_COUNT_FILE = Path(__file__).parent / "data" / "daily_count.json"
 
