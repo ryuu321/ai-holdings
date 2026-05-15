@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free AI Writing Prompt Generator — Get Better ChatGPT Results | AI Holdings</title>
+<meta name="description" content="Free AI writing prompt improver. Paste any weak prompt and get a more specific, detailed version that gets better results from ChatGPT, Claude, or Gemini. No signup needed.">
+<link rel="canonical" href="https://ryuu321.github.io/ai-holdings/blog/tools/ai-writing-assistant.html">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"AI Prompt Improver","description":"Free tool that rewrites weak AI prompts into detailed, specific versions that get better results","url":"https://ryuu321.github.io/ai-holdings/blog/tools/ai-writing-assistant.html","applicationCategory":"Productivity","operatingSystem":"All","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a2e;background:#f8f9ff;line-height:1.7}
+.hero{background:linear-gradient(135deg,#0f3460 0%,#16213e 100%);color:#fff;padding:48px 20px;text-align:center}
+.hero h1{font-size:1.9em;margin-bottom:10px;line-height:1.3}
+.hero p{opacity:.85;max-width:560px;margin:0 auto}
+.container{max-width:760px;margin:0 auto;padding:36px 20px}
+.card{background:#fff;border-radius:12px;padding:28px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+label{display:block;font-weight:700;color:#0f3460;margin-bottom:8px;font-size:.95em}
+textarea{width:100%;border:2px solid #dde7ff;border-radius:8px;padding:12px;font-size:.95em;font-family:inherit;resize:vertical;min-height:100px;color:#1a1a2e;line-height:1.6}
+textarea:focus{outline:none;border-color:#0f3460}
+select{width:100%;border:2px solid #dde7ff;border-radius:8px;padding:10px 12px;font-size:.95em;font-family:inherit;color:#1a1a2e;background:#fff;margin-bottom:16px}
+select:focus{outline:none;border-color:#0f3460}
+.btn{display:inline-block;background:#0f3460;color:#fff;font-weight:700;padding:13px 28px;border-radius:8px;border:none;font-size:1em;cursor:pointer;width:100%;margin-top:12px}
+.btn:hover{background:#16213e}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.result-box{background:#f0f4ff;border:1px solid #c5d0f0;border-radius:8px;padding:16px;margin-top:16px;font-size:.93em;line-height:1.7;white-space:pre-wrap;display:none}
+.copy-btn{margin-top:10px;background:#f5a623;color:#000;font-weight:700;padding:10px 20px;border-radius:6px;border:none;cursor:pointer;font-size:.9em}
+.copy-btn:hover{background:#e09010}
+.how-section h2{font-size:1.25em;color:#0f3460;margin-bottom:12px;border-left:4px solid #f5a623;padding-left:10px}
+.how-section ol{padding-left:20px}
+.how-section li{margin:8px 0;font-size:.93em}
+.cta-box{background:linear-gradient(135deg,#fff3cd,#fff8e1);border:2px solid #f5a623;border-radius:12px;padding:24px;text-align:center;margin-top:20px}
+.cta-box h3{color:#0f3460;margin-bottom:10px;font-size:1.1em}
+.cta-btn{display:inline-block;background:#f5a623;color:#000;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;font-size:.95em;margin-top:6px}
+.cta-btn:hover{background:#e09010}
+footer{text-align:center;padding:28px;color:#666;font-size:.88em}
+.tag{display:inline-block;background:#e8f0ff;color:#0f3460;padding:3px 10px;border-radius:12px;font-size:.8em;font-weight:600;margin:2px}
+.status{font-size:.85em;color:#555;margin-top:8px;min-height:20px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>Free AI Prompt Improver</h1>
+  <p>Paste any weak or vague AI prompt. Get a specific, detailed version that gives you 3-5x better results — instantly, no signup.</p>
+</div>
+
+<div class="container">
+  <div class="card">
+    <label for="goal">What are you trying to do?</label>
+    <select id="goal">
+      <option value="productivity">Productivity / Task Management</option>
+      <option value="content">Content Creation / Writing</option>
+      <option value="business">Business / Freelance / Side Hustle</option>
+      <option value="design">Design / Creative Work</option>
+      <option value="learning">Learning / Research / Studying</option>
+      <option value="adhd">ADHD / Focus / Routines</option>
+      <option value="etsy">Etsy / E-commerce / Product Selling</option>
+    </select>
+
+    <label for="prompt-input">Your current prompt (paste it here):</label>
+    <textarea id="prompt-input" placeholder='Example: "Help me be more productive" or "Write a product description for my Etsy item" or "How do I get more clients?"'></textarea>
+    <p class="status" id="status"></p>
+    <button class="btn" id="improve-btn" onclick="improvePrompt()">Improve My Prompt →</button>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <label>Your improved prompt:</label>
+    <div class="result-box" id="result-box"></div>
+    <button class="copy-btn" onclick="copyResult()">Copy to Clipboard</button>
+    <p style="margin-top:16px;font-size:.85em;color:#555">Paste this into ChatGPT, Claude, or Gemini for much better results.</p>
+    <div id="cta-inline" style="margin-top:20px"></div>
+  </div>
+
+  <div class="card how-section">
+    <h2>How This Works</h2>
+    <ol>
+      <li><strong>Vague prompt in:</strong> "Help me write an Etsy description"</li>
+      <li><strong>Specific prompt out:</strong> "You are an Etsy SEO expert. Write a product description for [item] targeting the keyword [keyword]. Include: an attention-grabbing opening sentence, 3-4 key features as bullet points, a sentence about ideal gift occasions, and end with a urgency line. Keep it under 250 words. Tone: warm and conversational."</li>
+      <li>The improved prompt gives AI all the context it needs to give you a usable first draft.</li>
+    </ol>
+  </div>
+
+  <div class="cta-box">
+    <h3>Want Pre-Built Prompts for Your Niche?</h3>
+    <p style="font-size:.9em;margin-bottom:8px">This tool helps you improve prompts you already have. Our niche-specific prompt packs give you 50 ready-to-use prompts — no improving needed.</p>
+    <a class="cta-btn" href="https://ryuumg.gumroad.com" target="_blank" rel="nofollow">Browse Prompt Packs on Gumroad →</a>
+    <p style="margin-top:10px;font-size:.82em;color:#666">From $39 · Instant download · Works with any AI</p>
+  </div>
+</div>
+
+<footer><p>© 2026 AI Holdings | <a href="https://ryuu321.github.io/ai-holdings">Home</a> | <a href="../guides/">Free Guides</a> | <a href="prompt-sampler.html">Prompt Sampler</a></p></footer>
+
+<script>
+const IMPROVEMENTS = {
+  productivity: [
+    { weak: /help.*productiv/i, strong: `You are a productivity coach for busy professionals.\n\nI want to [specific task/goal]. Here is my current situation: [describe your schedule, biggest time wasters, and what "productive" would look like for you].\n\nGive me:\n1. A realistic daily schedule template for my situation\n2. The 3 biggest changes I should make this week\n3. One specific system I can implement in under 15 minutes today\n4. How to handle it when this system breaks down (because it will)\n\nBe direct. Tell me what to stop doing, not just what to add.` },
+    { weak: /.*/, strong: `Act as a productivity systems expert.\n\nContext: [describe your role, main responsibilities, biggest challenge].\nGoal: [what does "productive" look like for you specifically?]\nConstraints: [how many hours per day, what can't you change?]\n\nCreate:\n1. A specific, step-by-step plan for [your goal]\n2. The one highest-leverage change I should make first\n3. A simple way to measure whether this is working\n4. Common pitfalls for people in my situation and how to avoid them\n\nMake it specific to my situation — not generic advice I've already tried.` },
+  ],
+  content: [
+    { weak: /hook|headline|title/i, strong: `You are a viral content strategist who has studied the top 1% of posts on [platform].\n\nWrite 10 different opening hooks for content about [your topic]. Each hook should use a different psychological trigger:\n- Curiosity gap\n- Shocking statistic\n- Contrarian take\n- Relatable pain\n- Bold claim\n- Story opener\n- Direct challenge\n\nRate each hook 1-10 for scroll-stopping power. Tell me which is strongest and why.\n\nFormat: [hook] — [score] — [why it works]` },
+    { weak: /.*/, strong: `You are a content strategist for [platform] creators in the [niche] space.\n\nI need to create content about: [your topic]\nMy audience: [describe who they are, what they struggle with]\nMy goal for this piece: [inform / entertain / drive clicks / build trust]\n\nWrite:\n1. An optimized title/hook (give me 5 variations)\n2. A content outline with 3-5 main sections\n3. The single most important insight or takeaway to lead with\n4. A CTA that feels natural for this type of content\n\nTone: [professional / casual / storytelling / educational]` },
+  ],
+  business: [
+    { weak: /client|customer/i, strong: `You are a business development coach for freelancers and service providers.\n\nMy business: [what you do, who you serve]\nThe problem: [describe specifically what's not working — not enough clients, wrong type of clients, price too low, etc.]\nCurrent approach: [what you're already doing to get clients]\n\nGive me:\n1. The most likely root cause of the problem I described\n2. Three specific, actionable fixes I can implement this week\n3. The exact script/message I should use when reaching out to [type of potential client]\n4. One counterintuitive thing I should try that most people in my situation don't\n\nBe specific. Tell me what to say and do, not just what to think about.` },
+    { weak: /.*/, strong: `Act as a seasoned business strategist.\n\nContext: I [describe what you do and for whom].\nChallenge: [describe the specific business problem in one sentence]\nWhat I've tried: [list what hasn't worked]\nGoal: [what does success look like — be specific with numbers if possible]\n\nAnalyze my situation and give me:\n1. The core issue (not the symptom I described)\n2. A prioritized action plan for the next 30 days\n3. The one thing I should stop doing immediately\n4. A realistic expectation for what I should see in 90 days if I execute well\n\nDon't pad this with generic advice. Tell me what's actually wrong.` },
+  ],
+  design: [
+    { weak: /logo|brand|identity/i, strong: `You are a brand strategist and creative director.\n\nClient: [describe the business — what they do, who they serve, their personality]\nProject: [logo / full brand identity / rebrand]\nExisting assets/constraints: [colors they love/hate, must-use elements, technical requirements]\nCompetitors they admire: [name 2-3]\nCompetitors they want to stand out from: [name 2-3]\n\nGive me:\n1. Three distinct creative directions (give each a one-word name)\n2. For each direction: the visual language, color mood, typography feel, and the strategic rationale\n3. The direction you recommend and why, given their specific situation\n4. Three questions I should ask the client before I start sketching\n\nThink strategically, not just aesthetically.` },
+    { weak: /.*/, strong: `Act as a creative director with 15 years of brand design experience.\n\nProject: [describe the design project]\nClient: [describe the company/person — size, industry, personality]\nBrief in their words: [paste or summarize what they told you]\n\nHelp me:\n1. Identify what they're actually asking for (not just what they said)\n2. Generate 4 creative directions I could take this project\n3. For each direction: visual approach, strategic rationale, and reference point\n4. Anticipate the 2 most likely client objections and how to pre-address them\n5. Write a 2-sentence "north star" statement to guide my design decisions\n\nFocus on strategy first, aesthetics second.` },
+  ],
+  learning: [
+    { weak: /explain|teach|help.*understand/i, strong: `Act as a patient expert teacher explaining [topic] to someone who [describe your background — complete beginner / knows basics but confused about X / professional in adjacent field].\n\nMy specific confusion or question: [describe exactly what you don't understand — not just the topic]\nHow I learn best: [examples / analogies / step-by-step / big picture first]\nWhat I've already tried to understand this: [resources you've read, courses, etc.]\n\nExplain it:\n1. Start with why this matters — the practical application\n2. Use a simple analogy I can relate to\n3. Walk through the concept step by step\n4. Give me a concrete example with real numbers/specifics\n5. Tell me what most people misunderstand about this\n6. Give me one question I can ask myself to check if I really understood it\n\nAvoid jargon unless you define it immediately.` },
+    { weak: /.*/, strong: `You are an expert in [subject] with a talent for teaching complex ideas simply.\n\nI'm trying to learn: [specific topic or skill]\nMy current level: [complete beginner / have basic understanding / intermediate but stuck on X]\nMy goal: [what do I want to be able to DO with this knowledge?]\nTime available: [X hours per week for Y weeks]\n\nCreate for me:\n1. A structured learning roadmap with milestones\n2. The 3 most important concepts to master first\n3. Common mistakes beginners make and how to avoid them\n4. A practical exercise I can do today to start applying this\n5. Resources recommendation: one book, one free online resource, one thing to practice\n\nBe honest about how long this realistically takes.` },
+  ],
+  adhd: [
+    { weak: /focus|task|productiv|routine/i, strong: `You are an ADHD coach and productivity specialist who actually has ADHD.\n\nMy situation: [describe your specific challenge — task paralysis, time blindness, can't start tasks, hyperfocus on wrong things, etc.]\nContext: [job/role, home situation, medications if relevant]\nWhat I've tried: [list systems that haven't worked for you]\n\nDesign a system that:\n1. Works WITH my ADHD brain, not against it\n2. Starts with the smallest possible first step\n3. Has built-in recovery for when I inevitably break the routine\n4. Uses [external tools I have: phone, calendar, sticky notes, etc.]\n5. Can be done in under 10 minutes per day to maintain\n\nBe specific. Tell me the exact steps, not principles.` },
+    { weak: /.*/, strong: `Act as an ADHD-specialist coach who understands executive dysfunction deeply.\n\nI have ADHD and I'm struggling with: [your specific challenge]\nThis affects my life by: [how does this problem show up day-to-day?]\nI work best when: [describe what conditions help you function — time of day, environment, etc.]\nI fall apart when: [what makes things worse?]\n\nGive me:\n1. An ADHD-friendly system for handling [challenge] — specific, not generic\n2. The ONE thing to change first (not a list — just the most important one)\n3. How to set this up when my executive function is working well so I can use it when it's not\n4. A "minimum viable" version for bad brain days\n5. How to restart after I inevitably fall off track — without shame spiraling\n\nRemember: I know what I *should* do. Help me do it.` },
+  ],
+  etsy: [
+    { weak: /listing|description|title|seo/i, strong: `You are an Etsy SEO expert with deep knowledge of the Etsy search algorithm.\n\nProduct: [describe your item in detail — material, size, style, any variations]\nTarget buyer: [who is this for? occasion? gift or self-purchase?]\nKeywords I think are relevant: [list 3-5 keywords you think buyers search]\nTop competitors: [paste 1-2 competitor listing titles for reference]\n\nWrite:\n1. An optimized Etsy title (140 chars max, lead with strongest keyword)\n2. 13 tags that cover long-tail variations\n3. A product description that:\n   - Opens with a benefit-led hook (not "This beautiful...")\n   - Lists 4-5 features as scannable bullets\n   - Includes occasion/gift use case\n   - Ends with shop policies in 1 sentence\n4. The primary keyword phrase I should focus on getting into the first 40 chars of my title\n\nFormat everything so I can copy-paste directly into Etsy.` },
+    { weak: /.*/, strong: `Act as an Etsy shop strategy consultant who has scaled multiple shops to 6 figures.\n\nMy shop: [describe what you sell, how long you've been selling]\nCurrent situation: [views, sales, conversion rate if you know it]\nBiggest challenge: [no views / views but no sales / seasonal / wrong customers / etc.]\nTop 3 products: [describe them briefly]\n\nAudit my situation and give me:\n1. The most likely root cause of my problem\n2. Three specific changes to make this week (with examples)\n3. The one listing I should optimize first and why\n4. What successful shops in my niche are doing that I'm not\n5. A realistic 90-day goal given my current situation\n\nBe direct — tell me what's wrong, not just what's possible.` },
+  ],
+};
+
+const NICHE_CTAS = {
+  productivity: { name: "AI Content Boost", url: "https://ryuumg.gumroad.com/l/qhanl", desc: "50 prompts for productivity & content creators" },
+  content: { name: "AI Content Boost", url: "https://ryuumg.gumroad.com/l/qhanl", desc: "50 prompts for content creators" },
+  business: { name: "AI Side Hustle Pack", url: "https://ryuumg.gumroad.com", desc: "50 prompts for business & side hustles" },
+  design: { name: "DesignGenie", url: "https://ryuumg.gumroad.com/l/zkiwh", desc: "50 AI prompts for graphic designers" },
+  learning: { name: "AI Content Boost", url: "https://ryuumg.gumroad.com/l/qhanl", desc: "50 AI learning & research prompts" },
+  adhd: { name: "ADHD Unlocked", url: "https://ryuumg.gumroad.com/l/akikab", desc: "50 prompts built for ADHD brains" },
+  etsy: { name: "Etsy Seller Boost", url: "https://ryuumg.gumroad.com/l/nnijeb", desc: "50 prompts for Etsy sellers" },
+};
+
+function improvePrompt() {
+  const input = document.getElementById('prompt-input').value.trim();
+  const goal = document.getElementById('goal').value;
+  const btn = document.getElementById('improve-btn');
+  const status = document.getElementById('status');
+
+  if (!input) {
+    status.textContent = 'Please enter a prompt first.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Improving...';
+  status.textContent = 'Analyzing your prompt...';
+
+  setTimeout(() => {
+    const rules = IMPROVEMENTS[goal] || IMPROVEMENTS.productivity;
+    let improved = null;
+    for (const rule of rules) {
+      if (rule.weak.test(input)) {
+        improved = rule.strong;
+        break;
+      }
+    }
+    if (!improved) improved = rules[rules.length - 1].strong;
+
+    const resultBox = document.getElementById('result-box');
+    const resultCard = document.getElementById('result-card');
+    resultBox.textContent = improved;
+    resultBox.style.display = 'block';
+    resultCard.style.display = 'block';
+
+    const cta = NICHE_CTAS[goal];
+    document.getElementById('cta-inline').innerHTML = `
+      <div style="background:#fff3cd;border:1px solid #f5a623;border-radius:8px;padding:16px;text-align:center">
+        <p style="font-size:.88em;font-weight:700;color:#0f3460;margin-bottom:8px">Want 50 more ${goal} prompts like this?</p>
+        <a href="${cta.url}" target="_blank" rel="nofollow" style="display:inline-block;background:#f5a623;color:#000;font-weight:700;padding:10px 20px;border-radius:6px;text-decoration:none;font-size:.9em">${cta.name} — Get on Gumroad →</a>
+        <p style="font-size:.8em;color:#666;margin-top:6px">${cta.desc} · $39 one-time</p>
+      </div>`;
+
+    btn.disabled = false;
+    btn.textContent = 'Improve My Prompt →';
+    status.textContent = 'Done! Copy the improved prompt and paste it into your AI tool.';
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 800);
+}
+
+function copyResult() {
+  const text = document.getElementById('result-box').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy to Clipboard', 2000);
+  });
+}
+
+document.getElementById('prompt-input').addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key === 'Enter') improvePrompt();
+});
+</script>
+</body>
+</html>

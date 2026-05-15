@@ -19,10 +19,11 @@ STATE_FILE  = Path(__file__).parent / "state.json"
 BLOG_EN_DIR = _ROOT / "docs" / "blog" / "en"
 SITE_URL    = "https://ryuu321.github.io/ai-holdings"
 
-GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
-DEVTO_KEY  = os.environ.get("DEVTO_API_KEY", "")
-TG_TOKEN   = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-TG_CHANNEL = os.environ.get("TELEGRAM_CHANNEL_ID", "")
+GEMINI_KEY  = os.environ.get("GEMINI_API_KEY", "")
+DEVTO_KEY   = os.environ.get("DEVTO_API_KEY", "")
+MEDIUM_KEY  = os.environ.get("MEDIUM_INTEGRATION_TOKEN", "")
+TG_TOKEN    = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TG_CHANNEL  = os.environ.get("TELEGRAM_CHANNEL_ID", "")
 
 
 # 6商品 × 複数記事トピック（週次ローテーション）
@@ -319,6 +320,43 @@ def _publish_devto(title: str, subtitle: str, body: str, tags: list, canonical_u
         return json.loads(r.read()).get("url", "")
 
 
+def _publish_medium(title: str, body: str, tags: list, canonical_url: str) -> str:
+    """Medium Integration Token を使って投稿。canonicalUrlで重複コンテンツを防ぐ。"""
+    if not MEDIUM_KEY:
+        return ""
+    try:
+        # ユーザーID取得
+        req = urllib.request.Request(
+            "https://api.medium.com/v1/me",
+            headers={"Authorization": f"Bearer {MEDIUM_KEY}", "Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=15) as r:
+            user_id = json.loads(r.read()).get("data", {}).get("id", "")
+        if not user_id:
+            return ""
+
+        payload = json.dumps({
+            "title": title,
+            "contentFormat": "markdown",
+            "content": body,
+            "canonicalUrl": canonical_url,
+            "publishStatus": "public",
+            "tags": [t[:25] for t in tags[:5]],
+        }).encode("utf-8")
+        req2 = urllib.request.Request(
+            f"https://api.medium.com/v1/users/{user_id}/posts",
+            data=payload,
+            headers={"Authorization": f"Bearer {MEDIUM_KEY}", "Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req2, timeout=30) as r:
+            url = json.loads(r.read()).get("data", {}).get("url", "")
+        print(f"  Medium投稿完了: {url}")
+        return url
+    except Exception as e:
+        print(f"  [Medium SKIP] {e}")
+        return ""
+
+
 def _send_telegram(title: str, devto_url: str, product_url: str, product_name: str):
     if not TG_TOKEN or not TG_CHANNEL:
         return
@@ -405,6 +443,14 @@ def main():
         print(f"  Dev.to投稿完了: {devto_url}")
     except Exception as e:
         print(f"  [Dev.to ERROR] {e}")
+
+    # Step3b: Medium投稿（canonicalはGitHub Pages）
+    _publish_medium(
+        article.get("title", ""),
+        article.get("body", ""),
+        article.get("tags", []),
+        canonical_url,
+    )
 
     # Step4: 状態更新
     key = f"{product['product']}::{topic['keyword']}"

@@ -308,6 +308,7 @@ def main():
     # 3c. ツールページをサイトマップに追加
     all_urls.append(f"{SITE_URL}/blog/tools/prompt-sampler.html")
     all_urls.append(f"{SITE_URL}/blog/tools/side-hustle-calculator.html")
+    all_urls.append(f"{SITE_URL}/blog/tools/ai-writing-assistant.html")
 
     # 3d. ガイド記事をサイトマップに追加
     guides_dir = BLOG_DIR / "guides"
