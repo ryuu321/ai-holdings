@@ -50,8 +50,8 @@ def get_pending(n: int = 5, min_score: float = 0.0) -> pd.DataFrame:
 
     if min_score > 0:
         room_items = pending[pending["_score"] >= min_score]
-        # ROOM確認済みが十分あればそれだけ返す、なければ全体から返す
-        if len(room_items) >= min(n, 5):
+        if len(room_items) > 0:
+            # ROOM確認済みがあればそれだけ返す（非ROOMへのフォールバックなし）
             pending = room_items
 
     # score降順（ROOM直接スクレイプ品=9.99が最優先）、同スコアはcaptured_at昇順

@@ -417,11 +417,13 @@ async def run():
                 fail += 1
                 print(f"    投稿失敗")
 
-            # not_foundは短く、それ以外は1分前後
+            # not_foundは短く、成功・重複は人間的な間隔
             if result == 'not_found':
                 await asyncio.sleep(random.uniform(3, 5))
+            elif result == 'ok':
+                await asyncio.sleep(random.uniform(15, 25))  # 成功後は短め（ROOM確認済みなので）
             else:
-                await asyncio.sleep(random.uniform(50, 70))
+                await asyncio.sleep(random.uniform(10, 20))
 
         await browser.close()
 
