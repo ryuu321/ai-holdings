@@ -845,6 +845,38 @@ def _notify(msg: str):
 
 # ───────────────────────────── PDCA ─────────────────────────────
 
+def enable_affiliates_all_products(commission_pct: int = 25):
+    """全公開商品にアフィリエイト25%コミッションを設定する。"""
+    if not GUMROAD_TOKEN:
+        return
+    headers = {"Authorization": f"Bearer {GUMROAD_TOKEN}"}
+    try:
+        r = requests.get(f"{GUMROAD_API}/products", headers=headers, timeout=30)
+        r.raise_for_status()
+        products = [p for p in r.json().get("products", []) if p.get("published")]
+    except Exception as e:
+        log.warning(f"商品一覧取得失敗: {e}")
+        return
+
+    for p in products:
+        pid  = p.get("id", "")
+        name = p.get("name", "")
+        try:
+            ru = requests.put(
+                f"{GUMROAD_API}/products/{quote(pid, safe='')}",
+                headers=headers,
+                data={
+                    "affiliates_disabled":  "false",
+                    "affiliate_offer_rate": str(commission_pct),
+                },
+                timeout=30,
+            )
+            if ru.ok:
+                log.info(f"アフィリエイト有効化: {name} ({commission_pct}%)")
+        except Exception as e:
+            log.debug(f"アフィリエイト設定スキップ ({name}): {e}")
+
+
 def _fetch_published_products() -> list[dict]:
     """Gumroad API で公開済み商品一覧を取得する。"""
     if not GUMROAD_TOKEN:
@@ -967,6 +999,8 @@ def run_pdca() -> dict:
     """
     # 価格バグ修正（$3700→$37）を毎回実行
     fix_overpriced_products()
+    # 全商品アフィリエイト25%有効化（他者による宣伝を促進）
+    enable_affiliates_all_products()
 
     sales = check_sales()
     published_products = _fetch_published_products()

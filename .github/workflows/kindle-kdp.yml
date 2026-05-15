@@ -1,0 +1,56 @@
+name: Kindle KDP EPUB生成（週2回）
+
+on:
+  schedule:
+    - cron: '0 22 * * 0,3'   # 日曜・水曜 JST7時（UTC22時）
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r saas-dev/projects/kindle-kdp/requirements.txt
+
+      - name: EPUB生成
+        working-directory: saas-dev/projects/kindle-kdp
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python main.py
+
+      - name: EPUBをgitにコミット（永続化）
+        run: |
+          git config user.name "kdp-bot"
+          git config user.email "bot@ai-holdings"
+          git add saas-dev/projects/kindle-kdp/output/ saas-dev/projects/kindle-kdp/data/
+          git diff --cached --quiet && echo "変更なし" || git commit -m "kdp: EPUB生成 $(date -u +%Y-%m-%d) [skip ci]"
+          git push
+
+      - name: 未アップロード本を一覧表示
+        working-directory: saas-dev/projects/kindle-kdp
+        run: |
+          python - <<'EOF'
+          import json
+          from pathlib import Path
+          books = json.loads(Path("data/books.json").read_text())
+          pending = [b for b in books if b.get("status") == "epub_ready"]
+          if pending:
+              print(f"\n📚 KDPアップロード待ち: {len(pending)}冊")
+              for b in pending:
+                  epub = Path(b.get("epub_path", ""))
+                  exists = "✓" if epub.exists() else "✗ (missing)"
+                  print(f"  {exists} {b['title']}")
+                  print(f"      EPUB: {b.get('epub_path', 'N/A')}")
+              print("\n→ https://kdp.amazon.co.jp で手動アップロードしてください")
+          else:
+              print("アップロード待ちなし")
+          EOF
