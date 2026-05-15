@@ -46,6 +46,30 @@ SEARCH_TARGETS = [
     {"keyword": "バッグ レディース",      "category": "バッグ・財布",       "persona": "20〜30代女性"},
 ]
 
+# ROOM投稿実績のある上位ショップ（shopCode指定でROOM登録済み商品を優先取得）
+PRIORITY_SHOPS = [
+    {"shopCode": "kamiya",          "category": "生活雑貨",         "persona": "20〜30代女性"},
+    {"shopCode": "hair-kirakira",   "category": "ヘアケア",         "persona": "20〜30代女性"},
+    {"shopCode": "netsbee",         "category": "ヘアケア",         "persona": "20〜30代女性"},
+    {"shopCode": "asia-kobo",       "category": "生活雑貨",         "persona": "20〜30代女性"},
+    {"shopCode": "bene-c",          "category": "コスメ・美容",     "persona": "20〜30代女性"},
+    {"shopCode": "beautypark2017",  "category": "コスメ・美容",     "persona": "20〜30代女性"},
+    {"shopCode": "biyouitem-hps",   "category": "コスメ・美容",     "persona": "20〜30代女性"},
+    {"shopCode": "etamo-store",     "category": "生活雑貨",         "persona": "20〜30代女性"},
+    {"shopCode": "hakusan",         "category": "生活雑貨",         "persona": "20〜30代女性"},
+    {"shopCode": "auc-scopy",       "category": "生活雑貨",         "persona": "20〜30代女性"},
+    {"shopCode": "karinhonpo2951",  "category": "健康・美容",       "persona": "20〜40代女性"},
+    {"shopCode": "roomy",           "category": "収納・インテリア", "persona": "一人暮らし"},
+    {"shopCode": "shopmarna",       "category": "生活雑貨",         "persona": "20〜30代女性"},
+    {"shopCode": "seedcoms",        "category": "健康・美容",       "persona": "20〜40代女性"},
+    {"shopCode": "kiseki-shop",     "category": "コスメ・美容",     "persona": "20〜30代女性"},
+    {"shopCode": "mmoon",           "category": "コスメ・美容",     "persona": "20〜30代女性"},
+    {"shopCode": "livingut",        "category": "収納・インテリア", "persona": "一人暮らし"},
+    {"shopCode": "bathroom",        "category": "収納・インテリア", "persona": "一人暮らし"},
+    {"shopCode": "style-on-bag",    "category": "バッグ・財布",     "persona": "20〜30代女性"},
+    {"shopCode": "40s-skincare",    "category": "コスメ・美容",     "persona": "20〜30代女性"},
+]
+
 HEADERS = {
     "Referer": APP_URL,
     "Origin":  APP_URL,
@@ -92,20 +116,24 @@ def _make_caption(item: dict, target: dict, style: str) -> str:
         return f"ママたちの間で話題！{name}が{price:,}円で買えます💕 {ts}時点で在庫あり。評価{rating}の安心商品です。子育て中でも使いやすい一品をぜひ。 {' '.join(HASHTAG_MAP.get(target['category'], ['#楽天ROOM']))}"
 
 
-def _fetch_page(keyword: str, page: int) -> list[dict]:
+def _fetch_page(keyword: str, page: int, shop_code: str = "") -> list[dict]:
+    params = {
+        "applicationId": APP_ID,
+        "accessKey":     ACCESS_KEY,
+        "affiliateId":   AFF_ID,
+        "hits":          HITS,
+        "page":          page,
+        "minPrice":      MIN_PRICE,
+        "maxPrice":      MAX_PRICE,
+        "sort":          "-reviewCount",
+        "format":        "json",
+    }
+    if shop_code:
+        params["shopCode"] = shop_code
+    else:
+        params["keyword"] = keyword
     for attempt in range(4):
-        r = requests.get(API_URL, params={
-            "applicationId": APP_ID,
-            "accessKey":     ACCESS_KEY,
-            "affiliateId":   AFF_ID,
-            "keyword":       keyword,
-            "hits":          HITS,
-            "page":          page,
-            "minPrice":      MIN_PRICE,
-            "maxPrice":      MAX_PRICE,
-            "sort":          "-reviewCount",
-            "format":        "json",
-        }, headers=HEADERS, timeout=15)
+        r = requests.get(API_URL, params=params, headers=HEADERS, timeout=15)
         if r.status_code == 429:
             wait = 10 * (attempt + 1)
             print(f"    429 Rate limit → {wait}秒待機")
@@ -116,78 +144,100 @@ def _fetch_page(keyword: str, page: int) -> list[dict]:
     return []
 
 
+def _collect_from_target(target: dict, per_target: int, now_str: str, shop_code: str = "") -> list[dict]:
+    collected = []
+    seen_urls = set()
+    page = 1
+    keyword = target.get("keyword", "")
+
+    while len(collected) < per_target:
+        try:
+            items = _fetch_page(keyword, page, shop_code=shop_code)
+        except Exception as e:
+            print(f"  APIエラー(page={page}): {e}")
+            break
+        if not items:
+            break
+
+        for item_wrap in items:
+            item = item_wrap["Item"]
+            url    = item.get("affiliateUrl") or item.get("itemUrl", "")
+            name   = item.get("itemName", "")
+            price  = item.get("itemPrice", 0)
+            rating = float(item.get("reviewAverage", 0))
+            reviews = int(item.get("reviewCount", 0))
+
+            if not url or not name or price < MIN_PRICE or reviews < MIN_REVIEWS:
+                continue
+            if url in seen_urls:
+                continue
+            seen_urls.add(url)
+
+            score = round(
+                min(reviews / 500, 1.0) * 0.4 +
+                min(rating / 5.0, 1.0) * 0.3 +
+                (1.0 if MIN_PRICE <= price <= 5000 else 0.5) * 0.3,
+                3
+            )
+            product = {
+                "url": url, "name": name, "category": target["category"],
+                "buyer_persona": target["persona"],
+                "price": price, "rating": rating,
+                "review_count": reviews, "score": score,
+                "captured_at": now_str,
+            }
+            product["copy_short_polite"]  = _make_caption(product, target, "short_polite")
+            product["copy_short_casual"]  = _make_caption(product, target, "short_casual")
+            product["copy_short_mom"]     = _make_caption(product, target, "short_mom")
+            product["copy_medium_polite"] = _make_caption(product, target, "medium_polite")
+            product["copy_medium_casual"] = _make_caption(product, target, "medium_casual")
+            product["copy_medium_mom"]    = _make_caption(product, target, "medium_mom")
+            product["copy_long_polite"]   = _make_caption(product, target, "long_polite")
+            product["copy_long_casual"]   = _make_caption(product, target, "long_casual")
+            product["copy_long_mom"]      = _make_caption(product, target, "long_mom")
+            product["hashtags"]    = ",".join(HASHTAG_MAP.get(target["category"], ["#楽天ROOM"]))
+            product["evidence_url"] = (
+                f"https://www.rakuten.co.jp/shop/{shop_code}/" if shop_code
+                else f"https://search.rakuten.co.jp/search/mall/{requests.utils.quote(keyword)}/"
+            )
+            product["posted"]    = "False"
+            product["posted_at"] = ""
+            product["tone_used"] = ""
+            collected.append(product)
+            if len(collected) >= per_target:
+                break
+
+        page += 1
+        if page > 100:
+            break
+        time.sleep(random.uniform(0.8, 1.2))
+
+    return collected
+
+
 def run(total: int):
-    per_target = max(1, total // len(SEARCH_TARGETS))
     now_str = datetime.now(JST).strftime("%Y-%m-%d %H:%M")
     grand_total = 0
 
+    # 優先ショップ: 全体の60%を割り当て
+    shop_total = int(total * 0.6)
+    per_shop = max(1, shop_total // len(PRIORITY_SHOPS))
+    print(f"=== 優先ショップ検索 ({len(PRIORITY_SHOPS)}店 × {per_shop}件) ===")
+    for shop in PRIORITY_SHOPS:
+        print(f"\n--- {shop['shopCode']} ({shop['category']}) ---")
+        collected = _collect_from_target(shop, per_shop, now_str, shop_code=shop["shopCode"])
+        if collected:
+            append_products(collected)
+            print(f"  → {len(collected)}件追加")
+            grand_total += len(collected)
+
+    # キーワード検索: 残り40%
+    kw_total = total - shop_total
+    per_target = max(1, kw_total // len(SEARCH_TARGETS))
+    print(f"\n=== キーワード検索 ({len(SEARCH_TARGETS)}件 × {per_target}件) ===")
     for target in SEARCH_TARGETS:
         print(f"\n--- {target['category']} ({target['keyword']}) ---")
-        collected = []
-        page = 1
-        seen_urls = set()
-
-        while len(collected) < per_target:
-            try:
-                items = _fetch_page(target["keyword"], page)
-            except Exception as e:
-                print(f"  APIエラー(page={page}): {e}")
-                break
-            if not items:
-                break
-
-            for item_wrap in items:
-                item = item_wrap["Item"]
-                url   = item.get("affiliateUrl") or item.get("itemUrl", "")
-                name  = item.get("itemName", "")
-                price = item.get("itemPrice", 0)
-                rating = float(item.get("reviewAverage", 0))
-                reviews = int(item.get("reviewCount", 0))
-
-                if not url or not name or price < MIN_PRICE or reviews < MIN_REVIEWS:
-                    continue
-                if url in seen_urls:
-                    continue
-                seen_urls.add(url)
-
-                score = round(
-                    min(reviews / 500, 1.0) * 0.4 +
-                    min(rating / 5.0, 1.0) * 0.3 +
-                    (1.0 if MIN_PRICE <= price <= 5000 else 0.5) * 0.3,
-                    3
-                )
-                product = {
-                    "url": url, "name": name, "category": target["category"],
-                    "buyer_persona": target["persona"],
-                    "price": price, "rating": rating,
-                    "review_count": reviews, "score": score,
-                    "captured_at": now_str,
-                }
-
-                product["copy_short_polite"]  = _make_caption(product, target, "short_polite")
-                product["copy_short_casual"]  = _make_caption(product, target, "short_casual")
-                product["copy_short_mom"]     = _make_caption(product, target, "short_mom")
-                product["copy_medium_polite"] = _make_caption(product, target, "medium_polite")
-                product["copy_medium_casual"] = _make_caption(product, target, "medium_casual")
-                product["copy_medium_mom"]    = _make_caption(product, target, "medium_mom")
-                product["copy_long_polite"]   = _make_caption(product, target, "long_polite")
-                product["copy_long_casual"]   = _make_caption(product, target, "long_casual")
-                product["copy_long_mom"]      = _make_caption(product, target, "long_mom")
-                product["hashtags"] = ",".join(HASHTAG_MAP.get(target["category"], ["#楽天ROOM"]))
-                product["evidence_url"] = f"https://search.rakuten.co.jp/search/mall/{requests.utils.quote(target['keyword'])}/"
-                product["posted"]    = "False"
-                product["posted_at"] = ""
-                product["tone_used"] = ""
-
-                collected.append(product)
-                if len(collected) >= per_target:
-                    break
-
-            page += 1
-            if page > 100:
-                break
-            time.sleep(random.uniform(0.8, 1.2))
-
+        collected = _collect_from_target(target, per_target, now_str)
         if collected:
             append_products(collected)
             print(f"  → {len(collected)}件追加")
