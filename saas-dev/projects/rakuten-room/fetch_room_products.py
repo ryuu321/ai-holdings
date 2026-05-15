@@ -19,16 +19,20 @@ from utils.product_picker import append_products
 AUTH_JSON = Path(__file__).parent / "auth.json"
 JST = timezone(timedelta(hours=9))
 
-# スクレイプ対象ページ（メインフィード + ページネーション）
+# スクレイプ対象ページ（フィード + カテゴリ + ランキング）
 ROOM_FEED_PAGES = [
     "https://room.rakuten.co.jp/items",
     "https://room.rakuten.co.jp/items?page=2",
     "https://room.rakuten.co.jp/items?page=3",
     "https://room.rakuten.co.jp/items?page=4",
     "https://room.rakuten.co.jp/items?page=5",
-    "https://room.rakuten.co.jp/items?page=6",
-    "https://room.rakuten.co.jp/items?page=7",
-    "https://room.rakuten.co.jp/items?page=8",
+    "https://room.rakuten.co.jp/ranking",
+    "https://room.rakuten.co.jp/ranking?page=2",
+    "https://room.rakuten.co.jp/ranking?page=3",
+    "https://room.rakuten.co.jp/items?category=ladies_fashion",
+    "https://room.rakuten.co.jp/items?category=cosmetics",
+    "https://room.rakuten.co.jp/items?category=interior",
+    "https://room.rakuten.co.jp/items?category=kitchen",
 ]
 
 HASHTAG_MAP = {
@@ -172,9 +176,9 @@ async def scrape(total: int):
                 await asyncio.sleep(3)
 
                 # スクロールして追加アイテムをロード
-                for _ in range(8):
+                for _ in range(15):
                     await page.evaluate("window.scrollBy(0, 1000)")
-                    await asyncio.sleep(0.8)
+                    await asyncio.sleep(0.5)
 
                 # DOM から楽天商品リンクを全取得
                 hrefs: list[str] = await page.evaluate("""
