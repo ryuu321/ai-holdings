@@ -1,56 +1,139 @@
 """
 setup_oauth.py — ローカルで1回だけ実行してYouTube refresh_tokenを取得
 
-使い方:
-1. Google Cloud Console (console.cloud.google.com) でプロジェクト作成
-2. YouTube Data API v3 を有効化
-3. OAuth2認証情報 (Desktop app type) を作成 → client_id & client_secret をメモ
-4. このスクリプトを実行: python setup_oauth.py
-5. 表示されたURLをブラウザで開いてGoogleアカウントで認証
-6. リダイレクトURLの ?code= の値をコピーしてここに貼り付け
-7. 表示されたrefresh_tokenをGitHub Secretsに YOUTUBE_REFRESH_TOKEN として保存
+【事前準備】
+Google Cloud Console で OAuth認証情報を開き、
+「承認済みのリダイレクトURI」に以下を追加してから実行:
+  http://localhost:8080
 
-その他のSecrets:
-- YOUTUBE_CLIENT_ID
-- YOUTUBE_CLIENT_SECRET
-- YOUTUBE_REFRESH_TOKEN
+【実行方法】
+  python setup_oauth.py
+ブラウザが開くので Google アカウントで許可するだけ。
 """
 import json
-import urllib.request
+import threading
 import urllib.parse
+import urllib.request
+import webbrowser
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-CLIENT_ID     = input("YouTube Client ID: ").strip()
-CLIENT_SECRET = input("YouTube Client Secret: ").strip()
+PORT = 8080
+REDIRECT_URI = f"http://localhost:{PORT}"
+SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 
-auth_url = (
-    "https://accounts.google.com/o/oauth2/auth?"
-    + urllib.parse.urlencode({
-        "client_id": CLIENT_ID,
-        "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
-        "scope": "https://www.googleapis.com/auth/youtube.upload",
-        "response_type": "code",
-        "access_type": "offline",
-    })
-)
-print(f"\n1. このURLをブラウザで開いてください:\n{auth_url}\n")
-code = input("2. 認証後に表示されたコードを貼り付け: ").strip()
+_code_holder: dict = {}
 
-payload = urllib.parse.urlencode({
-    "code": code,
-    "client_id": CLIENT_ID,
-    "client_secret": CLIENT_SECRET,
-    "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
-    "grant_type": "authorization_code",
-}).encode("utf-8")
 
-req = urllib.request.Request(
-    "https://oauth2.googleapis.com/token", data=payload,
-    headers={"Content-Type": "application/x-www-form-urlencoded"},
-)
-with urllib.request.urlopen(req) as r:
-    data = json.loads(r.read())
+class _Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        params = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+        code = params.get("code", [""])[0]
+        _code_holder["code"] = code
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.end_headers()
+        msg = "認証成功！このウィンドウを閉じてターミナルに戻ってください。" if code else "エラー：codeが取得できませんでした。"
+        self.wfile.write(f"<h2>{msg}</h2>".encode())
 
-print("\n=== GitHub Secretsに保存してください ===")
-print(f"YOUTUBE_CLIENT_ID:     {CLIENT_ID}")
-print(f"YOUTUBE_CLIENT_SECRET: {CLIENT_SECRET}")
-print(f"YOUTUBE_REFRESH_TOKEN: {data.get('refresh_token', 'ERROR - refresh_token未取得')}")
+    def log_message(self, *args):
+        pass  # サーバーログ抑制
+
+
+def _get_auth_code(client_id: str) -> str:
+    auth_url = (
+        "https://accounts.google.com/o/oauth2/auth?"
+        + urllib.parse.urlencode({
+            "client_id": client_id,
+            "redirect_uri": REDIRECT_URI,
+            "scope": SCOPE,
+            "response_type": "code",
+            "access_type": "offline",
+            "prompt": "consent",  # 毎回refresh_tokenを発行させる
+        })
+    )
+
+    server = HTTPServer(("localhost", PORT), _Handler)
+
+    def _serve():
+        server.handle_request()  # 1リクエストだけ処理
+
+    t = threading.Thread(target=_serve, daemon=True)
+    t.start()
+
+    print(f"\nブラウザを開いてGoogleアカウントで許可してください...")
+    print(f"（自動で開かない場合は手動でアクセス）:\n{auth_url}\n")
+    webbrowser.open(auth_url)
+
+    t.join(timeout=120)
+    server.server_close()
+    return _code_holder.get("code", "")
+
+
+def _exchange_code(client_id: str, client_secret: str, code: str) -> dict:
+    payload = urllib.parse.urlencode({
+        "code": code,
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "redirect_uri": REDIRECT_URI,
+        "grant_type": "authorization_code",
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        "https://oauth2.googleapis.com/token",
+        data=payload,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+    )
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.loads(r.read())
+
+
+def main():
+    print("=" * 50)
+    print("YouTube OAuth2 セットアップ")
+    print("=" * 50)
+    print()
+    print("【事前確認】Google Cloud Console で:")
+    print("「承認済みのリダイレクトURI」に追加済みですか?")
+    print(f"  → {REDIRECT_URI}")
+    print()
+
+    client_id = input("Client ID を貼り付け: ").strip()
+    client_secret = input("Client Secret を貼り付け: ").strip()
+
+    code = _get_auth_code(client_id)
+    if not code:
+        print("\nERROR: 認証コードを取得できませんでした。")
+        print("ブラウザで手動認証後、URLの ?code= の値をここに貼り付け:")
+        code = input("code: ").strip()
+
+    if not code:
+        print("ERROR: code が空です。最初からやり直してください。")
+        return
+
+    print("トークン取得中...")
+    try:
+        data = _exchange_code(client_id, client_secret, code)
+    except Exception as e:
+        print(f"ERROR: {e}")
+        return
+
+    refresh_token = data.get("refresh_token", "")
+    if not refresh_token:
+        print("ERROR: refresh_token が取得できませんでした。")
+        print("Google Cloud Console で「prompt=consent」が有効か確認してください。")
+        print(f"レスポンス全体: {data}")
+        return
+
+    print()
+    print("=" * 50)
+    print("成功！GitHub Secrets に以下を登録してください:")
+    print("=" * 50)
+    print(f"YOUTUBE_CLIENT_ID     = {client_id}")
+    print(f"YOUTUBE_CLIENT_SECRET = {client_secret}")
+    print(f"YOUTUBE_REFRESH_TOKEN = {refresh_token}")
+    print()
+    print("GitHub Secrets 設定場所:")
+    print("  https://github.com/ryuu321/ai-holdings/settings/secrets/actions")
+
+
+if __name__ == "__main__":
+    main()
