@@ -2,18 +2,16 @@
 kdp_uploader.py — Kindle KDP EPUB自動アップロード
 
 セッション管理:
-  1. KDP_SESSION_B64: 保存済みセッション（優先使用）
+  1. KDP_SESSION / KDP_SESSION_B64: 保存済みセッション（優先使用）
   2. セッション切れ → KDP_EMAIL + KDP_PASSWORD で自動再ログイン
-  3. Amazon 2FA → KDP_EMAIL_APP_PASSWORD (Gmail App Password) で
-     IMAP経由のOTPを自動取得して入力
+  3. Amazon 2FA → 別ブラウザページでGmailを開いてOTPを自動取得
+     （App Password不要・KDP_EMAIL + KDP_PASSWORD だけで完結）
 """
 import json
 import os
 import re
 import time
 import base64
-import imaplib
-import email as email_lib
 import logging
 from pathlib import Path
 from datetime import datetime, timezone
@@ -26,106 +24,140 @@ DATA_FILE    = Path(__file__).parent / "data" / "books.json"
 SESSION_FILE = Path(__file__).parent / "data" / "kdp_session.json"
 KDP_URL      = "https://kdp.amazon.co.jp"
 
-KDP_EMAIL        = os.environ.get("KDP_EMAIL", "")
-KDP_PASSWORD     = os.environ.get("KDP_PASSWORD", "")
-EMAIL_APP_PASS   = os.environ.get("KDP_EMAIL_APP_PASSWORD", "")  # Gmail App Password
+KDP_EMAIL    = os.environ.get("KDP_EMAIL", "")
+KDP_PASSWORD = os.environ.get("KDP_PASSWORD", "")
 KEYWORDS_DEFAULT = ["電子書籍", "日本語", "初心者向け", "副業", "資産形成"]
 
 
 # ─────────────────────── セッション管理 ───────────────────────
 
 def _restore_session():
-    """環境変数 KDP_SESSION_B64 からセッションファイルを復元する。"""
-    b64 = os.environ.get("KDP_SESSION_B64", "")
-    if not b64:
-        return
-    try:
-        decoded = base64.b64decode(b64).decode("utf-8")
-        SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
-        SESSION_FILE.write_text(decoded, encoding="utf-8")
-        log.info("KDPセッション復元完了")
-    except Exception as e:
-        log.warning(f"セッション復元失敗: {e}")
+    """環境変数からセッションファイルを復元する。
+    KDP_SESSION_B64（base64）またはKDP_SESSION（JSON文字列）を試みる。"""
+    for key in ("KDP_SESSION_B64", "KDP_SESSION"):
+        raw = os.environ.get(key, "")
+        if not raw:
+            continue
+        try:
+            # base64かJSONか判定
+            if raw.strip().startswith("{"):
+                decoded = raw  # すでにJSONテキスト
+            else:
+                decoded = base64.b64decode(raw).decode("utf-8")
+            SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
+            SESSION_FILE.write_text(decoded, encoding="utf-8")
+            log.info(f"KDPセッション復元完了（{key}）")
+            return
+        except Exception as e:
+            log.debug(f"{key} 復元失敗: {e}")
 
 
 def _save_session(context):
-    """現在のPlaywrightコンテキストからセッションを保存する。"""
+    """Playwrightコンテキストからセッションを保存し、base64も出力する。"""
     SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
     context.storage_state(path=str(SESSION_FILE))
     encoded = base64.b64encode(SESSION_FILE.read_bytes()).decode()
-    (SESSION_FILE.parent / "kdp_session_b64.txt").write_text(encoded)
-    log.info("セッション保存完了（data/kdp_session_b64.txt にbase64を出力）")
+    out = SESSION_FILE.parent / "kdp_session_b64.txt"
+    out.write_text(encoded)
+    log.info(f"セッション保存完了 → {out}")
+    log.info("GitHub Secrets の KDP_SESSION_B64 にこのファイルの内容を登録してください")
 
 
-# ─────────────────────── IMAP OTP取得 ───────────────────────
+# ─────────────────────── Gmail OTP取得（Playwright） ───────────────────────
 
-def _fetch_amazon_otp(gmail_addr: str, app_password: str, timeout_sec: int = 90) -> str:
+def _fetch_otp_via_gmail_browser(browser, timeout_sec: int = 90) -> str:
     """
-    Gmail IMAPでAmazonからのワンタイムパスコードを取得する。
-    timeout_sec秒以内にメールが来なければ空文字を返す。
+    Playwrightで新しいブラウザページを開いてGmailにログインし、
+    Amazonからのワンタイムパスコードを取得する。
+    App Password不要・メール/パスワードだけで完結。
     """
-    if not gmail_addr or not app_password:
-        log.warning("Gmail認証情報未設定（KDP_EMAIL / KDP_EMAIL_APP_PASSWORD）")
+    if not KDP_EMAIL or not KDP_PASSWORD:
+        log.warning("KDP_EMAIL / KDP_PASSWORD 未設定のためOTP取得不可")
         return ""
 
-    log.info(f"IMAP: Amazonのワンタイムパスコードを待機中（最大{timeout_sec}秒）...")
-    deadline = time.time() + timeout_sec
+    log.info("Gmail ブラウザログインでOTPを取得中...")
 
-    while time.time() < deadline:
+    gmail_page = browser.new_page()
+    try:
+        # Gmailにログイン
+        gmail_page.goto("https://accounts.google.com/signin/v2/identifier"
+                        "?service=mail&continue=https://mail.google.com/",
+                        wait_until="domcontentloaded", timeout=20000)
+        gmail_page.wait_for_timeout(1500)
+
+        # メールアドレス入力
+        gmail_page.locator("input[type='email'], #identifierId").first.fill(KDP_EMAIL)
+        gmail_page.locator("button:has-text('次へ'), #identifierNext button").first.click()
+        gmail_page.wait_for_timeout(2000)
+
+        # パスワード入力
+        gmail_page.locator("input[type='password'], #password input").first.fill(KDP_PASSWORD)
+        gmail_page.locator("button:has-text('次へ'), #passwordNext button").first.click()
+        gmail_page.wait_for_timeout(3000)
+
+        # 2FA ページが出たらスキップ（電話番号確認など）
+        for skip_sel in [
+            "button:has-text('後で行う')", "button:has-text('Skip')",
+            "button:has-text('今はしない')", "[data-action='skip']",
+        ]:
+            btn = gmail_page.locator(skip_sel).first
+            if btn.count() > 0:
+                btn.click()
+                gmail_page.wait_for_timeout(1000)
+
+        # 受信トレイが開くまで待つ
+        deadline = time.time() + timeout_sec
+        otp = ""
+        while time.time() < deadline:
+            gmail_page.wait_for_timeout(8000)
+
+            # 「Amazon」から来た未読メールを検索
+            try:
+                gmail_page.goto(
+                    "https://mail.google.com/mail/u/0/#search/from%3Aamazon+is%3Aunread",
+                    wait_until="domcontentloaded", timeout=15000
+                )
+                gmail_page.wait_for_timeout(3000)
+
+                # 最初のメールをクリック
+                first_mail = gmail_page.locator(
+                    "tr.zA, [data-legacy-message-id], .zA"
+                ).first
+                if first_mail.count() == 0:
+                    log.debug("Amazonの未読メールなし、リトライ...")
+                    continue
+
+                first_mail.click()
+                gmail_page.wait_for_timeout(2000)
+
+                # メール本文から6桁コードを抽出
+                body = gmail_page.inner_text("body")
+                m = re.search(r'\b(\d{6})\b', body)
+                if m:
+                    otp = m.group(1)
+                    log.info(f"Gmail OTP取得成功: {otp[:2]}****")
+                    break
+            except Exception as e:
+                log.debug(f"Gmail OTP取得リトライ: {e}")
+
+        return otp
+
+    except Exception as e:
+        log.error(f"Gmail OTP取得エラー: {e}")
+        return ""
+    finally:
         try:
-            with imaplib.IMAP4_SSL("imap.gmail.com", timeout=15) as imap:
-                imap.login(gmail_addr, app_password)
-                imap.select("INBOX")
-
-                # Amazonからの最近の未読メールを検索
-                _, msgs = imap.search(None, 'FROM "amazon" UNSEEN')
-                ids = msgs[0].split() if msgs[0] else []
-
-                for mid in reversed(ids[-5:]):  # 最新5件を新しい順に確認
-                    _, data = imap.fetch(mid, "(RFC822)")
-                    raw = data[0][1] if data and data[0] else b""
-                    msg = email_lib.message_from_bytes(raw)
-
-                    # メール本文を取得
-                    body = ""
-                    if msg.is_multipart():
-                        for part in msg.walk():
-                            ct = part.get_content_type()
-                            if ct in ("text/plain", "text/html"):
-                                try:
-                                    body += part.get_payload(decode=True).decode("utf-8", errors="ignore")
-                                except Exception:
-                                    pass
-                    else:
-                        try:
-                            body = msg.get_payload(decode=True).decode("utf-8", errors="ignore")
-                        except Exception:
-                            pass
-
-                    # 6桁のOTPを抽出
-                    m = re.search(r'\b(\d{6})\b', body)
-                    if m:
-                        otp = m.group(1)
-                        log.info(f"OTP取得成功: {otp[:2]}****")
-                        # 既読にマーク
-                        imap.store(mid, "+FLAGS", "\\Seen")
-                        return otp
-
-        except Exception as e:
-            log.debug(f"IMAP接続失敗（リトライ）: {e}")
-
-        time.sleep(10)
-
-    log.error("OTP取得タイムアウト")
-    return ""
+            gmail_page.close()
+        except Exception:
+            pass
 
 
 # ─────────────────────── 自動ログイン ───────────────────────
 
-def _auto_login(page, context) -> bool:
+def _auto_login(page, context, browser) -> bool:
     """
     Amazon KDPにメール/パスワードで自動ログインする。
-    2FAが必要な場合はGmail IMAPでOTPを自動取得して入力する。
+    2FAが必要な場合はPlaywright Gmailブラウザでワンタイムパスを自動取得して入力する。
     成功したらセッションを保存してTrueを返す。
     """
     if not KDP_EMAIL or not KDP_PASSWORD:
@@ -179,10 +211,10 @@ def _auto_login(page, context) -> bool:
         ).first
 
         if is_2fa or otp_field.count() > 0:
-            log.info("2FA画面を検出 → OTPをGmail IMAPで取得中...")
-            otp = _fetch_amazon_otp(KDP_EMAIL, EMAIL_APP_PASS)
+            log.info("2FA画面を検出 → GmailブラウザでOTPを取得中...")
+            otp = _fetch_otp_via_gmail_browser(browser)
             if not otp:
-                log.error("OTP取得失敗。KDP_EMAIL_APP_PASSWORDを確認してください。")
+                log.error("OTP取得失敗。KDP_EMAIL / KDP_PASSWORDを確認してください。")
                 return False
 
             otp_field.fill(otp)
@@ -228,21 +260,19 @@ def _auto_login(page, context) -> bool:
 
 # ─────────────────────── ログイン確認 ───────────────────────
 
-def _ensure_logged_in(page, context) -> bool:
-    """
-    現在ページがログイン済みか確認し、切れていれば自動再ログインする。
-    """
+def _ensure_logged_in(page, context, browser) -> bool:
+    """現在ページがログイン済みか確認し、切れていれば自動再ログインする。"""
     url = page.url
     if not any(k in url for k in ["signin", "login", "ap/signin", "auth"]):
         return True  # ログイン済み
 
     log.info("セッション切れを検出")
-    return _auto_login(page, context)
+    return _auto_login(page, context, browser)
 
 
 # ─────────────────────── 1冊アップロード ───────────────────────
 
-def _upload_one(page, context, book: dict) -> bool:
+def _upload_one(page, context, browser, book: dict) -> bool:
     """1冊をKDPに出品する。セッション切れは自動で回復する。"""
     epub_path = Path(__file__).parent / book.get("epub_path", "")
     if not epub_path.exists():
@@ -262,7 +292,7 @@ def _upload_one(page, context, book: dict) -> bool:
         page.goto(f"{KDP_URL}/en_US/", wait_until="domcontentloaded", timeout=30000)
         page.wait_for_timeout(2000)
 
-        if not _ensure_logged_in(page, context):
+        if not _ensure_logged_in(page, context, browser):
             return False
 
         # ─── Step1: 新規タイトル作成 ───
@@ -270,7 +300,7 @@ def _upload_one(page, context, book: dict) -> bool:
                   wait_until="domcontentloaded", timeout=30000)
         page.wait_for_timeout(2000)
 
-        if not _ensure_logged_in(page, context):
+        if not _ensure_logged_in(page, context, browser):
             return False
 
         log.info("  [1/3] タイトル・著者・説明を入力中...")
@@ -491,14 +521,14 @@ def run():
         # セッションがない場合は初回ログインを試みる
         if not SESSION_FILE.exists():
             log.info("保存済みセッションなし → 初回ログイン")
-            if not _auto_login(page, context):
+            if not _auto_login(page, context, browser):
                 log.error("ログイン失敗。処理を中断します。")
                 browser.close()
                 return
 
         success_count = 0
         for book in pending:
-            ok = _upload_one(page, context, book)
+            ok = _upload_one(page, context, browser, book)
             if ok:
                 for b in books:
                     if b.get("title") == book.get("title"):
