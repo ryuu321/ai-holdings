@@ -1,0 +1,83 @@
+C:\Users\ryuuM\ai-holdings\saas-dev\projects\rakuten-room\analyze_posts.py:48: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  pending["shop"] = pending["url"].apply(extract_shop)
+=== 投稿状況 ===
+投稿済み: 960件 / 未投稿: 5814件 / 合計: 6774件
+
+=== カテゴリ別 ===
+category
+生活雑貨           515
+ヘアケア           326
+コスメ・美容          41
+収納・インテリア        20
+ガジェット・家電        20
+レディースファッション     10
+キッチン用品          10
+健康・美容           10
+バッグ・財布           8
+
+=== 価格帯 ===
+price_band
+～500円           27
+500～1000円      131
+1000～2000円     277
+2000～5000円     405
+5000～10000円    120
+10000円～          0
+
+価格: 中央値=2226円 / 平均=2724円
+
+=== ショップ別（上位20） ===
+shop
+                    920
+livingut              5
+shopmarna             4
+joinshop              2
+auc-ainetshop         2
+etudehouse            1
+nesleaf               1
+bijin-cosme           1
+sakisaki              1
+beautyeveryday        1
+tokido                1
+ra-beans              1
+a-life2010            1
+doublethree33         1
+reishi                1
+pasodentsushin        1
+expsjapan             1
+plantz                1
+auc-risecreation      1
+ponopono              1
+
+=== 使用トーン ===
+tone_used
+short_casual     216
+medium_polite    111
+long_polite      107
+short_polite     107
+long_casual      107
+short_mom        106
+medium_mom       103
+medium_casual    103
+
+=== 未投稿のカテゴリ分布（参考） ===
+category
+コスメ・美容         1258
+キッチン用品          800
+レディースファッション     790
+健康・美容           789
+収納・インテリア        779
+バッグ・財布          711
+ヘアケア            429
+生活雑貨            253
+ガジェット・家電          5
+
+=== 成功ショップリスト（pending検索用） ===
+投稿済みショップの未投稿商品: 5814件
+（これらはROOM登録済みショップなので成功率が高い可能性あり）
+shop
+    5814
