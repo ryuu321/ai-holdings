@@ -48,7 +48,7 @@ NICHE_SUBREDDITS = {
 GENERAL_SUBREDDITS = ["r/ChatGPT", "r/artificial", "r/Notion", "r/productivity"]
 
 SCRAPE_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; research-bot/1.0)",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Accept": "application/json",
 }
 
@@ -88,11 +88,12 @@ def _save_posted(post_id: str, comment: str):
 
 
 def find_relevant_posts(subreddit: str, limit: int = 10) -> list[dict]:
-    """subredditのhotスレからコメントできそうな投稿を取得。"""
+    """subredditのhotスレからコメントできそうな投稿を取得。JSON API→RSS fallback。"""
     sub = subreddit.lstrip("r/")
     posted_ids = _load_posted()
     results = []
     try:
+        # Reddit JSON API (cloud IPsでは403になる場合あり → RSSにfallback)
         r = requests.get(
             f"https://www.reddit.com/{subreddit}/hot.json?limit={limit}",
             headers=SCRAPE_HEADERS,
@@ -100,6 +101,38 @@ def find_relevant_posts(subreddit: str, limit: int = 10) -> list[dict]:
         )
         r.raise_for_status()
         posts = r.json().get("data", {}).get("children", [])
+    except Exception:
+        # RSS fallback
+        posts = []
+        try:
+            import xml.etree.ElementTree as ET
+            rss_headers = {**SCRAPE_HEADERS, "Accept": "application/rss+xml,application/xml"}
+            rss_r = requests.get(
+                f"https://www.reddit.com/{subreddit}/hot.rss?limit={limit}",
+                headers=rss_headers, timeout=10,
+            )
+            rss_r.raise_for_status()
+            root = ET.fromstring(rss_r.content)
+            ns = {"atom": "http://www.w3.org/2005/Atom"}
+            for entry in root.findall(".//item")[:limit]:
+                title_el = entry.find("title")
+                link_el  = entry.find("link")
+                desc_el  = entry.find("description")
+                if title_el is None:
+                    continue
+                title = title_el.text or ""
+                url   = (link_el.text or "") if link_el is not None else ""
+                body  = (desc_el.text or "")[:500] if desc_el is not None else ""
+                pid   = url.rstrip("/").split("/")[-1] if url else ""
+                posts.append({"data": {
+                    "id": pid, "title": title, "selftext": body,
+                    "permalink": url.replace("https://www.reddit.com", ""),
+                    "stickied": False, "is_self": True, "num_comments": 0,
+                }})
+            log.info(f"RSS fallback: {sub} {len(posts)}件取得")
+        except Exception as rss_e:
+            log.warning(f"Reddit {subreddit} RSS失敗: {rss_e}")
+            return results
         for p in posts:
             d = p.get("data", {})
             pid = d.get("id", "")
