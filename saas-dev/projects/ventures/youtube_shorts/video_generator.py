@@ -3,9 +3,12 @@ video_generator.py
 Pillowで縦型動画フレームを生成 → ffmpegでMP4化
 YouTube Shorts (1080x1920, 60秒以内)
 """
+import array
+import math
 import os
 import subprocess
 import textwrap
+import wave as _wave
 from pathlib import Path
 
 try:
@@ -23,6 +26,32 @@ BG_MID   = (22, 33, 62)    # #16213e
 GOLD     = (245, 166, 35)  # #f5a623
 WHITE    = (255, 255, 255)
 GRAY     = (180, 180, 200)
+
+
+def _generate_audio(duration_seconds: int, output_path: Path) -> bool:
+    """低音量アンビエントコードをWAV生成（標準ライブラリのみ）。"""
+    try:
+        sample_rate = 8000
+        num_samples = (duration_seconds + 2) * sample_rate  # 2秒バッファ
+        freqs = [220.0, 277.0, 330.0]  # A3-C#4-E4 (Aメジャーコード)
+
+        samples = array.array('h')
+        for i in range(num_samples):
+            t = i / sample_rate
+            # 最初と最後の0.5秒でフェードイン/アウト
+            fade = min(1.0, min(i, num_samples - i) / (sample_rate * 0.5))
+            value = sum(math.sin(2 * math.pi * f * t) for f in freqs) / len(freqs)
+            samples.append(int(value * 1200 * fade))  # max 32767の約4%
+
+        with _wave.open(str(output_path), 'w') as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2)
+            wf.setframerate(sample_rate)
+            wf.writeframes(samples.tobytes())
+        return True
+    except Exception as e:
+        print(f"  [audio] 生成失敗: {e}")
+        return False
 
 
 def _get_font(size: int, bold: bool = False) -> "ImageFont.FreeTypeFont":
@@ -199,20 +228,28 @@ def generate_video(
             frame.save(fname)
             frame_paths.append(fname)
 
+    # 音声生成（音声なしだとYouTubeのスパム検出に引っかかる）
+    total_duration = sum(dur for _, dur in frames)
+    audio_path = tmp_dir / "bg_audio.wav"
+    has_audio = _generate_audio(total_duration, audio_path)
+
     # ffmpegでMP4化
     concat_file = tmp_dir / "frames.txt"
     concat_file.write_text(
         "\n".join(f"file '{p.absolute()}'" for p in frame_paths),
         encoding="utf-8",
     )
-    cmd = [
-        "ffmpeg", "-y",
-        "-f", "concat", "-safe", "0", "-i", str(concat_file),
+    cmd = ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_file)]
+    if has_audio:
+        cmd += ["-i", str(audio_path)]
+    cmd += [
         "-vf", f"fps={FPS},scale={W}:{H}",
         "-c:v", "libx264", "-pix_fmt", "yuv420p",
-        "-movflags", "+faststart",
-        str(output_path),
     ]
+    if has_audio:
+        cmd += ["-c:a", "aac", "-b:a", "96k", "-shortest"]
+    cmd += ["-movflags", "+faststart", str(output_path)]
+
     result = subprocess.run(cmd, capture_output=True, text=True)
 
     # クリーンアップ
@@ -223,6 +260,8 @@ def generate_video(
             pass
     try:
         concat_file.unlink()
+        if has_audio:
+            audio_path.unlink()
         tmp_dir.rmdir()
     except Exception:
         pass

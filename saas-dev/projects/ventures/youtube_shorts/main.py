@@ -175,21 +175,21 @@ def _build_description(product: dict, video: dict, yt_url: str = "") -> str:
         f"📌 {p['title']}:\n{p['text']}"
         for p in video["prompts"]
     )
+    tags = " ".join(f"#{t}" for t in product["yt_tags"])
     return f"""{video['title']}
+
+Save this for later! Here are 5 prompts you can copy-paste right now.
 
 {prompts_text}
 
 ---
-🛍️ Get 50 more {product['product']} prompts:
+🛍️ Get 50 more {product['product']} prompts (instant download):
 {product['product_url']}
 
-🆓 Free prompt guides & tools:
+🆓 Free AI prompt guides:
 https://ryuu321.github.io/ai-holdings/start.html
 
-📊 Daily AI investment signals (free):
-https://t.me/+yUiqVJi2uNFiOTA1
-
-#ChatGPT #AI #Prompts #{' #'.join(product['yt_tags'])}"""
+#Shorts #ChatGPT #AI {tags}"""
 
 
 def main():
@@ -232,9 +232,9 @@ def main():
         description = _build_description(product, video)
         yt_url = upload_video(
             video_path=output_path,
-            title=f"{video['title']} #{product['yt_tags'][0]}",
+            title=video["title"],
             description=description,
-            tags=product["yt_tags"] + ["ChatGPT", "AI", "prompts", "productivity"],
+            tags=product["yt_tags"] + ["ChatGPT", "AI", "prompts", "Shorts"],
         )
         # 動画ファイルは削除（リポジトリ肥大化防止）
         try:
