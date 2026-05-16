@@ -30,7 +30,8 @@
     "MEO運用代行×ChatGPT",
     "AIストックフォト副業",
     "ホワイトペーパー制作代行×AI",
-    "教育系InstagramアカウントのAI自動運用"
+    "教育系InstagramアカウントのAI自動運用",
+    "AIプレゼン資料自動生成術"
   ],
   "articles": [
     {
@@ -248,6 +249,13 @@
       "title": "【最短3ヶ月で5万フォロワー】ChatGPT×Canvaで作る「教育系インスタ垢」爆速量産術｜1日30分で月収20万を狙う完全ロードマップ",
       "price": 980,
       "url": "https://note.com/notes/n942164df2bbe",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-16",
+      "title": "【時短革命】ChatGPT×VBAで「15枚のプレゼン資料」を3分で自動作成する全手順｜資料作成代行で月5万稼ぐプロンプト集",
+      "price": 500,
+      "url": "https://note.com/notes/nf0564d10330e",
       "status": "success"
     }
   ]
