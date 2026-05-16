@@ -1,9 +1,9 @@
 {
   "venture": "medium_publisher",
   "params": {
-    "priority_genre": "High-ROI Career & Wealth Optimization (AI-leveraged System Hacking)",
-    "writing_style": "Artifact-centric (Decision Matrices/Logic Scripts), extreme loss-aversion ($12k-$40k range), and 'Black-box' terminology (Algorithm/Backdoor/Reverse-engineering) with 250%+ impact figures.",
-    "target_length": "1100-1400 words (including detailed walkthrough of the artifact)"
+    "priority_genre": "High-ROI Career & Wealth System Engineering (AI-integrated Arbitrage & Optimization)",
+    "writing_style": "Artifact-first (Negotiation Scripts/Automated Sheets/Calculators), extreme loss-aversion ($15k-$45k range), and 'Architectural' terminology (Protocol/Backdoor/Recursive-optimization) with 250%+ impact figures.",
+    "target_length": "1200-1500 words (including a comprehensive technical breakdown of the artifact)"
   },
   "performance_history": [
     {
@@ -82,6 +82,13 @@
       "title_en": "The 80 Percent Pass Rate Career Engineering Playbook: Leverage AI for a 15k Dollar Salary Jump",
       "status": "success",
       "articles_total": 10
+    },
+    {
+      "date": "2026-05-16",
+      "genre": "Personal Finance",
+      "title_en": "Wealth Optimization Hack: How to Reverse-Engineer Furusato Nozei for a 250 Percent NISA Boost",
+      "status": "success",
+      "articles_total": 11
     }
   ],
   "learnings": [
@@ -104,9 +111,14 @@
       "date": "2026-05-16",
       "insight": "具体的な金額（$12k-$40k）と「成果物（Sheet/Playbook）」を紐付けた『システムの裏側（ハック）』は極めて高い成功率を維持している一方、抽象的な法則（80% Rule等）は訴求力が低く失敗に繋がっている。",
       "action": "年収$18,000の機会損失を回避するための「内定承諾直前のカウンターオファー専用ロジック・スクリプト」を核にした記事を執筆してください。"
+    },
+    {
+      "date": "2026-05-16",
+      "insight": "抽象的な概念のみの提示（80% Rule等）は失敗し、「具体的な損失額（$12k-40k）」と「即利用可能な成果物（Playbook/Sheet）」を紐付けた『システム・ハッキング』形式が極めて高い成功率を維持しており、NISA等の個人財務領域への横展開も有効です。",
+      "action": "昇給交渉での$18,000の損失を回避するための「報酬体系リサーチ・プロトコル（階層別給与マッピング・シート）」を核に、企業の内部評価アルゴリズムを逆手に取った攻略記事を執筆してください。"
     }
   ],
-  "last_optimized": "2026-05-16T05:26:27.491290+00:00",
+  "last_optimized": "2026-05-16T11:52:59.005443+00:00",
   "posted_titles": [
     "書類通過率が80%上がる！ネガティブな本音を「即採用」に変える退職理由の言い換え全10パターン",
     "【保存版】リファレンスチェック突破率100%へ。前職と疎遠・不仲でも内定を逃さない『推薦人依頼と事前準備』完全マニュアル",
@@ -117,7 +129,8 @@
     "【年収120万円UP】内定取り消しを回避し、希望額を確実にもぎ取る「年収交渉」完全マニュアル",
     "【通過率が変わる】面接官の評価を爆上げする「逆質問」30選｜NG質問と役職別の最強テンプレート",
     "「光熱費を年6万円下げる」2024年最新版：電力・ガス乗り換えで新NISA入金力を最大化する完全ガイド",
-    "30分でプロ級の完成度。書類通過率80%超えを叩き出す『職務経歴書作成ChatGPTプロンプト』完全公開"
+    "30分でプロ級の完成度。書類通過率80%超えを叩き出す『職務経歴書作成ChatGPTプロンプト』完全公開",
+    "【年間3万円の軍資金作り】ふるさと納税を「ポイ活」に全振りし、新NISAの買付余力を最大化する最適解"
   ],
-  "articles_published": 10
+  "articles_published": 11
 }
