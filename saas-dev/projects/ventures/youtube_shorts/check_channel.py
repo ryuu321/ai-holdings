@@ -27,16 +27,13 @@ if not token:
     print("ERROR: access_token取得失敗")
     raise SystemExit(1)
 
+# tokeninfo でどのGoogleアカウントのトークンか確認
 req = urllib.request.Request(
-    "https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true",
-    headers={"Authorization": f"Bearer {token}"},
+    f"https://oauth2.googleapis.com/tokeninfo?access_token={token}"
 )
 with urllib.request.urlopen(req, timeout=15) as r:
-    data = json.loads(r.read())
+    info = json.loads(r.read())
 
-for item in data.get("items", []):
-    s = item["snippet"]
-    print(f"Channel ID   : {item['id']}")
-    print(f"Channel Title: {s['title']}")
-    print(f"Custom URL   : {s.get('customUrl', 'なし')}")
-    print(f"Channel URL  : https://www.youtube.com/channel/{item['id']}")
+print(f"Token email  : {info.get('email', '取得できず')}")
+print(f"Scope        : {info.get('scope', '')}")
+print(f"Sub (user ID): {info.get('sub', '')}")
