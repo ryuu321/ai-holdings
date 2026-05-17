@@ -750,6 +750,63 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["sales", "business", "ai", "career"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for sales professionals",
+                "angle": "practical guide: using AI to write better cold emails, prepare for discovery calls, and handle objections with confidence",
+                "prompt_theme": "cold email sequences, objection responses, discovery call questions, account research, stalled deal revival",
+                "title_hint": "The ChatGPT Prompts That Helped Me Write Cold Emails That Actually Get Replies",
+            },
+            {
+                "keyword": "AI tools for sales reps",
+                "angle": "breakdown: how top sales reps use AI to prepare faster and close more deals without working more hours",
+                "prompt_theme": "LinkedIn prospecting, closing scripts, customer success check-ins, upsell emails, annual sales review",
+                "title_hint": "How Top Sales Reps Are Using AI to Close More Deals (Without More Hours)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["webdesign", "freelance", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for web designers",
+                "angle": "practical guide: using AI to write better proposals, handle scope creep, and build recurring income",
+                "prompt_theme": "cold outreach, project proposals, scope creep scripts, client onboarding, recurring revenue strategy",
+                "title_hint": "How Web Designers Are Using ChatGPT to Win Better Clients (And Charge More)",
+            },
+            {
+                "keyword": "AI for freelance web design business",
+                "angle": "breakdown: the AI system that helped me go from $2K to $8K months as a web designer",
+                "prompt_theme": "niche positioning, pricing packages, referral partner strategy, LinkedIn content, annual business review",
+                "title_hint": "How I Went From $2K to $8K Months as a Web Designer Using AI (The Full System)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["onlinecourse", "elearning", "ai", "creators"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for online course creators",
+                "angle": "practical guide: using AI to design curriculum, write sales pages, and create launch emails that convert",
+                "prompt_theme": "course curriculum, sales page, launch email sequence, student onboarding, lead magnets",
+                "title_hint": "How I Used ChatGPT to Write My Course Sales Page (And Hit $10K in Launch Week)",
+            },
+            {
+                "keyword": "AI for online course business",
+                "angle": "breakdown: the AI workflow that helped me build a $5K/month passive course business",
+                "prompt_theme": "evergreen funnel, testimonial system, affiliate outreach, course iteration, annual review",
+                "title_hint": "The AI Workflow Behind My $5K/Month Passive Course Income",
+            },
+        ],
+    },
 ]
 
 

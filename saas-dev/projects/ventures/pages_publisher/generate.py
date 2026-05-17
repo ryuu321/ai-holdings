@@ -312,6 +312,9 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-financial-advisors.html">ChatGPT Prompts for Financial Advisors</a> — Client comms, marketing, practice growth</li>
       <li><a href="guides/chatgpt-prompts-for-insurance-agents.html">ChatGPT Prompts for Insurance Agents</a> — Prospecting, retention, referrals, growth</li>
       <li><a href="guides/chatgpt-prompts-for-dentists.html">ChatGPT Prompts for Dentists</a> — Patient comms, reviews, marketing, retention</li>
+      <li><a href="guides/chatgpt-prompts-for-sales-professionals.html">ChatGPT Prompts for Sales Professionals</a> — Cold emails, objections, closing, career</li>
+      <li><a href="guides/chatgpt-prompts-for-web-designers.html">ChatGPT Prompts for Web Designers</a> — Proposals, clients, pricing, recurring income</li>
+      <li><a href="guides/chatgpt-prompts-for-online-course-creators.html">ChatGPT Prompts for Online Course Creators</a> — Curriculum, sales pages, launches, scaling</li>
     </ul>
   </div>
   <div class="section">
