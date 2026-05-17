@@ -294,6 +294,82 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["legal", "lawyer", "ai", "productivity"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for lawyers",
+                "angle": "practical guide: using AI to write clearer client communications and save 5+ non-billable hours a week",
+                "prompt_theme": "plain-language legal explanations, client status updates, demand letter structure, practice marketing, fee conversations",
+                "title_hint": "The ChatGPT Prompts That Saved My Law Practice 5 Non-Billable Hours a Week",
+            },
+            {
+                "keyword": "AI tools for law practice management",
+                "angle": "breakdown: 5 ways attorneys use AI to grow their practice without hiring more staff",
+                "prompt_theme": "client intake, referral systems, LinkedIn content, billing disputes, annual review",
+                "title_hint": "5 Ways I Use AI to Grow My Law Practice (Without Working More Hours)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["mentalhealth", "therapy", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for therapists",
+                "angle": "practical guide: using AI for practice admin and marketing so you can preserve energy for clinical work",
+                "prompt_theme": "Psychology Today profiles, specialty page copy, referral outreach, blog content, workshop descriptions",
+                "title_hint": "How I Use AI to Market My Therapy Practice Without Sacrificing Clinical Energy",
+            },
+            {
+                "keyword": "AI for private practice therapists",
+                "angle": "breakdown: the 5 admin tasks I delegated to AI that gave me back 8 hours a week",
+                "prompt_theme": "intake responses, cancellation policy communication, fee conversations, social media, financial review",
+                "title_hint": "5 Therapy Practice Admin Tasks I Delegated to AI (And Never Looked Back)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["nursing", "healthcare", "ai", "career"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for nurses",
+                "angle": "practical guide: using AI to create better patient education and advance your nursing career faster",
+                "prompt_theme": "patient education sheets, medication explanations, nursing resume, NCLEX study plan, side business planning",
+                "title_hint": "How Nurses Are Using ChatGPT to Work Smarter and Advance Their Careers",
+            },
+            {
+                "keyword": "AI tools for nursing professionals",
+                "angle": "story: how I used AI to build a legal nurse consulting side income while working full-time",
+                "prompt_theme": "LNC introduction, nursing business plan, burnout recovery, specialty transition, personal finance for nurses",
+                "title_hint": "I Made $3K in My First Month as a Legal Nurse Consultant — Here's the AI That Helped",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["events", "eventplanning", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for event planners",
+                "angle": "practical guide: using AI to write proposals, manage client communication, and free up creative energy",
+                "prompt_theme": "event proposals, discovery meeting scripts, client updates, vendor negotiation, day-of timelines",
+                "title_hint": "The ChatGPT Prompts That Saved My Event Planning Business 10 Hours a Week",
+            },
+            {
+                "keyword": "AI for wedding planners",
+                "angle": "workflow breakdown: how I use AI to manage 6 weddings at once without dropping anything",
+                "prompt_theme": "wedding proposals, vendor communication, client update systems, crisis communication, post-event referral system",
+                "title_hint": "How I Manage 6 Weddings Simultaneously Using AI (The Full Workflow)",
+            },
+        ],
+    },
 ]
 
 
