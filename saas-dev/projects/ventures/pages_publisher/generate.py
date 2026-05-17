@@ -288,6 +288,8 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-hr-professionals.html">ChatGPT Prompts for HR Professionals</a> — Recruit faster, manage better</li>
       <li><a href="guides/chatgpt-prompts-for-life-coaches.html">ChatGPT Prompts for Life Coaches</a> — Attract clients &amp; grow your practice</li>
       <li><a href="guides/chatgpt-prompts-for-accountants.html">ChatGPT Prompts for Accountants</a> — Better client communication, faster work</li>
+      <li><a href="guides/chatgpt-prompts-for-lawyers.html">ChatGPT Prompts for Lawyers</a> — Clear communication, stronger practice</li>
+      <li><a href="guides/chatgpt-prompts-for-therapists.html">ChatGPT Prompts for Therapists</a> — Less admin, more clinical energy</li>
     </ul>
   </div>
   <div class="section">
