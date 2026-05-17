@@ -142,6 +142,44 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["freelance", "ai", "productivity", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for freelancers",
+                "angle": "personal story: how I use AI to win better clients and stop undercharging",
+                "prompt_theme": "proposals, pricing, scope creep, cold outreach, client communication",
+                "title_hint": "The ChatGPT Prompts That Helped Me Raise My Freelance Rate by 40%",
+            },
+            {
+                "keyword": "AI tools for freelance business",
+                "angle": "practical guide: 5 places in my freelance workflow where AI saves 5+ hours a week",
+                "prompt_theme": "contracts, client onboarding, invoicing follow-up, project scope, case studies",
+                "title_hint": "5 Parts of My Freelance Business I Handed to AI (And Never Looked Back)",
+            },
+        ],
+    },
+    {
+        "product": "Viral Content",
+        "url": "https://ryuumg.gumroad.com/l/rboqqr",
+        "devto_tags": ["writing", "ai", "blogging", "contentcreation"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for writers",
+                "angle": "practical guide: using AI to beat writer's block and write 3x faster",
+                "prompt_theme": "outlining, voice development, scene writing, editing, overcoming blocks",
+                "title_hint": "How I Use ChatGPT to Write 3x Faster Without Losing My Voice",
+            },
+            {
+                "keyword": "AI prompts for social media managers",
+                "angle": "workflow breakdown: how I manage 8 client accounts using AI",
+                "prompt_theme": "content calendars, brand voice, reporting, client communication, crisis response",
+                "title_hint": "How I Manage 8 Social Media Accounts Without Burning Out (AI Workflow)",
+            },
+        ],
+    },
 ]
 
 

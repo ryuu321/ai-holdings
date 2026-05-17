@@ -278,6 +278,9 @@ def main():
       <li><a href="guides/ai-prompts-for-side-hustles.html">AI Prompts for Side Hustles</a> — Launch &amp; scale to $2K+/month</li>
       <li><a href="guides/chatgpt-prompts-for-graphic-designers.html">ChatGPT Prompts for Graphic Designers</a> — Less admin, more design</li>
       <li><a href="guides/chatgpt-prompts-for-procreate-artists.html">ChatGPT Prompts for Procreate Artists</a> — Composition, style &amp; income</li>
+      <li><a href="guides/chatgpt-prompts-for-freelancers.html">ChatGPT Prompts for Freelancers</a> — Win clients &amp; charge more</li>
+      <li><a href="guides/chatgpt-prompts-for-writers.html">ChatGPT Prompts for Writers</a> — Beat blocks &amp; write faster</li>
+      <li><a href="guides/chatgpt-prompts-for-social-media-managers.html">ChatGPT Prompts for Social Media Managers</a> — Create faster, report smarter</li>
     </ul>
   </div>
   <div class="section">
