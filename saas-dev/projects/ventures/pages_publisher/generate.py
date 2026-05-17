@@ -308,6 +308,10 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-restaurant-owners.html">ChatGPT Prompts for Restaurant Owners</a> — Menus, reviews, marketing, operations</li>
       <li><a href="guides/chatgpt-prompts-for-product-managers.html">ChatGPT Prompts for Product Managers</a> — PRDs, roadmaps, stakeholders, career</li>
       <li><a href="guides/chatgpt-prompts-for-ecommerce-sellers.html">ChatGPT Prompts for Ecommerce Sellers</a> — Product pages, ads, emails, scaling</li>
+      <li><a href="guides/chatgpt-prompts-for-interior-designers.html">ChatGPT Prompts for Interior Designers</a> — Proposals, concepts, clients, growth</li>
+      <li><a href="guides/chatgpt-prompts-for-financial-advisors.html">ChatGPT Prompts for Financial Advisors</a> — Client comms, marketing, practice growth</li>
+      <li><a href="guides/chatgpt-prompts-for-insurance-agents.html">ChatGPT Prompts for Insurance Agents</a> — Prospecting, retention, referrals, growth</li>
+      <li><a href="guides/chatgpt-prompts-for-dentists.html">ChatGPT Prompts for Dentists</a> — Patient comms, reviews, marketing, retention</li>
     </ul>
   </div>
   <div class="section">

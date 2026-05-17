@@ -674,6 +674,82 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["design", "interiordesign", "ai", "creative"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for interior designers",
+                "angle": "practical guide: using AI to write better proposals, develop design concepts, and handle client communication faster",
+                "prompt_theme": "client intake questionnaires, design proposals, concept narratives, scope creep conversations, Instagram captions",
+                "title_hint": "How Interior Designers Are Using ChatGPT to Write Better Proposals (And Win More Projects)",
+            },
+            {
+                "keyword": "AI tools for interior design business",
+                "angle": "breakdown: 5 ways I use AI to run my design practice with less admin and more creative energy",
+                "prompt_theme": "discovery calls, mood board captions, vendor outreach, referral partner strategy, annual practice review",
+                "title_hint": "5 Ways I Use AI to Run My Interior Design Practice (With Less Admin, More Creativity)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["finance", "financialadvisor", "ai", "wealthmanagement"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for financial advisors",
+                "angle": "practical guide: using AI to write better market commentaries, explain complex concepts, and grow your practice",
+                "prompt_theme": "market commentary emails, client education, LinkedIn content, referral outreach, annual practice review",
+                "title_hint": "How Financial Advisors Are Using AI to Write Better Client Communications (Without Compliance Headaches)",
+            },
+            {
+                "keyword": "AI for financial advisory practice",
+                "angle": "breakdown: the AI workflows that save wealth managers 5+ hours a week on client communication",
+                "prompt_theme": "meeting prep briefs, life event follow-ups, client newsletters, prospect sequences, niche positioning",
+                "title_hint": "5 Financial Advisor AI Workflows That Save 5 Hours a Week (With Prompts)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["insurance", "sales", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for insurance agents",
+                "angle": "practical guide: using AI to write better client emails, handle objections, and generate more referrals",
+                "prompt_theme": "policy review outreach, coverage explanations, claims guidance, referral scripts, renewal sequences",
+                "title_hint": "The ChatGPT Prompts That Helped Me Double My Insurance Referrals in 90 Days",
+            },
+            {
+                "keyword": "AI for insurance agency growth",
+                "angle": "breakdown: how I use AI to prospect, retain clients, and build my commercial book without working more hours",
+                "prompt_theme": "cold outreach, objection handling, reactivation, niche market strategy, annual book review",
+                "title_hint": "How I Use AI to Run a More Productive Insurance Agency (Without Burning Out)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["dental", "healthcare", "ai", "practice"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for dentists",
+                "angle": "practical guide: using AI to write better patient communications, handle reviews, and market your dental practice",
+                "prompt_theme": "treatment plan emails, reactivation campaigns, review responses, social media, patient education",
+                "title_hint": "How Dental Practices Are Using ChatGPT to Improve Patient Communication (And Fill More Chairs)",
+            },
+            {
+                "keyword": "AI for dental practice marketing",
+                "angle": "breakdown: 5 ways AI is helping dental practices get more new patients without expensive ad agencies",
+                "prompt_theme": "Google review requests, social media content, new patient welcome emails, cosmetic landing pages, blog posts",
+                "title_hint": "5 Ways AI Is Helping Dental Practices Get More Patients (Without Expensive Marketing Agencies)",
+            },
+        ],
+    },
 ]
 
 
