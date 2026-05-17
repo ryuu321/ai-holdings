@@ -256,6 +256,44 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["coaching", "lifecoaching", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for life coaches",
+                "angle": "practical guide: using AI to handle discovery calls, session design, and client communication",
+                "prompt_theme": "discovery call scripts, powerful coaching questions, homework design, testimonial collection, niche positioning",
+                "title_hint": "The ChatGPT Prompts That Doubled My Life Coaching Discovery Call Conversions",
+            },
+            {
+                "keyword": "AI tools for coaching business",
+                "angle": "breakdown: 5 ways I use AI to run my coaching practice without hiring staff",
+                "prompt_theme": "client intake, session structure, content strategy, program design, client retention",
+                "title_hint": "5 Parts of My Coaching Business I Delegated to AI (And What Changed)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["accounting", "finance", "ai", "productivity"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for accountants",
+                "angle": "practical guide: using AI to write better client emails and explain complex concepts in plain language",
+                "prompt_theme": "tax explanations, client communication, engagement letters, year-end planning emails, prospect proposals",
+                "title_hint": "How I Use ChatGPT to Explain Tax Concepts Without Losing Clients",
+            },
+            {
+                "keyword": "AI for accounting practice management",
+                "angle": "workflow breakdown: how AI saves my accounting firm 10+ hours a week on client communication",
+                "prompt_theme": "client onboarding, tax season communication, scope creep scripts, referral network building, LinkedIn content",
+                "title_hint": "The AI Workflow That Saves My Accounting Firm 10 Hours a Week (With Prompts)",
+            },
+        ],
+    },
 ]
 
 
