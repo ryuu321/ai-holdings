@@ -281,6 +281,10 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-freelancers.html">ChatGPT Prompts for Freelancers</a> — Win clients &amp; charge more</li>
       <li><a href="guides/chatgpt-prompts-for-writers.html">ChatGPT Prompts for Writers</a> — Beat blocks &amp; write faster</li>
       <li><a href="guides/chatgpt-prompts-for-social-media-managers.html">ChatGPT Prompts for Social Media Managers</a> — Create faster, report smarter</li>
+      <li><a href="guides/chatgpt-prompts-for-small-business-owners.html">ChatGPT Prompts for Small Business Owners</a> — Marketing, operations &amp; growth</li>
+      <li><a href="guides/chatgpt-prompts-for-virtual-assistants.html">ChatGPT Prompts for Virtual Assistants</a> — Handle more work in less time</li>
+      <li><a href="guides/chatgpt-prompts-for-fitness-coaches.html">ChatGPT Prompts for Fitness Coaches</a> — Better programs, more clients</li>
+      <li><a href="guides/chatgpt-prompts-for-photographers.html">ChatGPT Prompts for Photographers</a> — Less admin, more shooting</li>
     </ul>
   </div>
   <div class="section">

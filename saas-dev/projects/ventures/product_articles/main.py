@@ -180,6 +180,63 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["virtualassistant", "ai", "productivity", "freelance"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for virtual assistants",
+                "angle": "practical guide: using AI to handle 3x more client work without working more hours",
+                "prompt_theme": "client onboarding, inbox management, meeting notes, weekly updates, scope management",
+                "title_hint": "The AI Prompts I Use to Manage 5 Clients Without Working More Than 40 Hours",
+            },
+            {
+                "keyword": "AI tools for VA business",
+                "angle": "breakdown: how AI helps me offer more services and charge higher rates",
+                "prompt_theme": "research reports, client communication, rate increases, service packaging, client retention",
+                "title_hint": "How I Used AI to Raise My VA Rate From $20 to $45/Hour (With the Prompts)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["fitness", "coaching", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for fitness coaches",
+                "angle": "practical guide: using AI to design programs and retain clients without burning out",
+                "prompt_theme": "program templates, progressive overload, nutrition frameworks, check-in systems, client communication",
+                "title_hint": "How I Use ChatGPT to Build Client Programs in 20 Minutes (Instead of 2 Hours)",
+            },
+            {
+                "keyword": "AI for fitness coaching business",
+                "angle": "story: how I used AI to go from 8 to 20 clients without hiring staff",
+                "prompt_theme": "social media content, discovery calls, onboarding, testimonials, educational content",
+                "title_hint": "I Doubled My Fitness Coaching Clients Using AI — Here's Exactly How",
+            },
+        ],
+    },
+    {
+        "product": "DesignGenie",
+        "url": "https://ryuumg.gumroad.com/l/zkiwh",
+        "devto_tags": ["photography", "smallbusiness", "ai", "creative"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for photographers",
+                "angle": "practical guide: using AI to handle the business side so you can focus on shooting",
+                "prompt_theme": "client inquiry responses, gallery delivery, pricing guides, upsell sequences, venue pitches",
+                "title_hint": "The ChatGPT Prompts That Handle My Photography Business Admin (So I Can Just Shoot)",
+            },
+            {
+                "keyword": "AI for photography business",
+                "angle": "breakdown: 5 places in my photography workflow where AI saves me 10+ hours a week",
+                "prompt_theme": "inquiry templates, booking confirmations, contract emails, social captions, referral asks",
+                "title_hint": "5 Photography Business Tasks I Handed to AI — And Never Looked Back",
+            },
+        ],
+    },
 ]
 
 
