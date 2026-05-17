@@ -3,11 +3,8 @@
   "params": {
     "include_bots": [
       "ATTACK",
-      "TREND",
       "SCALPING",
-      "GRID",
-      "VOLATILITY",
-      "MOMENTUM"
+      "VOLATILITY"
     ],
     "note_cta": true,
     "sort_by_pnl": true
@@ -96,6 +93,13 @@
       "daily_growth": 0,
       "post_sent": 1,
       "bots_included": 1
+    },
+    {
+      "date": "2026-05-17",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 1
     }
   ],
   "learnings": [
@@ -128,8 +132,13 @@
       "date": "2026-05-16",
       "insight": "1日1件の低頻度配信とBotの絞り込みがチャンネルの『過疎感』を強調しており、ユーザーがシグナルを追うメリットを見出せない状況にあります。",
       "action": "Botを全6種に増やして1配信あたりの情報密度を最大化し、さらに利益率（PNL）の高い実績が即座に目に入る状態を作ることで、ユーザーの期待感を強力に喚起してください。"
+    },
+    {
+      "date": "2026-05-17",
+      "insight": "1日1件という低頻度の配信状況では、全Botの網羅は情報の焦点がぼやけ、逆に1種への絞り込みはコンテンツ不足（過疎感）を招くというジレンマに陥っています。",
+      "action": "利益の爆発力と取引頻度が高い3種（ATTACK, SCALPING, VOLATILITY）に厳選し、PNL順ソートで「1投稿あたりの期待収益」の視覚的インパクトを最大化してください。"
     }
   ],
-  "last_optimized": "2026-05-16T02:37:22.012422+00:00",
-  "posts_sent": 11
+  "last_optimized": "2026-05-17T02:45:55.642986+00:00",
+  "posts_sent": 12
 }
