@@ -220,12 +220,23 @@ def generate_video(
     # CTAスライド
     frames.append((_make_cta_frame(product_name, product_url, free_link), FRAME_DUR + 3))
 
-    # フレーム保存
+    # フレーム保存（プログレスバーアニメーション付き — フレーム差分でビットレートを確保）
     frame_paths = []
-    for idx, (frame, dur) in enumerate(frames):
-        for f in range(dur * FPS):
+    bar_y0, bar_y1 = H - 16, H - 4
+    bar_bg = (30, 50, 90)
+    for idx, (base_img, dur) in enumerate(frames):
+        total_f = dur * FPS
+        for f in range(total_f):
+            img = base_img.copy()
+            draw = ImageDraw.Draw(img)
+            # 背景バー
+            draw.rectangle([0, bar_y0, W, bar_y1], fill=bar_bg)
+            # 進捗バー（スライドごとにリセット）
+            progress_w = int(W * (f + 1) / total_f)
+            if progress_w > 0:
+                draw.rectangle([0, bar_y0, progress_w, bar_y1], fill=GOLD)
             fname = tmp_dir / f"frame_{idx:02d}_{f:04d}.png"
-            frame.save(fname)
+            img.save(fname)
             frame_paths.append(fname)
 
     # 音声生成（音声なしだとYouTubeのスパム検出に引っかかる）
@@ -233,7 +244,7 @@ def generate_video(
     audio_path = tmp_dir / "bg_audio.wav"
     has_audio = _generate_audio(total_duration, audio_path)
 
-    # ffmpegでMP4化
+    # ffmpegでMP4化（-b:v で最低ビットレートを保証）
     concat_file = tmp_dir / "frames.txt"
     concat_file.write_text(
         "\n".join(f"file '{p.absolute()}'" for p in frame_paths),
@@ -245,9 +256,10 @@ def generate_video(
     cmd += [
         "-vf", f"fps={FPS},scale={W}:{H}",
         "-c:v", "libx264", "-pix_fmt", "yuv420p",
+        "-b:v", "2M", "-maxrate", "4M", "-bufsize", "8M",
     ]
     if has_audio:
-        cmd += ["-c:a", "aac", "-b:a", "96k", "-shortest"]
+        cmd += ["-c:a", "aac", "-b:a", "128k", "-shortest"]
     cmd += ["-movflags", "+faststart", str(output_path)]
 
     result = subprocess.run(cmd, capture_output=True, text=True)
