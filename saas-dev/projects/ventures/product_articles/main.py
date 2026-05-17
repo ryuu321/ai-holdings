@@ -446,6 +446,82 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["marketing", "digitalmarketing", "ai", "advertising"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for digital marketers",
+                "angle": "practical guide: using AI to write better ad copy, build campaign strategies, and analyze competitors",
+                "prompt_theme": "ad copy variants, landing page frameworks, competitor analysis, email sequences, content clusters",
+                "title_hint": "The ChatGPT Prompts That Cut My Ad Copywriting Time in Half (With Better Results)",
+            },
+            {
+                "keyword": "AI tools for digital marketing",
+                "angle": "workflow breakdown: how I use AI across SEO, paid media, and email to 3x output without more headcount",
+                "prompt_theme": "content cluster strategy, Google Ads keywords, Meta audience strategy, campaign analysis, executive reports",
+                "title_hint": "How I Use AI to Run a Full Digital Marketing Operation (Without Hiring More People)",
+            },
+        ],
+    },
+    {
+        "product": "Personal Finance AI Prompts",
+        "url": "https://ryuumg.gumroad.com/l/ndtsjv",
+        "devto_tags": ["personalfinance", "money", "ai", "investing"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for personal finance",
+                "angle": "practical guide: using AI to build a budget, analyze spending, and create a realistic debt payoff plan",
+                "prompt_theme": "zero-based budgeting, spending audit, debt payoff strategies, savings goals, investment basics",
+                "title_hint": "The ChatGPT Prompts That Finally Made Me Understand My Money (And Fix It)",
+            },
+            {
+                "keyword": "AI for budgeting and saving money",
+                "angle": "story: how I used AI to find $600/month I was wasting and redirect it to savings",
+                "prompt_theme": "spending analysis, habit identification, savings automation, emergency fund building, wealth roadmap",
+                "title_hint": "I Let AI Audit My Spending. It Found $600/Month I Didn't Know I Was Wasting.",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["nonprofit", "charity", "ai", "management"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for nonprofit managers",
+                "angle": "practical guide: using AI to write stronger grant proposals, engage donors, and communicate mission impact",
+                "prompt_theme": "grant narratives, logic models, donor thank-you letters, fundraising appeals, impact reports",
+                "title_hint": "The ChatGPT Prompts That Helped Our Nonprofit Write a Funded Grant Proposal",
+            },
+            {
+                "keyword": "AI for nonprofit fundraising",
+                "angle": "breakdown: 5 ways small nonprofits are using AI to compete with organizations 10x their size",
+                "prompt_theme": "year-end appeals, donor communication, volunteer recruitment, media pitches, board recruitment",
+                "title_hint": "5 Ways Small Nonprofits Are Using AI to Punch Way Above Their Weight",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["fitness", "personaltraining", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for personal trainers",
+                "angle": "practical guide: using AI to design client programs faster, improve retention, and market your PT business",
+                "prompt_theme": "training program templates, client onboarding, re-engagement messages, social media content, discovery calls",
+                "title_hint": "How I Design Training Programs 3x Faster With AI (And My Clients Get Better Results)",
+            },
+            {
+                "keyword": "AI for personal training business",
+                "angle": "breakdown: how I used AI to add online clients and scale beyond the gym floor",
+                "prompt_theme": "online training setup, pricing strategy, lead magnets, sales scripts, annual business review",
+                "title_hint": "I Added 10 Online Clients to My PT Business Using AI — Here's the Full System",
+            },
+        ],
+    },
 ]
 
 

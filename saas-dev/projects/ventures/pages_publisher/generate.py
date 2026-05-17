@@ -296,6 +296,10 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-executive-assistants.html">ChatGPT Prompts for Executive Assistants</a> — Better briefings, executive-level comms</li>
       <li><a href="guides/chatgpt-prompts-for-project-managers.html">ChatGPT Prompts for Project Managers</a> — Better plans, fewer crises</li>
       <li><a href="guides/chatgpt-prompts-for-consultants.html">ChatGPT Prompts for Consultants</a> — Win clients, deliver more value</li>
+      <li><a href="guides/chatgpt-prompts-for-digital-marketers.html">ChatGPT Prompts for Digital Marketers</a> — Better ads, campaigns, and results</li>
+      <li><a href="guides/chatgpt-prompts-for-personal-finance.html">ChatGPT Prompts for Personal Finance</a> — Budget, invest, and build wealth</li>
+      <li><a href="guides/chatgpt-prompts-for-nonprofit-managers.html">ChatGPT Prompts for Nonprofit Managers</a> — Grant writing, donor comms, impact</li>
+      <li><a href="guides/chatgpt-prompts-for-personal-trainers.html">ChatGPT Prompts for Personal Trainers</a> — Programs, clients, and business growth</li>
     </ul>
   </div>
   <div class="section">
