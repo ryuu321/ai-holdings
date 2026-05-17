@@ -75,7 +75,7 @@ def generate(category: dict, params: dict) -> dict:
   "name": "{category['name']}",
   "price": {category['price']},
   "genre": "{category['genre']}",
-  "gumroad_description": "商品説明（250文字以上・悩み→解決→購買意欲の順）",
+  "gumroad_description": "商品説明（必ず以下の構成で書く。英語で書くこと）: 1行目=読者の具体的な悩みを突く一文（例: Struggling to track where your money goes every month?）。2段落目=WHAT'S INSIDE:として✅箇条書きで含まれる内容を具体的な数字付きで5〜6項目列挙（例: ✅ 12 pre-built categories for monthly expenses）。3段落目=WHO IT'S FOR: ターゲットを1文で。最後=WHAT YOU GET: ファイル形式・即ダウンロード・Google Sheets/Excel対応 を明記。合計300文字以上。",
   "csv_headers": ["列ヘッダー1", "列ヘッダー2", ...（6〜10列）],
   "csv_sample_rows": [
     ["サンプル値", "サンプル値", ...],
