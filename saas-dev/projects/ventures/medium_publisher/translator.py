@@ -30,16 +30,16 @@ GUMROAD_PRODUCTS = {
         "label": "Personal Finance AI Prompts — 50 ChatGPT prompts to save more & invest smarter",
     },
     "Career Development": {
-        "url": "https://app.gumroad.com/d/uNOVzVYiwY3R",
-        "label": "ADHD Unlocked — focus system for high-achievers",
+        "url": "https://ryuumg.gumroad.com/l/akikab",
+        "label": "ADHD Unlocked — 50 AI prompts for focus, routines & career performance",
     },
     "AI & Productivity": {
-        "url": "https://app.gumroad.com/d/uNOVzVYiwY3R",
-        "label": "ADHD Unlocked — AI productivity toolkit for high-achievers",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "label": "AI Content Boost — 50 prompts for creators who want more reach",
     },
 }
 _DEFAULT_PRODUCT = {
-    "url": "https://app.gumroad.com/d/uNOVzVYiwY3R",
+    "url": "https://ryuumg.gumroad.com/l/akikab",
     "label": "ADHD Unlocked — AI focus system for high-achievers",
 }
 
