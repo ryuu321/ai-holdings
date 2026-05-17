@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>15 ChatGPT Prompts for Data Analysts (2026) | AI Holdings</title>
+<meta name="description" content="15 free ChatGPT prompts for data analysts. Write better reports, communicate insights clearly, and save hours on documentation with AI.">
+<link rel="canonical" href="https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-data-analysts.html">
+<meta name="robots" content="index, follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a2e;background:#f8f9ff;line-height:1.7}
+.hero{background:linear-gradient(135deg,#0f3460 0%,#16213e 100%);color:#fff;padding:50px 20px;text-align:center}
+.hero h1{font-size:2em;margin-bottom:10px}
+.hero p{opacity:.85;max-width:600px;margin:0 auto}
+.container{max-width:760px;margin:0 auto;padding:36px 20px}
+h2{font-size:1.4em;color:#0f3460;margin:36px 0 16px;border-left:4px solid #f5a623;padding-left:12px}
+h3{font-size:1.1em;color:#0f3460;margin:24px 0 8px}
+p{margin-bottom:14px;color:#333}
+.prompt-box{background:#1a1a2e;color:#e8e8f0;border-radius:10px;padding:20px 24px;margin:16px 0;font-family:'Courier New',monospace;font-size:.9em;line-height:1.7;position:relative}
+.prompt-box::before{content:'PROMPT';position:absolute;top:-10px;left:16px;background:#f5a623;color:#1a1a2e;font-size:.7em;font-weight:700;padding:2px 8px;border-radius:4px;font-family:sans-serif}
+.tip-box{background:#f0fff4;border-left:4px solid #2ecc71;padding:14px 18px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.92em}
+.tip-box strong{color:#27ae60}
+.cta-section{background:linear-gradient(135deg,#f5a623,#e8920f);color:#fff;border-radius:14px;padding:32px;text-align:center;margin:40px 0}
+.cta-section h2{color:#fff;border:none;padding:0;margin:0 0 10px}
+.cta-btn{display:inline-block;background:#fff;color:#e8920f;font-weight:700;padding:14px 32px;border-radius:8px;text-decoration:none;margin-top:16px;font-size:1.05em}
+.cta-btn:hover{background:#fff8ee}
+footer{text-align:center;padding:28px;color:#666;font-size:.88em}
+footer a{color:#0f3460}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>ChatGPT Prompts for Data Analysts</h1>
+  <p>15 free prompts to communicate insights more clearly, write better reports, and save hours on documentation and stakeholder updates.</p>
+</div>
+<div class="container">
+
+<p>The hardest part of data analysis is rarely the data — it is the communication. Getting stakeholders to understand, trust, and act on your findings takes clear writing, sharp framing, and the ability to translate numbers into decisions. These 15 prompts handle that translation layer.</p>
+
+<h2>1. Stakeholder Communication</h2>
+
+<h3>Prompt 1 — Executive Summary for Analysis</h3>
+<div class="prompt-box">
+Write an executive summary for a data analysis I completed.
+
+Analysis topic: [describe what I analyzed — e.g., customer churn in Q1 / revenue by region / product funnel conversion drop]
+Key finding: [the single most important thing I found]
+Supporting findings: [2–3 additional notable patterns or data points]
+What I recommend or want stakeholders to do: [the action, decision, or next step]
+Audience: [C-suite / VP / business team / technical manager]
+
+Write: (1) One-sentence headline that names the finding and its business impact, (2) 3-bullet "what we found" section (plain language, no statistical jargon), (3) One-paragraph "what this means" (business context, not methodology), (4) Recommended next step or decision with brief rationale. Total under 300 words. Write for someone who will read this in 90 seconds.
+</div>
+<div class="tip-box"><strong>Pro tip:</strong> Lead with the insight, not the methodology. Executives do not need to know how you got the number — they need to know what to do with it.</div>
+
+<h3>Prompt 2 — Stakeholder Update Email</h3>
+<div class="prompt-box">
+Write a stakeholder update email for an ongoing analysis or project.
+
+Project: [describe]
+Where we are in the process: [data collection / cleaning / analysis / presentation prep / waiting on additional data]
+What I have found so far (or what I am working on): [brief summary]
+What I need from them (if anything): [data access / decision / feedback / nothing — just FYI]
+Expected completion: [date or timeframe]
+
+Write: Subject line → 2-sentence status (where we are, what is next) → What I need from them (if anything) → Next milestone and ETA → "Happy to jump on a call if useful" close. Under 200 words. Stakeholders should feel informed and not worried — never surprised.
+</div>
+
+<h3>Prompt 3 — Presenting Findings to Non-Technical Audience</h3>
+<div class="prompt-box">
+Help me translate a technical finding into business language for a non-technical audience.
+
+My finding (in technical terms): [paste your actual finding — e.g., "logistic regression shows churn probability increases by 18% for users who skip the onboarding step, with p < 0.01"]
+Business context: [what does this mean for the product / revenue / customers]
+What decision I want them to make: [describe the action]
+Audience: [marketing team / sales leadership / product team / CEO]
+
+Rewrite: (1) The finding in plain language (no statistical terms — translate entirely), (2) A concrete analogy or comparison that makes the magnitude real (e.g., "that is equivalent to losing 1 in 5 customers before they even start"), (3) The recommended action in one sentence, (4) What happens if nothing changes (the cost of inaction). No jargon. If a concept needs technical caveats, add them in a footnote.
+</div>
+
+<h2>2. Reports & Documentation</h2>
+
+<h3>Prompt 4 — Weekly / Monthly Data Report Template</h3>
+<div class="prompt-box">
+Build a recurring report template for [weekly / monthly] business metrics.
+
+Metrics I track regularly: [list 5–10 — e.g., DAU, conversion rate, revenue, churn, NPS, pipeline, CAC, LTV]
+Audience: [describe who reads this report]
+What they care about: [trends over time / vs. target / vs. prior period / anomalies]
+Format: [email / Google Slides / Notion / Confluence / PDF]
+
+Create: (1) Report structure (sections and order), (2) For each section — what metric, how to frame movement (up/down/flat vs. which benchmark), what commentary to include, (3) "Highlight and concern" section format (what went well / what needs attention), (4) Action items or decisions needed from leadership section. Template should take under 30 minutes to fill in weekly once set up.
+</div>
+
+<h3>Prompt 5 — Analysis Write-Up</h3>
+<div class="prompt-box">
+Help me write up the findings from my analysis in a clear, structured document.
+
+Analysis type: [exploratory / A/B test results / cohort analysis / funnel analysis / customer segmentation / forecasting / root cause investigation]
+What I found: [paste key results and numbers]
+Methodology (brief): [what data I used, how I analyzed it, key assumptions]
+Audience: [technical / mixed / non-technical]
+Purpose: [share findings / get a decision / document for the record / present to leadership]
+
+Structure: (1) Background and objective (why we did this), (2) Data and methodology (brief — 1 paragraph for non-technical, more detail for technical readers), (3) Key findings (lead with the most important, support with evidence), (4) Limitations and caveats (what we cannot conclude), (5) Recommendations or next steps. Write the non-technical version first, then note where to add technical detail for internal documentation.
+</div>
+<div class="tip-box"><strong>Pro tip:</strong> A findings document without a limitations section looks overconfident. Naming what the data cannot tell you builds more trust than hiding it.</div>
+
+<h2>3. SQL & Code</h2>
+
+<h3>Prompt 6 — SQL Query Explanation</h3>
+<div class="prompt-box">
+Help me write or explain a SQL query for a business stakeholder.
+
+Task: [I need a query that does X — describe in plain English]
+Tables involved: [describe the tables/columns if known]
+Audience: [technical analyst who needs my logic / non-technical stakeholder who wants to understand what I pulled]
+
+Do one of: (A) Help me write the query based on the description above — explain each clause in comments, (B) Here is my existing query [paste it] — rewrite the comments to explain what each section does in plain business language, or (C) Write a one-paragraph explanation of what this query does and why, for a business stakeholder who has never written SQL.
+
+Business language only in the explanation — no technical jargon for non-technical readers.
+</div>
+
+<h3>Prompt 7 — Metric Definition Documentation</h3>
+<div class="prompt-box">
+Help me write clear metric definitions for a data dictionary or team documentation.
+
+Metrics to define: [list 5–10 — e.g., monthly active users / churn rate / customer acquisition cost / gross margin / NPS / conversion rate]
+
+For each metric, write: (1) Business definition (what it measures and why it matters — plain language), (2) Calculation formula (exact, with variable definitions), (3) Data source and table(s) used, (4) Caveats and edge cases (what it excludes or how it handles edge cases), (5) Common misuse (how people misinterpret this metric). This becomes your team's source of truth so everyone is calculating the same thing.
+</div>
+
+<h2>4. Dashboard & Visualization</h2>
+
+<h3>Prompt 8 — Dashboard Design Brief</h3>
+<div class="prompt-box">
+Help me design a data dashboard for [audience / use case].
+
+Dashboard purpose: [what question does this dashboard answer]
+Primary audience: [executive / operational team / sales / marketing / product / engineering]
+How often they will use it: [daily / weekly / monthly]
+Decisions they make with it: [describe]
+Metrics to include: [list]
+Tool: [Tableau / Looker / Power BI / Google Data Studio / Metabase / custom]
+
+Design brief: (1) Recommended layout (what goes where — hero metric → trend → breakdown → detail), (2) Which chart type for each metric and why, (3) What filters users should have, (4) What NOT to include (common mistake: showing every metric available), (5) How to write chart titles that state the insight, not just the metric name. The best dashboards answer a question, not display all available data.
+</div>
+<div class="tip-box"><strong>Pro tip:</strong> Write chart titles as insights: "Revenue Down 12% vs. Last Month" beats "Monthly Revenue." The reader should never have to figure out what changed.</div>
+
+<h3>Prompt 9 — Data Story Narrative</h3>
+<div class="prompt-box">
+Help me build a data story narrative for a presentation.
+
+The question I am answering: [what is the central business question]
+The data journey: [what I found, where it surprised me, what the data says]
+The recommendation: [what should change or be decided]
+Audience: [describe — their priorities, what they care about, what they are skeptical of]
+
+Structure a 10-slide presentation: (1) The business problem / question (not "here is the data" — here is what we were trying to understand), (2) How we looked at it (brief methodology — 1 slide max), (3) What we expected vs. what we found, (4–7) Key findings (one insight per slide, data as evidence), (8) What this means for the business, (9) Recommendation and required decision, (10) Next steps. Write the narrative for each slide in 3 bullet points of what to say, not what to show.
+</div>
+
+<h2>5. Career & Growth</h2>
+
+<h3>Prompt 10 — Portfolio Project Write-Up</h3>
+<div class="prompt-box">
+Help me write up a data analysis project for my portfolio.
+
+Project: [describe what you analyzed — dataset, question, tools used]
+What I found: [key insights]
+Tools and methods: [SQL / Python / R / Tableau / Excel / statistical methods]
+Business impact (real or hypothetical): [what a business could do with this]
+My audience: [hiring managers / recruiters / data science community]
+
+Write: (1) Project title and 2-sentence hook (what question you answered and why it matters), (2) Problem statement (the business or research question), (3) Methodology (what data, what tools, what approach — brief and clear), (4) Key findings (3–5 bullet points with specific numbers), (5) Business implications, (6) What I would do differently or explore next. Also write: LinkedIn post version (under 280 characters) and a GitHub README intro paragraph.
+</div>
+
+<h3>Prompt 11 — Job Interview Preparation</h3>
+<div class="prompt-box">
+Help me prepare for a data analyst job interview.
+
+Role I am interviewing for: [paste job description or describe the role]
+My background: [years of experience, tools I know, domains I have worked in]
+Interview format: [technical screen / case study / behavioral / presentation / take-home assignment]
+Areas I am less confident in: [describe — SQL window functions / statistics / stakeholder communication / a specific tool]
+
+Create: (1) 10 likely interview questions for this role with how I should structure my answers (STAR format where relevant), (2) Technical questions I should be ready for based on the job description, (3) Questions I should ask them (shows strategic thinking — not just "what is the culture like"), (4) How to explain my past projects concisely without over-explaining methodology, (5) The most common mistake analysts make in interviews — and how I avoid it.
+</div>
+<div class="tip-box"><strong>Pro tip:</strong> The most common analyst interview mistake is explaining what you did instead of the impact it had. Always end your answer with: "and as a result, [business outcome]."</div>
+
+<h2>6. Process & Automation</h2>
+
+<h3>Prompt 12 — Analysis Request Intake Form</h3>
+<div class="prompt-box">
+Help me build a standard intake form for data analysis requests from stakeholders.
+
+Common problems I face: [stakeholders ask vague questions / they want the data before they know what question they are answering / scope creep / I start work only to find they already have the answer / deadline is always "ASAP"]
+
+Build an intake form with 12 questions that force stakeholders to think before they request: What business decision does this analysis support? → What does success look like? → What have you already tried? → Who is the audience? → What is the actual deadline and why? → What format do you need the output in? → etc.
+
+Also write: (1) A short email to introduce the intake process to stakeholders (frame it as helping them get better answers faster, not bureaucracy), (2) What to do when stakeholders refuse to fill it out.
+</div>
+
+<h3>Prompt 13 — Python / Pandas Code Explanation</h3>
+<div class="prompt-box">
+Help me explain or document my Python data analysis code.
+
+Task: [I want to document existing code / I want to explain code to a colleague / I want to write a tutorial around code I wrote]
+Code snippet: [paste your code block]
+Audience: [technical colleague / junior analyst learning Python / non-technical stakeholder who wants to understand the logic]
+
+Do one of: (A) Add inline comments to my code explaining what each block does in plain language, (B) Write a plain-English walkthrough of what this code does — step by step — for a non-technical reader, or (C) Turn this code into a short tutorial with explanation of each step, why I made certain choices, and what someone could customize. Keep technical terms to a minimum for non-technical versions.
+</div>
+
+<h2>7. Professional Development</h2>
+
+<h3>Prompt 14 — Learning Plan for a New Skill</h3>
+<div class="prompt-box">
+Build a 30-day learning plan for a data skill I want to develop.
+
+Skill to learn: [SQL window functions / Python pandas / Tableau / dbt / statistics for analysts / machine learning basics / data visualization / A/B testing / causal inference / stakeholder communication]
+My current level: [complete beginner / know the basics / intermediate — describe specifically]
+Time available: [30 minutes / 1 hour / 2 hours per day]
+Goal: [pass an interview / use it in my current job / build a portfolio project / get a certification]
+
+30-day plan: Week-by-week breakdown → specific resources for each week (free resources preferred) → one practice project per week → how to know when I have actually learned it (not just watched videos). Include: the biggest mistake beginners make when learning this skill and how to avoid it.
+</div>
+
+<h3>Prompt 15 — Annual Self-Review</h3>
+<div class="prompt-box">
+Help me write my annual self-review as a data analyst.
+
+Projects I worked on this year: [list 4–6]
+Most impactful analysis I did: [describe — what question it answered and what changed because of it]
+Skills I developed: [list]
+Where I fell short: [honest assessment]
+What I want to do next year: [career goal or skill goal]
+Audience: [my manager / HR / myself for planning]
+
+Write: (1) Self-review narrative (400 words — leads with impact, not activity), (2) How to frame projects that did not go as planned (honest without self-flagellating), (3) How to articulate the value I added in business terms, not just analytical terms (not "I built a dashboard" — "I reduced decision time by X"), (4) How to make the case for what I want next year (promotion / new projects / skill development budget / team growth).
+</div>
+
+<div class="cta-section">
+  <h2>Level Up Your Analytics Career With AI</h2>
+  <p>Get 50 AI prompts for tech professionals — communication, documentation, career growth, and more.</p>
+  <a class="cta-btn" href="https://ryuumg.gumroad.com/l/qhanl" target="_blank" rel="nofollow">Get AI Content Boost — $39</a>
+</div>
+
+</div>
+<footer><p>© 2026 AI Holdings | <a href="https://ryuu321.github.io/ai-holdings">Home</a> | <a href="../index.html">Blog</a> | <a href="index.html">All Guides</a></p></footer>
+</body>
+</html>

@@ -315,6 +315,11 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-sales-professionals.html">ChatGPT Prompts for Sales Professionals</a> — Cold emails, objections, closing, career</li>
       <li><a href="guides/chatgpt-prompts-for-web-designers.html">ChatGPT Prompts for Web Designers</a> — Proposals, clients, pricing, recurring income</li>
       <li><a href="guides/chatgpt-prompts-for-online-course-creators.html">ChatGPT Prompts for Online Course Creators</a> — Curriculum, sales pages, launches, scaling</li>
+      <li><a href="guides/chatgpt-prompts-for-chiropractors.html">ChatGPT Prompts for Chiropractors</a> — Patient comms, local marketing, practice growth</li>
+      <li><a href="guides/chatgpt-prompts-for-nutritionists.html">ChatGPT Prompts for Nutritionists &amp; Dietitians</a> — Client communication, practice marketing, content</li>
+      <li><a href="guides/chatgpt-prompts-for-mortgage-brokers.html">ChatGPT Prompts for Mortgage Brokers</a> — Client education, referral partners, lead generation</li>
+      <li><a href="guides/chatgpt-prompts-for-data-analysts.html">ChatGPT Prompts for Data Analysts</a> — Reports, stakeholder comms, career growth</li>
+      <li><a href="guides/chatgpt-prompts-for-recruiters.html">ChatGPT Prompts for Recruiters</a> — Job descriptions, sourcing, candidate experience</li>
     </ul>
   </div>
   <div class="section">
