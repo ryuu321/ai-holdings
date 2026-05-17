@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中小企業のAI自動化を最短5日で実装 | AI Holdings</title>
+<meta name="description" content="スプレッドシート自動化・チャットボット・業務フロー自動化を最短5日で納品。初期費用¥150,000〜。Python・AI API実装の専門チームが対応します。">
+<meta property="og:title" content="中小企業のAI自動化を最短5日で実装">
+<meta property="og:description" content="繰り返し作業をAIで自動化。月〇時間の削減を実現します。¥150,000〜、最短5日納品。">
+<meta name="robots" content="index, follow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sans-serif;color:#1a1a2e;background:#fff;line-height:1.8}
+
+/* ── Hero ── */
+.hero{background:linear-gradient(135deg,#0f3460 0%,#16213e 100%);color:#fff;padding:80px 20px 60px;text-align:center}
+.hero .label{display:inline-block;background:#f5a623;color:#000;font-weight:700;font-size:.8em;padding:4px 14px;border-radius:20px;margin-bottom:20px;letter-spacing:.5px}
+.hero h1{font-size:clamp(1.8em,5vw,2.8em);font-weight:800;line-height:1.3;margin-bottom:20px;letter-spacing:-0.5px}
+.hero h1 span{color:#f5a623}
+.hero p{font-size:1.1em;opacity:.85;max-width:580px;margin:0 auto 36px;line-height:1.9}
+.hero-cta{display:inline-block;background:#f5a623;color:#000;font-weight:800;padding:18px 40px;border-radius:10px;text-decoration:none;font-size:1.1em;letter-spacing:.3px}
+.hero-cta:hover{background:#e09010;transform:translateY(-1px)}
+.hero-sub{margin-top:14px;font-size:.85em;opacity:.6}
+
+/* ── Stats ── */
+.stats{background:#f8f9ff;padding:40px 20px;text-align:center}
+.stats-inner{max-width:700px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:560px){.stats-inner{grid-template-columns:1fr}}
+.stat{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.stat .num{font-size:2.2em;font-weight:800;color:#0f3460}
+.stat .unit{font-size:.8em;color:#666;margin-top:4px}
+
+/* ── Pain ── */
+.pain{padding:60px 20px;max-width:720px;margin:0 auto}
+.pain h2{font-size:1.6em;font-weight:800;color:#0f3460;margin-bottom:30px;text-align:center}
+.pain-list{display:grid;gap:12px}
+.pain-item{background:#fff5f5;border-left:4px solid #e74c3c;border-radius:0 8px 8px 0;padding:16px 20px;font-size:.97em}
+.pain-item::before{content:"✗ ";color:#e74c3c;font-weight:700}
+
+/* ── Services ── */
+.services{background:#f8f9ff;padding:60px 20px}
+.services h2{text-align:center;font-size:1.6em;font-weight:800;color:#0f3460;margin-bottom:8px}
+.services .sub{text-align:center;color:#666;margin-bottom:40px;font-size:.95em}
+.cards{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:700px){.cards{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:14px;padding:28px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);position:relative}
+.card.popular{border:2px solid #f5a623}
+.popular-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#f5a623;color:#000;font-size:.75em;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap}
+.card .price{font-size:1.8em;font-weight:800;color:#0f3460;margin:12px 0 4px}
+.card .price-sub{font-size:.8em;color:#888;margin-bottom:16px}
+.card h3{font-size:1.05em;font-weight:700;color:#0f3460;margin-bottom:12px}
+.card ul{list-style:none;padding:0}
+.card ul li{padding:5px 0;font-size:.9em;color:#444;border-bottom:1px solid #f0f0f0}
+.card ul li::before{content:"✓ ";color:#2ecc71;font-weight:700}
+.card .deadline{display:inline-block;margin-top:16px;background:#f0f8ff;color:#0f3460;font-size:.82em;font-weight:600;padding:5px 12px;border-radius:20px}
+
+/* ── Portfolio ── */
+.portfolio{padding:60px 20px;max-width:800px;margin:0 auto}
+.portfolio h2{font-size:1.6em;font-weight:800;color:#0f3460;margin-bottom:8px;text-align:center}
+.portfolio .sub{text-align:center;color:#666;margin-bottom:36px;font-size:.95em}
+.cases{display:grid;gap:16px}
+.case{background:#fff;border:1px solid #e8e8f0;border-radius:12px;padding:24px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
+@media(max-width:500px){.case{grid-template-columns:1fr}}
+.case-icon{font-size:2.2em;text-align:center}
+.case-tag{display:inline-block;background:#e8f0ff;color:#0f3460;font-size:.75em;font-weight:700;padding:3px 10px;border-radius:10px;margin-bottom:8px}
+.case h3{font-size:1em;font-weight:700;color:#1a1a2e;margin-bottom:6px}
+.case p{font-size:.88em;color:#555;line-height:1.7}
+.case .result{display:inline-block;margin-top:10px;background:#f0fff4;color:#27ae60;font-size:.82em;font-weight:700;padding:4px 12px;border-radius:20px}
+
+/* ── Flow ── */
+.flow{background:#f8f9ff;padding:60px 20px}
+.flow h2{text-align:center;font-size:1.6em;font-weight:800;color:#0f3460;margin-bottom:40px}
+.steps{max-width:700px;margin:0 auto;display:grid;gap:0}
+.step{display:grid;grid-template-columns:60px 1fr;gap:16px;align-items:start;padding-bottom:32px;position:relative}
+.step:not(:last-child)::before{content:'';position:absolute;left:29px;top:52px;bottom:0;width:2px;background:#e8e8f0}
+.step-num{width:60px;height:60px;border-radius:50%;background:#0f3460;color:#fff;font-weight:800;font-size:1.2em;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-body h3{font-weight:700;color:#0f3460;margin-bottom:4px;padding-top:14px}
+.step-body p{font-size:.9em;color:#555}
+
+/* ── FAQ ── */
+.faq{padding:60px 20px;max-width:700px;margin:0 auto}
+.faq h2{font-size:1.6em;font-weight:800;color:#0f3460;margin-bottom:32px;text-align:center}
+.faq-item{border-bottom:1px solid #eee;padding:18px 0}
+.faq-item summary{font-weight:700;cursor:pointer;color:#0f3460;font-size:.97em;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-item summary::after{content:"＋";font-size:1.2em;color:#f5a623}
+details[open] summary::after{content:"－"}
+.faq-item p{font-size:.92em;color:#555;padding-top:12px;line-height:1.8}
+
+/* ── CTA Final ── */
+.cta-final{background:linear-gradient(135deg,#0f3460,#16213e);color:#fff;padding:70px 20px;text-align:center}
+.cta-final h2{font-size:1.8em;font-weight:800;margin-bottom:12px;line-height:1.4}
+.cta-final p{opacity:.8;max-width:500px;margin:0 auto 32px;font-size:.97em}
+.cta-email-wrap{display:flex;gap:10px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.cta-email-btn{display:inline-block;background:#f5a623;color:#000;font-weight:800;padding:18px 36px;border-radius:10px;text-decoration:none;font-size:1.05em}
+.cta-email-btn:hover{background:#e09010}
+.cta-final .note{margin-top:16px;font-size:.82em;opacity:.55}
+
+footer{text-align:center;padding:24px;color:#888;font-size:.82em;background:#0a1628;color:rgba(255,255,255,.4)}
+footer a{color:rgba(255,255,255,.5)}
+</style>
+</head>
+<body>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="label">AI自動化エージェンシー</div>
+  <h1>御社の繰り返し作業を<br><span>AIで自動化します。</span><br>最短<span>5日</span>納品。</h1>
+  <p>スプレッドシートの手入力・毎日の定型レポート・問い合わせ対応——<br>Python × AI APIで完全自動化。月数十時間の削減を実現します。</p>
+  <a class="hero-cta" href="mailto:ryuumg03@gmail.com?subject=AI自動化のご相談&body=会社名:%0D%0A担当者名:%0D%0Aご相談内容:%0D%0A">無料相談を申し込む（15分）</a>
+  <div class="hero-sub">返信は24時間以内 · 相談無料 · 押し売り一切なし</div>
+</section>
+
+<!-- ── Stats ── -->
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="num">6+</div>
+      <div class="unit">自動化システム稼働中</div>
+    </div>
+    <div class="stat">
+      <div class="num">5日〜</div>
+      <div class="unit">最短納品期間</div>
+    </div>
+    <div class="stat">
+      <div class="num">¥150K〜</div>
+      <div class="unit">導入費用（パッケージA）</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pain ── -->
+<section class="pain">
+  <h2>こんな課題、抱えていませんか？</h2>
+  <div class="pain-list">
+    <div class="pain-item">毎日同じデータをコピペしてExcelに貼り付けている</div>
+    <div class="pain-item">問い合わせメールの返信に毎日1〜2時間かかっている</div>
+    <div class="pain-item">月次レポートを手で作るだけで半日以上消える</div>
+    <div class="pain-item">「自動化したい」と思いつつ、何から始めればいいか分からない</div>
+    <div class="pain-item">IT会社に頼んだら数百万の見積もりが来て諦めた</div>
+  </div>
+</section>
+
+<!-- ── Services ── -->
+<section class="services">
+  <h2>サービスパッケージ</h2>
+  <p class="sub">すべてのパッケージに「要件定義 → 実装 → 動作確認 → 操作説明」が含まれます</p>
+  <div class="cards">
+
+    <div class="card">
+      <h3>パッケージA<br>スプレッドシート×AI自動化</h3>
+      <div class="price">¥150,000</div>
+      <div class="price-sub">（税別）</div>
+      <ul>
+        <li>Google Sheets / Excel × AI連携</li>
+        <li>定型レポートの自動生成</li>
+        <li>データ分類・要約・翻訳</li>
+        <li>メール/Slack自動通知</li>
+        <li>操作マニュアル付き</li>
+      </ul>
+      <span class="deadline">⏱ 最短3〜5日納品</span>
+    </div>
+
+    <div class="card popular">
+      <div class="popular-badge">最も人気</div>
+      <h3>パッケージB<br>LINE/Webチャットボット</h3>
+      <div class="price">¥300,000</div>
+      <div class="price-sub">（税別）</div>
+      <ul>
+        <li>LINE公式アカウント連携</li>
+        <li>FAQ自動応答・問い合わせ振り分け</li>
+        <li>予約受付・リマインド送信</li>
+        <li>管理画面での内容更新対応</li>
+        <li>1ヶ月無料サポート付き</li>
+      </ul>
+      <span class="deadline">⏱ 最短5〜10日納品</span>
+    </div>
+
+    <div class="card">
+      <h3>パッケージC<br>業務自動化フルパッケージ</h3>
+      <div class="price">¥500,000</div>
+      <div class="price-sub">（税別・要件により変動）</div>
+      <ul>
+        <li>業務ヒアリング・フロー設計</li>
+        <li>スクレイピング・データ収集</li>
+        <li>社内システムとのAPI連携</li>
+        <li>定期実行・監視・エラー通知</li>
+        <li>3ヶ月保守サポート付き</li>
+      </ul>
+      <span class="deadline">⏱ 2〜3週間納品</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Portfolio ── -->
+<section class="portfolio">
+  <h2>実装実績</h2>
+  <p class="sub">これまでに構築・稼働中のシステム（一部抜粋）</p>
+  <div class="cases">
+
+    <div class="case">
+      <div class="case-icon">📊</div>
+      <div>
+        <span class="case-tag">データ自動化</span>
+        <h3>投資データ自動収集・シグナル配信システム</h3>
+        <p>12銘柄の株価・仮想通貨データを4時間ごとに自動収集し、独自アルゴリズムで売買シグナルを判定。結果をTelegramに自動配信するシステムを構築。完全無人稼働中。</p>
+        <span class="result">✓ 4時間ごとに自動実行・完全無人稼働</span>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-icon">🤖</div>
+      <div>
+        <span class="case-tag">ECサイト自動化</span>
+        <h3>ECサイト商品自動投稿システム（5,000件以上）</h3>
+        <p>5,767件の商品データをAPIを経由して自動登録・更新するシステムを構築。セッション管理・エラーハンドリングを含む本番運用レベルの実装。累計150件以上を自動投稿済み。</p>
+        <span class="result">✓ 累計150件自動投稿・省人化達成</span>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-icon">✍️</div>
+      <div>
+        <span class="case-tag">コンテンツ自動生成</span>
+        <h3>AI記事自動生成・投稿システム（3アカウント同時）</h3>
+        <p>Gemini AIでテーマ選定から記事生成まで全自動化。毎日指定時刻に3アカウント同時投稿するシステムを構築。GitHub Actionsで完全無人運用。</p>
+        <span class="result">✓ 毎日自動投稿・人手ゼロで運用中</span>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-icon">📰</div>
+      <div>
+        <span class="case-tag">情報収集・配信</span>
+        <h3>AI日報自動生成・マルチチャンネル配信</h3>
+        <p>最新ニュースをAIで要約・編集し、複数のプラットフォームへ毎日自動配信するシステム。取得→要約→フォーマット→投稿まで全自動。</p>
+        <span class="result">✓ 毎朝9時に自動配信・完全自律稼働</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Flow ── -->
+<section class="flow">
+  <h2>ご依頼から納品までの流れ</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>無料相談（15分）</h3>
+        <p>自動化したい業務の内容をヒアリングします。メールやZoomで対応。この段階では費用は一切かかりません。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>要件定義・見積もり提出</h3>
+        <p>1〜2日以内に実装方針と見積もりをご提示します。内容に合意いただいた後、着手金（50%）をお支払いいただきます。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>実装・テスト</h3>
+        <p>要件定義に基づき実装します。進捗は随時ご共有。テスト完了後に動作確認をご一緒します。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>納品・操作説明</h3>
+        <p>納品後に操作マニュアルと説明会（30分）を実施。残額（50%）をお支払いいただいて完了です。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>継続サポート（オプション）</h3>
+        <p>月額¥30,000〜の保守契約で、変更・障害対応・機能追加を継続的にサポートします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="faq">
+  <h2>よくある質問</h2>
+
+  <details class="faq-item">
+    <summary>どんな業務が自動化できますか？</summary>
+    <p>「毎日同じ作業をしている」「データのコピペや転記が多い」「定型メールを大量に送っている」といった業務が対象です。技術的に難しいケースでも、まずご相談ください。事前に実現可能性を確認してからご提案します。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>ITに詳しくなくても大丈夫ですか？</summary>
+    <p>はい、問題ありません。技術的な説明は最小限にし、「何ができるか」「どう使うか」を中心にご説明します。操作マニュアルと説明会もセットでご提供します。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>既存のシステムやツールと連携できますか？</summary>
+    <p>Google Workspace（スプレッドシート・Gmail・カレンダー）、LINE、Slack、Notion、kintone、各種APIを提供するサービスとの連携実績があります。詳細はご相談ください。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>納品後に壊れたり動かなくなった場合は？</summary>
+    <p>納品後1ヶ月間は無償で対応します（パッケージAは2週間）。それ以降は月額保守契約（¥30,000〜）でサポート継続が可能です。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>支払い方法は？</summary>
+    <p>銀行振込に対応しています。着手時に50%、納品完了時に残50%の分割払いです。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>学生でも信頼できますか？</summary>
+    <p>情報システム工学科の学生として、実際に6本以上の自動化システムを本番稼働させています。まずは小さな案件（パッケージA）からお試しいただくことも可能です。実績をご覧いただいた上でご判断ください。</p>
+  </details>
+
+</section>
+
+<!-- ── CTA Final ── -->
+<section class="cta-final">
+  <h2>まずは15分、<br>無料でご相談ください。</h2>
+  <p>「自動化できるかわからない」「どのパッケージが合うか知りたい」——そういった段階でのご相談も歓迎します。</p>
+  <a class="cta-email-btn" href="mailto:ryuumg03@gmail.com?subject=AI自動化のご相談&body=会社名:%0D%0A担当者名:%0D%0Aご相談内容（自動化したい業務など）:%0D%0A">メールで相談する（無料）</a>
+  <div class="note">返信は24時間以内 · 相談・見積もり無料 · 成約の強制一切なし</div>
+</section>
+
+<footer>
+  <p>© 2026 AI Holdings | <a href="https://ryuu321.github.io/ai-holdings">ホーム</a> | <a href="mailto:ryuumg03@gmail.com">お問い合わせ</a></p>
+</footer>
+
+</body>
+</html>
