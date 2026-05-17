@@ -1,6 +1,6 @@
 ---
 company: saas-dev
-updated: 2026-05-15
+updated: 2026-05-17
 ---
 
 ## 稼働中プロジェクト
@@ -48,5 +48,8 @@ BTC-USD, ETH-USD, SOL-USD, NVDA, AMD, TSLA, META, PLTR, COIN, MSTR, ARM, AVGO
 - Reddit from CI は永久不可と確定（2026-05-15）
 - Dev.to 2x/day化（2026-05-15）
 - Gumroadパーソナルファイナンスニッチ5種追加（2026-05-15）
-- KD著者名D.ryuに統一
+- KDP著者名D.ryuに統一
 - Redbubble自動化は永久廃止（Cloudflare Turnstile）
+- SEOガイドページ45本公開（26→45、2026-05-17）
+- product_articles 80トピック完成（42→80、2026-05-17）
+- コンテキスト上限前に自動/end実行ルール追加（2026-05-17）
