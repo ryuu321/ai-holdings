@@ -320,6 +320,11 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-mortgage-brokers.html">ChatGPT Prompts for Mortgage Brokers</a> — Client education, referral partners, lead generation</li>
       <li><a href="guides/chatgpt-prompts-for-data-analysts.html">ChatGPT Prompts for Data Analysts</a> — Reports, stakeholder comms, career growth</li>
       <li><a href="guides/chatgpt-prompts-for-recruiters.html">ChatGPT Prompts for Recruiters</a> — Job descriptions, sourcing, candidate experience</li>
+      <li><a href="guides/chatgpt-prompts-for-brand-strategists.html">ChatGPT Prompts for Brand Strategists</a> — Positioning, messaging, client deliverables</li>
+      <li><a href="guides/chatgpt-prompts-for-startup-founders.html">ChatGPT Prompts for Startup Founders</a> — Pitching, investors, customer growth, operations</li>
+      <li><a href="guides/chatgpt-prompts-for-career-coaches.html">ChatGPT Prompts for Career Coaches</a> — Client attraction, sessions, practice growth</li>
+      <li><a href="guides/chatgpt-prompts-for-cybersecurity-professionals.html">ChatGPT Prompts for Cybersecurity Professionals</a> — Risk communication, awareness, documentation</li>
+      <li><a href="guides/chatgpt-prompts-for-technical-writers.html">ChatGPT Prompts for Technical Writers</a> — Docs, style guides, collaboration, career</li>
     </ul>
   </div>
   <div class="section">
