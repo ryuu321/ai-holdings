@@ -20,7 +20,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 PORT = 8080
 REDIRECT_URI = f"http://localhost:{PORT}"
 SCOPE = " ".join([
-    "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/userinfo.email",
 ])
 
