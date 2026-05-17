@@ -408,6 +408,44 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["projectmanagement", "productivity", "ai", "agile"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for project managers",
+                "angle": "practical guide: using AI to write better project plans, handle scope creep, and communicate with stakeholders",
+                "prompt_theme": "project kickoff documents, risk registers, status reports, scope creep handling, lessons learned",
+                "title_hint": "The ChatGPT Prompts That Saved My Project From Scope Creep (And 3 Others)",
+            },
+            {
+                "keyword": "AI tools for project management",
+                "angle": "breakdown: 5 PM tasks where AI saves me 3+ hours a week without sacrificing quality",
+                "prompt_theme": "stakeholder communication, meeting agendas, project recovery plans, go/no-go frameworks, vendor management",
+                "title_hint": "5 Project Management Tasks I Use AI For Every Week (With the Prompts)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["consulting", "business", "ai", "freelance"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for consultants",
+                "angle": "practical guide: using AI to write stronger proposals, deliver better presentations, and win more clients",
+                "prompt_theme": "consulting proposals, executive presentations, recommendation building, case studies, thought leadership",
+                "title_hint": "The ChatGPT Prompts Behind My Best-Converting Consulting Proposals",
+            },
+            {
+                "keyword": "AI for consulting business",
+                "angle": "breakdown: how I use AI to deliver more value to clients without working more hours",
+                "prompt_theme": "client reports, scope management, pricing review, speaking proposals, annual practice review",
+                "title_hint": "How I Use AI to Run a More Profitable Consulting Practice (Without Billing More Hours)",
+            },
+        ],
+    },
 ]
 
 

@@ -294,6 +294,8 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-event-planners.html">ChatGPT Prompts for Event Planners</a> — Better proposals, smoother events</li>
       <li><a href="guides/chatgpt-prompts-for-real-estate-investors.html">ChatGPT Prompts for Real Estate Investors</a> — Analyze deals, manage tenants, scale</li>
       <li><a href="guides/chatgpt-prompts-for-executive-assistants.html">ChatGPT Prompts for Executive Assistants</a> — Better briefings, executive-level comms</li>
+      <li><a href="guides/chatgpt-prompts-for-project-managers.html">ChatGPT Prompts for Project Managers</a> — Better plans, fewer crises</li>
+      <li><a href="guides/chatgpt-prompts-for-consultants.html">ChatGPT Prompts for Consultants</a> — Win clients, deliver more value</li>
     </ul>
   </div>
   <div class="section">
