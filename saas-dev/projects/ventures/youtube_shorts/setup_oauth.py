@@ -19,7 +19,10 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 PORT = 8080
 REDIRECT_URI = f"http://localhost:{PORT}"
-SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+SCOPE = " ".join([
+    "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/userinfo.email",
+])
 
 _code_holder: dict = {}
 
@@ -127,6 +130,18 @@ def main():
     print("=" * 50)
     print("成功！GitHub Secrets に以下を登録してください:")
     print("=" * 50)
+    # どのアカウントか確認
+    try:
+        req2 = urllib.request.Request(
+            f"https://www.googleapis.com/oauth2/v1/userinfo?access_token={data.get('access_token','')}",
+        )
+        with urllib.request.urlopen(req2, timeout=10) as r2:
+            user_info = json.loads(r2.read())
+        print(f"✅ ログインアカウント: {user_info.get('email', '不明')}")
+        print()
+    except Exception:
+        pass
+
     print(f"YOUTUBE_CLIENT_ID     = {client_id}")
     print(f"YOUTUBE_CLIENT_SECRET = {client_secret}")
     print(f"YOUTUBE_REFRESH_TOKEN = {refresh_token}")
