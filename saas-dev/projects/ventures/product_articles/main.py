@@ -237,6 +237,25 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["hr", "recruiting", "ai", "management"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for HR professionals",
+                "angle": "practical guide: using AI to write better job postings, handle difficult conversations, and save 5+ hours a week",
+                "prompt_theme": "job postings, interview questions, performance reviews, difficult conversations, policy rewrites",
+                "title_hint": "The ChatGPT Prompts That Make Hard HR Conversations Easier (And Faster)",
+            },
+            {
+                "keyword": "AI prompts for recruiters",
+                "angle": "workflow breakdown: how I use AI to screen faster and write job postings that attract better candidates",
+                "prompt_theme": "inclusive job postings, structured interview questions, offer communication, candidate nurturing",
+                "title_hint": "How I Use AI to Write Job Postings That Attract 3x More Qualified Applicants",
+            },
+        ],
+    },
 ]
 
 
