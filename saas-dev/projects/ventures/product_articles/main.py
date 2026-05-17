@@ -370,6 +370,44 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["realestate", "investing", "ai", "finance"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for real estate investors",
+                "angle": "practical guide: using AI to analyze deals faster, manage tenants better, and think through strategy more clearly",
+                "prompt_theme": "deal analysis framework, tenant communication templates, STR listing optimization, portfolio review, negotiation strategy",
+                "title_hint": "The ChatGPT Prompts I Use Before Every Real Estate Deal (And Why They Work)",
+            },
+            {
+                "keyword": "AI tools for rental property management",
+                "angle": "workflow breakdown: how I use AI to manage 8 rental units in less time than most landlords spend on 2",
+                "prompt_theme": "tenant screening, difficult tenant scripts, maintenance SOPs, STR listing, annual portfolio review",
+                "title_hint": "How I Manage 8 Rental Units With AI (And Why It Changed My Business)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["productivity", "careeradvice", "ai", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for executive assistants",
+                "angle": "practical guide: using AI to draft executive communications, build briefings, and manage at a higher level",
+                "prompt_theme": "executive email drafting, meeting prep briefs, travel itineraries, stakeholder communication, sensitive email responses",
+                "title_hint": "How I Use AI to Make My Executive More Effective (Without Working More Hours)",
+            },
+            {
+                "keyword": "AI tools for executive productivity",
+                "angle": "breakdown: the 5 AI workflows that help executive assistants become indispensable",
+                "prompt_theme": "presentation outlines, crisis communication, diplomatic declines, EA performance review prep, value documentation",
+                "title_hint": "The AI Workflow That Made Me Indispensable to My Executive (5 Prompts)",
+            },
+        ],
+    },
 ]
 
 
