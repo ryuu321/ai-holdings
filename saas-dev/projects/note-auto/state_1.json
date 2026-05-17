@@ -31,7 +31,8 @@
     "AIストックフォト副業",
     "ホワイトペーパー制作代行×AI",
     "教育系InstagramアカウントのAI自動運用",
-    "AIプレゼン資料自動生成術"
+    "AIプレゼン資料自動生成術",
+    "Kindle出版×Claude 3.5 Sonnet"
   ],
   "articles": [
     {
@@ -256,6 +257,13 @@
       "title": "【時短革命】ChatGPT×VBAで「15枚のプレゼン資料」を3分で自動作成する全手順｜資料作成代行で月5万稼ぐプロンプト集",
       "price": 500,
       "url": "https://note.com/notes/nf0564d10330e",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-17",
+      "title": "【実録】Claude 3.5 SonnetでKindle出版を最短攻略：3時間で1冊書き上げる『印税収入量産』完全マニュアル",
+      "price": 980,
+      "url": "https://note.com/notes/nd7fad84f76ca",
       "status": "success"
     }
   ]
