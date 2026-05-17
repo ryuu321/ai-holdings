@@ -304,6 +304,10 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-amazon-sellers.html">ChatGPT Prompts for Amazon Sellers</a> — Listings, reviews, PPC, FBA scaling</li>
       <li><a href="guides/chatgpt-prompts-for-copywriters.html">ChatGPT Prompts for Copywriters</a> — Headlines, sales pages, client wins</li>
       <li><a href="guides/chatgpt-prompts-for-ux-designers.html">ChatGPT Prompts for UX Designers</a> — Research, rationale, stakeholders, career</li>
+      <li><a href="guides/chatgpt-prompts-for-podcasters.html">ChatGPT Prompts for Podcasters</a> — Show notes, guests, growth, monetization</li>
+      <li><a href="guides/chatgpt-prompts-for-restaurant-owners.html">ChatGPT Prompts for Restaurant Owners</a> — Menus, reviews, marketing, operations</li>
+      <li><a href="guides/chatgpt-prompts-for-product-managers.html">ChatGPT Prompts for Product Managers</a> — PRDs, roadmaps, stakeholders, career</li>
+      <li><a href="guides/chatgpt-prompts-for-ecommerce-sellers.html">ChatGPT Prompts for Ecommerce Sellers</a> — Product pages, ads, emails, scaling</li>
     </ul>
   </div>
   <div class="section">

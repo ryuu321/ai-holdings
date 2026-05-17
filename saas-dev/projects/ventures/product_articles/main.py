@@ -598,6 +598,82 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["podcast", "contentcreation", "ai", "creators"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for podcasters",
+                "angle": "practical guide: using AI to write show notes, plan episodes, and grow your podcast audience",
+                "prompt_theme": "episode outlines, SEO show notes, guest pitches, promotion content, sponsorship pitches",
+                "title_hint": "How I Write a Month of Podcast Show Notes in 2 Hours Using AI",
+            },
+            {
+                "keyword": "AI tools for podcast growth",
+                "angle": "breakdown: the AI system that helped me grow from 200 to 5000 listeners in 6 months",
+                "prompt_theme": "episode SEO, repurposing system, guest outreach, listener Q&A, monetization strategy",
+                "title_hint": "The AI Workflow That Grew My Podcast From 200 to 5,000 Monthly Listeners",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["restaurant", "smallbusiness", "ai", "hospitality"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for restaurant owners",
+                "angle": "practical guide: using AI to write better menus, handle reviews, and market your restaurant without a big budget",
+                "prompt_theme": "menu descriptions, review responses, social media content, job postings, Google Business posts",
+                "title_hint": "How Restaurant Owners Are Using ChatGPT to Win More Customers (With Real Examples)",
+            },
+            {
+                "keyword": "AI for restaurant marketing",
+                "angle": "story: how I used AI to turn our restaurant's online presence around after a rough review period",
+                "prompt_theme": "negative review responses, Google Business optimization, email newsletters, seasonal promotions, menu engineering",
+                "title_hint": "I Used AI to Fix My Restaurant's Online Reputation — Here's What Changed",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["productmanagement", "pm", "ai", "tech"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for product managers",
+                "angle": "practical guide: using AI to write PRDs faster, run sharper roadmap reviews, and align stakeholders",
+                "prompt_theme": "PRD writing, user stories, stakeholder documents, launch plans, feature announcements",
+                "title_hint": "How PMs Are Using AI to Write PRDs 3x Faster (Without Sacrificing Quality)",
+            },
+            {
+                "keyword": "AI tools for product management",
+                "angle": "breakdown: 5 PM workflows where AI saves 4+ hours a week without replacing strategic thinking",
+                "prompt_theme": "prioritization, user interview guides, success metrics, roadmap communication, PM interview prep",
+                "title_hint": "5 Product Management Tasks I Use AI For Every Week (And What Changed)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["ecommerce", "shopify", "ai", "dtc"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for ecommerce sellers",
+                "angle": "practical guide: using AI to write better product pages, abandoned cart emails, and ad creative that converts",
+                "prompt_theme": "product descriptions, abandoned cart sequence, post-purchase emails, Meta ad creative, homepage copy",
+                "title_hint": "The ChatGPT Prompts Behind My Ecommerce Store's Best-Converting Product Pages",
+            },
+            {
+                "keyword": "AI for Shopify store growth",
+                "angle": "breakdown: how I use AI across email, ads, and content to run a $500K Shopify store with a 2-person team",
+                "prompt_theme": "holiday campaign strategy, win-back campaign, review requests, brand story, A/B testing ideas",
+                "title_hint": "How I Run a $500K Shopify Store With AI and a 2-Person Team",
+            },
+        ],
+    },
 ]
 
 
