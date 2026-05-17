@@ -325,6 +325,11 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-career-coaches.html">ChatGPT Prompts for Career Coaches</a> — Client attraction, sessions, practice growth</li>
       <li><a href="guides/chatgpt-prompts-for-cybersecurity-professionals.html">ChatGPT Prompts for Cybersecurity Professionals</a> — Risk communication, awareness, documentation</li>
       <li><a href="guides/chatgpt-prompts-for-technical-writers.html">ChatGPT Prompts for Technical Writers</a> — Docs, style guides, collaboration, career</li>
+      <li><a href="guides/chatgpt-prompts-for-social-workers.html">ChatGPT Prompts for Social Workers</a> — Case notes, resource coordination, client communication</li>
+      <li><a href="guides/chatgpt-prompts-for-occupational-therapists.html">ChatGPT Prompts for Occupational Therapists</a> — Treatment plans, patient education, insurance justification</li>
+      <li><a href="guides/chatgpt-prompts-for-athletic-coaches.html">ChatGPT Prompts for Athletic Coaches</a> — Practice planning, athlete communication, program building</li>
+      <li><a href="guides/chatgpt-prompts-for-b2b-marketers.html">ChatGPT Prompts for B2B Marketers</a> — ABM campaigns, LinkedIn, sales enablement, demand gen</li>
+      <li><a href="guides/chatgpt-prompts-for-executive-coaches.html">ChatGPT Prompts for Executive Coaches</a> — Session prep, client frameworks, practice building</li>
     </ul>
   </div>
   <div class="section">
