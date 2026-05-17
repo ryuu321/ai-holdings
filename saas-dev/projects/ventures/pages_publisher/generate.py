@@ -300,6 +300,10 @@ def main():
       <li><a href="guides/chatgpt-prompts-for-personal-finance.html">ChatGPT Prompts for Personal Finance</a> — Budget, invest, and build wealth</li>
       <li><a href="guides/chatgpt-prompts-for-nonprofit-managers.html">ChatGPT Prompts for Nonprofit Managers</a> — Grant writing, donor comms, impact</li>
       <li><a href="guides/chatgpt-prompts-for-personal-trainers.html">ChatGPT Prompts for Personal Trainers</a> — Programs, clients, and business growth</li>
+      <li><a href="guides/chatgpt-prompts-for-youtube-creators.html">ChatGPT Prompts for YouTube Creators</a> — Scripts, titles, thumbnails, growth</li>
+      <li><a href="guides/chatgpt-prompts-for-amazon-sellers.html">ChatGPT Prompts for Amazon Sellers</a> — Listings, reviews, PPC, FBA scaling</li>
+      <li><a href="guides/chatgpt-prompts-for-copywriters.html">ChatGPT Prompts for Copywriters</a> — Headlines, sales pages, client wins</li>
+      <li><a href="guides/chatgpt-prompts-for-ux-designers.html">ChatGPT Prompts for UX Designers</a> — Research, rationale, stakeholders, career</li>
     </ul>
   </div>
   <div class="section">

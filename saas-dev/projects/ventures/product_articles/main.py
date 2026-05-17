@@ -522,6 +522,82 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["youtube", "contentcreation", "ai", "creators"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for YouTube creators",
+                "angle": "practical guide: using AI to write better scripts, optimize titles, and batch a month of content",
+                "prompt_theme": "video scripts, hook writing, title optimization, thumbnail concepts, content calendar",
+                "title_hint": "How I Use ChatGPT to Write a Month of YouTube Scripts in One Weekend",
+            },
+            {
+                "keyword": "AI tools for YouTube channel growth",
+                "angle": "breakdown: the 5 AI workflows that helped me grow from 1K to 50K subscribers",
+                "prompt_theme": "channel strategy, shorts repurposing, community posts, sponsorship pitches, digital products",
+                "title_hint": "5 AI Workflows That Helped Me Grow My YouTube Channel to 50K (With Examples)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["ecommerce", "amazon", "fba", "business"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for Amazon sellers",
+                "angle": "practical guide: using AI to write better listings, handle reviews, and research products faster",
+                "prompt_theme": "listing optimization, competitor analysis, review responses, PPC keywords, launch strategy",
+                "title_hint": "The ChatGPT Prompts That Improved My Amazon Listing Conversion Rate by 34%",
+            },
+            {
+                "keyword": "AI for Amazon FBA business",
+                "angle": "workflow breakdown: how I use AI to manage a 7-figure Amazon business with a 2-person team",
+                "prompt_theme": "supplier negotiation, inventory planning, brand story, A+ content, annual business review",
+                "title_hint": "How I Use AI to Run a 7-Figure Amazon FBA Business Without a Big Team",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["copywriting", "marketing", "ai", "writing"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for copywriters",
+                "angle": "practical guide: using AI to research faster, brainstorm angles, and edit copy more effectively",
+                "prompt_theme": "voice of customer synthesis, headline generation, sales page architecture, A/B test variants, client pitches",
+                "title_hint": "How Copywriters Are Using AI to Write 3x Faster (Without Sacrificing Quality)",
+            },
+            {
+                "keyword": "AI tools for freelance copywriting",
+                "angle": "breakdown: the AI workflow that helped me land bigger clients and double my copywriting rates",
+                "prompt_theme": "cold outreach, copy proposals, brand voice guides, portfolio critique, annual business review",
+                "title_hint": "The AI Workflow That Helped Me Double My Copywriting Rates in 6 Months",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["ux", "productdesign", "ai", "design"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for UX designers",
+                "angle": "practical guide: using AI to write research plans, design rationale, and stakeholder presentations",
+                "prompt_theme": "research planning, interview guides, design rationale, stakeholder communication, portfolio case studies",
+                "title_hint": "How UX Designers Are Using AI to Communicate Design Decisions (Without Being Dismissed)",
+            },
+            {
+                "keyword": "AI tools for product design",
+                "angle": "breakdown: 5 ways I use AI in my UX workflow to do better work in less time",
+                "prompt_theme": "UX copy, content audits, competitor analysis, design system proposals, career progression",
+                "title_hint": "5 Ways I Use AI in My UX Design Process (That Actually Save Time)",
+            },
+        ],
+    },
 ]
 
 
