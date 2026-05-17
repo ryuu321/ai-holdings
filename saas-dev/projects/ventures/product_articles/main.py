@@ -807,6 +807,196 @@ PRODUCT_TOPICS = [
             },
         ],
     },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["chiropractic", "healthcare", "ai", "practice"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for chiropractors",
+                "angle": "practical guide: using AI to write better patient communications, handle reviews, and grow your chiropractic practice",
+                "prompt_theme": "new patient welcome, reactivation emails, review responses, Google Business posts, patient education handouts",
+                "title_hint": "How Chiropractors Are Using ChatGPT to Get More Patients (And Keep Them Coming Back)",
+            },
+            {
+                "keyword": "AI for chiropractic practice marketing",
+                "angle": "breakdown: 5 ways I use AI in my chiropractic practice to save 4 hours a week on admin and marketing",
+                "prompt_theme": "social media content, referral partner outreach, home care instructions, monthly newsletter, practice review",
+                "title_hint": "5 Ways I Use AI to Market My Chiropractic Practice (Without a Marketing Agency)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["nutrition", "dietitian", "ai", "health"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for nutritionists and dietitians",
+                "angle": "practical guide: using AI to write better client emails, create education handouts, and grow your nutrition practice",
+                "prompt_theme": "client check-ins, meal planning education, Instagram content, referral outreach, session documentation",
+                "title_hint": "How Registered Dietitians Are Using ChatGPT to Save 5 Hours a Week (With Real Prompts)",
+            },
+            {
+                "keyword": "AI tools for nutrition practice growth",
+                "angle": "breakdown: the AI content system that helped me grow my nutrition practice from 10 to 40 clients",
+                "prompt_theme": "Instagram reels, referral pitches to physicians, email newsletter, workshop promotion, client onboarding",
+                "title_hint": "The AI System That Helped Me Grow My Nutrition Practice to 40 Clients",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["mortgage", "realestate", "ai", "finance"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for mortgage brokers",
+                "angle": "practical guide: using AI to educate borrowers, build referral relationships, and generate more leads",
+                "prompt_theme": "pre-application education, rate lock emails, referral partner outreach, first-time buyer guide, closing congratulations",
+                "title_hint": "How Mortgage Brokers Are Using ChatGPT to Close More Deals (With Better Client Experience)",
+            },
+            {
+                "keyword": "AI for loan officer marketing",
+                "angle": "breakdown: the content system that helped a mortgage broker close 30% more deals without working more hours",
+                "prompt_theme": "LinkedIn content, Google Business posts, agent partnership emails, borrower follow-up sequence, monthly newsletter",
+                "title_hint": "The AI Marketing System That Helped Me Close 30% More Mortgage Deals",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["dataanalysis", "analytics", "ai", "tech"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for data analysts",
+                "angle": "practical guide: using AI to write better executive summaries, communicate insights to non-technical stakeholders, and accelerate your career",
+                "prompt_theme": "executive summaries, stakeholder emails, analysis write-ups, dashboard design briefs, portfolio case studies",
+                "title_hint": "How Data Analysts Are Using ChatGPT to Communicate Insights (And Get Their Recommendations Acted On)",
+            },
+            {
+                "keyword": "AI tools for data analytics workflow",
+                "angle": "breakdown: 5 ways I use AI in my daily analytics work to move faster without sacrificing quality",
+                "prompt_theme": "SQL documentation, metric definitions, data story narratives, intake forms, annual self-review",
+                "title_hint": "5 Ways I Use AI in My Data Analytics Workflow Every Day",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["recruiting", "hr", "ai", "hiring"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for recruiters",
+                "angle": "practical guide: using AI to write better job descriptions, craft stronger outreach, and create a candidate experience that wins top talent",
+                "prompt_theme": "job description rewrites, LinkedIn outreach, rejection emails, hiring manager kickoff, interview debrief facilitation",
+                "title_hint": "How Recruiters Are Using ChatGPT to Write Job Descriptions That Actually Attract Top Candidates",
+            },
+            {
+                "keyword": "AI for talent acquisition",
+                "angle": "breakdown: how I use AI to source, screen, and close candidates 40% faster without sacrificing quality",
+                "prompt_theme": "Boolean search strings, sourcing strategy, phone screen guides, employer brand content, weekly planning",
+                "title_hint": "How I Recruit 40% Faster With AI (Without Losing the Human Touch)",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["brand", "marketing", "ai", "strategy"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for brand strategists",
+                "angle": "practical guide: using AI to develop brand positioning, write brand voice guidelines, and build compelling brand narratives",
+                "prompt_theme": "brand positioning, voice guidelines, competitor analysis, messaging frameworks, brand story",
+                "title_hint": "How Brand Strategists Are Using ChatGPT to Build Sharper Positioning (Without the Agency Price Tag)",
+            },
+            {
+                "keyword": "AI tools for brand strategy",
+                "angle": "breakdown: the AI workflow I use to deliver full brand strategy projects in half the time",
+                "prompt_theme": "audience personas, tagline development, brand architecture, content pillars, annual brand audit",
+                "title_hint": "How I Deliver Brand Strategy Projects in Half the Time Using AI",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["startup", "entrepreneurship", "ai", "founder"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for startup founders",
+                "angle": "practical guide: using AI to write pitch decks, investor updates, hiring emails, and customer communication when you have no team",
+                "prompt_theme": "pitch deck narrative, investor updates, job postings, fundraising emails, customer discovery scripts",
+                "title_hint": "The ChatGPT Prompts Every Startup Founder Should Know (Especially If You Are Doing It Alone)",
+            },
+            {
+                "keyword": "AI tools for early stage startups",
+                "angle": "breakdown: how solo founders are using AI to punch above their weight against well-funded competitors",
+                "prompt_theme": "go-to-market strategy, press outreach, landing page copy, advisor outreach, board update templates",
+                "title_hint": "How Solo Founders Are Using AI to Compete With Well-Funded Startups",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["technicalwriting", "documentation", "ai", "writing"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for technical writers",
+                "angle": "practical guide: using AI to write clearer docs, plan documentation projects, and collaborate with engineering teams more effectively",
+                "prompt_theme": "API documentation, user guides, release notes, style guides, stakeholder communication",
+                "title_hint": "How Technical Writers Are Using ChatGPT to Write Better Docs Faster",
+            },
+            {
+                "keyword": "AI tools for documentation workflow",
+                "angle": "breakdown: 5 ways I use AI in my technical writing workflow to do better work in less time",
+                "prompt_theme": "content audits, information architecture, README templates, onboarding guides, portfolio write-ups",
+                "title_hint": "5 Technical Writing Tasks Where AI Saves Me 3+ Hours a Week",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["careerdevelopment", "careercoach", "ai", "career"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for career coaches",
+                "angle": "practical guide: using AI to write better client exercises, create content that attracts clients, and grow your coaching practice",
+                "prompt_theme": "client worksheets, LinkedIn content, discovery call prep, program curriculum, testimonial requests",
+                "title_hint": "How Career Coaches Are Using ChatGPT to Attract More Clients (With Better Content)",
+            },
+            {
+                "keyword": "AI for career coaching business",
+                "angle": "breakdown: the AI system that helped a career coach go from 5 to 25 clients in 4 months",
+                "prompt_theme": "LinkedIn articles, resume review frameworks, interview coaching scripts, group program content, referral strategy",
+                "title_hint": "How I Grew My Career Coaching Practice From 5 to 25 Clients Using AI Content",
+            },
+        ],
+    },
+    {
+        "product": "AI Content Boost",
+        "url": "https://ryuumg.gumroad.com/l/qhanl",
+        "devto_tags": ["cybersecurity", "infosec", "ai", "tech"],
+        "articles": [
+            {
+                "keyword": "ChatGPT prompts for cybersecurity professionals",
+                "angle": "practical guide: using AI to write better security reports, communicate risk to executives, and create security awareness content",
+                "prompt_theme": "incident reports, executive risk summaries, security awareness training, policy templates, vendor assessments",
+                "title_hint": "How Cybersecurity Professionals Are Using ChatGPT to Communicate Risk (Without the Jargon)",
+            },
+            {
+                "keyword": "AI tools for security awareness training",
+                "angle": "breakdown: how I use AI to build a security awareness program that employees actually engage with",
+                "prompt_theme": "phishing simulation emails, training scripts, policy plain-language rewrites, board presentations, annual security review",
+                "title_hint": "How I Built a Security Awareness Program Employees Actually Pay Attention To Using AI",
+            },
+        ],
+    },
 ]
 
 
