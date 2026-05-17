@@ -1,8 +1,8 @@
 {
   "venture": "medium_publisher",
   "params": {
-    "priority_genre": "High-ROI Career & Wealth System Engineering (Salary Arbitrage & Tax-Efficiency Optimization)",
-    "writing_style": "Artifact-centric (Negotiation Logic-Scripts/Automated-Benchmarking-Sheets), extreme loss-aversion ($18k-$45k opportunity cost), and 'Systems Architecture' terminology (Protocol/Algorithm-Override/Recursive-Optimization) with 250%-300% impact figures.",
+    "priority_genre": "High-ROI Career Engineering & Systemic Wealth Optimization (Salary Arbitrage, Tax-Efficiency, and Investment Protocol)",
+    "writing_style": "Artifact-centric (Manual-format for Sheets/Protocols/Scripts), specific loss-aversion metrics ($15k-$45k opportunity cost), and 'System Architecture' terminology (Override/Protocol/Arbitrage/Recursive-Optimization) with 250%-350% impact figures.",
     "target_length": "1200-1500 words (structured as a technical manual for the included high-value artifact)"
   },
   "performance_history": [
@@ -96,6 +96,13 @@
       "title_en": "3X Your Interview Rate: The 6-Second Resume Architecture Protocol",
       "status": "success",
       "articles_total": 12
+    },
+    {
+      "date": "2026-05-17",
+      "genre": "Personal Finance",
+      "title_en": "Stop Overpaying: The Car Maintenance Optimization Protocol to Reclaim 1,000 Dollars for Your Portfolio Yearly",
+      "status": "success",
+      "articles_total": 13
     }
   ],
   "learnings": [
@@ -128,9 +135,14 @@
       "date": "2026-05-17",
       "insight": "抽象的な概念提示（80% Rule等）は失敗する一方、具体的な損失額（$15k-$45k）と即実装可能な成果物（Protocol/Sheet/Script）を紐付けた「システムの脆弱性ハック」形式が12回連続で成功しており、キャリアから個人財務（NISA等）への横展開も極めて有効です。",
       "action": "年収$22,000の機会損失を回避するための「市場価値・報酬体系リサーチ自動化プロトコル」を核に、転職エージェントの非公開アルゴリズムを逆手に取った交渉戦略記事を執筆してください。"
+    },
+    {
+      "date": "2026-05-17",
+      "insight": "抽象的な法則提示（80% Rule等）は確実に失敗しており、具体的な損失額（$15k-$45k）と即実装可能な成果物（Sheet/Protocol）を「システム工学」的言語でパッケージ化する手法が13件中12件の成功（92%）を支えています。",
+      "action": "年収$25,000の生涯損失を回避するための「市場価値アルゴリズム・リサーチ・プロトコル（企業別給与テーブル推定シート付）」を核とした、転職市場の価格決定ロジックをハックする記事を執筆してください。"
     }
   ],
-  "last_optimized": "2026-05-17T05:47:29.775345+00:00",
+  "last_optimized": "2026-05-17T12:01:11.537475+00:00",
   "posted_titles": [
     "書類通過率が80%上がる！ネガティブな本音を「即採用」に変える退職理由の言い換え全10パターン",
     "【保存版】リファレンスチェック突破率100%へ。前職と疎遠・不仲でも内定を逃さない『推薦人依頼と事前準備』完全マニュアル",
@@ -143,7 +155,8 @@
     "「光熱費を年6万円下げる」2024年最新版：電力・ガス乗り換えで新NISA入金力を最大化する完全ガイド",
     "30分でプロ級の完成度。書類通過率80%超えを叩き出す『職務経歴書作成ChatGPTプロンプト』完全公開",
     "【年間3万円の軍資金作り】ふるさと納税を「ポイ活」に全振りし、新NISAの買付余力を最大化する最適解",
-    "【通過率3倍】6秒で決まる「職務経歴書」の視覚戦略：採用担当者の手を止めさせるレイアウトと強調の技術"
+    "【通過率3倍】6秒で決まる「職務経歴書」の視覚戦略：採用担当者の手を止めさせるレイアウトと強調の技術",
+    "【車は売らなくていい】年間15万円の維持費を削減！保険・車検・燃費を徹底ハックして新NISAの入金力を最大化する実践マニュアル"
   ],
-  "articles_published": 12
+  "articles_published": 13
 }
