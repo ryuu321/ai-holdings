@@ -53,6 +53,8 @@ def generate(
     notes = platform_info["notes"]
     catch_max = platform_info["catch_max"]
     body_max = platform_info["body_max"]
+    body_min = max(100, body_max // 2)
+    extra_rule = f"7. 補足情報「{extra}」は必ず物件説明文の本文に具体的に織り込む。" if extra else ""
 
     prompt = f"""あなたは不動産ポータルサイトの物件説明文のプロライターです。
 以下の物件情報をもとに、{platform}掲載用の物件説明文を作成してください。
@@ -69,11 +71,12 @@ def generate(
 
 【出力ルール（必ず守ること）】
 1. キャッチコピー: {catch_max}文字以内で1行のみ。数字・具体性を入れる。
-2. 物件説明文: {body_max}文字以内。自然な日本語。重複表現禁止。
+2. 物件説明文: {body_min}文字以上{body_max}文字以内。自然な日本語。重複表現禁止。
 3. {notes}
 4. 絶対禁止: 造語・存在しない漢字・意味不明な複合語（例: 陽当り満足性）の使用。
 5. 「、」「。」で読みやすく区切る。1文は60文字以内。
 6. 設備のうち実際に魅力的な項目だけ選んで使う（全部列挙しない）。
+{extra_rule}
 
 【出力フォーマット（このまま返す）】
 CATCH: （キャッチコピー本文のみ）
@@ -103,6 +106,9 @@ BODY: （物件説明文本文のみ）"""
         body = _trim_to_limit(body_match.group(1).strip(), body_max)
 
         if not _quality_ok(catch) or not _quality_ok(body):
+            continue
+
+        if len(body) < body_min:
             continue
 
         return {

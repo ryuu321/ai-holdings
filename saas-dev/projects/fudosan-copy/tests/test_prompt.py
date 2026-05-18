@@ -9,6 +9,18 @@ os.environ.setdefault("GEMINI_API_KEY", "dummy-key-for-tests")
 from prompt import _quality_ok, _trim_to_limit, generate
 from platforms import PLATFORMS
 
+# SUUMO body_min = max(100, 400 // 2) = 200
+LONG_BODY = (
+    "駅まで徒歩7分の利便性に優れた住まいです。"
+    "南向きの明るい室内は、日中たっぷりの陽光が差し込み、ご家族の暮らしを豊かに彩ります。"
+    "築8年という適度な年数で設備の状態も良好。"
+    "オートロック完備でセキュリティ面も安心です。"
+    "独立洗面台や浴室乾燥機など、毎日の生活を助ける設備が揃っています。"
+    "専有面積58.5㎡のゆとりある空間は、ファミリーにも最適な広さです。"
+    "静かな住環境の中で、快適な新生活をスタートさせましょう。"
+)
+# LONG_BODY は200文字以上あることを前提とする（SUUMO body_min=200）
+
 
 # ── _quality_ok ─────────────────────────────────────────────────────────────
 
@@ -99,10 +111,7 @@ def _base_args():
 
 class TestGenerate:
     def test_happy_path_returns_ok(self):
-        good_response = (
-            "CATCH: 駅7分・築8年リノベ済み南向き2LDK\n"
-            "BODY: 駅まで徒歩7分の利便性に優れた住まいです。南向きの明るい室内でご家族の暮らしを豊かに。"
-        )
+        good_response = f"CATCH: 駅7分・築8年リノベ済み南向き2LDK\nBODY: {LONG_BODY}"
         with patch("prompt._get_client") as mock_get:
             mock_client = MagicMock()
             mock_get.return_value = mock_client
@@ -119,8 +128,7 @@ class TestGenerate:
     def test_catch_length_within_platform_limit(self):
         # キャッチが上限ぴったりの場合
         catch = "あ" * PLATFORM_INFO["catch_max"]
-        body = "良い物件です。駅まで徒歩7分。南向きで日当たり良好。"
-        good_response = f"CATCH: {catch}\nBODY: {body}"
+        good_response = f"CATCH: {catch}\nBODY: {LONG_BODY}"
 
         with patch("prompt._get_client") as mock_get:
             mock_client = MagicMock()
@@ -150,7 +158,7 @@ class TestGenerate:
     def test_quality_failure_retries(self):
         # 1回目: 品質NG (★あり) → 2回目: OK
         bad = "CATCH: 陽当り★最高の物件\nBODY: 快適性と快適さに優れた住まいです。"
-        good = "CATCH: 駅7分・南向き2LDK\nBODY: 駅まで徒歩7分の好立地。明るい南向き住まいです。"
+        good = f"CATCH: 駅7分・南向き2LDK\nBODY: {LONG_BODY}"
 
         with patch("prompt._get_client") as mock_get:
             mock_client = MagicMock()
@@ -179,8 +187,59 @@ class TestGenerate:
         prompt_text = call_args.kwargs.get("contents") or call_args.args[1]
         assert "リノベーション済み" in prompt_text
 
+    def test_body_too_short_retries(self):
+        # 本文が body_min 未満 → リトライして長い本文を返す
+        short_body = "短すぎる本文。"  # 7文字、200未満
+        good_response = f"CATCH: 駅7分南向き2LDK\nBODY: {LONG_BODY}"
+        short_response = f"CATCH: 駅7分南向き2LDK\nBODY: {short_body}"
+
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.side_effect = [
+                _make_mock_response(short_response),
+                _make_mock_response(good_response),
+            ]
+
+            result = generate(**_base_args())
+
+        assert result["ok"] is True
+        assert result["body_len"] >= 100  # body_min = max(100, 400//2) = 200
+        assert mock_client.models.generate_content.call_count == 2
+
+    def test_extra_reflected_in_body_rule(self):
+        # extra がある場合、プロンプトに「本文に織り込む」ルールが含まれること
+        good_response = f"CATCH: リノベ済み2LDK\nBODY: {LONG_BODY}"
+
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.return_value = _make_mock_response(good_response)
+
+            generate(**_base_args(), extra="全室リノベーション済み")
+
+        call_args = mock_client.models.generate_content.call_args
+        prompt_text = call_args.kwargs.get("contents") or call_args.args[1]
+        assert "全室リノベーション済み" in prompt_text
+        assert "本文に" in prompt_text  # 「本文に織り込む」ルールが存在する
+
+    def test_no_extra_does_not_add_body_rule(self):
+        # extra が空の場合、不要なルール行が追加されないこと
+        good_response = f"CATCH: 駅7分南向き2LDK\nBODY: {LONG_BODY}"
+
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.return_value = _make_mock_response(good_response)
+
+            generate(**_base_args())  # extra なし
+
+        call_args = mock_client.models.generate_content.call_args
+        prompt_text = call_args.kwargs.get("contents") or call_args.args[1]
+        assert "織り込む" not in prompt_text
+
     def test_empty_setsubi_handled(self):
-        good_response = "CATCH: 駅7分南向き2LDK\nBODY: 駅まで徒歩7分。南向きで明るい住まいです。"
+        good_response = f"CATCH: 駅7分南向き2LDK\nBODY: {LONG_BODY}"
 
         with patch("prompt._get_client") as mock_get:
             mock_client = MagicMock()
@@ -238,7 +297,7 @@ class TestGenerateErrorHandling:
 
     def test_api_error_then_success_recovers(self):
         # 1回目: ネットワークエラー → 2回目: 成功
-        good = "CATCH: 駅7分南向き2LDK\nBODY: 駅まで徒歩7分。南向きで明るい住まいです。"
+        good = f"CATCH: 駅7分南向き2LDK\nBODY: {LONG_BODY}"
 
         with patch("prompt._get_client") as mock_get:
             mock_client = MagicMock()
