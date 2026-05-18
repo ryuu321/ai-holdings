@@ -124,12 +124,5 @@ with col_a:
 with col_b:
     st.caption("📧 ryuumg03@gmail.com")
 
-col_legal1, col_legal2, col_legal3 = st.columns(3)
-with col_legal1:
-    st.page_link("pages/1_terms.py", label="利用規約")
-with col_legal2:
-    st.page_link("pages/2_privacy.py", label="プライバシーポリシー")
-with col_legal3:
-    st.page_link("pages/3_tokushoho.py", label="特定商取引法に基づく表記")
-
+st.caption("利用規約 / プライバシーポリシー / 特定商取引法に基づく表記 → 左サイドバーからご確認ください")
 st.caption("© 2026 FudoText")
