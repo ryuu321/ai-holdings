@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-05-18T06:15:10.478375+00:00",
+  "updated_at": "2026-05-18T06:16:59.505076+00:00",
   "portfolios": {
     "LONG": {
-      "balance": 9757.298694807883,
+      "balance": 9269.43376006749,
       "initial_balance": 10000.0,
-      "last_run": "2026-05-04T05:36:44.447197+00:00",
+      "last_run": "2026-05-18T06:16:59.504781+00:00",
       "positions": {
         "MSFT": {
           "ticker": "MSFT",
@@ -15,6 +15,16 @@
           "peak_price": 424.6,
           "ladder_hits": [],
           "last_dca_date": "2026-04-27T05:26:44.171567+00:00"
+        },
+        "META": {
+          "ticker": "META",
+          "shares": 0.7942707694843856,
+          "buy_price": 614.23,
+          "bought_at": "2026-05-18T06:16:59.502075+00:00",
+          "cost_basis": 487.8649347403942,
+          "peak_price": 614.23,
+          "ladder_hits": [],
+          "last_dca_date": ""
         }
       },
       "short_positions": {}
@@ -169,6 +179,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-05-18T06:16:59.502095+00:00",
+      "action": "BUY",
+      "coin": "META",
+      "price": 614.23,
+      "amount": 0.7942707694843856,
+      "value_usd": 487.8649347403942,
+      "balance_after": 9269.43376006749,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+8.0 → BUY | US10Y=4.59% 上昇中 → バリュエーション圧迫 | M2 YoY=4.6% 緩やかに拡大 | PER=22.3 適正（15〜25） | 予想PER=17…",
+      "confidence": 0.8,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    },
     {
       "timestamp": "2026-05-18T06:15:10.476122+00:00",
       "action": "BUY",
@@ -423,7 +447,7 @@
     }
   ],
   "stats": {
-    "total_buys": 13,
+    "total_buys": 14,
     "total_sells": 5,
     "realized_pnl": 227.97,
     "win_rate": 100.0
