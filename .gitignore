@@ -1,5 +1,6 @@
 .env
 *.env
+**/secrets.toml
 saas-dev/projects/auto-invest/.git/
 # バイナリDBはgit管理しない（コンフリクト防止）
 saas-dev/projects/auto-invest/data/*.db
