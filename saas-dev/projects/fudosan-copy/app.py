@@ -144,24 +144,29 @@ if submitted:
         st.session_state.last_target = target
         st.session_state.last_platform = platform
 
-        st.success("生成完了！内容を確認してから貼り付けてください。")
-        st.caption(f"プロンプトバージョン: {result.get('prompt_version', '?')}　"
-                   f"今回のセッションで{st.session_state.request_count}回目の生成")
+# ── 結果表示（session_state から常に描画）────────────────────────────────────
+if st.session_state.get("last_result"):
+    result = st.session_state.last_result
+    platform_info = PLATFORMS[st.session_state.last_platform]
 
-        st.subheader(platform_info["catch_label"])
-        catch_color = "🟢" if result["catch_len"] <= result["catch_max"] else "🔴"
-        st.caption(f"{catch_color} {result['catch_len']} / {result['catch_max']} 文字")
-        st.code(result["catch"], language=None)
+    st.success("生成完了！内容を確認してから貼り付けてください。")
+    st.caption(f"プロンプトバージョン: {result.get('prompt_version', '?')}　"
+               f"今回のセッションで{st.session_state.request_count}回目の生成")
 
-        st.subheader(platform_info["body_label"])
-        body_color = "🟢" if result["body_len"] <= result["body_max"] else "🔴"
-        st.caption(f"{body_color} {result['body_len']} / {result['body_max']} 文字")
-        st.code(result["body"], language=None)
+    st.subheader(platform_info["catch_label"])
+    catch_color = "🟢" if result["catch_len"] <= result["catch_max"] else "🔴"
+    st.caption(f"{catch_color} {result['catch_len']} / {result['catch_max']} 文字")
+    st.code(result["catch"], language=None)
 
-        st.warning(
-            "⚠️ **AIが生成したコンテンツです。** "
-            "掲載前に必ず内容（事実確認・文字数・表現）を人が確認してください。"
-        )
+    st.subheader(platform_info["body_label"])
+    body_color = "🟢" if result["body_len"] <= result["body_max"] else "🔴"
+    st.caption(f"{body_color} {result['body_len']} / {result['body_max']} 文字")
+    st.code(result["body"], language=None)
+
+    st.warning(
+        "⚠️ **AIが生成したコンテンツです。** "
+        "掲載前に必ず内容（事実確認・文字数・表現）を人が確認してください。"
+    )
 
 # ── フィードバック ────────────────────────────────────────────────────────────
 if st.session_state.get("last_result") and not st.session_state.get("feedback_sent"):
