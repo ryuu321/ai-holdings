@@ -38,8 +38,18 @@ class TestQualityOk:
         assert _quality_ok("満足度が高く満足性のある物件") is False
 
     def test_hiragana_ascii_mix_fails(self):
-        # 平仮名直後に英字は文字化けの兆候
-        assert _quality_ok("きA良い物件") is False
+        # 平仮名直後に小文字英字は造語の兆候（ひstyle, なlifeなど）
+        assert _quality_ok("きa良い物件") is False
+
+    def test_hiragana_before_lowercase_fails(self):
+        assert _quality_ok("ナチュラルなstyle") is False
+
+    def test_room_type_after_hiragana_passes(self):
+        # 「のLDK」「なDK」など不動産では正常表現。大文字はOK
+        assert _quality_ok("開放的なLDK、広々とした空間です。") is True
+
+    def test_ldk_variations_pass(self):
+        assert _quality_ok("明るいLDKと使いやすいDK。駅徒歩5分の好立地。") is True
 
     def test_numbers_and_symbols_ok(self):
         # 数字・記号単体はOK

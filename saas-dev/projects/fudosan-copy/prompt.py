@@ -14,7 +14,7 @@ def _get_client():
 MODEL = "gemini-flash-latest"
 
 _BLACKLIST_PATTERNS = [
-    r"[ぁ-ん]{1}[A-Za-z]",
+    r"[ぁ-ん][a-z]",
     r"(快適性|快適さ|快適).{0,5}(快適性|快適さ|快適)",
     r"★+",
     r"(満足性|満足度).{0,5}(満足性|満足度)",
