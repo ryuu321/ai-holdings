@@ -32,7 +32,8 @@
     "ホワイトペーパー制作代行×AI",
     "教育系InstagramアカウントのAI自動運用",
     "AIプレゼン資料自動生成術",
-    "Kindle出版×Claude 3.5 Sonnet"
+    "Kindle出版×Claude 3.5 Sonnet",
+    "Vapiを活用したB2B店舗予約自動化代行"
   ],
   "articles": [
     {
@@ -264,6 +265,13 @@
       "title": "【実録】Claude 3.5 SonnetでKindle出版を最短攻略：3時間で1冊書き上げる『印税収入量産』完全マニュアル",
       "price": 980,
       "url": "https://note.com/notes/nd7fad84f76ca",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-18",
+      "title": "【Vapi】×【Googleカレンダー】で電話予約を100%自動化し月額3万の保守を獲る！【初案件10万を狙うB2B代行マニュアル】",
+      "price": 980,
+      "url": "https://note.com/notes/n2ed66006707e",
       "status": "success"
     }
   ]
