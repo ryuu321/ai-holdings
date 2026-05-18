@@ -1,8 +1,10 @@
 import os
 import streamlit as st
 from platforms import PLATFORMS
-from prompt import generate
+from prompt import generate, PROMPT_VERSION
 from validation import validate_inputs, ValidationError, EXTRA_MAX
+
+FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdummy/viewform"  # 後で差し替え
 
 # Streamlit Cloud → st.secrets。ローカル → .env
 if "GEMINI_API_KEY" in st.secrets:
@@ -22,6 +24,12 @@ st.set_page_config(
 # ── セッション状態の初期化 ────────────────────────────────────────────────────
 if "request_count" not in st.session_state:
     st.session_state.request_count = 0
+if "last_result" not in st.session_state:
+    st.session_state.last_result = None
+if "feedback_sent" not in st.session_state:
+    st.session_state.feedback_sent = False
+if "show_bad_reason" not in st.session_state:
+    st.session_state.show_bad_reason = False
 
 # ── ヘッダー ──────────────────────────────────────────────────────────────────
 st.title("🏠 FudoText — 物件説明文AI生成")
@@ -97,8 +105,12 @@ if submitted:
         st.error(result["error"])
     else:
         st.session_state.request_count += 1
+        st.session_state.last_result = result
+        st.session_state.feedback_sent = False
 
         st.success("生成完了！内容を確認してから貼り付けてください。")
+        st.caption(f"プロンプトバージョン: {result.get('prompt_version', '?')}　"
+                   f"今回のセッションで{st.session_state.request_count}回目の生成")
 
         st.subheader(platform_info["catch_label"])
         catch_color = "🟢" if result["catch_len"] <= result["catch_max"] else "🔴"
@@ -114,6 +126,38 @@ if submitted:
             "⚠️ **AIが生成したコンテンツです。** "
             "掲載前に必ず内容（事実確認・文字数・表現）を人が確認してください。"
         )
+
+# ── フィードバック ────────────────────────────────────────────────────────────
+if st.session_state.get("last_result") and not st.session_state.get("feedback_sent"):
+    st.divider()
+    st.markdown("**この文章は使えましたか？**")
+    col_good, col_bad = st.columns(2)
+    with col_good:
+        if st.button("👍 使えた", use_container_width=True):
+            st.session_state.feedback_sent = True
+            regen = st.session_state.request_count
+            st.success(f"ありがとうございます！（{regen}回目の生成で満足）")
+    with col_bad:
+        if st.button("👎 使えなかった", use_container_width=True):
+            st.session_state.show_bad_reason = True
+
+if st.session_state.get("show_bad_reason") and not st.session_state.get("feedback_sent"):
+    reasons = st.multiselect(
+        "どの点が問題でしたか？（複数選択可）",
+        ["文章が短すぎる", "文章が不自然", "ターゲットに合っていない",
+         "補足情報が反映されていない", "文字数が合っていない", "その他"],
+    )
+    if st.button("送信", type="primary"):
+        st.session_state.feedback_sent = True
+        st.session_state.show_bad_reason = False
+        regen = st.session_state.request_count
+        mailto = (
+            f"mailto:ryuumg03@gmail.com"
+            f"?subject=FudoText%20フィードバック%20({PROMPT_VERSION})"
+            f"&body=再生成回数: {regen}回%0A問題点: {', '.join(reasons) if reasons else 'なし'}"
+        )
+        st.markdown(f"[詳細を送る（任意）]({mailto})")
+        st.info("フィードバックを記録しました。改善に役立てます。")
 
 # ── フッター ──────────────────────────────────────────────────────────────────
 st.divider()
