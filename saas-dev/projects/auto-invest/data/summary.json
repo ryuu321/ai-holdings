@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-18T05:08:36.340139+00:00",
+  "updated_at": "2026-05-18T06:15:10.478375+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9757.298694807883,
@@ -110,9 +110,9 @@
       "short_positions": {}
     },
     "MACRO": {
-      "balance": 8036.381611468116,
+      "balance": 6429.105289174493,
       "initial_balance": 10000.0,
-      "last_run": "2026-05-04T05:35:15.001003+00:00",
+      "last_run": "2026-05-18T06:15:10.478149+00:00",
       "positions": {
         "MSFT": {
           "ticker": "MSFT",
@@ -121,6 +121,16 @@
           "bought_at": "2026-04-27T05:24:29.598303+00:00",
           "cost_basis": 2009.0954028670292,
           "peak_price": 424.6,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        },
+        "META": {
+          "ticker": "META",
+          "shares": 2.616733670275993,
+          "buy_price": 614.23,
+          "bought_at": "2026-05-18T06:15:10.476103+00:00",
+          "cost_basis": 1607.2763222936233,
+          "peak_price": 614.23,
           "ladder_hits": [],
           "last_dca_date": ""
         }
@@ -159,6 +169,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-05-18T06:15:10.476122+00:00",
+      "action": "BUY",
+      "coin": "META",
+      "price": 614.23,
+      "amount": 2.616733670275993,
+      "value_usd": 1607.2763222936233,
+      "balance_after": 6429.105289174493,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+9.0 → BUY | フェーズ:MID_EXPANSION | テック・工業株・素材が有利。継続保有・追加投資を検討。 | 経済サイクル: 成長中期 → 成長継続。保有継続・追加投資を…",
+      "confidence": 1.0,
+      "risk_level": "LOW",
+      "bot_type": "MACRO"
+    },
     {
       "timestamp": "2026-05-09T04:25:47.783687+00:00",
       "action": "SELL",
@@ -399,7 +423,7 @@
     }
   ],
   "stats": {
-    "total_buys": 12,
+    "total_buys": 13,
     "total_sells": 5,
     "realized_pnl": 227.97,
     "win_rate": 100.0
