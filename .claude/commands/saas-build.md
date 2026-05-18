@@ -256,6 +256,24 @@ Streamlit Cloudの場合:
 - コピペで入力すると `"` (curly quote) が混入して「Invalid format: please enter valid TOML」エラー
 - **解決策**: Secrets 入力欄には必ずキーボードで直接入力する（貼り付けた後に引用符を打ち直す）
 
+**④ ボタン操作後に生成結果が消える**
+- Streamlit はボタンを押すたびにスクリプト全体を再実行する
+- `if submitted:` ブロック内に結果表示を書くと、次の操作（フィードバックボタン等）で消える
+- **解決策**: 生成結果を `st.session_state` に保存し、表示ブロックを `if submitted:` の外に出す
+```python
+# NG: submitted=False になると消える
+if submitted:
+    result = generate(...)
+    st.code(result["body"])  # ← ボタン操作で消える
+
+# OK: session_state から常に描画
+if submitted:
+    st.session_state.last_result = generate(...)
+
+if st.session_state.get("last_result"):
+    st.code(st.session_state.last_result["body"])  # ← 消えない
+```
+
 **③ ローカルと Cloud の二重シークレット対応パターン**
 ```python
 if "GEMINI_API_KEY" in st.secrets:
