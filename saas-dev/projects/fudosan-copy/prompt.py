@@ -11,7 +11,7 @@ def _get_client():
         _client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     return _client
 
-MODEL = "gemini-flash-latest"
+MODEL = "gemini-2.5-flash"
 
 _BLACKLIST_PATTERNS = [
     r"[ぁ-ん][a-z]",
