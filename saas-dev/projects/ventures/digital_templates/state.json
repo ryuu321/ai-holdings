@@ -5,10 +5,36 @@
     "priority_genres": [],
     "note_account_id": 1
   },
-  "performance_history": [],
+  "performance_history": [
+    {
+      "date": "2026-05-18",
+      "published_this_run": 2,
+      "templates_total": 2,
+      "revenue_estimate_jpy": 800,
+      "products_on_store": 2
+    }
+  ],
   "learnings": [],
   "last_optimized": null,
-  "generated_names": [],
-  "products": [],
-  "templates_published": 0
+  "generated_names": [
+    "月間家計簿テンプレート",
+    "副業収入トラッカー"
+  ],
+  "products": [
+    {
+      "date": "20260518",
+      "name": "月間家計簿テンプレート",
+      "price": 300,
+      "gumroad_url": "（Gumroad未設定）",
+      "note_url": "https://note.com/notes/n1549b0d42990"
+    },
+    {
+      "date": "20260518",
+      "name": "副業収入トラッカー",
+      "price": 500,
+      "gumroad_url": "（Gumroad未設定）",
+      "note_url": "https://note.com/notes/n882ea45850d6"
+    }
+  ],
+  "templates_published": 2
 }
