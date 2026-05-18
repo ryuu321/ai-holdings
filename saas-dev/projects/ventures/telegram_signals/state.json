@@ -4,7 +4,8 @@
     "include_bots": [
       "ATTACK",
       "SCALPING",
-      "VOLATILITY"
+      "VOLATILITY",
+      "GRID"
     ],
     "note_cta": true,
     "sort_by_pnl": true
@@ -100,6 +101,13 @@
       "daily_growth": 0,
       "post_sent": 1,
       "bots_included": 1
+    },
+    {
+      "date": "2026-05-18",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 1
     }
   ],
   "learnings": [
@@ -137,8 +145,13 @@
       "date": "2026-05-17",
       "insight": "1日1件という低頻度の配信状況では、全Botの網羅は情報の焦点がぼやけ、逆に1種への絞り込みはコンテンツ不足（過疎感）を招くというジレンマに陥っています。",
       "action": "利益の爆発力と取引頻度が高い3種（ATTACK, SCALPING, VOLATILITY）に厳選し、PNL順ソートで「1投稿あたりの期待収益」の視覚的インパクトを最大化してください。"
+    },
+    {
+      "date": "2026-05-18",
+      "insight": "Bot数を絞った運用でも成果が出ていないのは、情報の「密度」と「多様性」が不足しており、1日1件という限られた投稿頻度の中でユーザーが期待する『爆益』と『安定性』を同時に提示できていないためです。",
+      "action": "横ばい相場でも利益を積み上げる『GRID』を加えて計4種に増やし、PNLソートを維持することで、1投稿あたりの「的中感」と「収益のバリエーション」を最大化してください。"
     }
   ],
-  "last_optimized": "2026-05-17T02:45:55.642986+00:00",
-  "posts_sent": 12
+  "last_optimized": "2026-05-18T02:55:44.589110+00:00",
+  "posts_sent": 13
 }
