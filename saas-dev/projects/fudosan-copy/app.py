@@ -4,7 +4,7 @@ from platforms import PLATFORMS
 from prompt import generate, PROMPT_VERSION
 from validation import validate_inputs, ValidationError, EXTRA_MAX
 
-FEEDBACK_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdummy/viewform"  # 後で差し替え
+FEEDBACK_FORM_URL = st.secrets.get("FEEDBACK_FORM_URL", "")
 
 # Streamlit Cloud → st.secrets。ローカル → .env
 if "GEMINI_API_KEY" in st.secrets:
@@ -151,13 +151,9 @@ if st.session_state.get("show_bad_reason") and not st.session_state.get("feedbac
         st.session_state.feedback_sent = True
         st.session_state.show_bad_reason = False
         regen = st.session_state.request_count
-        mailto = (
-            f"mailto:ryuumg03@gmail.com"
-            f"?subject=FudoText%20フィードバック%20({PROMPT_VERSION})"
-            f"&body=再生成回数: {regen}回%0A問題点: {', '.join(reasons) if reasons else 'なし'}"
-        )
-        st.markdown(f"[詳細を送る（任意）]({mailto})")
         st.info("フィードバックを記録しました。改善に役立てます。")
+        if FEEDBACK_FORM_URL:
+            st.markdown(f"[詳細フォームで送る（任意・30秒）]({FEEDBACK_FORM_URL})")
 
 # ── フッター ──────────────────────────────────────────────────────────────────
 st.divider()
