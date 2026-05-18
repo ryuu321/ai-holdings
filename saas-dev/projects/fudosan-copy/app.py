@@ -1,10 +1,40 @@
 import os
+import urllib.parse
+import urllib.request
 import streamlit as st
 from platforms import PLATFORMS
 from prompt import generate, PROMPT_VERSION
 from validation import validate_inputs, ValidationError, EXTRA_MAX
 
 FEEDBACK_FORM_URL = st.secrets.get("FEEDBACK_FORM_URL", "")
+
+_FORM_ID = "1FAIpQLSdJbKRfutIcFXqWVwTgqX7-JnxIk2niVEZjBzIm4u3Lw9UMmA"
+_FORM_SUBMIT_URL = f"https://docs.google.com/forms/d/e/{_FORM_ID}/formResponse"
+_ENTRY = {
+    "target":      "entry.1762736429",
+    "platform":    "entry.1865439297",
+    "rating":      "entry.251541218",
+    "regen_count": "entry.991722311",
+    "reasons":     "entry.1743656141",
+}
+
+
+def _submit_feedback(target: str, platform: str, rating: str, regen_count: int, reasons: str = "") -> None:
+    """Google Form に POST してスプレッドシートへ記録する。失敗してもサイレントに無視する。"""
+    try:
+        data = {
+            _ENTRY["target"]:      target,
+            _ENTRY["platform"]:    platform,
+            _ENTRY["rating"]:      rating,
+            _ENTRY["regen_count"]: str(regen_count),
+            _ENTRY["reasons"]:     reasons,
+        }
+        payload = urllib.parse.urlencode(data).encode("utf-8")
+        req = urllib.request.Request(_FORM_SUBMIT_URL, data=payload, method="POST")
+        with urllib.request.urlopen(req, timeout=10):
+            pass
+    except Exception:
+        pass
 
 # Streamlit Cloud → st.secrets。ローカル → .env
 if "GEMINI_API_KEY" in st.secrets:
@@ -30,6 +60,10 @@ if "feedback_sent" not in st.session_state:
     st.session_state.feedback_sent = False
 if "show_bad_reason" not in st.session_state:
     st.session_state.show_bad_reason = False
+if "last_target" not in st.session_state:
+    st.session_state.last_target = ""
+if "last_platform" not in st.session_state:
+    st.session_state.last_platform = ""
 
 # ── ヘッダー ──────────────────────────────────────────────────────────────────
 st.title("🏠 FudoText — 物件説明文AI生成")
@@ -107,6 +141,8 @@ if submitted:
         st.session_state.request_count += 1
         st.session_state.last_result = result
         st.session_state.feedback_sent = False
+        st.session_state.last_target = target
+        st.session_state.last_platform = platform
 
         st.success("生成完了！内容を確認してから貼り付けてください。")
         st.caption(f"プロンプトバージョン: {result.get('prompt_version', '?')}　"
@@ -134,8 +170,14 @@ if st.session_state.get("last_result") and not st.session_state.get("feedback_se
     col_good, col_bad = st.columns(2)
     with col_good:
         if st.button("👍 使えた", use_container_width=True):
-            st.session_state.feedback_sent = True
             regen = st.session_state.request_count
+            _submit_feedback(
+                target=st.session_state.last_target,
+                platform=st.session_state.last_platform,
+                rating="good",
+                regen_count=regen,
+            )
+            st.session_state.feedback_sent = True
             st.success(f"ありがとうございます！（{regen}回目の生成で満足）")
     with col_bad:
         if st.button("👎 使えなかった", use_container_width=True):
@@ -148,12 +190,17 @@ if st.session_state.get("show_bad_reason") and not st.session_state.get("feedbac
          "補足情報が反映されていない", "文字数が合っていない", "その他"],
     )
     if st.button("送信", type="primary"):
+        regen = st.session_state.request_count
+        _submit_feedback(
+            target=st.session_state.last_target,
+            platform=st.session_state.last_platform,
+            rating="bad",
+            regen_count=regen,
+            reasons=", ".join(reasons) if reasons else "",
+        )
         st.session_state.feedback_sent = True
         st.session_state.show_bad_reason = False
-        regen = st.session_state.request_count
         st.info("フィードバックを記録しました。改善に役立てます。")
-        if FEEDBACK_FORM_URL:
-            st.markdown(f"[詳細フォームで送る（任意・30秒）]({FEEDBACK_FORM_URL})")
 
 # ── フッター ──────────────────────────────────────────────────────────────────
 st.divider()
