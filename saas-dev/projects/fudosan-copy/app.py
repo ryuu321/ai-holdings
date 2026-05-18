@@ -126,10 +126,10 @@ with col_b:
 
 col_legal1, col_legal2, col_legal3 = st.columns(3)
 with col_legal1:
-    st.page_link("pages/1_利用規約.py", label="利用規約")
+    st.page_link("pages/1_terms.py", label="利用規約")
 with col_legal2:
-    st.page_link("pages/2_プライバシーポリシー.py", label="プライバシーポリシー")
+    st.page_link("pages/2_privacy.py", label="プライバシーポリシー")
 with col_legal3:
-    st.page_link("pages/3_特定商取引法に基づく表記.py", label="特定商取引法に基づく表記")
+    st.page_link("pages/3_tokushoho.py", label="特定商取引法に基づく表記")
 
 st.caption("© 2026 FudoText")
