@@ -80,4 +80,13 @@ if submitted:
             st.code(result["body"], language=None)
 
 st.divider()
-st.caption("© 2026 FudoText — 無料トライアル中")
+
+col_a, col_b = st.columns(2)
+with col_a:
+    st.caption("**無料トライアル中** — 今なら制限なしで使えます")
+    st.caption("正式リリース後: ¥5,000〜/月（プラン検討中）")
+with col_b:
+    st.caption("ご意見・お問い合わせ")
+    st.caption("📧 ryuumg03@gmail.com")
+
+st.caption("© 2026 FudoText")
