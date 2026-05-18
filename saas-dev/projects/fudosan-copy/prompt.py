@@ -82,8 +82,16 @@ BODY: （物件説明文本文のみ）"""
     client = _get_client()
 
     for attempt in range(3):
-        response = client.models.generate_content(model=MODEL, contents=prompt)
-        raw = response.text.strip()
+        try:
+            response = client.models.generate_content(model=MODEL, contents=prompt)
+            raw = response.text.strip()
+        except Exception as e:
+            err_str = str(e)
+            if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
+                return {"ok": False, "error": "APIの利用上限に達しました。しばらく待ってから再試行してください。", "error_type": "quota"}
+            if attempt < 2:
+                continue
+            return {"ok": False, "error": "AI接続エラーが発生しました。再試行してください。", "error_type": "api_error"}
 
         catch_match = re.search(r"CATCH:\s*(.+?)(?:\n|$)", raw)
         body_match = re.search(r"BODY:\s*([\s\S]+?)$", raw, re.MULTILINE)
@@ -107,4 +115,4 @@ BODY: （物件説明文本文のみ）"""
             "ok": True,
         }
 
-    return {"ok": False, "error": "品質基準を満たす文章を生成できませんでした。再試行してください。"}
+    return {"ok": False, "error": "品質基準を満たす文章を生成できませんでした。再試行してください。", "error_type": "quality"}

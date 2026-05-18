@@ -1,0 +1,33 @@
+name: fudosan-copy tests
+
+on:
+  push:
+    paths:
+      - "saas-dev/projects/fudosan-copy/**"
+  pull_request:
+    paths:
+      - "saas-dev/projects/fudosan-copy/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: saas-dev/projects/fudosan-copy
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: saas-dev/projects/fudosan-copy/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+
+      - name: Run tests
+        env:
+          GEMINI_API_KEY: dummy-key-for-ci
+        run: python -m pytest tests/ -v --tb=short

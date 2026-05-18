@@ -192,3 +192,74 @@ class TestGenerate:
             result = generate(**args)
 
         assert result["ok"] is True
+
+
+# ── エラーハンドリング ────────────────────────────────────────────────────────
+
+class TestGenerateErrorHandling:
+    def test_quota_exceeded_returns_quota_error(self):
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.side_effect = Exception(
+                "429 RESOURCE_EXHAUSTED: quota exceeded"
+            )
+
+            result = generate(**_base_args())
+
+        assert result["ok"] is False
+        assert result["error_type"] == "quota"
+        assert "上限" in result["error"]
+
+    def test_quota_error_does_not_retry(self):
+        # クォータ超過は即座に返す（リトライしても無駄なので）
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.side_effect = Exception(
+                "429 RESOURCE_EXHAUSTED: quota exceeded"
+            )
+
+            generate(**_base_args())
+
+        assert mock_client.models.generate_content.call_count == 1
+
+    def test_network_error_retries_then_returns_api_error(self):
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.side_effect = ConnectionError("network unreachable")
+
+            result = generate(**_base_args())
+
+        assert result["ok"] is False
+        assert result["error_type"] == "api_error"
+        assert mock_client.models.generate_content.call_count == 3
+
+    def test_api_error_then_success_recovers(self):
+        # 1回目: ネットワークエラー → 2回目: 成功
+        good = "CATCH: 駅7分南向き2LDK\nBODY: 駅まで徒歩7分。南向きで明るい住まいです。"
+
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.side_effect = [
+                ConnectionError("network error"),
+                _make_mock_response(good),
+            ]
+
+            result = generate(**_base_args())
+
+        assert result["ok"] is True
+        assert mock_client.models.generate_content.call_count == 2
+
+    def test_error_result_has_no_catch_or_body(self):
+        with patch("prompt._get_client") as mock_get:
+            mock_client = MagicMock()
+            mock_get.return_value = mock_client
+            mock_client.models.generate_content.side_effect = Exception("500 internal error")
+
+            result = generate(**_base_args())
+
+        assert "catch" not in result
+        assert "body" not in result
