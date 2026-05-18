@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ryuu321.github.io/ai-holdings/</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/products/procreate.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/products/procreate-assets.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/products/designgenie.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/products/ai-content-boost.html</loc><changefreq>weekly</changefreq></url>
@@ -10,14 +11,15 @@
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/products/adhd-unlocked.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/products/etsy-seller-boost.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/products/etsy-success-boost.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://ryuu321.github.io/ai-holdings/blog/articles/通過率3倍-6秒で決まる-職務経歴書-の視覚戦略-採用担当者の手を止めさせるレ.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://ryuu321.github.io/ai-holdings/blog/articles/車は売らなくていい-年間15万円の維持費を削減-保険-車検-燃費を徹底ハックし.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://ryuu321.github.io/ai-holdings/blog/articles/実録-Claude-3-5-SonnetでKindle出版を最短攻略-3時間で.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/articles/年12万浮く-Apple-Google-Amazon全サブスク見直し-新NIS.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/articles/Vapi---Googleカレンダー-で電話予約を100-自動化し月額3万の保.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/3x-your-interview-rate-the-6-second-resume-architecture-prot.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/stop-overpaying-the-car-maintenance-optimization-protocol-to.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/the-80-percent-pass-rate-career-engineering-playbook-leverag.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/today-s-ai-tech-digest-ai-psychosis-small-model-efficiency-a.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/today-s-ai-tech-digest-ai-psychosis-tool-distillation-and-th.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/today-s-ai-tech-digest-model-distillation-enterprise-saas-fa.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/today-s-ai-tech-digest-tiny-models-mobile-coding-and-the-qua.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/en/wealth-optimization-hack-how-to-reverse-engineer-furusato-no.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/tools/prompt-sampler.html</loc><changefreq>weekly</changefreq></url>
@@ -26,21 +28,63 @@
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/ai-prompts-for-side-hustles.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-accountants.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-adhd.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-amazon-sellers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-athletic-coaches.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-b2b-marketers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-brand-strategists.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-career-coaches.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-chiropractors.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-consultants.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-content-creators.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-copywriters.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-cybersecurity-professionals.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-data-analysts.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-dentists.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-digital-marketers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-ecommerce-sellers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-etsy-sellers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-event-planners.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-executive-assistants.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-executive-coaches.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-financial-advisors.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-fitness-coaches.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-freelancers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-graphic-designers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-hr-professionals.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-insurance-agents.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-interior-designers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-lawyers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-life-coaches.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-mortgage-brokers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-nonprofit-managers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-nurses.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-nutritionists.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-occupational-therapists.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-online-course-creators.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-personal-finance.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-personal-trainers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-photographers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-podcasters.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-procreate-artists.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-product-managers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-project-managers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-real-estate-agents.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-real-estate-investors.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-recruiters.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-restaurant-owners.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-sales-professionals.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-small-business-owners.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-social-media-managers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-social-workers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-startup-founders.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-teachers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-technical-writers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-therapists.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-ux-designers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-virtual-assistants.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-web-designers.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-writers.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/chatgpt-prompts-for-youtube-creators.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/blog/guides/index.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://ryuu321.github.io/ai-holdings/start.html</loc><changefreq>weekly</changefreq></url>
 </urlset>
