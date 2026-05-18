@@ -236,3 +236,162 @@ Streamlit Cloudの場合:
 - **「だいたい動く」は完了ではない** — 受け入れ基準を満たすまで次に進まない
 - **テストを緩めてパスさせない** — 実装を直す。テストの期待値を下げない
 - **コードより先に仕様を変えない** — 途中で要件が変わったらPhase 1に戻る
+
+---
+
+## 実戦知見ライブラリ（踏んだ地雷集）
+
+開発中に実際に踏んだ問題とその解決策。次のプロジェクトで同じ穴に落ちないために。
+
+---
+
+### Streamlit Cloud
+
+**① `st.page_link()` は Cloud でほぼ使えない**
+- Cloud の CWD はリポジトリルート。アプリがサブディレクトリにあると `pages/` の解決に失敗して `KeyError` が出る
+- 日本語ファイル名を ASCII にリネームしても治らない（内部レジストリの問題）
+- **解決策**: 法的ページ・補足情報は `st.expander()` でメインページに折り畳んで入れる。マルチページはローカル専用と思え
+
+**② `st.secrets` の TOML はスマートクォート厳禁**
+- コピペで入力すると `"` (curly quote) が混入して「Invalid format: please enter valid TOML」エラー
+- **解決策**: Secrets 入力欄には必ずキーボードで直接入力する（貼り付けた後に引用符を打ち直す）
+
+**③ ローカルと Cloud の二重シークレット対応パターン**
+```python
+if "GEMINI_API_KEY" in st.secrets:
+    os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+else:
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "../../.env"))
+```
+- `st.secrets.get("KEY", "")` でオプショナルなシークレットを安全に読む
+
+---
+
+### Google Gemini API
+
+**① `google.generativeai` は廃止済み**
+- `pip install google-generativeai` → 使えるが deprecated。警告が出る
+- **正しい SDK**: `pip install google-genai`
+```python
+from google import genai
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+response = client.models.generate_content(model=MODEL, contents=prompt)
+raw = response.text.strip()
+```
+
+**② モデル名はバージョン固定より `latest` を使う**
+- `gemini-2.0-flash` などバージョン固定はクォータが先に枯れる
+- **推奨**: `MODEL = "gemini-flash-latest"` （自動で最新 Flash を使う）
+
+**③ クォータエラーはリトライしない**
+```python
+if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
+    return {"ok": False, "error": "APIの利用上限に達しました...", "error_type": "quota"}
+```
+- クォータ超過でリトライすると問題を悪化させるだけ。即座に返してユーザーに待ってもらう
+- それ以外のエラーは最大3回リトライ
+
+---
+
+### AI 出力品質の担保
+
+**① 出力長は必ず下限を設ける**
+- 指示しないと AI は短い出力（30文字など）を返してパスしてしまう
+- **パターン**: `body_min = max(100, body_max // 2)` で下限を決めてリトライ
+```python
+if len(body) < body_min:
+    continue  # リトライ
+```
+
+**② 補足情報は「必ず織り込む」と明示する**
+- `extra` を物件情報欄に入れるだけでは AI が無視することがある
+- **解決策**: プロンプトのルール欄に専用ルールを追加する
+```python
+extra_rule = f"8. 補足情報「{extra}」は必ず物件説明文の本文に具体的に織り込む。" if extra else ""
+```
+
+**③ 出力パース → 品質チェック → 長さチェックの順で行う**
+```
+parse (CATCH:/BODY:) → quality_ok() → len >= body_min → return
+↑ どこかで落ちたら continue（最大3回）
+```
+
+**④ ブラックリストパターンで低品質出力を弾く**
+```python
+_BLACKLIST_PATTERNS = [
+    r"[ぁ-ん]{1}[A-Za-z]",              # 造語（「ひstyle」等）
+    r"(快適性|快適さ|快適).{0,5}(快適)", # 重複表現
+    r"★+",                               # 記号乱用
+    r"(満足性|満足度).{0,5}(満足性|満足度)",
+]
+```
+
+---
+
+### プロンプトインジェクション対策
+
+フリーテキスト入力は必ずプロンプト構造を壊すパターンを検出・拒否する。
+
+```python
+_INJECTION_PATTERNS = [
+    r"CATCH\s*:",
+    r"BODY\s*:",
+    r"【出力",
+    r"【物件情報】",
+    r"ignore\s+previous",
+    r"前の指示を無視",
+    r"system\s*:",
+    r"---+",
+]
+```
+
+入力サニタイズも必須:
+- 改行・タブ → スペースに正規化（プロンプト構造の破壊を防ぐ）
+- 連続スペース → 1つに正規化
+- 長さ上限を設けてプロンプト膨張を防ぐ
+
+---
+
+### 自動改善パイプラインの設計
+
+**① ドメイン知識は生成ロジックと分離する**
+- 自動改善スクリプトが `prompt.py` を直接書き換えると壊れやすい
+- **パターン**: `domain_knowledge.py` にターゲット訴求・ルールを分離し、改善スクリプトはそこだけ更新する
+- `prompt.py` は `from domain_knowledge import ...` でインポートする
+
+**② フィードバック収集は Google Sheets 公開 CSV が最安**
+- Google Form → 自動でスプレッドシートに記録
+- スプレッドシートを「ウェブに公開（CSV）」→ 認証不要で `urllib.request` で読める
+- CSV URL 形式: `https://docs.google.com/spreadsheets/d/{ID}/pub?gid={GID}&single=true&output=csv`
+
+**③ コピペ製品のフィードバック設計**
+- コピペで使う製品は成約率・使用率の追跡が不可能
+- **最も正直なシグナル**: 再生成回数（`st.session_state.request_count`）— 満足したら再生成しない
+- 自己申告の 👍/👎 はあてにしすぎない。再生成回数と組み合わせて分析する
+
+**④ バージョン管理パターン**
+```python
+PROMPT_VERSION = "v1.1"  # domain_knowledge.py で管理
+# 改善スクリプトが自動インクリメント: v1.1 → v1.2
+```
+- `prompt.py` の `PROMPT_VERSION` は廃止し、`domain_knowledge.py` から import する
+
+---
+
+### テスト設計の落とし穴
+
+**① テストデータの長さは `body_min` を超えること**
+- `body_min = max(100, body_max // 2)` なので `body_max=400` なら `body_min=200`
+- テストの `LONG_BODY` を `body_max + 1` だけにすると `body_min` チェックで落ちる
+- **正解**: `LONG_BODY = "あ" * (body_max // 2 + 1)` のように `body_min` を超える長さにする
+
+**② モックの戻り値に `body_min` を意識する**
+```python
+# NG: 短すぎてリトライに入る
+mock_response.text = "CATCH: テスト\nBODY: 短い"
+
+# OK: body_min (200文字) を超える長さにする
+LONG_BODY = "あ" * 201
+mock_response.text = f"CATCH: テスト\nBODY: {LONG_BODY}"
+```
