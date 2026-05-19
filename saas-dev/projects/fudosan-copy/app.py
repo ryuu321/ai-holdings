@@ -98,9 +98,13 @@ if st.session_state.user_email is None:
             else:
                 st.session_state.user_email = email_input
                 if _USE_DB:
-                    user = get_or_create_user(email_input)
-                    st.session_state.request_count = user.get("count", 0)
-                    st.session_state.paid_plan = user.get("plan")
+                    try:
+                        user = get_or_create_user(email_input)
+                        st.session_state.request_count = user.get("count", 0)
+                        st.session_state.paid_plan = user.get("plan")
+                    except Exception as e:
+                        st.error(f"DB接続エラー: {e}")
+                        st.stop()
                 st.session_state.db_loaded = True
                 st.rerun()
     st.caption("※ メールアドレスは利用回数管理のみに使用します。スパムメールは送りません。")
@@ -108,7 +112,11 @@ if st.session_state.user_email is None:
 
 # ── DB未ロードの場合はロード（セッション復元） ────────────────────────────────
 if not st.session_state.db_loaded and _USE_DB:
-    user = get_or_create_user(st.session_state.user_email)
+    try:
+        user = get_or_create_user(st.session_state.user_email)
+    except Exception as e:
+        st.error(f"DB接続エラー: {e}")
+        st.stop()
     st.session_state.request_count = user.get("count", 0)
     st.session_state.paid_plan = user.get("plan")
     st.session_state.db_loaded = True
