@@ -13,52 +13,42 @@ updated: 2026-05-19
 ## Gumroad（ventures-auto 傘下）
 - **9商品公開済み** / 売上 $0 / 全商品アフィリエイト25%設定済み
 - 商品一覧: Procreate Assets($37) / DesignGenie($37) / AI Content Boost($39) / Procreate AI($39) / Procreate Aid($39) / Viral Content($39) / ADHD Unlocked($39) / Etsy Seller Boost($39) / Etsy Success Boost($39)
-- URL: `https://ryuumg.gumroad.com/l/{permalink}`
-- 生成スケジュール: 月水金 JST9時（gumroad-generate.yml）
 
-## Dev.to / Medium Publisher（ventures-auto 傘下）
-- 9記事投稿済み・**2x/day化完了**（JST 11:00 + 20:00）
-- ジャンル別Gumroad CTA: Personal Finance→ndtsjv / Career→akikab / AI→akikab
-- Personal Finance URL要修正: `https://ryuumg.gumroad.com/l/ndtsjv`（未反映）
-
-## Reddit（traffic）
-- `reddit-daily.yml` デプロイ済み（JST 11:00 毎日）
-- REDDIT_SESSION_B64 / PINTEREST_SESSION_B64 → GitHub Secrets 登録済み
-- **Reddit from GitHub Actions は不可**（Azure VM IPがブロック対象）
+## Dev.to Publisher（ventures-auto 傘下）
+- 2x/day化完了（JST 11:00 + 20:00）
+- ジャンル別Gumroad CTA設定済み
 
 ## 重要パス
 - 投資ボット: `saas-dev/projects/auto-invest/`
-- 楽天ROOM: `saas-dev/projects/rakuten-room/`
-  - auth更新コマンド: `.\update_auth.ps1`（毎回ローカル実行必須）
-  - 状態: `data/daily_count.json`
+- 楽天ROOM: `saas-dev/projects/rakuten-room/`（auth更新: `.\update_auth.ps1`）
 - Kindle KDP: `saas-dev/projects/kindle-kdp/output/` (6冊)
-- Gumroad: `saas-dev/projects/gumroad/pipeline.py`
-- Dev.to: `saas-dev/projects/ventures/medium_publisher/`
-- Traffic: `saas-dev/projects/traffic/`
+- FudoText: `saas-dev/projects/fudosan-copy/`
+- コールドメール: `saas-dev/projects/fudosan-copy/outreach/`
+
+## FudoText 顧客獲得（進行中）
+- LP: `docs/fudotext.html`（GitHub Pages公開済み）
+- SEO記事: `docs/fudotext/` 8本（週次自動追加・毎週月曜）
+- コールドメールパイプライン: `outreach/` フォルダ
+  - leads.csv: 26件収集済み（Brave Search API使用）
+  - 送信済み: **7件（誤送信・パーソナライズなし・署名「ryuu」）**
+  - draft待機: 18件（未送信・確認待ち）
+  - .env設定済み: GMAIL_ADDRESS / GMAIL_APP_PASSWORD / BRAVE_API_KEY
+- **次のアクション**: テストメール表示確認 → leads.csvクリーンアップ → 本番送信
 
 ## 現在の課題
-- 楽天ROOM: セッション切れ（Akamai E01_008でCIからログイン不可）→ ローカルで`.\update_auth.ps1`必須
-- KDP: 6冊のEPUBが未アップロード（AmazonもCIからブロック）→ 手動アップロード
-- Gumroad売上 $0: コンテンツはあるがトラフィックがない
+- FudoText: メール文字化け疑い・Gemini 429でパーソナライズ失敗中
+- FudoText: leads.csvに不適切リード混在（求人サイト・メール営業会社）
+- 楽天ROOM: セッション切れ（ローカルで`.\update_auth.ps1`必須）
+- KDP: 6冊のEPUBが未アップロード
+- Gumroad売上 $0
 
 ## ユニバース（ATTACK/VOLT/MEDIUM）
 BTC-USD, ETH-USD, SOL-USD, NVDA, AMD, TSLA, META, PLTR, COIN, MSTR, ARM, AVGO
 
-## FudoText（新規・商用化完了 2026-05-19）
-- パス: `saas-dev/projects/fudosan-copy/`
-- URL: Streamlit Cloud（デプロイ済み）
-- モデル: gemini-3.1-flash-lite（500 RPD無料枠・専用APIキー）
-- 機能: 物件説明文AI生成（SUUMO/at home/HOMES対応）
-- フィードバック: Google Form → Sheets CSV → 週次Gemini分析 → PR自動作成
-- 次のアクション: LP作成 → 顧客獲得（Twitter DM・note記事）
-
 ## 直近の決定
-- Reddit from CI は永久不可と確定（2026-05-15）
-- Dev.to 2x/day化（2026-05-15）
-- Gumroadパーソナルファイナンスニッチ5種追加（2026-05-15）
-- KDP著者名D.ryuに統一
-- Redbubble自動化は永久廃止（Cloudflare Turnstile）
-- SEOガイドページ45本公開（26→45、2026-05-17）
-- product_articles 80トピック完成（42→80、2026-05-17）
-- コンテキスト上限前に自動/end実行ルール追加（2026-05-17）
-- FudoText 商用化GO・LP作成が次のアクション（2026-05-19）
+- X(Twitter) API: 有料のため永久廃止（2026-05-19）
+- note.com: FudoText集客には不向き（ジャンル不一致）廃止（2026-05-19）
+- コールドメール: Brave Search API（$5無料枠）でリード収集（2026-05-19）
+- 本名「真柄龍聖」をメール署名に使用（特定電子メール法対応・2026-05-19）
+- 本物企業への送信はメール品質確認後のみ（2026-05-19）
+- FudoText SEO記事8本公開・週次自動追加（2026-05-19）

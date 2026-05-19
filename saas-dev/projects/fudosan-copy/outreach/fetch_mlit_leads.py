@@ -1,101 +1,171 @@
 """
-国土交通省 宅建業者名簿から不動産会社URLを収集
-公開データ: https://www.mlit.go.jp/totikensangyo/const/1_6_bt_000083.html
-Excel形式で都道府県ごとに公開されている
-
-このスクリプトは:
-1. 国交省の宅建業者名簿ページをフェッチ
-2. 各都道府県のExcelリンクを取得
-3. Excelをダウンロードして会社名・電話番号を抽出
-4. 会社名でGoogle検索 → URLを取得（手動補完が必要な場合あり）
-5. urls.txt に書き出す
-
-注意: Excelには電話番号はあるがメアド・URLは含まれない
-→ collect_leads.py が各URLからメアドを収集する
+Brave Search APIで不動産会社メアドを収集
+API: https://api.search.brave.com/res/v1/web/search
+無料クレジット$5/月 = 約1650クエリ
 """
+import csv
+import json
+import os
 import re
 import time
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
 _DIR = Path(__file__).parent
-URLS_FILE = _DIR / "urls.txt"
+LEADS_FILE = _DIR / "leads.csv"
 
-MLIT_BASE = "https://www.mlit.go.jp"
-MLIT_PAGE = f"{MLIT_BASE}/totikensangyo/const/1_6_bt_000083.html"
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FudoTextResearch/1.0)"}
+BRAVE_KEY = os.environ.get("BRAVE_API_KEY", "")
+EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
+EMAIL_SKIP = ["noreply", "no-reply", "example", "sentry", "google",
+              "schema.org", "w3.org", "placeholder", "sample@", "mail@mail",
+              "abc@", "test@", "info@example"]
+# 画像ファイルのアットマーク誤検知（@2x.png等）を除外するTLD
+FAKE_TLDS = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico",
+             ".mp4", ".mov", ".pdf", ".zip"}
+SITE_SKIP = ["suumo.jp", "homes.co.jp", "athome.co.jp", "chintai.net",
+             "wikipedia", "google", "yahoo", "twitter", "facebook", "instagram"]
+
+QUERIES = [
+    "不動産仲介会社 東京 メールアドレス お問い合わせ",
+    "不動産仲介会社 大阪 メールアドレス お問い合わせ",
+    "不動産仲介会社 名古屋 メールアドレス",
+    "不動産仲介会社 福岡 メールアドレス",
+    "不動産仲介会社 横浜 メールアドレス",
+    "不動産仲介会社 札幌 メールアドレス",
+    "不動産仲介会社 神戸 メールアドレス",
+    "宅建業者 東京 会社 メールアドレス",
+    "宅建業者 大阪 会社 メールアドレス",
+    "不動産会社 賃貸 東京 info@ OR contact@ site:co.jp",
+    "不動産会社 売買 東京 メールアドレス site:co.jp",
+    "不動産会社 埼玉 メールアドレス お問い合わせ",
+    "不動産会社 千葉 メールアドレス お問い合わせ",
+    "不動産会社 愛知 メールアドレス お問い合わせ",
+    "不動産会社 兵庫 メールアドレス",
+]
+
+HEADERS_BASE = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+}
 
 
-def _fetch(url: str) -> str:
+def _brave_search(query: str) -> list[dict]:
+    if not BRAVE_KEY:
+        print("BRAVE_API_KEY未設定")
+        return []
     try:
-        req = urllib.request.Request(url, headers=HEADERS)
+        encoded = urllib.parse.quote(query)
+        url = f"https://api.search.brave.com/res/v1/web/search?q={encoded}&count=20&country=JP"
+        req = urllib.request.Request(url, headers={
+            "Accept": "application/json",
+            "X-Subscription-Token": BRAVE_KEY,
+        })
         with urllib.request.urlopen(req, timeout=15) as r:
-            raw = r.read()
+            return json.loads(r.read()).get("web", {}).get("results", [])
+    except Exception as e:
+        print(f"  Brave検索失敗: {e}")
+        return []
+
+
+def _fetch_page(url: str) -> str:
+    try:
+        req = urllib.request.Request(url, headers=HEADERS_BASE)
+        with urllib.request.urlopen(req, timeout=10) as r:
+            raw = r.read(1024 * 150)
             enc = r.headers.get_content_charset("utf-8")
             return raw.decode(enc, errors="ignore")
-    except Exception as e:
-        print(f"  取得失敗: {url} — {e}")
+    except Exception:
         return ""
 
 
+def _emails_from_html(html: str) -> list[str]:
+    found = EMAIL_RE.findall(html)
+    result = []
+    for e in found:
+        e = e.lower().rstrip(".")
+        if any(s in e for s in EMAIL_SKIP):
+            continue
+        # 画像ファイル誤検知を除外（@の後がドメインではなくファイル拡張子）
+        domain = e.split("@")[-1] if "@" in e else ""
+        if any(domain.endswith(ext) for ext in FAKE_TLDS):
+            continue
+        if e not in result:
+            result.append(e)
+    return result[:2]
+
+
+def _load_existing() -> set[str]:
+    if not LEADS_FILE.exists():
+        return set()
+    with open(LEADS_FILE, encoding="utf-8") as f:
+        return {row["email"] for row in csv.DictReader(f)}
+
+
 def main():
-    print("国交省 宅建業者名簿ページにアクセス中...")
-    html = _fetch(MLIT_PAGE)
-    if not html:
-        print("ページ取得失敗")
-        return
+    print("[fetch_leads] Brave Search APIでリード収集開始")
+    existing = _load_existing()
+    print(f"既存: {len(existing)}件")
 
-    # Excelリンクを抽出
-    excel_links = re.findall(r'href="([^"]+\.xlsx?)"', html, re.IGNORECASE)
-    excel_links = [l if l.startswith("http") else MLIT_BASE + l for l in excel_links]
-    print(f"Excelファイル: {len(excel_links)}件")
+    new_count = 0
+    seen_urls = set()
 
-    # 既存URLを読み込み
-    existing = set()
-    if URLS_FILE.exists():
-        existing = {u.strip() for u in URLS_FILE.read_text(encoding="utf-8").splitlines()
-                   if u.strip() and not u.startswith("#")}
+    write_header = not LEADS_FILE.exists()
+    with open(LEADS_FILE, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["company_name", "email", "url"])
+        if write_header:
+            writer.writeheader()
 
-    print(f"\n既存URL: {len(existing)}件")
-    print(f"""
-このスクリプトはExcelダウンロードまで対応しています。
-メアド収集には以下のワークフローを使ってください:
+        for qi, query in enumerate(QUERIES, 1):
+            print(f"\n[{qi}/{len(QUERIES)}] {query[:50]}")
+            results = _brave_search(query)
+            print(f"  検索結果: {len(results)}件")
 
-1. 宅建業者名簿Excel を手動DL（または自動処理が必要なら openpyxl を pip install）
-2. 会社名でGoogle検索 → 公式サイトURLを urls.txt に追加
-3. python collect_leads.py でメアドを一括収集
+            for r in results:
+                url = r.get("url", "")
+                title = r.get("title", "")
+                desc = r.get("description", "")
 
-または、以下のような不動産会社ディレクトリからURLを直接収集:
-- https://www.homes.co.jp/company/      (HOMES 業者一覧)
-- https://www.athome.co.jp/company/     (at home 業者一覧)
-- https://suumo.jp/edit/kyoten/         (SUUMO 業者検索)
+                if not url or any(s in url for s in SITE_SKIP):
+                    continue
 
-これらのページから会社URLをスクレイピングすると効率的です。
-""")
+                base = re.match(r"(https?://[^/]+)", url)
+                site = base.group(1) + "/" if base else url
+                if site in seen_urls:
+                    continue
+                seen_urls.add(site)
 
-    # HOMES業者一覧から直接収集する簡易版
-    print("HOMES業者一覧から収集を試みます...")
-    collected = set()
-    for page in range(1, 6):  # 最初の5ページ
-        url = f"https://www.homes.co.jp/company/list/?page={page}"
-        html = _fetch(url)
-        if not html:
-            break
-        # 業者の公式サイトURLを探す（HOMESの業者ページURLを収集）
-        company_urls = re.findall(r'href="(https://www\.homes\.co\.jp/company/[^"]+/)"', html)
-        for cu in company_urls:
-            if cu not in existing and cu not in collected:
-                collected.add(cu)
-        print(f"  ページ {page}: {len(company_urls)}件")
-        time.sleep(1)
+                # 検索結果のdescriptionからまずメアドを探す
+                emails = _emails_from_html(desc + " " + title)
 
-    if collected:
-        with open(URLS_FILE, "a", encoding="utf-8") as f:
-            for u in sorted(collected):
-                f.write(u + "\n")
-        print(f"\nurls.txt に {len(collected)}件追加しました")
-    else:
-        print("URLを取得できませんでした。手動でurls.txtにURLを追加してください。")
+                # なければサイトを直接フェッチ
+                if not emails:
+                    html = _fetch_page(site)
+                    emails = _emails_from_html(html)
+                    # コンタクトページも試す
+                    if not emails:
+                        for path in ["/contact", "/inquiry", "/about"]:
+                            html2 = _fetch_page(site.rstrip("/") + path)
+                            emails = _emails_from_html(html2)
+                            if emails:
+                                break
+                    time.sleep(1.0)
+
+                for email in emails:
+                    if email in existing:
+                        continue
+                    writer.writerow({
+                        "company_name": title or site,
+                        "email": email,
+                        "url": site,
+                    })
+                    f.flush()
+                    existing.add(email)
+                    new_count += 1
+                    print(f"  取得: {email} / {title[:30]}")
+
+            time.sleep(2)
+
+    print(f"\n完了。新規リード: {new_count}件 / leads.csv合計: {len(existing)}件")
 
 
 if __name__ == "__main__":

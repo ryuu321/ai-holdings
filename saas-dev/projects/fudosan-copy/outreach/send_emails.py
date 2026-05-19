@@ -43,7 +43,7 @@ def _send(to: str, subject: str, body: str) -> bool:
 
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
             smtp.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
-            smtp.sendmail(GMAIL_ADDRESS, [to], msg.as_bytes())
+            smtp.send_message(msg)
         return True
     except Exception as e:
         print(f"    送信失敗: {e}")
@@ -53,7 +53,7 @@ def _send(to: str, subject: str, body: str) -> bool:
 def _load_sent() -> set[str]:
     if not SENT_LOG.exists():
         return set()
-    with open(SENT_LOG, encoding="utf-8") as f:
+    with open(SENT_LOG, encoding="utf-8", newline="") as f:
         return {row["email"] for row in csv.DictReader(f)}
 
 
@@ -61,7 +61,7 @@ def _today_sent_count() -> int:
     if not SENT_LOG.exists():
         return 0
     today = datetime.now().strftime("%Y-%m-%d")
-    with open(SENT_LOG, encoding="utf-8") as f:
+    with open(SENT_LOG, encoding="utf-8", newline="") as f:
         return sum(1 for row in csv.DictReader(f) if row.get("sent_at", "").startswith(today))
 
 
@@ -86,7 +86,7 @@ def main(limit: int = DAILY_LIMIT):
 
     print(f"本日送信済み: {today_count}件 / 残り: {remaining}件")
 
-    with open(DRAFT_FILE, encoding="utf-8") as f:
+    with open(DRAFT_FILE, encoding="utf-8", newline="") as f:
         drafts = list(csv.DictReader(f))
 
     targets = [d for d in drafts if d["status"] == "draft" and d["email"] not in already_sent]
