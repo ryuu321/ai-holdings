@@ -414,3 +414,89 @@ mock_response.text = "CATCH: テスト\nBODY: 短い"
 LONG_BODY = "あ" * 201
 mock_response.text = f"CATCH: テスト\nBODY: {LONG_BODY}"
 ```
+
+---
+
+## Phase 12〜16: GTM（Go-to-Market）フェーズ
+
+> Phase 11 で「作って動かす」まで完了。ここからは「売る」フェーズ。
+> 実装は `shared/gtm/` に共通化されている。`shared/gtm/README.md` を参照。
+
+```
+Phase 12: GTM戦略設計
+Phase 13: リード収集・品質管理
+Phase 14: メッセージング・シーケンス設計
+Phase 15: 送信・追跡・ファネル管理
+Phase 16: PDCAループ
+```
+
+---
+
+### Phase 12: GTM戦略設計
+
+**目的**: 「誰に・何を・どう届けるか」を設計する。Phase 0の「誰が払うか」より具体的。
+
+成果物:
+- `shared/gtm/config/{project}.json` — ICP・チャネル・スコアリングルール
+- ICP定義: 「不動産仲介会社の物件担当」レベルの具体性（「中小企業」はNG）
+- チャネル選定: 無課金縛り内で週何件アプローチできるか数値で定義
+
+**完了基準**: `config/{project}.json` が作成され、ICPスコアリングルールが書かれている。
+
+---
+
+### Phase 13: リード収集・品質管理
+
+**目的**: 「送って恥ずかしくない相手」だけをリストに入れる。量より質。
+
+手順:
+1. `python shared/gtm/leads/qualify_leads.py --project {name} --input leads_raw.csv`
+2. `leads_approved.csv`（80点以上）はそのまま使用
+3. `leads_review.csv`（60-79点）は**人間が目視確認**してから承認/却下を決める
+4. `leads_rejected.csv` は確認不要
+
+**完了基準**: `leads_approved.csv` に最低20件が入っている。
+
+**スキップ禁止理由**: これなしで送ると FudoText の誤送信7件と同じことが起きる。
+
+---
+
+### Phase 14: メッセージング・シーケンス設計
+
+**目的**: 1通目で断られても2通目・3通目で返信をもらえる設計にする。
+
+手順:
+1. `shared/gtm/outreach/templates/` のテンプレートを製品に合わせて編集
+2. `python shared/gtm/outreach/generate_emails.py --project {name}` でドラフト生成
+3. `python shared/gtm/outreach/send_emails.py --project {name} --dry-run` でプレビュー確認
+
+**完了基準**: `--dry-run` で全件の会社名・件名・本文冒頭が正しく表示される。
+
+**禁止事項**: `personalized=False` の件が20%超の場合は Gemini 429 対策をしてから送信。
+
+---
+
+### Phase 15: 送信・追跡・ファネル管理
+
+**目的**: 送った後に何が起きているかを把握する。「送りっぱなし」を終わらせる。
+
+手順:
+1. `python shared/gtm/outreach/send_emails.py --project {name} --limit 30`（最大30件/日）
+2. 返信があったら `shared/gtm/data/{project}/funnel.csv` を手動更新（stage: replied/demo/closed）
+3. `python shared/gtm/analytics/metrics.py --project {name}` でKPI確認
+
+**完了基準**: `metrics.py` で送信数・返信率が数値で出る。
+
+---
+
+### Phase 16: PDCAループ
+
+**目的**: データに基づいてメッセージング・ターゲット・チャネルを改善する。
+
+週次レビュー（毎週月曜5分）:
+1. `metrics.py` で返信率を確認
+2. 返信率 < 2% → 件名またはパーソナライズ冒頭文を変える（A/Bテスト）
+3. 返信率 ≥ 5% → リード収集量を増やす（週50件→100件）
+4. 改善内容を `shared/gtm/config/{project}.json` の `email_template` に反映
+
+**完了基準**: 2週間以上データが蓄積し、件名バリエーションが2件以上ある。
