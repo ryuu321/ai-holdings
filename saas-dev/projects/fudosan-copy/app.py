@@ -33,7 +33,6 @@ _ENTRY = {
 
 
 def _submit_feedback(target: str, platform: str, rating: str, regen_count: int, reasons: str = "") -> None:
-    """Google Form に POST してスプレッドシートへ記録する。失敗してもサイレントに無視する。"""
     try:
         data = {
             _ENTRY["target"]:      target,
@@ -49,12 +48,19 @@ def _submit_feedback(target: str, platform: str, rating: str, regen_count: int, 
     except Exception:
         pass
 
+
 # Streamlit Cloud → st.secrets。ローカル → .env
 if "GEMINI_API_KEY" in st.secrets:
     os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+    os.environ["SUPABASE_URL"] = st.secrets.get("SUPABASE_URL", "")
+    os.environ["SUPABASE_ANON_KEY"] = st.secrets.get("SUPABASE_ANON_KEY", "")
 else:
     from dotenv import load_dotenv
     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "../../.env"))
+
+_USE_DB = bool(os.environ.get("SUPABASE_URL") and os.environ.get("SUPABASE_ANON_KEY"))
+if _USE_DB:
+    from db import get_or_create_user, increment_count, set_plan
 
 FREE_TRIAL_LIMIT = 5
 PAID_PLAN_PRICE = "¥8,980/月"
@@ -67,39 +73,60 @@ st.set_page_config(
 )
 
 # ── セッション状態の初期化 ────────────────────────────────────────────────────
-if "request_count" not in st.session_state:
-    st.session_state.request_count = 0
-if "last_result" not in st.session_state:
-    st.session_state.last_result = None
-if "feedback_sent" not in st.session_state:
-    st.session_state.feedback_sent = False
-if "show_bad_reason" not in st.session_state:
-    st.session_state.show_bad_reason = False
-if "last_target" not in st.session_state:
-    st.session_state.last_target = ""
-if "last_platform" not in st.session_state:
-    st.session_state.last_platform = ""
-if "paid_plan" not in st.session_state:
-    st.session_state.paid_plan = None  # None / "standard" / "pro"
-
-# ── URLパラメータからプラン復元（リロード対応） ────────────────────────────────
-if st.session_state.paid_plan is None:
-    _url_code = st.query_params.get("code", "")
-    if _url_code in _PAID_CODES_PRO:
-        st.session_state.paid_plan = "pro"
-    elif _url_code in _PAID_CODES_STANDARD:
-        st.session_state.paid_plan = "standard"
+for key, default in [
+    ("user_email", None),
+    ("db_loaded", False),
+    ("request_count", 0),
+    ("paid_plan", None),
+    ("last_result", None),
+    ("feedback_sent", False),
+    ("show_bad_reason", False),
+    ("last_target", ""),
+    ("last_platform", ""),
+]:
+    if key not in st.session_state:
+        st.session_state[key] = default
 
 # ── ヘッダー ──────────────────────────────────────────────────────────────────
 st.title("🏠 FudoText — 物件説明文AI生成")
 st.caption("物件情報を入力するだけ。SUUMO/at home/HOMES対応の説明文を30秒で生成します。")
 
-# 残り件数バッジ
+# ── メール入力（初回のみ） ────────────────────────────────────────────────────
+if st.session_state.user_email is None:
+    st.markdown("### 無料トライアルを開始する")
+    st.caption(f"メールアドレスを入力するだけで、今すぐ{FREE_TRIAL_LIMIT}件無料でお試しいただけます。")
+    with st.form("email_form"):
+        email_input = st.text_input("メールアドレス", placeholder="example@company.co.jp")
+        if st.form_submit_button("無料で試す →", type="primary", use_container_width=True):
+            email_input = email_input.strip().lower()
+            if "@" not in email_input or "." not in email_input.split("@")[-1]:
+                st.error("正しいメールアドレスを入力してください。")
+            else:
+                st.session_state.user_email = email_input
+                if _USE_DB:
+                    user = get_or_create_user(email_input)
+                    st.session_state.request_count = user.get("count", 0)
+                    st.session_state.paid_plan = user.get("plan")
+                st.session_state.db_loaded = True
+                st.rerun()
+    st.caption("※ メールアドレスは利用回数管理のみに使用します。スパムメールは送りません。")
+    st.stop()
+
+# ── DB未ロードの場合はロード（セッション復元） ────────────────────────────────
+if not st.session_state.db_loaded and _USE_DB:
+    user = get_or_create_user(st.session_state.user_email)
+    st.session_state.request_count = user.get("count", 0)
+    st.session_state.paid_plan = user.get("plan")
+    st.session_state.db_loaded = True
+
+# ── 残り件数バッジ ────────────────────────────────────────────────────────────
 _plan = st.session_state.paid_plan
 _limit = PLAN_LIMITS.get(_plan, FREE_TRIAL_LIMIT) if _plan else FREE_TRIAL_LIMIT
 remaining = _limit - st.session_state.request_count
+
 if _plan:
-    st.success(f"{'スタンダード' if _plan == 'standard' else 'プロ'}プラン: **{max(0, remaining)} / {_limit}件** 残り（今月）")
+    plan_label = "スタンダード" if _plan == "standard" else "プロ"
+    st.success(f"{plan_label}プラン: **{max(0, remaining)} / {_limit}件** 残り（今月）")
 elif remaining > 0:
     if remaining <= 2:
         st.warning(f"無料トライアル残り **{remaining}件** — 続けて使うには有料プラン（{PAID_PLAN_PRICE}）をご検討ください。")
@@ -108,7 +135,10 @@ elif remaining > 0:
 
 # ── 上限到達時: 有料プランCTA ─────────────────────────────────────────────────
 if st.session_state.request_count >= _limit:
-    st.error("無料トライアル（5件）を使い切りました。")
+    if _plan:
+        st.error(f"今月の上限（{_limit}件）に達しました。プランアップグレードをご検討ください。")
+    else:
+        st.error(f"無料トライアル（{FREE_TRIAL_LIMIT}件）を使い切りました。")
     st.markdown("---")
     st.markdown("### 📋 有料プランのご案内")
     col_plan1, col_plan2 = st.columns(2)
@@ -123,7 +153,7 @@ if st.session_state.request_count >= _limit:
     with col_plan2:
         st.markdown(f"""
 **プロプラン**
-- 月無制限
+- 月200件まで生成
 - 複数ユーザー対応
 - 優先サポート
 - **¥19,800/月**
@@ -150,17 +180,18 @@ if st.session_state.request_count >= _limit:
     if st.button("コードで解除する", type="secondary"):
         c = code_input.strip()
         if c in _PAID_CODES_PRO:
-            st.session_state.paid_plan = "pro"
-            st.session_state.request_count = 0
-            st.query_params["code"] = c
-            st.rerun()
+            new_plan = "pro"
         elif c in _PAID_CODES_STANDARD:
-            st.session_state.paid_plan = "standard"
-            st.session_state.request_count = 0
-            st.query_params["code"] = c
-            st.rerun()
+            new_plan = "standard"
         else:
+            new_plan = None
             st.error("コードが正しくありません。メールに記載のコードをご確認ください。")
+        if new_plan:
+            st.session_state.paid_plan = new_plan
+            st.session_state.request_count = 0
+            if _USE_DB:
+                set_plan(st.session_state.user_email, new_plan)
+            st.rerun()
     st.stop()
 
 # ── 入力フォーム ──────────────────────────────────────────────────────────────
@@ -220,20 +251,24 @@ if submitted:
     if not result["ok"]:
         st.error(result["error"])
     else:
-        st.session_state.request_count += 1
+        if _USE_DB:
+            new_count = increment_count(st.session_state.user_email)
+            st.session_state.request_count = new_count
+        else:
+            st.session_state.request_count += 1
         st.session_state.last_result = result
         st.session_state.feedback_sent = False
         st.session_state.last_target = target
         st.session_state.last_platform = platform
 
-# ── 結果表示（session_state から常に描画）────────────────────────────────────
+# ── 結果表示 ──────────────────────────────────────────────────────────────────
 if st.session_state.get("last_result"):
     result = st.session_state.last_result
     platform_info = PLATFORMS[st.session_state.last_platform]
 
     st.success("生成完了！内容を確認してから貼り付けてください。")
     st.caption(f"プロンプトバージョン: {result.get('prompt_version', '?')}　"
-               f"今回のセッションで{st.session_state.request_count}回目の生成")
+               f"今月{st.session_state.request_count}件目の生成")
 
     st.subheader(platform_info["catch_label"])
     catch_color = "🟢" if result["catch_len"] <= result["catch_max"] else "🔴"
@@ -265,7 +300,7 @@ if st.session_state.get("last_result") and not st.session_state.get("feedback_se
                 regen_count=regen,
             )
             st.session_state.feedback_sent = True
-            st.success(f"ありがとうございます！（{regen}回目の生成で満足）")
+            st.success(f"ありがとうございます！（{regen}件目の生成で満足）")
     with col_bad:
         if st.button("👎 使えなかった", use_container_width=True):
             st.session_state.show_bad_reason = True
@@ -294,7 +329,7 @@ st.divider()
 
 col_a, col_b = st.columns(2)
 with col_a:
-    st.caption("**無料: 月5件** / 有料: ¥8,980〜/月 | 📧 ryuumg03@gmail.com")
+    st.caption("**無料: 5件** / 有料: ¥8,980〜/月 | 📧 ryuumg03@gmail.com")
 with col_b:
     mailto = f"mailto:{CONTACT_EMAIL}?subject=FudoText%20有料プラン申込&body=プラン名:%0A会社名:%0A担当者名:%0Aご質問:"
     st.markdown(f'<a href="{mailto}" style="font-size:0.8rem;">有料プランのお問い合わせ</a>', unsafe_allow_html=True)
@@ -311,18 +346,20 @@ with st.expander("利用規約"):
 
 **第5条（知的財産）** システム・デザインの権利は運営者に帰属します。生成文章の著作権は利用者に帰属します。
 
-**第6条（個人情報）** 入力情報はサーバーに保存しません。詳細はプライバシーポリシーをご参照ください。
+**第6条（個人情報）** 利用回数管理のためメールアドレスを収集します。詳細はプライバシーポリシーをご参照ください。
 
 **第7条（準拠法）** 本規約は日本法に準拠します。紛争は運営者所在地の管轄裁判所を第一審とします。
 """)
 
 with st.expander("プライバシーポリシー"):
     st.markdown("""
-**収集する情報:** 入力された物件情報はAI生成のみに使用し、サーバーには**保存しません**。セッション終了とともに消去されます。
+**収集する情報:** メールアドレス（利用回数管理のため）。入力された物件情報はAI生成のみに使用します。
 
-**収集しない情報:** 氏名・住所・電話番号等の個人情報、IPログ、Cookie追跡は行いません。
+**保存期間:** メールアドレスおよび利用回数はサービス利用中のみ保持します。
 
-**第三者提供:** 文章生成のためGoogle Gemini API（Google LLC）に物件情報を送信します。それ以外の第三者提供はありません。
+**収集しない情報:** 氏名・住所・電話番号等、IPログ、Cookie追跡は行いません。
+
+**第三者提供:** 文章生成のためGoogle Gemini API（Google LLC）に物件情報を送信します。利用回数管理のためSupabase（Supabase Inc.）にメールアドレスを保存します。それ以外の第三者提供はありません。
 
 **お問い合わせ:** ryuumg03@gmail.com
 """)
@@ -334,7 +371,7 @@ with st.expander("特定商取引法に基づく表記"):
 | 販売事業者 | 請求があり次第、遅滞なく開示します |
 | 所在地 | 請求があり次第、遅滞なく開示します |
 | メールアドレス | ryuumg03@gmail.com |
-| 販売価格 | スタンダード ¥8,980/月 / プロ ¥19,800/月（無料トライアル: 月5件まで） |
+| 販売価格 | スタンダード ¥8,980/月 / プロ ¥19,800/月（無料トライアル: 5件まで） |
 | 支払方法 | 銀行振込 / その他（お申し込み後にご案内） |
 | 返品・キャンセル | デジタルサービスのため提供済み期間の返金不可。翌月更新日前日までの解約で翌月以降の請求なし。 |
 
