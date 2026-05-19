@@ -18,6 +18,9 @@ def _headers() -> dict:
 
 def _url(table: str, query: str = "") -> str:
     base = os.environ["SUPABASE_URL"].strip().rstrip("/")
+    # Secretsに /rest/v1 が含まれている場合は除去
+    if base.endswith("/rest/v1"):
+        base = base[:-len("/rest/v1")]
     url = f"{base}/rest/v1/{table}"
     if query:
         url += f"?{query}"
