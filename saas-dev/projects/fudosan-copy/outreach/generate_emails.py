@@ -18,7 +18,7 @@ DRAFT_FILE = _DIR / "emails_draft.csv"
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 MODEL = "gemini-2.0-flash-lite"
 APP_URL = "https://ai-holdings-jarqe7ynu8kkyqsuxdrabs.streamlit.app/"
-LP_URL = "https://ryuu321.github.io/ai-holdings/fudotext.html"
+LP_URL = "https://ryuu321.github.io/ai-holdings/docs/fudotext.html"
 
 # 正しい日本語ビジネスメール形式
 BASE_TEMPLATE = """{company_name}

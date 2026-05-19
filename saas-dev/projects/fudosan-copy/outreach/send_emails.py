@@ -35,6 +35,9 @@ _DIR = Path(__file__).parent
 DRAFT_FILE = _DIR / "emails_draft.csv"
 SENT_LOG = _DIR / "sent_log.csv"
 
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=_DIR.parent.parent.parent.parent / ".env")
+
 GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 
@@ -140,9 +143,9 @@ def main(limit: int = DAILY_LIMIT, dry_run: bool = False, preview_n: int = 0, te
         if not GMAIL_ADDRESS or not GMAIL_APP_PASSWORD:
             print("環境変数 GMAIL_ADDRESS / GMAIL_APP_PASSWORD が未設定です。")
             return
-        draft = next((d for d in drafts if d.get("status") == "draft"), None)
+        draft = next((d for d in drafts if d.get("status") == "draft"), None) or (drafts[0] if drafts else None)
         if not draft:
-            print("送信可能なドラフトがありません。")
+            print("ドラフトが1件もありません。")
             return
         print(f"テスト送信: {test_to}")
         ok = _send(test_to, f"【テスト】{draft['subject']}", draft["body"])
