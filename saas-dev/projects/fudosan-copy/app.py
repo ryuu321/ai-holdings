@@ -82,6 +82,14 @@ if "last_platform" not in st.session_state:
 if "paid_plan" not in st.session_state:
     st.session_state.paid_plan = None  # None / "standard" / "pro"
 
+# ── URLパラメータからプラン復元（リロード対応） ────────────────────────────────
+if st.session_state.paid_plan is None:
+    _url_code = st.query_params.get("code", "")
+    if _url_code in _PAID_CODES_PRO:
+        st.session_state.paid_plan = "pro"
+    elif _url_code in _PAID_CODES_STANDARD:
+        st.session_state.paid_plan = "standard"
+
 # ── ヘッダー ──────────────────────────────────────────────────────────────────
 st.title("🏠 FudoText — 物件説明文AI生成")
 st.caption("物件情報を入力するだけ。SUUMO/at home/HOMES対応の説明文を30秒で生成します。")
@@ -144,10 +152,12 @@ if st.session_state.request_count >= _limit:
         if c in _PAID_CODES_PRO:
             st.session_state.paid_plan = "pro"
             st.session_state.request_count = 0
+            st.query_params["code"] = c
             st.rerun()
         elif c in _PAID_CODES_STANDARD:
             st.session_state.paid_plan = "standard"
             st.session_state.request_count = 0
+            st.query_params["code"] = c
             st.rerun()
         else:
             st.error("コードが正しくありません。メールに記載のコードをご確認ください。")
