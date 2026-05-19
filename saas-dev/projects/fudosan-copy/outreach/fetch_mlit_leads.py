@@ -10,10 +10,17 @@ import re
 import time
 import urllib.parse
 import urllib.request
+import urllib.robotparser
 from pathlib import Path
 
 _DIR = Path(__file__).parent
 LEADS_FILE = _DIR / "leads.csv"
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=_DIR.parent.parent.parent.parent / ".env")
+except ImportError:
+    pass
 
 BRAVE_KEY = os.environ.get("BRAVE_API_KEY", "")
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
@@ -27,26 +34,70 @@ SITE_SKIP = ["suumo.jp", "homes.co.jp", "athome.co.jp", "chintai.net",
              "wikipedia", "google", "yahoo", "twitter", "facebook", "instagram"]
 
 QUERIES = [
-    "不動産仲介会社 東京 メールアドレス お問い合わせ",
-    "不動産仲介会社 大阪 メールアドレス お問い合わせ",
-    "不動産仲介会社 名古屋 メールアドレス",
-    "不動産仲介会社 福岡 メールアドレス",
-    "不動産仲介会社 横浜 メールアドレス",
-    "不動産仲介会社 札幌 メールアドレス",
-    "不動産仲介会社 神戸 メールアドレス",
-    "宅建業者 東京 会社 メールアドレス",
-    "宅建業者 大阪 会社 メールアドレス",
-    "不動産会社 賃貸 東京 info@ OR contact@ site:co.jp",
-    "不動産会社 売買 東京 メールアドレス site:co.jp",
-    "不動産会社 埼玉 メールアドレス お問い合わせ",
-    "不動産会社 千葉 メールアドレス お問い合わせ",
-    "不動産会社 愛知 メールアドレス お問い合わせ",
-    "不動産会社 兵庫 メールアドレス",
+    # 関東
+    "不動産仲介 東京 賃貸 会社概要 お問い合わせ メール",
+    "賃貸仲介 東京都 株式会社 contact info@",
+    "不動産会社 埼玉 さいたま市 賃貸 お問い合わせ",
+    "不動産仲介 千葉市 賃貸 株式会社 メールアドレス",
+    "不動産仲介 横浜市 賃貸 株式会社 メールアドレス",
+    "不動産仲介 川崎市 賃貸 contact メールアドレス",
+    # 関西
+    "不動産仲介 大阪市 賃貸 株式会社 メールアドレス",
+    "賃貸仲介 京都市 不動産 株式会社 info@",
+    "不動産仲介 神戸市 賃貸 メールアドレス お問い合わせ",
+    "不動産会社 兵庫県 賃貸 株式会社 info@",
+    "不動産仲介 奈良 賃貸 株式会社 メールアドレス",
+    # 中部
+    "不動産仲介 名古屋市 賃貸 株式会社 info@",
+    "不動産会社 静岡 賃貸仲介 株式会社 メールアドレス",
+    "不動産仲介 浜松 賃貸 株式会社 contact",
+    "不動産会社 金沢 石川県 賃貸 info@",
+    # 九州・中国
+    "不動産仲介 福岡市 賃貸 株式会社 メールアドレス",
+    "不動産会社 北九州 賃貸仲介 info@",
+    "不動産仲介 広島市 賃貸 株式会社 info@",
+    "不動産会社 岡山 賃貸仲介 株式会社 メールアドレス",
+    # 北海道・東北
+    "不動産仲介 仙台市 賃貸 株式会社 info@",
+    "不動産会社 旭川 賃貸仲介 メールアドレス",
+    # 一般
+    "地域密着 不動産仲介 賃貸 株式会社 co.jp メールアドレス",
+    "不動産会社 地元 賃貸管理 仲介 問い合わせメール",
+    "賃貸不動産 中小企業 仲介 株式会社 info@",
+    "不動産仲介 独立系 賃貸 株式会社 info@",
+    "アパート賃貸 管理会社 仲介 株式会社 メールアドレス",
+    "マンション賃貸 仲介 地域 株式会社 co.jp info@",
+    "不動産屋 賃貸 地元 株式会社 info@",
+    "住宅賃貸 仲介 株式会社 メールアドレス 問い合わせ",
+    "賃貸物件 仲介業者 株式会社 info@ co.jp",
 ]
 
 HEADERS_BASE = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    # 正直なボット UA。robots.txt を尊重するため偽称しない
+    "User-Agent": "FudoTextBot/1.0 (+mailto:ryuumg03@gmail.com)",
 }
+
+_robots_cache: dict = {}
+
+
+def _can_fetch(url: str) -> bool:
+    """robots.txt を確認してクロール許可かチェック。読み取り失敗は許可扱い。"""
+    base = re.match(r"(https?://[^/]+)", url)
+    if not base:
+        return True
+    origin = base.group(1)
+    if origin in _robots_cache:
+        rp = _robots_cache[origin]
+        return rp.can_fetch(HEADERS_BASE["User-Agent"], url) if rp else True
+    rp = urllib.robotparser.RobotFileParser()
+    rp.set_url(f"{origin}/robots.txt")
+    try:
+        rp.read()
+        _robots_cache[origin] = rp
+    except Exception:
+        _robots_cache[origin] = None
+        return True
+    return rp.can_fetch(HEADERS_BASE["User-Agent"], url)
 
 
 def _brave_search(query: str) -> list[dict]:
@@ -137,14 +188,20 @@ def main():
                 # 検索結果のdescriptionからまずメアドを探す
                 emails = _emails_from_html(desc + " " + title)
 
-                # なければサイトを直接フェッチ
+                # なければサイトを直接フェッチ（robots.txt 許可確認後）
                 if not emails:
+                    if not _can_fetch(site):
+                        print(f"  robots.txt 拒否: {site}")
+                        continue
                     html = _fetch_page(site)
                     emails = _emails_from_html(html)
                     # コンタクトページも試す
                     if not emails:
                         for path in ["/contact", "/inquiry", "/about"]:
-                            html2 = _fetch_page(site.rstrip("/") + path)
+                            contact_url = site.rstrip("/") + path
+                            if not _can_fetch(contact_url):
+                                continue
+                            html2 = _fetch_page(contact_url)
                             emails = _emails_from_html(html2)
                             if emails:
                                 break

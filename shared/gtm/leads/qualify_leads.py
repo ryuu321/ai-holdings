@@ -16,7 +16,10 @@ import sys
 from pathlib import Path
 
 if sys.platform == "win32":
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, Exception):
+        pass  # pytest / non-reconfigurable stdout
 
 _GTM_DIR = Path(__file__).parent.parent
 
@@ -29,6 +32,13 @@ def load_config(project: str) -> dict:
         return json.load(f)
 
 
+_PLACEHOLDER_DOMAINS = {
+    "sample.co.jp", "sample.jp", "mail.jp",
+    "example.com", "example.co.jp", "example.jp",
+    "test.com", "noreply.com",
+}
+
+
 def score_lead(company_name: str, email: str, url: str, cfg: dict) -> tuple[int, list[str]]:
     """
     ICP適合度を 0-100点で採点する。
@@ -39,6 +49,11 @@ def score_lead(company_name: str, email: str, url: str, cfg: dict) -> tuple[int,
     score = 0
     reasons = []
 
+    # placeholderドメインチェック（sample.co.jp等は自動却下）
+    domain = email.split("@")[-1].lower() if "@" in email else ""
+    if domain in _PLACEHOLDER_DOMAINS:
+        return 0, ["-100: placeholderドメイン（送信禁止）"]
+
     # ターゲットキーワードチェック（URL + 会社名）
     text = f"{company_name} {url}".lower()
     hit = any(kw in text for kw in icp["target_keywords"])
@@ -46,14 +61,13 @@ def score_lead(company_name: str, email: str, url: str, cfg: dict) -> tuple[int,
         score += scoring["target_keyword_hit"]
         reasons.append(f"+{scoring['target_keyword_hit']}: ターゲットキーワード一致")
 
-    # ドメインチェック
-    domain = email.split("@")[-1].lower() if "@" in email else ""
-    if any(domain.endswith(s) for s in icp["good_domain_suffixes"]):
-        score += scoring["good_domain"]
-        reasons.append(f"+{scoring['good_domain']}: 法人ドメイン ({domain})")
-    elif any(domain.endswith(s) for s in icp["bad_domain_suffixes"]):
+    # ドメインチェック（bad を先にチェック: yahoo.co.jp は co.jp にもマッチするため）
+    if any(domain.endswith(s) for s in icp["bad_domain_suffixes"]):
         score += scoring["bad_domain_penalty"]
         reasons.append(f"{scoring['bad_domain_penalty']}: 個人/フリーメール ({domain})")
+    elif any(domain.endswith(s) for s in icp["good_domain_suffixes"]):
+        score += scoring["good_domain"]
+        reasons.append(f"+{scoring['good_domain']}: 法人ドメイン ({domain})")
 
     # 会社種別チェック
     company_types = ["株式会社", "有限会社", "合同会社", "一般社団法人", "公益社団法人"]

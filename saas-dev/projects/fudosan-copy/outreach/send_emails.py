@@ -24,12 +24,15 @@ import os
 import smtplib
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from email.mime.text import MIMEText
 from pathlib import Path
 
 if sys.platform == "win32":
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, Exception):
+        pass  # pytest / non-reconfigurable stdout
 
 _DIR = Path(__file__).parent
 DRAFT_FILE = _DIR / "emails_draft.csv"
@@ -115,7 +118,16 @@ def _preview_drafts(drafts: list[dict], limit: int) -> None:
     print(f"合計 {len(targets)}件を送信予定でした（実際には送信しませんでした）")
 
 
-def main(limit: int = DAILY_LIMIT, dry_run: bool = False, preview_n: int = 0, test_to: str = ""):
+def main(limit: int = DAILY_LIMIT, dry_run: bool = False, preview_n: int = 0, test_to: str = "", force_send: bool = False):
+    # 送信可能時間帯チェックを最初に行う（ファイル確認より先）
+    if not dry_run and not preview_n and not test_to:
+        now_jst = (datetime.now(timezone.utc).hour + 9) % 24
+        if not force_send and not (9 <= now_jst < 18):
+            print(f"送信停止: 現在 JST {now_jst}時台です。")
+            print("ビジネスメールの送信は JST 9:00〜18:00 に限定しています。")
+            print("時間帯を無視して送信する場合は --force-send フラグを使用してください。")
+            return
+
     if not DRAFT_FILE.exists():
         print("emails_draft.csv が見つかりません。generate_emails.py を先に実行してください。")
         return
@@ -240,5 +252,6 @@ if __name__ == "__main__":
     parser.add_argument("--dry-run", action="store_true", help="送信せずプレビューのみ")
     parser.add_argument("--preview", type=int, metavar="N", default=0, help="N番目のドラフト本文を全表示")
     parser.add_argument("--test-to", type=str, default="", metavar="EMAIL", help="指定メアドにテスト送信")
+    parser.add_argument("--force-send", action="store_true", help="時間帯チェックを無視して送信（非推奨）")
     args = parser.parse_args()
-    main(limit=args.limit, dry_run=args.dry_run, preview_n=args.preview, test_to=args.test_to)
+    main(limit=args.limit, dry_run=args.dry_run, preview_n=args.preview, test_to=args.test_to, force_send=args.force_send)
