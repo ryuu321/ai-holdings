@@ -1,64 +1,80 @@
-"""Supabase経由でトライアル使用量とアクセスコードを管理する。"""
+"""Supabase REST APIを直接呼び出してトライアル使用量とコードを管理する。"""
 import os
-from supabase import create_client, Client
+import urllib.request
+import urllib.parse
+import json
 
-_client: Client | None = None
+
+def _headers() -> dict:
+    key = os.environ["SUPABASE_ANON_KEY"].strip()
+    return {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "Prefer": "return=representation",
+    }
 
 
-def _get_client() -> Client:
-    global _client
-    if _client is None:
-        url = os.environ["SUPABASE_URL"].rstrip("/")
-        key = os.environ["SUPABASE_ANON_KEY"].strip()
-        _client = create_client(url, key)
-    return _client
+def _url(table: str, query: str = "") -> str:
+    base = os.environ["SUPABASE_URL"].rstrip("/")
+    url = f"{base}/rest/v1/{table}"
+    if query:
+        url += f"?{query}"
+    return url
+
+
+def _get(table: str, query: str) -> list:
+    req = urllib.request.Request(_url(table, query), headers=_headers())
+    with urllib.request.urlopen(req, timeout=10) as res:
+        return json.loads(res.read())
+
+
+def _post(table: str, data: dict) -> dict:
+    payload = json.dumps(data).encode()
+    req = urllib.request.Request(_url(table), data=payload, headers=_headers(), method="POST")
+    with urllib.request.urlopen(req, timeout=10) as res:
+        result = json.loads(res.read())
+        return result[0] if isinstance(result, list) else result
+
+
+def _patch(table: str, query: str, data: dict) -> None:
+    payload = json.dumps(data).encode()
+    req = urllib.request.Request(_url(table, query), data=payload, headers=_headers(), method="PATCH")
+    with urllib.request.urlopen(req, timeout=10) as res:
+        res.read()
 
 
 def get_or_create_user(email: str) -> dict:
-    sb = _get_client()
-    try:
-        res = sb.table("trials").select("*").eq("email", email).execute()
-    except Exception as e:
-        raise RuntimeError(f"Supabase SELECT failed: {type(e).__name__}: {str(e)[:200]}") from None
-    if res.data:
-        return res.data[0]
-    try:
-        sb.table("trials").insert({"email": email, "count": 0, "plan": None}).execute()
-    except Exception as e:
-        raise RuntimeError(f"Supabase INSERT failed: {type(e).__name__}: {str(e)[:200]}") from None
-    return {"email": email, "count": 0, "plan": None}
+    rows = _get("trials", f"email=eq.{urllib.parse.quote(email)}&select=*")
+    if rows:
+        return rows[0]
+    return _post("trials", {"email": email, "count": 0, "plan": None})
 
 
 def increment_count(email: str) -> int:
-    sb = _get_client()
     user = get_or_create_user(email)
     new_count = user["count"] + 1
-    sb.table("trials").update({"count": new_count}).eq("email", email).execute()
+    _patch("trials", f"email=eq.{urllib.parse.quote(email)}", {"count": new_count})
     return new_count
 
 
 def set_plan(email: str, plan: str) -> None:
-    sb = _get_client()
-    sb.table("trials").upsert({"email": email, "count": 0, "plan": plan}).execute()
+    rows = _get("trials", f"email=eq.{urllib.parse.quote(email)}&select=email")
+    if rows:
+        _patch("trials", f"email=eq.{urllib.parse.quote(email)}", {"count": 0, "plan": plan})
+    else:
+        _post("trials", {"email": email, "count": 0, "plan": plan})
 
 
 def validate_code(code: str) -> str | None:
-    """コードを検証してプラン名を返す。無効なら None。"""
-    sb = _get_client()
-    res = sb.table("codes").select("plan").eq("code", code).eq("active", True).execute()
-    if res.data:
-        return res.data[0]["plan"]
-    return None
+    rows = _get("codes", f"code=eq.{urllib.parse.quote(code)}&active=eq.true&select=plan")
+    return rows[0]["plan"] if rows else None
 
 
 def issue_code(company: str, plan: str) -> str:
-    """新しいアクセスコードを発行してコード文字列を返す。"""
-    sb = _get_client()
-    res = sb.table("codes").insert({"company": company, "plan": plan}).execute()
-    return res.data[0]["code"]
+    result = _post("codes", {"company": company, "plan": plan})
+    return result["code"]
 
 
 def revoke_code(code: str) -> None:
-    """コードを無効化する。"""
-    sb = _get_client()
-    sb.table("codes").update({"active": False}).eq("code", code).execute()
+    _patch("codes", f"code=eq.{urllib.parse.quote(code)}", {"active": False})
