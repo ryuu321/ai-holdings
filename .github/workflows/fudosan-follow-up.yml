@@ -8,8 +8,6 @@ on:
 jobs:
   follow-up:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - uses: actions/checkout@v5
@@ -21,16 +19,38 @@ jobs:
       - name: Install dependencies
         run: pip install python-dotenv
 
+      - name: Restore sent_log from Gist
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.SENT_LOG_GIST_ID }}
+        run: |
+          curl -sf -H "Authorization: token $GIST_TOKEN" \
+            "https://api.github.com/gists/$GIST_ID" \
+            | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          content = data['files'].get('sent_log.csv', {}).get('content', '')
+          print(content, end='')
+          " > saas-dev/projects/fudosan-copy/outreach/sent_log.csv || echo "Gist取得失敗: 既存ファイルを使用"
+
       - name: Run follow-up
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python saas-dev/projects/fudosan-copy/outreach/follow_up.py --days 7 --force-send
+        run: python saas-dev/projects/fudosan-copy/outreach/follow_up.py --days 7
 
-      - name: Commit updated sent_log
+      - name: Upload sent_log to Gist
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.SENT_LOG_GIST_ID }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add saas-dev/projects/fudosan-copy/outreach/sent_log.csv
-          git diff --staged --quiet || git commit -m "bot(fudosan): follow-up $(date +%Y-%m-%d) [skip ci]"
-          git push
+          python3 -c "
+          import json
+          content = open('saas-dev/projects/fudosan-copy/outreach/sent_log.csv', encoding='utf-8').read()
+          print(json.dumps({'files': {'sent_log.csv': {'content': content}}}))
+          " | curl -sf -X PATCH \
+            -H "Authorization: token $GIST_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @- \
+            "https://api.github.com/gists/$GIST_ID"
+          echo "sent_log.csv をGistに保存しました"
