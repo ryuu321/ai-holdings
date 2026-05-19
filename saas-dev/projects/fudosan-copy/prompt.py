@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from google import genai
 from domain_knowledge import PROMPT_VERSION, TARGET_APPEAL as _TARGET_APPEAL, CONVERSION_TIPS as _CONVERSION_TIPS
 
@@ -97,7 +98,11 @@ BODY: （物件説明文本文のみ）"""
         except Exception as e:
             err_str = str(e)
             if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
-                return {"ok": False, "error": "APIの利用上限に達しました。しばらく待ってから再試行してください。", "error_type": "quota"}
+                if attempt < 2:
+                    wait = 2 ** (attempt + 1)  # 2s, 4s
+                    time.sleep(wait)
+                    continue
+                return {"ok": False, "error": "AIが混み合っています（数秒後にもう一度お試しください）。", "error_type": "quota"}
             if attempt < 2:
                 continue
             return {"ok": False, "error": "AI接続エラーが発生しました。再試行してください。", "error_type": "api_error"}

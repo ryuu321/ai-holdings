@@ -7,6 +7,19 @@ from prompt import generate, PROMPT_VERSION
 from validation import validate_inputs, ValidationError, EXTRA_MAX
 
 FEEDBACK_FORM_URL = st.secrets.get("FEEDBACK_FORM_URL", "")
+STRIPE_STANDARD_URL = st.secrets.get("STRIPE_STANDARD_URL", "")
+STRIPE_PRO_URL = st.secrets.get("STRIPE_PRO_URL", "")
+_PAID_CODES_STANDARD: set = set(
+    c.strip() for c in st.secrets.get("PAID_CODES_STANDARD", "").split(",") if c.strip()
+)
+_PAID_CODES_PRO: set = set(
+    c.strip() for c in st.secrets.get("PAID_CODES_PRO", "").split(",") if c.strip()
+)
+
+PLAN_LIMITS = {
+    "standard": 50,
+    "pro": 200,
+}
 
 _FORM_ID = "1FAIpQLSdJbKRfutIcFXqWVwTgqX7-JnxIk2niVEZjBzIm4u3Lw9UMmA"
 _FORM_SUBMIT_URL = f"https://docs.google.com/forms/d/e/{_FORM_ID}/formResponse"
@@ -66,21 +79,27 @@ if "last_target" not in st.session_state:
     st.session_state.last_target = ""
 if "last_platform" not in st.session_state:
     st.session_state.last_platform = ""
+if "paid_plan" not in st.session_state:
+    st.session_state.paid_plan = None  # None / "standard" / "pro"
 
 # ── ヘッダー ──────────────────────────────────────────────────────────────────
 st.title("🏠 FudoText — 物件説明文AI生成")
 st.caption("物件情報を入力するだけ。SUUMO/at home/HOMES対応の説明文を30秒で生成します。")
 
 # 残り件数バッジ
-remaining = FREE_TRIAL_LIMIT - st.session_state.request_count
-if remaining > 0:
+_plan = st.session_state.paid_plan
+_limit = PLAN_LIMITS.get(_plan, FREE_TRIAL_LIMIT) if _plan else FREE_TRIAL_LIMIT
+remaining = _limit - st.session_state.request_count
+if _plan:
+    st.success(f"{'スタンダード' if _plan == 'standard' else 'プロ'}プラン: **{max(0, remaining)} / {_limit}件** 残り（今月）")
+elif remaining > 0:
     if remaining <= 2:
         st.warning(f"無料トライアル残り **{remaining}件** — 続けて使うには有料プラン（{PAID_PLAN_PRICE}）をご検討ください。")
     else:
         st.info(f"無料トライアル: **{remaining} / {FREE_TRIAL_LIMIT}件** 残り")
 
 # ── 上限到達時: 有料プランCTA ─────────────────────────────────────────────────
-if st.session_state.request_count >= FREE_TRIAL_LIMIT:
+if st.session_state.request_count >= _limit:
     st.error("無料トライアル（5件）を使い切りました。")
     st.markdown("---")
     st.markdown("### 📋 有料プランのご案内")
@@ -102,9 +121,36 @@ if st.session_state.request_count >= FREE_TRIAL_LIMIT:
 - **¥19,800/月**
 """)
     st.markdown("---")
-    mailto = f"mailto:{CONTACT_EMAIL}?subject=FudoText%20有料プラン申込&body=プラン名:%0A会社名:%0A担当者名:%0Aご質問:"
-    st.link_button("📧 有料プランに申し込む（メールで問い合わせ）", mailto, type="primary", use_container_width=True)
-    st.caption(f"※ 現在はメール受付での対応となります。折り返し1営業日以内にご連絡します。")
+    col_cta1, col_cta2 = st.columns(2)
+    with col_cta1:
+        if STRIPE_STANDARD_URL:
+            st.link_button("💳 スタンダードに申し込む", STRIPE_STANDARD_URL, type="primary", use_container_width=True)
+        else:
+            mailto_std = f"mailto:{CONTACT_EMAIL}?subject=FudoText%20スタンダードプラン申込&body=会社名:%0A担当者名:%0A"
+            st.link_button("📧 スタンダードに申し込む", mailto_std, type="primary", use_container_width=True)
+    with col_cta2:
+        if STRIPE_PRO_URL:
+            st.link_button("💳 プロプランに申し込む", STRIPE_PRO_URL, use_container_width=True)
+        else:
+            mailto_pro = f"mailto:{CONTACT_EMAIL}?subject=FudoText%20プロプラン申込&body=会社名:%0A担当者名:%0A"
+            st.link_button("📧 プロプランに申し込む", mailto_pro, use_container_width=True)
+    st.caption("※ お申し込み後、アクセスコードをメールでお送りします。")
+
+    st.markdown("---")
+    st.markdown("#### すでにアクセスコードをお持ちの方")
+    code_input = st.text_input("アクセスコードを入力", placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", label_visibility="collapsed")
+    if st.button("コードで解除する", type="secondary"):
+        c = code_input.strip()
+        if c in _PAID_CODES_PRO:
+            st.session_state.paid_plan = "pro"
+            st.session_state.request_count = 0
+            st.rerun()
+        elif c in _PAID_CODES_STANDARD:
+            st.session_state.paid_plan = "standard"
+            st.session_state.request_count = 0
+            st.rerun()
+        else:
+            st.error("コードが正しくありません。メールに記載のコードをご確認ください。")
     st.stop()
 
 # ── 入力フォーム ──────────────────────────────────────────────────────────────
