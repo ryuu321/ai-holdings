@@ -1,6 +1,7 @@
 """Supabase REST APIを直接呼び出してトライアル使用量とコードを管理する。"""
 import os
 import urllib.request
+import urllib.error
 import urllib.parse
 import json
 
@@ -16,11 +17,16 @@ def _headers() -> dict:
 
 
 def _url(table: str, query: str = "") -> str:
-    base = os.environ["SUPABASE_URL"].rstrip("/")
+    base = os.environ["SUPABASE_URL"].strip().rstrip("/")
     url = f"{base}/rest/v1/{table}"
     if query:
         url += f"?{query}"
     return url
+
+
+def _debug_url() -> str:
+    base = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
+    return f"{base}/rest/v1/trials"
 
 
 def _get(table: str, query: str) -> list:
@@ -45,10 +51,18 @@ def _patch(table: str, query: str, data: dict) -> None:
 
 
 def get_or_create_user(email: str) -> dict:
-    rows = _get("trials", f"email=eq.{urllib.parse.quote(email)}&select=*")
+    try:
+        rows = _get("trials", f"email=eq.{urllib.parse.quote(email)}&select=*")
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()[:200]
+        raise RuntimeError(f"GET {_debug_url()} → {e.code}: {body}") from None
     if rows:
         return rows[0]
-    return _post("trials", {"email": email, "count": 0, "plan": None})
+    try:
+        return _post("trials", {"email": email, "count": 0, "plan": None})
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()[:200]
+        raise RuntimeError(f"POST {_debug_url()} → {e.code}: {body}") from None
 
 
 def increment_count(email: str) -> int:
