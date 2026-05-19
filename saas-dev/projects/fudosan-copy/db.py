@@ -16,10 +16,16 @@ def _get_client() -> Client:
 
 def get_or_create_user(email: str) -> dict:
     sb = _get_client()
-    res = sb.table("trials").select("*").eq("email", email).execute()
+    try:
+        res = sb.table("trials").select("*").eq("email", email).execute()
+    except Exception as e:
+        raise RuntimeError(f"Supabase SELECT failed: {type(e).__name__}: {str(e)[:200]}") from None
     if res.data:
         return res.data[0]
-    sb.table("trials").insert({"email": email, "count": 0, "plan": None}).execute()
+    try:
+        sb.table("trials").insert({"email": email, "count": 0, "plan": None}).execute()
+    except Exception as e:
+        raise RuntimeError(f"Supabase INSERT failed: {type(e).__name__}: {str(e)[:200]}") from None
     return {"email": email, "count": 0, "plan": None}
 
 
