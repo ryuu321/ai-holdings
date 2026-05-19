@@ -1,6 +1,6 @@
 ---
 company: saas-dev
-updated: 2026-05-17
+updated: 2026-05-19
 ---
 
 ## 稼働中プロジェクト
@@ -44,6 +44,14 @@ updated: 2026-05-17
 ## ユニバース（ATTACK/VOLT/MEDIUM）
 BTC-USD, ETH-USD, SOL-USD, NVDA, AMD, TSLA, META, PLTR, COIN, MSTR, ARM, AVGO
 
+## FudoText（新規・商用化完了 2026-05-19）
+- パス: `saas-dev/projects/fudosan-copy/`
+- URL: Streamlit Cloud（デプロイ済み）
+- モデル: gemini-3.1-flash-lite（500 RPD無料枠・専用APIキー）
+- 機能: 物件説明文AI生成（SUUMO/at home/HOMES対応）
+- フィードバック: Google Form → Sheets CSV → 週次Gemini分析 → PR自動作成
+- 次のアクション: LP作成 → 顧客獲得（Twitter DM・note記事）
+
 ## 直近の決定
 - Reddit from CI は永久不可と確定（2026-05-15）
 - Dev.to 2x/day化（2026-05-15）
@@ -53,3 +61,4 @@ BTC-USD, ETH-USD, SOL-USD, NVDA, AMD, TSLA, META, PLTR, COIN, MSTR, ARM, AVGO
 - SEOガイドページ45本公開（26→45、2026-05-17）
 - product_articles 80トピック完成（42→80、2026-05-17）
 - コンテキスト上限前に自動/end実行ルール追加（2026-05-17）
+- FudoText 商用化GO・LP作成が次のアクション（2026-05-19）
