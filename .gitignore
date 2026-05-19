@@ -20,6 +20,10 @@ saas-dev/projects/rakuten-af/data/af_scrape_error.png
 secretary/knowledge/state.json
 secretary/briefings/*.md
 secretary/daily-logs/*.md
+# コールドメール送信先（メアド個人情報 — public repo に載せない）
+saas-dev/projects/fudosan-copy/outreach/sent_log.csv
+saas-dev/projects/fudosan-copy/outreach/leads.csv
+saas-dev/projects/fudosan-copy/outreach/emails_draft.csv
 
 # キャッシュ・一時ファイル
 __pycache__/
