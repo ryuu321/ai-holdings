@@ -2,7 +2,9 @@ name: fudosan-reply-check
 
 on:
   schedule:
-    - cron: "0 1 * * 1"  # 毎週月曜 JST 10:00 (UTC 01:00)
+    - cron: "0 1 * * *"   # JST 10:00
+    - cron: "0 5 * * *"   # JST 14:00
+    - cron: "0 9 * * *"   # JST 18:00
   workflow_dispatch:
 
 jobs:
@@ -37,6 +39,8 @@ jobs:
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
         run: python saas-dev/projects/fudosan-copy/outreach/check_replies.py --mark
 
       - name: Upload sent_log to Gist

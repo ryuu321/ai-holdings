@@ -13,6 +13,8 @@ import imaplib
 import io
 import os
 import sys
+import urllib.parse
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
@@ -35,6 +37,27 @@ GMAIL_ADDRESS = os.environ.get("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD", "")
 IMAP_HOST = "imap.gmail.com"
 IMAP_PORT = 993
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHANNEL_ID = os.environ.get("TELEGRAM_CHANNEL_ID", "")
+
+
+def _notify_telegram(replies: list) -> None:
+    """返信があった場合にTelegramへ通知する"""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHANNEL_ID:
+        return
+    lines = [f"📩 FudoText 返信あり: {len(replies)}件"]
+    for r in replies:
+        lines.append(f"\n会社: {r['company'][:30]}")
+        lines.append(f"From: {r['from']}")
+        lines.append(f"件名: {r['subject'][:40]}")
+    lines.append("\n→ 口座案内を送ってください")
+    text = "\n".join(lines)
+    try:
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        data = urllib.parse.urlencode({"chat_id": TELEGRAM_CHANNEL_ID, "text": text}).encode()
+        urllib.request.urlopen(url, data=data, timeout=10)
+    except Exception as e:
+        print(f"Telegram通知失敗: {e}")
 
 
 def get_sent_addresses() -> dict[str, str]:
@@ -139,6 +162,9 @@ def main():
         print("  python gen_access_code.py --company \"会社名\" --plan standard --to email@example.com")
     else:
         print("返信なし → 2026-05-26にフォローアップメールを予定 (follow_up.py)")
+
+    if replies:
+        _notify_telegram(replies)
 
     if args.mark and replies:
         replied_set = {r["from"] for r in replies}
