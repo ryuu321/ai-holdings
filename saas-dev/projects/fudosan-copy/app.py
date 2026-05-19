@@ -9,12 +9,6 @@ from validation import validate_inputs, ValidationError, EXTRA_MAX
 FEEDBACK_FORM_URL = st.secrets.get("FEEDBACK_FORM_URL", "")
 STRIPE_STANDARD_URL = st.secrets.get("STRIPE_STANDARD_URL", "")
 STRIPE_PRO_URL = st.secrets.get("STRIPE_PRO_URL", "")
-_PAID_CODES_STANDARD: set = set(
-    c.strip() for c in st.secrets.get("PAID_CODES_STANDARD", "").split(",") if c.strip()
-)
-_PAID_CODES_PRO: set = set(
-    c.strip() for c in st.secrets.get("PAID_CODES_PRO", "").split(",") if c.strip()
-)
 
 PLAN_LIMITS = {
     "standard": 50,
@@ -60,7 +54,7 @@ else:
 
 _USE_DB = bool(os.environ.get("SUPABASE_URL") and os.environ.get("SUPABASE_ANON_KEY"))
 if _USE_DB:
-    from db import get_or_create_user, increment_count, set_plan
+    from db import get_or_create_user, increment_count, set_plan, validate_code
 
 FREE_TRIAL_LIMIT = 5
 PAID_PLAN_PRICE = "¥8,980/月"
@@ -179,19 +173,14 @@ if st.session_state.request_count >= _limit:
     code_input = st.text_input("アクセスコードを入力", placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", label_visibility="collapsed")
     if st.button("コードで解除する", type="secondary"):
         c = code_input.strip()
-        if c in _PAID_CODES_PRO:
-            new_plan = "pro"
-        elif c in _PAID_CODES_STANDARD:
-            new_plan = "standard"
-        else:
-            new_plan = None
-            st.error("コードが正しくありません。メールに記載のコードをご確認ください。")
+        new_plan = validate_code(c) if _USE_DB else None
         if new_plan:
             st.session_state.paid_plan = new_plan
             st.session_state.request_count = 0
-            if _USE_DB:
-                set_plan(st.session_state.user_email, new_plan)
+            set_plan(st.session_state.user_email, new_plan)
             st.rerun()
+        else:
+            st.error("コードが正しくありません。メールに記載のコードをご確認ください。")
     st.stop()
 
 # ── 入力フォーム ──────────────────────────────────────────────────────────────
