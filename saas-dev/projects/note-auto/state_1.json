@@ -33,7 +33,8 @@
     "教育系InstagramアカウントのAI自動運用",
     "AIプレゼン資料自動生成術",
     "Kindle出版×Claude 3.5 Sonnet",
-    "Vapiを活用したB2B店舗予約自動化代行"
+    "Vapiを活用したB2B店舗予約自動化代行",
+    "中小企業向けAI研修代行"
   ],
   "articles": [
     {
@@ -272,6 +273,13 @@
       "title": "【Vapi】×【Googleカレンダー】で電話予約を100%自動化し月額3万の保守を獲る！【初案件10万を狙うB2B代行マニュアル】",
       "price": 980,
       "url": "https://note.com/notes/n2ed66006707e",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-19",
+      "title": "【Claude 3.5 Sonnet】×【Gamma】で【AI研修資料を15分で一括生成】！【中小企業のリスキリング支援で「月額30万」の顧問契約を勝ち取る実務マニュアル】",
+      "price": 980,
+      "url": "https://note.com/notes/nde606310f674",
       "status": "success"
     }
   ]
