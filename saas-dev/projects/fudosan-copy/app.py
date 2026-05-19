@@ -103,7 +103,8 @@ if st.session_state.user_email is None:
                         st.session_state.request_count = user.get("count", 0)
                         st.session_state.paid_plan = user.get("plan")
                     except Exception as e:
-                        st.error(f"DB接続エラー: {e}")
+                        base = os.environ.get("SUPABASE_URL", "未設定").rstrip("/")
+                        st.error(f"DB接続エラー: {e} | URL先頭: {base[:40]}")
                         st.stop()
                 st.session_state.db_loaded = True
                 st.rerun()
