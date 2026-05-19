@@ -1,0 +1,36 @@
+name: fudosan-follow-up
+
+on:
+  schedule:
+    - cron: "0 1 * * 2"  # 毎週火曜 JST 10:00 (UTC 01:00)
+  workflow_dispatch:
+
+jobs:
+  follow-up:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install python-dotenv
+
+      - name: Run follow-up
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python saas-dev/projects/fudosan-copy/outreach/follow_up.py --days 7 --force-send
+
+      - name: Commit updated sent_log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add saas-dev/projects/fudosan-copy/outreach/sent_log.csv
+          git diff --staged --quiet || git commit -m "bot(fudosan): follow-up $(date +%Y-%m-%d) [skip ci]"
+          git push

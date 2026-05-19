@@ -6,6 +6,7 @@ saas-dev/projects/auto-invest/.git/
 saas-dev/projects/auto-invest/data/*.db
 
 # セッション・認証情報（公開禁止）
+saas-dev/projects/rakuten-room/auth_base64.txt
 saas-dev/projects/gumroad/data/gumroad_session.json
 saas-dev/projects/redbubble/data/rb_auth.json
 saas-dev/projects/rakuten-room/data/rakuten_session.json
