@@ -43,7 +43,9 @@ else:
     from dotenv import load_dotenv
     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "../../.env"))
 
-FREE_TRIAL_LIMIT = 10
+FREE_TRIAL_LIMIT = 5
+PAID_PLAN_PRICE = "¥8,980/月"
+CONTACT_EMAIL = "ryuumg03@gmail.com"
 
 st.set_page_config(
     page_title="不動産説明文AI | FudoText",
@@ -69,16 +71,40 @@ if "last_platform" not in st.session_state:
 st.title("🏠 FudoText — 物件説明文AI生成")
 st.caption("物件情報を入力するだけ。SUUMO/at home/HOMES対応の説明文を30秒で生成します。")
 
+# 残り件数バッジ
 remaining = FREE_TRIAL_LIMIT - st.session_state.request_count
-if remaining <= 3:
-    st.info(f"無料トライアル残り **{remaining}回**")
+if remaining > 0:
+    if remaining <= 2:
+        st.warning(f"無料トライアル残り **{remaining}件** — 続けて使うには有料プラン（{PAID_PLAN_PRICE}）をご検討ください。")
+    else:
+        st.info(f"無料トライアル: **{remaining} / {FREE_TRIAL_LIMIT}件** 残り")
 
-# ── レート制限チェック ────────────────────────────────────────────────────────
+# ── 上限到達時: 有料プランCTA ─────────────────────────────────────────────────
 if st.session_state.request_count >= FREE_TRIAL_LIMIT:
-    st.warning(
-        f"無料トライアルの上限（{FREE_TRIAL_LIMIT}回/セッション）に達しました。"
-        "ご意見・継続ご希望の方は📧 ryuumg03@gmail.com までご連絡ください。"
-    )
+    st.error("無料トライアル（5件）を使い切りました。")
+    st.markdown("---")
+    st.markdown("### 📋 有料プランのご案内")
+    col_plan1, col_plan2 = st.columns(2)
+    with col_plan1:
+        st.markdown(f"""
+**スタンダードプラン**
+- 月50件まで生成
+- SUUMO / at home / HOMES 対応
+- ターゲット別最適化
+- **{PAID_PLAN_PRICE}**
+""")
+    with col_plan2:
+        st.markdown(f"""
+**プロプラン**
+- 月無制限
+- 複数ユーザー対応
+- 優先サポート
+- **¥19,800/月**
+""")
+    st.markdown("---")
+    mailto = f"mailto:{CONTACT_EMAIL}?subject=FudoText%20有料プラン申込&body=プラン名:%0A会社名:%0A担当者名:%0Aご質問:"
+    st.link_button("📧 有料プランに申し込む（メールで問い合わせ）", mailto, type="primary", use_container_width=True)
+    st.caption(f"※ 現在はメール受付での対応となります。折り返し1営業日以内にご連絡します。")
     st.stop()
 
 # ── 入力フォーム ──────────────────────────────────────────────────────────────
@@ -212,9 +238,10 @@ st.divider()
 
 col_a, col_b = st.columns(2)
 with col_a:
-    st.caption("**無料トライアル中** — 正式リリース後: ¥5,000〜/月（予定）")
+    st.caption("**無料: 月5件** / 有料: ¥8,980〜/月 | 📧 ryuumg03@gmail.com")
 with col_b:
-    st.caption("📧 ryuumg03@gmail.com")
+    mailto = f"mailto:{CONTACT_EMAIL}?subject=FudoText%20有料プラン申込&body=プラン名:%0A会社名:%0A担当者名:%0Aご質問:"
+    st.markdown(f'<a href="{mailto}" style="font-size:0.8rem;">有料プランのお問い合わせ</a>', unsafe_allow_html=True)
 
 with st.expander("利用規約"):
     st.markdown("""
@@ -251,11 +278,11 @@ with st.expander("特定商取引法に基づく表記"):
 | 販売事業者 | 請求があり次第、遅滞なく開示します |
 | 所在地 | 請求があり次第、遅滞なく開示します |
 | メールアドレス | ryuumg03@gmail.com |
-| 販売価格 | 無料トライアル中（正式版: ¥5,000〜/月・予定） |
-| 支払方法 | クレジットカード決済（予定） |
-| 返品・キャンセル | デジタルサービスのため提供済み期間の返金不可。次回更新日前日までの解約で翌月以降の請求なし。 |
+| 販売価格 | スタンダード ¥8,980/月 / プロ ¥19,800/月（無料トライアル: 月5件まで） |
+| 支払方法 | 銀行振込 / その他（お申し込み後にご案内） |
+| 返品・キャンセル | デジタルサービスのため提供済み期間の返金不可。翌月更新日前日までの解約で翌月以降の請求なし。 |
 
-※ 現在は無料トライアル期間中のため有償取引は発生していません。
+※ お申し込みは ryuumg03@gmail.com までメールにてご連絡ください。
 """)
 
 st.caption("© 2026 FudoText　📧 ryuumg03@gmail.com")
