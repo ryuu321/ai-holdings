@@ -8,6 +8,60 @@
 
 ---
 
+## 事業設計の核：データロック × 習慣化（全製品で必須）
+
+> MVPの段階からこの2つを設計に組み込む。後付けは難しい。
+
+### データロック実装パターン
+
+```python
+# Supabaseに履歴を永続保存（最小構成）
+# テーブル: user_history (user_id, input, output, created_at, metadata)
+
+def save_history(user_id: str, input_data: dict, output: str, metadata: dict = {}):
+    _post("user_history", {
+        "user_id": user_id,
+        "input": json.dumps(input_data, ensure_ascii=False),
+        "output": output,
+        "metadata": json.dumps(metadata, ensure_ascii=False),
+    })
+
+def get_history(user_id: str, limit: int = 50) -> list[dict]:
+    return _get(f"user_history?user_id=eq.{user_id}&order=created_at.desc&limit={limit}")
+```
+
+**データロックが効く設計チェックリスト:**
+- [ ] 生成結果をDBに保存しているか（履歴が溜まるか）
+- [ ] ユーザーが自分の過去データを参照できるか（価値を感じるか）
+- [ ] 履歴が多いほど出力精度が上がる設計か（使うほど良くなるか）
+- [ ] データのエクスポートをあえて「手間がかかる」設計にしているか
+
+### 習慣化実装パターン
+
+習慣化 = **定期ユースケース** + **進捗の可視化** + **再訪の理由**
+
+```python
+# 習慣化トリガー例:
+# 1. 「前回から〇日経過」通知 → メールorLINE
+# 2. 「今週の生成数: X件」ダッシュボード表示
+# 3. 「先週より+Y件」進捗フィードバック
+# 4. 週次サマリーをメール自動送信
+
+def send_weekly_summary(user_email: str, user_id: str):
+    history = get_history(user_id, limit=100)
+    this_week = [h for h in history if is_this_week(h["created_at"])]
+    last_week = [h for h in history if is_last_week(h["created_at"])]
+    # ...メール送信
+```
+
+**習慣化が効く設計チェックリスト:**
+- [ ] 毎日or毎週使う業務フローに組み込まれているか
+- [ ] 使わなかったときに「使いたくなる」仕掛けがあるか（通知・可視化）
+- [ ] 初回〜3回の使用で「これは使える」と感じられるか（初期体験）
+- [ ] 継続使用で改善が見える指標を出しているか（進捗の可視化）
+
+---
+
 ## アーキテクチャ決定（変えない）
 
 | レイヤー | 選択肢 | 理由 |
