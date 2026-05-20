@@ -1,0 +1,49 @@
+{
+  "project": "fudotext",
+  "product_name": "FudoText",
+  "app_url": "https://fudotext-o7igtyxsc4jugjx94cz7rm.streamlit.app/",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/fudotext.html",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.0-flash-lite",
+  "icp": {
+    "target_description": "不動産仲介会社の物件担当・営業スタッフ",
+    "target_keywords": ["不動産", "賃貸", "仲介", "売買", "マンション", "アパート"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com"],
+    "exclude_keywords": [
+      "求人", "転職", "キャリア", "リクルート", "採用",
+      "協会", "組合", "連合", "省", "庁", "市役所", "居住支援",
+      "工務店", "建設", "設計", "建築", "リフォーム",
+      "営業リスト", "名簿", "FAX", "DM", "メール配信", "メルマガ",
+      "管理組合", "ビル管理", "清掃", "警備", "解体", "造成",
+      "管理会社", "建物管理", "施設管理",
+      "法律", "弁護士", "税理士",
+      "ランキング", "比較", "一覧", "検索サイト", "ポータル",
+      "問い合わせのコツ", "探し方", "選び方"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "search_queries": [
+    "不動産仲介会社 賃貸 物件 お問い合わせ contact",
+    "site:co.jp 不動産 賃貸 仲介 メール",
+    "不動産会社 賃貸管理 地域密着 お問い合わせ",
+    "賃貸 仲介 不動産 株式会社 info@",
+    "不動産売買 仲介 contact@ co.jp"
+  ],
+  "email_template": {
+    "subject": "【無料ツール】物件説明文の作成時間を大幅に短縮できます",
+    "personalize_prompt": "不動産仲介会社へのビジネスメールの書き出し（1〜2文、60字以内）を書いてください。会社名: {company_name}。要件: 自然で押しつけがましくない / 物件説明文の作成工数削減の文脈 / 敬体・丁寧語 / 60字以内",
+    "fallback_opening": "貴社の物件説明文作成業務において、ご担当者様のお時間を少しでも省けるのではと思い、ご連絡させていただきました。"
+  }
+}
