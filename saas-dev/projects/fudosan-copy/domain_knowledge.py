@@ -4,7 +4,7 @@
 prompt.py は本ファイルを import して使う。
 """
 
-PROMPT_VERSION = "v1.1"
+PROMPT_VERSION = "v1.2"
 
 # ターゲット層ごとの訴求ポイント（成約率に寄与する観点）
 TARGET_APPEAL = {

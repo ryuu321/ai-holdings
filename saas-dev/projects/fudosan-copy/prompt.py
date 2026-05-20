@@ -52,17 +52,48 @@ def generate(
     platform_info: dict,
     extra: str = "",
 ) -> dict:
-    setsubi_str = "・".join(setsubi) if setsubi else "なし"
     notes = platform_info["notes"]
     catch_max = platform_info["catch_max"]
     body_max = platform_info["body_max"]
-    body_min = max(100, body_max // 2)
+    body_min = max(120, body_max // 2)
     appeal = _TARGET_APPEAL.get(target, "")
-    extra_rule = f"8. 補足情報「{extra}」は必ず物件説明文の本文に具体的に織り込む。" if extra else ""
+
+    _chiku = int(chikunensuu) if str(chikunensuu).isdigit() else 10
+    if setsubi:
+        setsubi_str = "・".join(setsubi)
+        setsubi_rule = "6. 設備は「全部列挙」せず、ターゲットに刺さる項目を2〜3個選んで具体的に使う。"
+    else:
+        setsubi_str = "記載なし"
+        if _chiku <= 5:
+            setsubi_hint = "築浅のため、最新の設備水準（オートロック・浴室乾燥・追炊き等）が整っていることを自然に示唆してよい"
+        elif _chiku <= 15:
+            setsubi_hint = "標準的な設備（エアコン・室内洗濯機置き場等）を前提に"
+        else:
+            setsubi_hint = "築古の落ち着いた雰囲気・リノベ済みの可能性を自然に示唆してよい"
+        setsubi_rule = (
+            f"6. 設備情報なし。築{chikunensuu}年の物件として、{setsubi_hint}しつつ、"
+            f"間取り・面積・向きから読み取れる生活の具体シーンで補うこと。"
+            f"「設備不明」「情報なし」等の記述は絶対禁止。"
+        )
+
+    if extra:
+        extra_rule = f"8. 補足情報「{extra}」は必ず本文に具体的に織り込む。"
+        sparse_note = ""
+    else:
+        extra_rule = (
+            "8. 補足情報なし。"
+            f"間取り{madori}・{menseki}㎡・駅{eki_toho}分・{muki}向きの数字を最低3つ文中に使い、"
+            "具体的な生活シーンを2文以上描写すること。"
+        )
+        sparse_note = (
+            "\n※ 設備・補足情報ともになし。与えられた数値情報だけで完結した具体性の高い文章にすること。"
+            "快適・素晴らしい・充実などの抽象形容詞は使用禁止。\n"
+            if not setsubi else ""
+        )
 
     prompt = f"""あなたは不動産ポータルサイトの物件説明文のプロライターです。
 以下の物件情報をもとに、{platform}掲載用の物件説明文を作成してください。
-
+{sparse_note}
 【物件情報】
 - 間取り: {madori}
 - 駅徒歩: {eki_toho}分
@@ -81,7 +112,7 @@ def generate(
 3. {notes}
 4. 絶対禁止: 造語・存在しない漢字・意味不明な複合語・最大級表現・根拠のない断言。
 5. 「、」「。」で読みやすく区切る。1文は60文字以内。
-6. 設備は「全部列挙」せず、ターゲットに刺さる項目を選んで使う。
+{setsubi_rule}
 7. 生活シーンを1〜2文具体的に描写する（「〇〇できる」「〇〇が楽しめる」）。
 {extra_rule}
 
