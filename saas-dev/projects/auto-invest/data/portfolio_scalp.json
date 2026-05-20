@@ -1,10 +1,17 @@
 {
-  "balance": 10000.0,
+  "balance": 2000.0,
   "initial_balance": 10000.0,
-  "position": null,
+  "position": {
+    "ticker": "BTC-USD",
+    "price": 76937.03512578124,
+    "shares": 0.10387715080174591,
+    "cost": 8000.0,
+    "entry_time": "2026-05-20T13:43:29.472813+00:00",
+    "rsi_at_entry": 16.26261264702744
+  },
   "trade_count": 0,
   "win_count": 0,
   "loss_count": 0,
   "total_realized_pnl": 0.0,
-  "last_updated": "2026-05-20T10:55:08.599813+00:00"
+  "last_updated": "2026-05-20T13:43:29.472813+00:00"
 }
