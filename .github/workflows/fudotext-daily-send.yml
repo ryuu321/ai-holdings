@@ -1,0 +1,85 @@
+name: fudotext-daily-send
+
+on:
+  schedule:
+    - cron: "0 2 * * 1-5"  # 平日 JST 11:00 (UTC 02:00)
+  workflow_dispatch:
+
+jobs:
+  daily-send:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install python-dotenv
+
+      - name: Restore sent_log from Gist
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.SENT_LOG_GIST_ID }}
+        run: |
+          curl -sf -H "Authorization: token $GIST_TOKEN" \
+            "https://api.github.com/gists/$GIST_ID" \
+            | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          content = data['files'].get('sent_log.csv', {}).get('content', '')
+          print(content, end='')
+          " > saas-dev/projects/fudosan-copy/outreach/sent_log.csv || echo "Gist取得失敗: 新規作成"
+
+      # Step 1: リード収集 (Brave API)
+      - name: Fetch leads
+        env:
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+        run: python saas-dev/projects/fudosan-copy/outreach/fetch_mlit_leads.py
+
+      # Step 2: ICPスコアリング (閾値70点)
+      - name: Qualify leads
+        run: |
+          python shared/gtm/leads/qualify_leads.py \
+            --project fudotext \
+            --input saas-dev/projects/fudosan-copy/outreach/leads.csv
+
+      # Step 3: メール生成 (承認済みリードのみ)
+      - name: Generate emails
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SENDER_ADDRESS: ${{ secrets.SENDER_ADDRESS }}
+        run: |
+          python shared/gtm/outreach/generate_emails.py \
+            --project fudotext \
+            --limit 50
+
+      # Step 4: 送信 (30件/日・JST9-18のみ)
+      - name: Send emails
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          SENDER_ADDRESS: ${{ secrets.SENDER_ADDRESS }}
+        run: |
+          python saas-dev/projects/fudosan-copy/outreach/send_emails.py \
+            --limit 30
+
+      - name: Upload sent_log to Gist
+        if: always()
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.SENT_LOG_GIST_ID }}
+        run: |
+          [ -f saas-dev/projects/fudosan-copy/outreach/sent_log.csv ] || exit 0
+          python3 -c "
+          import json
+          content = open('saas-dev/projects/fudosan-copy/outreach/sent_log.csv', encoding='utf-8').read()
+          print(json.dumps({'files': {'sent_log.csv': {'content': content}}}))
+          " | curl -sf -X PATCH \
+            -H "Authorization: token $GIST_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @- \
+            "https://api.github.com/gists/$GIST_ID"
+          echo "sent_log.csv をGistに保存"

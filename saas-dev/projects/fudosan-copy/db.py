@@ -95,3 +95,49 @@ def issue_code(company: str, plan: str) -> str:
 
 def revoke_code(code: str) -> None:
     _patch("codes", f"code=eq.{urllib.parse.quote(code)}", {"active": False})
+
+
+def _delete(table: str, query: str) -> int:
+    headers = {**_headers(), "Prefer": "return=representation"}
+    req = urllib.request.Request(_url(table, query), headers=headers, method="DELETE")
+    with urllib.request.urlopen(req, timeout=10) as res:
+        result = json.loads(res.read())
+        return len(result) if isinstance(result, list) else 0
+
+
+def delete_user(email: str) -> dict:
+    """個人情報開示請求対応: ユーザーのtrialデータを完全削除する"""
+    rows = _get("trials", f"email=eq.{urllib.parse.quote(email)}&select=email,count,plan")
+    if not rows:
+        return {"deleted": False, "reason": "ユーザーが見つかりません"}
+    deleted = _delete("trials", f"email=eq.{urllib.parse.quote(email)}")
+    return {"deleted": deleted > 0, "email": email}
+
+
+if __name__ == "__main__":
+    import argparse
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=__file__.replace("db.py", "") + "../../../../.env")
+
+    parser = argparse.ArgumentParser()
+    sub = parser.add_subparsers(dest="cmd")
+
+    p_del = sub.add_parser("delete-user", help="個人情報削除請求対応")
+    p_del.add_argument("email")
+
+    p_info = sub.add_parser("show-user", help="ユーザー情報確認")
+    p_info.add_argument("email")
+
+    args = parser.parse_args()
+
+    if args.cmd == "delete-user":
+        result = delete_user(args.email)
+        if result["deleted"]:
+            print(f"削除完了: {result['email']}")
+        else:
+            print(f"削除失敗: {result.get('reason', '不明')}")
+    elif args.cmd == "show-user":
+        rows = _get("trials", f"email=eq.{urllib.parse.quote(args.email)}&select=*")
+        print(rows[0] if rows else "ユーザーが見つかりません")
+    else:
+        parser.print_help()

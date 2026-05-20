@@ -19,6 +19,7 @@ GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 MODEL = "gemini-2.0-flash-lite"
 APP_URL = "https://ai-holdings-jarqe7ynu8kkyqsuxdrabs.streamlit.app/"
 LP_URL = "https://ryuu321.github.io/ai-holdings/docs/fudotext.html"
+SENDER_ADDRESS = os.environ.get("SENDER_ADDRESS", "※要設定: バーチャルオフィス等の住所を.envのSENDER_ADDRESSに設定してください")
 
 # 正しい日本語ビジネスメール形式
 BASE_TEMPLATE = """{company_name}
@@ -42,14 +43,16 @@ BASE_TEMPLATE = """{company_name}
 {app_url}
 
 ご不明な点はお気軽にご返信ください。
-ご不要の場合はその旨ご返信いただければ、以降はご連絡いたしません。
 
 ━━━━━━━━━━━━━━━━━━
 真柄 龍聖
 FudoText 開発者
 Mail: ryuumg03@gmail.com
 Web: {lp_url}
-━━━━━━━━━━━━━━━━━━"""
+住所: {sender_address}
+━━━━━━━━━━━━━━━━━━
+※本メールは広告・宣伝を目的としております。
+※配信停止をご希望の方は、このメールに「配信停止」とご返信ください。"""
 
 
 def _extract_company_name(raw: str) -> str:
@@ -154,6 +157,7 @@ def main():
                 personalized_opening=opening,
                 app_url=APP_URL,
                 lp_url=LP_URL,
+                sender_address=SENDER_ADDRESS,
             )
 
             writer.writerow({

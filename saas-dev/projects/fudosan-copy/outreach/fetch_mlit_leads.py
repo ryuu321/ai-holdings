@@ -24,9 +24,16 @@ except ImportError:
 
 BRAVE_KEY = os.environ.get("BRAVE_API_KEY", "")
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
+OG_SITE_RE = re.compile(
+    r'<meta[^>]+property=["\']og:site_name["\'][^>]+content=["\']([^"\']{2,40})["\']'
+    r'|<meta[^>]+content=["\']([^"\']{2,40})["\'][^>]+property=["\']og:site_name["\']',
+    re.IGNORECASE,
+)
+TITLE_RE = re.compile(r"<title[^>]*>([^<]+)</title>", re.IGNORECASE)
 EMAIL_SKIP = ["noreply", "no-reply", "example", "sentry", "google",
               "schema.org", "w3.org", "placeholder", "sample@", "mail@mail",
-              "abc@", "test@", "info@example"]
+              "abc@", "test@", "info@example", "@sample.", "@mail.jp", "@mail.com",
+              "@example.", "postmaster@", "webmaster@", "admin@"]
 # 画像ファイルのアットマーク誤検知（@2x.png等）を除外するTLD
 FAKE_TLDS = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico",
              ".mp4", ".mov", ".pdf", ".zip"}
@@ -145,6 +152,24 @@ def _emails_from_html(html: str) -> list[str]:
     return result[:2]
 
 
+def _extract_company_name(html: str, fallback_title: str = "") -> str:
+    m = OG_SITE_RE.search(html)
+    if m:
+        name = (m.group(1) or m.group(2) or "").strip()
+        if name:
+            return name[:40]
+    t = TITLE_RE.search(html)
+    title = t.group(1).strip() if t else fallback_title.strip()
+    if title:
+        for sep in ["｜", "|", "–", "-", "—", "　"]:
+            for part in title.split(sep):
+                part = part.strip()
+                if any(kw in part for kw in ["株式会社", "有限会社", "合同会社", "不動産", "地所", "ホーム", "ハウス"]):
+                    if len(part) <= 30:
+                        return part
+    return ""
+
+
 def _load_existing() -> set[str]:
     if not LEADS_FILE.exists():
         return set()
@@ -189,29 +214,40 @@ def main():
                 emails = _emails_from_html(desc + " " + title)
 
                 # なければサイトを直接フェッチ（robots.txt 許可確認後）
+                company_name = ""
+                html = ""
                 if not emails:
                     if not _can_fetch(site):
                         print(f"  robots.txt 拒否: {site}")
                         continue
                     html = _fetch_page(site)
                     emails = _emails_from_html(html)
+                    company_name = _extract_company_name(html, title)
                     # コンタクトページも試す
-                    if not emails:
+                    if not emails or not company_name:
                         for path in ["/contact", "/inquiry", "/about"]:
                             contact_url = site.rstrip("/") + path
                             if not _can_fetch(contact_url):
                                 continue
                             html2 = _fetch_page(contact_url)
-                            emails = _emails_from_html(html2)
-                            if emails:
+                            if not emails:
+                                emails = _emails_from_html(html2)
+                            if not company_name:
+                                company_name = _extract_company_name(html2)
+                            if emails and company_name:
                                 break
                     time.sleep(1.0)
+                else:
+                    company_name = _extract_company_name("", title)
+
+                if not company_name:
+                    continue
 
                 for email in emails:
                     if email in existing:
                         continue
                     writer.writerow({
-                        "company_name": title or site,
+                        "company_name": company_name,
                         "email": email,
                         "url": site,
                     })

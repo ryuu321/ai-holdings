@@ -22,6 +22,11 @@ LEADS_FILE = _DIR / "leads.csv"
 
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
 TITLE_RE = re.compile(r"<title[^>]*>([^<]+)</title>", re.IGNORECASE)
+OG_SITE_RE = re.compile(
+    r'<meta[^>]+property=["\']og:site_name["\'][^>]+content=["\']([^"\']{2,40})["\']'
+    r'|<meta[^>]+content=["\']([^"\']{2,40})["\'][^>]+property=["\']og:site_name["\']',
+    re.IGNORECASE,
+)
 BLACKLIST = ["example.com", "sentry.io", "google.com", "w3.org",
              "placeholder", "noreply", "no-reply", "support@gmail"]
 
@@ -51,10 +56,23 @@ def _extract_emails(html: str) -> list[str]:
     return result[:3]  # 1社につき最大3件
 
 
-def _extract_title(html: str) -> str:
-    m = TITLE_RE.search(html)
+def _extract_company_name(html: str) -> str:
+    # 1. og:site_name を優先（最も正確）
+    m = OG_SITE_RE.search(html)
     if m:
-        return m.group(1).strip()[:60]
+        name = (m.group(1) or m.group(2) or "").strip()
+        if name:
+            return name[:40]
+    # 2. <title> から会社名キーワードを含む部分を抽出
+    t = TITLE_RE.search(html)
+    if t:
+        title = t.group(1).strip()
+        for sep in ["｜", "|", "–", "-", "—", "　"]:
+            for part in title.split(sep):
+                part = part.strip()
+                if any(kw in part for kw in ["株式会社", "有限会社", "合同会社", "不動産", "地所", "ホーム", "ハウス"]):
+                    if len(part) <= 30:
+                        return part
     return ""
 
 
@@ -97,21 +115,28 @@ def main():
         for i, url in enumerate(new_urls, 1):
             print(f"  [{i}/{len(new_urls)}] {url[:60]}")
             html = _fetch(url)
-            title = _extract_title(html)
+            company_name = _extract_company_name(html)
             emails = _extract_emails(html)
 
-            # コンタクトページも試す
-            if not emails:
+            # コンタクトページも試す（メアド・会社名の補完）
+            if not emails or not company_name:
                 for contact_url in _contact_url(url):
                     contact_html = _fetch(contact_url)
-                    emails = _extract_emails(contact_html)
-                    if emails:
+                    if not emails:
+                        emails = _extract_emails(contact_html)
+                    if not company_name:
+                        company_name = _extract_company_name(contact_html)
+                    if emails and company_name:
                         break
+
+            if not company_name:
+                print(f"    会社名取得失敗 → スキップ")
+                continue
 
             if emails:
                 for email in emails:
                     writer.writerow({
-                        "company_name": title,
+                        "company_name": company_name,
                         "email": email,
                         "url": url,
                         "scraped_at": datetime.now().strftime("%Y-%m-%d"),

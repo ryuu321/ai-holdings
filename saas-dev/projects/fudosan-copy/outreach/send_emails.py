@@ -37,6 +37,7 @@ if sys.platform == "win32":
 _DIR = Path(__file__).parent
 DRAFT_FILE = _DIR / "emails_draft.csv"
 SENT_LOG = _DIR / "sent_log.csv"
+OPT_OUT_FILE = _DIR / "opt_out.csv"
 
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=_DIR.parent.parent.parent.parent / ".env")
@@ -71,6 +72,28 @@ def _load_sent() -> set[str]:
         return {row["email"] for row in csv.DictReader(f)}
 
 
+def _load_opt_out() -> set[str]:
+    if not OPT_OUT_FILE.exists():
+        return set()
+    with open(OPT_OUT_FILE, encoding="utf-8", newline="") as f:
+        return {row["email"] for row in csv.DictReader(f)}
+
+
+def add_opt_out(email: str, reason: str = "") -> None:
+    """配信停止申し出のあったメールアドレスを記録する"""
+    existing = _load_opt_out()
+    if email in existing:
+        print(f"{email} はすでにopt_outリストに登録済みです。")
+        return
+    write_header = not OPT_OUT_FILE.exists()
+    with open(OPT_OUT_FILE, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["email", "reason", "added_at"])
+        if write_header:
+            writer.writeheader()
+        writer.writerow({"email": email, "reason": reason, "added_at": datetime.now().strftime("%Y-%m-%d %H:%M")})
+    print(f"opt_out登録完了: {email}")
+
+
 def _today_sent_count() -> int:
     if not SENT_LOG.exists():
         return 0
@@ -85,6 +108,15 @@ def _check_safety(drafts: list[dict], limit: int) -> bool:
     if limit > 30:
         print(f"WARNING: --limit {limit} は30件超です。Gmailの信頼スコアへの影響に注意してください。")
 
+    # 会社名チェック: ブログタイトルや未抽出の会社名が混入していないか
+    _company_required = ["株式会社", "有限会社", "合同会社", "一般社団法人"]
+    _blog_signals = ["コツ", "方法", "選び方", "探し方", "ランキング", "名簿", "営業リスト", "お問い合わせ |", "お問い合わせ｜"]
+    for d in drafts:
+        name = d.get("company_name", "")
+        if any(sig in name for sig in _blog_signals):
+            print(f"WARNING: {d['email']} — 会社名がブログタイトルの可能性: 「{name[:30]}」")
+            ok = False
+
     # personalized列がある場合: フォールバック率チェック
     if drafts and "personalized" in drafts[0]:
         fp_count = sum(1 for d in drafts if d.get("personalized", "").lower() == "false")
@@ -94,8 +126,17 @@ def _check_safety(drafts: list[dict], limit: int) -> bool:
     # 特定電子メール法文言チェック
     for d in drafts:
         body = d.get("body", "")
-        if "ご不要" not in body or "真柄" not in body:
-            print(f"WARNING: {d['email']} — オプトアウト文言または送信者本名が見当たりません。")
+        missing = []
+        if "真柄" not in body:
+            missing.append("送信者名")
+        if "配信停止" not in body:
+            missing.append("配信停止文言")
+        if "住所" not in body:
+            missing.append("住所")
+        if "※要設定" in body:
+            missing.append("住所（未設定: .envのSENDER_ADDRESSを設定してください）")
+        if missing:
+            print(f"WARNING: {d['email']} — 特定電子メール法違反の可能性: {', '.join(missing)}")
             ok = False
     return ok
 
@@ -176,6 +217,7 @@ def main(limit: int = DAILY_LIMIT, dry_run: bool = False, preview_n: int = 0, te
         return
 
     already_sent = _load_sent()
+    opt_out = _load_opt_out()
     today_count = _today_sent_count()
     remaining = limit - today_count
 
@@ -184,8 +226,10 @@ def main(limit: int = DAILY_LIMIT, dry_run: bool = False, preview_n: int = 0, te
         return
 
     print(f"本日送信済み: {today_count}件 / 残り: {remaining}件")
+    if opt_out:
+        print(f"opt_outリスト: {len(opt_out)}件（送信除外）")
 
-    targets = [d for d in drafts if d.get("status") == "draft" and d["email"] not in already_sent]
+    targets = [d for d in drafts if d.get("status") == "draft" and d["email"] not in already_sent and d["email"] not in opt_out]
     targets = targets[:remaining]
     print(f"送信対象: {len(targets)}件")
 
@@ -253,5 +297,11 @@ if __name__ == "__main__":
     parser.add_argument("--preview", type=int, metavar="N", default=0, help="N番目のドラフト本文を全表示")
     parser.add_argument("--test-to", type=str, default="", metavar="EMAIL", help="指定メアドにテスト送信")
     parser.add_argument("--force-send", action="store_true", help="時間帯チェックを無視して送信（非推奨）")
+    parser.add_argument("--add-opt-out", type=str, default="", metavar="EMAIL", help="配信停止申し出のメールアドレスをopt_outリストに追加")
+    parser.add_argument("--opt-out-reason", type=str, default="返信による申し出", help="opt_out登録理由")
     args = parser.parse_args()
-    main(limit=args.limit, dry_run=args.dry_run, preview_n=args.preview, test_to=args.test_to, force_send=args.force_send)
+
+    if args.add_opt_out:
+        add_opt_out(args.add_opt_out, args.opt_out_reason)
+    else:
+        main(limit=args.limit, dry_run=args.dry_run, preview_n=args.preview, test_to=args.test_to, force_send=args.force_send)

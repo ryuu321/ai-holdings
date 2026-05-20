@@ -9,6 +9,7 @@ import csv
 import io
 import json
 import os
+import re
 import sys
 import time
 import urllib.request
@@ -71,6 +72,44 @@ def _gemini_personalize(company_name: str, prompt_template: str, model: str, api
     return "", False
 
 
+_COMPANY_KEYWORDS = ["株式会社", "有限会社", "合同会社", "一般社団法人", "公益社団法人"]
+
+# これらが含まれる文字列は会社名ではなくブログタイトル等と判定してスキップ
+_BLOG_SIGNALS = [
+    "コツ", "方法", "選び方", "探し方", "ランキング", "比較", "一覧",
+    "とは", "について", "の仕方", "ガイド", "まとめ", "おすすめ",
+    "お問い合わせ方法", "メールで", "相談を", "スムーズ", "名簿", "営業リスト",
+]
+
+
+def _clean_company_name(raw: str) -> str:
+    """SEOタイトルから会社名だけを抽出。取れなければ空文字を返す（呼び出し側でスキップ）。"""
+    # ブログタイトルシグナルが入っていたら即スキップ
+    if any(sig in raw for sig in _BLOG_SIGNALS):
+        return ""
+    # 【ViVi（ヴィヴィ）不動産】のような【】パターン
+    m = re.search(r'[【(]([^)】]{2,30}不動産[^)】]{0,10})[)】]', raw)
+    if m:
+        return m.group(1).strip()
+    # ｜/|/-/—で分割して株式会社等を含む部分を探す
+    for sep in ["｜", "|", "–", "-", "—"]:
+        if sep not in raw:
+            continue
+        for part in raw.split(sep):
+            part = part.strip()
+            if any(kw in part for kw in _COMPANY_KEYWORDS) and len(part) <= 25:
+                return part
+    # 株式会社/有限会社/合同会社から始まるパターン
+    m2 = re.search(r'((?:株式会社|有限会社|合同会社)[^\s　。、！？]{1,15})', raw)
+    if m2:
+        return m2.group(1).strip()
+    # 末尾に株式会社等がつくパターン（東洋不動産株式会社）
+    m3 = re.search(r'([^\s　。、！？・]{1,12}(?:株式会社|有限会社|合同会社))', raw)
+    if m3:
+        return m3.group(1).strip()
+    return ""
+
+
 def load_existing_emails(draft_file: Path, sent_log: Path) -> set[str]:
     emails = set()
     for path in [draft_file, sent_log]:
@@ -90,6 +129,7 @@ def main():
     cfg = load_config(args.project)
     template = load_template("sequence_1.txt")
     api_key = os.environ.get("GEMINI_API_KEY", "")
+    sender_address = os.environ.get("SENDER_ADDRESS", "")
     model = cfg.get("gemini_model", "gemini-2.0-flash-lite")
     fallback = cfg["email_template"]["fallback_opening"]
     personalize_prompt = cfg["email_template"]["personalize_prompt"]
@@ -131,9 +171,13 @@ def main():
             writer.writeheader()
 
         for i, lead in enumerate(targets, 1):
-            company = lead["company_name"]
+            raw_name = lead["company_name"]
+            company = _clean_company_name(raw_name)
             email = lead["email"]
             url = lead.get("url", "")
+            if not company:
+                print(f"  [{i}/{len(targets)}] SKIP（会社名不明: {raw_name[:30]}）")
+                continue
             print(f"  [{i}/{len(targets)}] {company[:30]} ...", end=" ")
 
             opening, personalized = _gemini_personalize(company, personalize_prompt, model, api_key)
@@ -148,6 +192,7 @@ def main():
                 app_url=cfg["app_url"],
                 lp_url=cfg["lp_url"],
                 sender_email=cfg["sender_email"],
+                sender_address=sender_address,
                 personalized_opening=opening,
             )
 

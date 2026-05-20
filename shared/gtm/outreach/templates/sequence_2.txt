@@ -15,4 +15,7 @@
 {sender_name}
 {product_name} 開発者
 Mail: {sender_email}
+住所: {sender_address}
 ━━━━━━━━━━━━━━━━━━
+※本メールは広告・宣伝を目的としております。
+※配信停止をご希望の方は、このメールに「配信停止」とご返信ください。

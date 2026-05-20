@@ -42,6 +42,19 @@ python generate_emails.py
 python send_emails.py
 ```
 
+## 配信停止の対応手順（必須）
+
+返信に「配信停止」「停止」「不要」「remove」等の文言があったら、**即日**以下を実行する:
+
+```powershell
+cd saas-dev/projects/fudosan-copy/outreach
+python send_emails.py --add-opt-out 返信元メアド
+# 例: python send_emails.py --add-opt-out info@example.co.jp
+```
+
+これで `opt_out.csv` に記録され、次回以降の送信から自動除外される。
+特定電子メール法上、申し出から**速やかに（遅くとも2営業日以内）**停止する義務がある。
+
 ## ファイル説明
 
 | ファイル | 内容 |
@@ -50,6 +63,7 @@ python send_emails.py
 | `leads.csv` | 会社名・メアド・URL |
 | `emails_draft.csv` | 生成済みメール（draft/sent） |
 | `sent_log.csv` | 送信履歴（重複防止） |
+| `opt_out.csv` | 配信停止リスト（送信前に自動除外） |
 
 ## メール構成
 
