@@ -115,6 +115,68 @@
     </div>
   </section>
 
+  <!-- 料金プラン -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">料金プラン</h2>
+      <p class="text-gray-500 mb-12">まず無料で試してから、必要に応じてアップグレード</p>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <!-- 無料 -->
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+          <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">無料</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-6">5件まで</p>
+          <ul class="text-sm text-gray-600 space-y-2 mb-8">
+            <li>✓ AI生成（1件ずつ）</li>
+            <li>✓ SUUMO / at home / HOMES 対応</li>
+            <li>✓ ターゲット別最適化</li>
+          </ul>
+          <a href="https://fudotext-o7igtyxsc4jugjx94cz7rm.streamlit.app/"
+             target="_blank"
+             class="block text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-full transition text-sm">
+            無料で試す
+          </a>
+        </div>
+        <!-- スタンダード -->
+        <div class="bg-blue-600 rounded-2xl p-6 border border-blue-500 text-white relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full">人気</span>
+          <p class="text-sm font-semibold text-blue-200 uppercase tracking-wide mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980</p>
+          <p class="text-blue-200 text-sm mb-6">/ 月・50件まで</p>
+          <ul class="text-sm text-blue-100 space-y-2 mb-8">
+            <li>✓ 無料プランの全機能</li>
+            <li>✓ <strong class="text-white">CSV一括生成（50件を17分）</strong></li>
+            <li>✓ 生成履歴（データロック）</li>
+            <li>✓ 今週/今月の利用stats</li>
+          </ul>
+          <a href="https://buy.stripe.com/00w7sLgeSfyR6vE1ydabK01"
+             target="_blank"
+             class="block text-center bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-3 rounded-full transition text-sm">
+            今すぐ申し込む
+          </a>
+        </div>
+        <!-- プロ -->
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+          <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800</p>
+          <p class="text-gray-400 text-sm mb-6">/ 月・200件まで</p>
+          <ul class="text-sm text-gray-600 space-y-2 mb-8">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 月200件まで生成</li>
+            <li>✓ 複数ユーザー対応</li>
+            <li>✓ 優先サポート</li>
+          </ul>
+          <a href="https://buy.stripe.com/eVqfZh5Ae1I1aLU5OtabK00"
+             target="_blank"
+             class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition text-sm">
+            プロに申し込む
+          </a>
+        </div>
+      </div>
+      <p class="text-gray-400 text-xs mt-8">クレジットカード決済（Stripe）。いつでもキャンセル可能。</p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="gradient-hero text-white py-20 px-6 text-center">
     <h2 class="text-3xl font-bold mb-4">今すぐ無料で試す</h2>
@@ -141,8 +203,8 @@
           <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">電話番号</td><td class="py-3">請求があり次第、遅滞なく開示します</td></tr>
           <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">メール</td><td class="py-3"><a href="mailto:ryuumg03@gmail.com" class="underline">ryuumg03@gmail.com</a></td></tr>
           <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">販売価格</td><td class="py-3">無料プラン：無料（5件まで） / スタンダードプラン：¥8,980/月（50件） / プロプラン：¥19,800/月（200件）</td></tr>
-          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">支払方法</td><td class="py-3">銀行振込（振込先は契約時にご案内）</td></tr>
-          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">提供時期</td><td class="py-3">入金確認後、アクセスコードをメールにてお送りします（通常1営業日以内）</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">支払方法</td><td class="py-3">クレジットカード（Stripe決済）</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">提供時期</td><td class="py-3">決済完了後、アクセスコードをメールにてお送りします（通常1営業日以内）</td></tr>
           <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">返品・キャンセル</td><td class="py-3">デジタルコンテンツの性質上、アクセスコード発行後の返品・返金はお受けできません</td></tr>
         </tbody>
       </table>
