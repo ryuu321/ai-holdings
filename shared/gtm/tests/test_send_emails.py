@@ -147,24 +147,29 @@ class TestSafetyChecks:
         assert "パーソナライズ失敗率" in out.getvalue()
 
     def test_warns_when_optout_missing(self):
+        # 配信停止文言・住所・送信者名がすべて欠けたbody → Falseかつ警告が出る
         drafts = [{"email": "a@test.co.jp", "body": "こんにちは。", "personalized": "True"}]
         out = StringIO()
         with patch("sys.stdout", out):
             result = send_emails._check_safety(drafts, limit=10)
         assert result is False
-        assert "オプトアウト" in out.getvalue() or "真柄" in out.getvalue()
+        assert "特定電子メール法" in out.getvalue() or "配信停止" in out.getvalue()
 
     def test_passes_clean_drafts(self):
-        drafts = [
-            {"email": "a@test.co.jp", "body": "ご不要の場合はご返信ください。真柄 龍聖", "personalized": "True"}
-        ]
+        # 特定電子メール法の必須3要素がそろったbody → True
+        drafts = [{"email": "a@test.co.jp", "body": _SAFE_BODY, "personalized": "True"}]
         result = send_emails._check_safety(drafts, limit=10)
         assert result is True
 
 
 # ─── 追加テスト ─────────────────────────────────────────────
 
-_SAFE_BODY = "ご不要の場合はご返信ください。真柄 龍聖"
+# 特定電子メール法準拠の最小ボディ: 送信者名・配信停止文言・住所をすべて含む
+_SAFE_BODY = (
+    "真柄 龍聖\n"
+    "住所: 〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302\n"
+    "※配信停止をご希望の方は、このメールに「配信停止」とご返信ください。"
+)
 
 
 def _make_draft_csv(tmp_path, rows: list[dict], filename="_draft.csv") -> Path:
