@@ -89,7 +89,7 @@ def score_lead(company_name: str, email: str, url: str, cfg: dict) -> tuple[int,
 def qualify(project: str, input_file: str) -> None:
     cfg = load_config(project)
     input_path = Path(input_file)
-    if not input_path.is_absolute():
+    if not input_path.is_absolute() and not input_path.exists():
         input_path = _GTM_DIR / "data" / project / input_file
 
     if not input_path.exists():
