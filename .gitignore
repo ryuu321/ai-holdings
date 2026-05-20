@@ -11,6 +11,7 @@ saas-dev/projects/gumroad/data/gumroad_session.json
 saas-dev/projects/redbubble/data/rb_auth.json
 saas-dev/projects/rakuten-room/data/rakuten_session.json
 saas-dev/projects/note-auto/data/session_*.json
+saas-dev/projects/note-auto/note_session_*.json
 saas-dev/projects/rakuten-af/data/af_session.json
 saas-dev/projects/traffic/data/pinterest_session.json
 saas-dev/projects/traffic/data/reddit_session.json
@@ -21,10 +22,12 @@ saas-dev/projects/rakuten-af/data/af_scrape_error.png
 secretary/knowledge/state.json
 secretary/briefings/*.md
 secretary/daily-logs/*.md
-# コールドメール送信先（メアド個人情報 — public repo に載せない）
+# コールドメール送信先・リード（メアド個人情報 — public repo に載せない）
 saas-dev/projects/fudosan-copy/outreach/sent_log.csv
 saas-dev/projects/fudosan-copy/outreach/leads.csv
 saas-dev/projects/fudosan-copy/outreach/emails_draft.csv
+shared/gtm/data/**/*.csv
+shared/gtm/data/**/*.json
 
 # キャッシュ・一時ファイル
 __pycache__/
