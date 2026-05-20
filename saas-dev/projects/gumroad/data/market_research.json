@@ -1,13 +1,13 @@
 {
   "top_niches": [
     "Graphic Designers",
-    "Freelance Copywriters",
-    "Side Hustle Seekers"
+    "Virtual Assistants",
+    "Freelance Copywriters"
   ],
   "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate",
-  "cached_at": "2026-05-18T02:09:11.713849+00:00",
+  "title_idea": "Procreate Hacks",
+  "cached_at": "2026-05-20T02:07:21.834972+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
