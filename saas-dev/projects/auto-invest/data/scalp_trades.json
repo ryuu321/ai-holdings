@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": 1,
+    "entry_time": "2026-05-20T13:43:29.472813+00:00",
+    "exit_time": "2026-05-20T16:41:06.114032+00:00",
+    "entry_price": 76937.04,
+    "exit_price": 77114.26,
+    "shares": 0.10387715080174591,
+    "pnl": 2.3989,
+    "pnl_pct": 0.26,
+    "reason": "timeout",
+    "hold_min": 177.6,
+    "rsi_at_entry": 16.26261264702744,
+    "strategy_version": 1
+  }
+]
