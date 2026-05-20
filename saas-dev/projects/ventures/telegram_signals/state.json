@@ -2,15 +2,11 @@
   "venture": "telegram_signals",
   "params": {
     "include_bots": [
-      "ATTACK",
-      "SCALPING",
-      "VOLATILITY",
-      "GRID",
       "TREND",
-      "REVERSAL"
+      "SCALPING"
     ],
-    "note_cta": true,
-    "sort_by_pnl": false
+    "note_cta": false,
+    "sort_by_pnl": true
   },
   "performance_history": [
     {
@@ -117,6 +113,13 @@
       "daily_growth": 0,
       "post_sent": 1,
       "bots_included": 1
+    },
+    {
+      "date": "2026-05-20",
+      "subscribers": 0,
+      "daily_growth": 0,
+      "post_sent": 1,
+      "bots_included": 1
     }
   ],
   "learnings": [
@@ -164,8 +167,13 @@
       "date": "2026-05-19",
       "insight": "1日1件という極端な低頻度投稿では、実績順（PNL）ソートが情報の『鮮度』を奪い、静的な報告書のような印象を与えています。Bot数を最大化して1投稿の情報密度を高めつつ、最新順ソートに切り替えて『今、動いている感』を演出することが不可欠です。",
       "action": "Botを最大の6種に拡充して情報の網羅性を担保した上で、ソートを最新順（false）に変更し、1日1回の投稿を『市場のリアルタイムな動きを凝縮した速報』へとアップデートしてください。"
+    },
+    {
+      "date": "2026-05-20",
+      "insight": "1日1件という極めて限られた配信枠において、全Botの網羅と常時表示される広告（CTA）がチャンネルの『専門性の低さ』と『広告感』を際立たせ、ユーザーの登録意欲を阻害しています。",
+      "action": "王道の『TREND』と『SCALPING』の2種にBotを厳選し、広告（note_cta）を非表示にして純粋な投資シグナルとしての信頼性を高めつつ、PNLソートで実績を最前面にアピールしてください。"
     }
   ],
-  "last_optimized": "2026-05-19T02:52:39.165396+00:00",
-  "posts_sent": 14
+  "last_optimized": "2026-05-20T02:52:51.844538+00:00",
+  "posts_sent": 15
 }
