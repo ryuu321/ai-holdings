@@ -1,3 +1,6 @@
+import csv
+import datetime
+import io
 import os
 import urllib.parse
 import urllib.request
@@ -54,7 +57,8 @@ else:
 
 _USE_DB = bool(os.environ.get("SUPABASE_URL") and os.environ.get("SUPABASE_ANON_KEY"))
 if _USE_DB:
-    from db import get_or_create_user, increment_count, set_plan, validate_code
+    from db import (get_or_create_user, increment_count, set_plan, validate_code,
+                    save_generation, get_history, get_stats)
 
 FREE_TRIAL_LIMIT = 5
 PAID_PLAN_PRICE = "¥8,980/月"
@@ -77,6 +81,8 @@ for key, default in [
     ("show_bad_reason", False),
     ("last_target", ""),
     ("last_platform", ""),
+    ("generation_stats", {"week": 0, "month": 0}),
+    ("generation_history", None),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -102,6 +108,8 @@ if st.session_state.user_email is None:
                         user = get_or_create_user(email_input)
                         st.session_state.request_count = user.get("count", 0)
                         st.session_state.paid_plan = user.get("plan")
+                        st.session_state.generation_stats = get_stats(email_input)
+                        st.session_state.generation_history = get_history(email_input)
                     except Exception as e:
                         base = os.environ.get("SUPABASE_URL", "未設定").rstrip("/")
                         st.error(f"DB接続エラー: {e} | URL先頭: {base[:40]}")
@@ -120,6 +128,8 @@ if not st.session_state.db_loaded and _USE_DB:
         st.stop()
     st.session_state.request_count = user.get("count", 0)
     st.session_state.paid_plan = user.get("plan")
+    st.session_state.generation_stats = get_stats(st.session_state.user_email)
+    st.session_state.generation_history = get_history(st.session_state.user_email)
     st.session_state.db_loaded = True
 
 # ── 残り件数バッジ ────────────────────────────────────────────────────────────
@@ -252,6 +262,25 @@ if submitted:
         if _USE_DB:
             new_count = increment_count(st.session_state.user_email)
             st.session_state.request_count = new_count
+            save_generation(
+                st.session_state.user_email,
+                {"madori": madori_clean, "menseki": menseki, "platform": platform, "target": target},
+                result,
+            )
+            stats = st.session_state.generation_stats
+            st.session_state.generation_stats = {
+                "week": stats["week"] + 1,
+                "month": stats["month"] + 1,
+            }
+            new_entry = {
+                "madori": madori_clean, "menseki": str(menseki),
+                "platform": platform, "target": target,
+                "catch": result["catch"], "body": result["body"],
+                "prompt_version": result.get("prompt_version", ""),
+                "created_at": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M"),
+            }
+            hist = st.session_state.generation_history or []
+            st.session_state.generation_history = ([new_entry] + hist)[:10]
         else:
             st.session_state.request_count += 1
         st.session_state.last_result = result
@@ -265,8 +294,11 @@ if st.session_state.get("last_result"):
     platform_info = PLATFORMS[st.session_state.last_platform]
 
     st.success("生成完了！内容を確認してから貼り付けてください。")
-    st.caption(f"プロンプトバージョン: {result.get('prompt_version', '?')}　"
-               f"今月{st.session_state.request_count}件目の生成")
+    _stats = st.session_state.generation_stats
+    st.caption(
+        f"プロンプトバージョン: {result.get('prompt_version', '?')}　"
+        f"今月{_stats['month']}件 / 今週{_stats['week']}件"
+    )
 
     st.subheader(platform_info["catch_label"])
     catch_color = "🟢" if result["catch_len"] <= result["catch_max"] else "🔴"
@@ -321,6 +353,140 @@ if st.session_state.get("show_bad_reason") and not st.session_state.get("feedbac
         st.session_state.feedback_sent = True
         st.session_state.show_bad_reason = False
         st.info("フィードバックを記録しました。改善に役立てます。")
+
+# ── 生成履歴（データロック） ──────────────────────────────────────────────────
+if _USE_DB and st.session_state.user_email and st.session_state.generation_history:
+    with st.expander(f"📋 過去の生成履歴（{len(st.session_state.generation_history)}件）"):
+        for i, h in enumerate(st.session_state.generation_history):
+            created = h.get("created_at", "")[:16].replace("T", " ")
+            label = f"{i+1}. {created} | {h.get('madori','')}{h.get('menseki','')}㎡ | {h.get('platform','')} | {h.get('target','')}"
+            st.caption(label)
+            if h.get("catch"):
+                st.code(h["catch"], language=None)
+            if h.get("body"):
+                st.code(h["body"], language=None)
+            if i < len(st.session_state.generation_history) - 1:
+                st.divider()
+
+# ── 一括生成（CSV） ────────────────────────────────────────────────────────────
+st.divider()
+st.markdown("### 📊 一括生成（CSV）")
+st.caption("複数物件を一度に生成。ChatGPTでは絶対にできない。")
+
+_remaining_bulk = max(0, _limit - st.session_state.request_count)
+
+_BULK_COLS = ["madori","menseki","eki_toho","chikunensuu","muki","setsubi","target","platform","extra"]
+_VALID_MUKI = ["南","南東","南西","東","西","北東","北西","北"]
+_VALID_TARGET = ["ファミリー","カップル・DINKS","単身者（社会人）","単身者（学生）","シニア","投資家"]
+
+_tmpl_buf = io.StringIO()
+_tmpl_w = csv.writer(_tmpl_buf)
+_tmpl_w.writerow(_BULK_COLS)
+_tmpl_w.writerows([
+    ["2LDK","65.0","5","10","南","オートロック,宅配ボックス","ファミリー","SUUMO","南向き角部屋"],
+    ["1K","30.0","8","3","東","エアコン付き","単身者（社会人）","at home",""],
+])
+st.download_button(
+    "📥 テンプレートCSVをダウンロード",
+    _tmpl_buf.getvalue().encode("utf-8-sig"),
+    "fudotext_template.csv",
+    "text/csv",
+)
+
+_uploaded = st.file_uploader("物件CSVをアップロード", type=["csv"], key="bulk_upload")
+
+if _uploaded:
+    try:
+        _content = _uploaded.read().decode("utf-8-sig")
+        _reader = csv.DictReader(io.StringIO(_content))
+        _rows = [r for r in _reader]
+    except Exception as _e:
+        st.error(f"CSV読み込みエラー: {_e}")
+        _rows = []
+
+    if _rows:
+        _n = len(_rows)
+        if _n > _remaining_bulk:
+            st.warning(f"残り枠{_remaining_bulk}件のため、先頭{_remaining_bulk}件のみ生成します。")
+            _rows = _rows[:_remaining_bulk]
+            _n = _remaining_bulk
+
+        st.info(f"{_n}件を一括生成します（現在の残り枠: {_remaining_bulk}件）")
+
+        if st.button("✨ 一括生成スタート", type="primary", key="bulk_start") and _n > 0:
+            _results = []
+            _prog = st.progress(0)
+            _status = st.empty()
+
+            for _i, _row in enumerate(_rows):
+                try:
+                    _m = _row.get("madori","").strip()
+                    _ms = float(_row.get("menseki","65") or 65)
+                    _ek = int(float(_row.get("eki_toho","5") or 5))
+                    _ch = int(float(_row.get("chikunensuu","10") or 10))
+                    _mu = _row.get("muki","南").strip()
+                    if _mu not in _VALID_MUKI:
+                        _mu = "南"
+                    _se = [s.strip() for s in _row.get("setsubi","").split(",") if s.strip()]
+                    _tg = _row.get("target","ファミリー").strip()
+                    if _tg not in _VALID_TARGET:
+                        _tg = "ファミリー"
+                    _pl = _row.get("platform","SUUMO").strip()
+                    if _pl not in PLATFORMS:
+                        _pl = list(PLATFORMS.keys())[0]
+                    _ex = _row.get("extra","").strip()
+
+                    _status.caption(f"生成中 {_i+1}/{_n}件目: {_m} {_ms}㎡ / {_pl} / {_tg}")
+
+                    try:
+                        _mc, _ec = validate_inputs(_m, _ex)
+                    except ValidationError as _ve:
+                        _results.append({**_row, "catch":"", "body":"", "error":str(_ve)})
+                        _prog.progress((_i+1)/_n)
+                        continue
+
+                    _pinfo = PLATFORMS[_pl]
+                    _res = generate(
+                        madori=_mc, eki_toho=str(_ek), chikunensuu=str(_ch),
+                        muki=_mu, menseki=str(_ms), setsubi=_se,
+                        target=_tg, platform=_pl, platform_info=_pinfo, extra=_ec,
+                    )
+
+                    if _res["ok"]:
+                        if _USE_DB:
+                            _nc = increment_count(st.session_state.user_email)
+                            st.session_state.request_count = _nc
+                            save_generation(
+                                st.session_state.user_email,
+                                {"madori":_mc,"menseki":_ms,"platform":_pl,"target":_tg},
+                                _res,
+                            )
+                        else:
+                            st.session_state.request_count += 1
+                        _results.append({**_row, "catch":_res["catch"], "body":_res["body"], "error":""})
+                    else:
+                        _results.append({**_row, "catch":"", "body":"", "error":_res.get("error","生成失敗")})
+
+                except Exception as _e2:
+                    _results.append({**_row, "catch":"", "body":"", "error":str(_e2)})
+
+                _prog.progress((_i+1)/_n)
+
+            _ok_count = sum(1 for r in _results if r.get("catch"))
+            _status.success(f"完了！ {_ok_count}/{_n}件成功")
+
+            _out_buf = io.StringIO()
+            if _results:
+                _out_w = csv.DictWriter(_out_buf, fieldnames=list(_results[0].keys()))
+                _out_w.writeheader()
+                _out_w.writerows(_results)
+            st.download_button(
+                "📤 結果CSVをダウンロード",
+                _out_buf.getvalue().encode("utf-8-sig"),
+                "fudotext_results.csv",
+                "text/csv",
+                type="primary",
+            )
 
 # ── フッター ──────────────────────────────────────────────────────────────────
 st.divider()

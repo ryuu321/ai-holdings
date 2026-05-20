@@ -4,6 +4,7 @@ import urllib.request
 import urllib.error
 import urllib.parse
 import json
+from datetime import datetime, timezone, timedelta
 
 
 def _headers() -> dict:
@@ -111,7 +112,60 @@ def delete_user(email: str) -> dict:
     if not rows:
         return {"deleted": False, "reason": "ユーザーが見つかりません"}
     deleted = _delete("trials", f"email=eq.{urllib.parse.quote(email)}")
+    _delete("generation_history", f"email=eq.{urllib.parse.quote(email)}")
     return {"deleted": deleted > 0, "email": email}
+
+
+def save_generation(email: str, params: dict, result: dict) -> None:
+    """生成履歴を保存（データロック）。失敗しても生成結果には影響させない。"""
+    try:
+        _post("generation_history", {
+            "email": email,
+            "madori": params.get("madori", ""),
+            "menseki": params.get("menseki"),
+            "platform": params.get("platform", ""),
+            "target": params.get("target", ""),
+            "catch": result.get("catch", ""),
+            "body": result.get("body", ""),
+            "prompt_version": result.get("prompt_version", ""),
+        })
+    except Exception:
+        pass
+
+
+def get_history(email: str, limit: int = 10) -> list[dict]:
+    """過去の生成履歴を取得（データロック表示）。"""
+    try:
+        return _get(
+            "generation_history",
+            f"email=eq.{urllib.parse.quote(email)}"
+            f"&order=created_at.desc&limit={limit}&select=*",
+        )
+    except Exception:
+        return []
+
+
+def get_stats(email: str) -> dict[str, int]:
+    """今週・今月の生成件数（習慣化指標）。"""
+    now = datetime.now(timezone.utc)
+    week_start = (now - timedelta(days=now.weekday())).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    try:
+        week_rows = _get(
+            "generation_history",
+            f"email=eq.{urllib.parse.quote(email)}"
+            f"&created_at=gte.{urllib.parse.quote(week_start.isoformat())}&select=id",
+        )
+        month_rows = _get(
+            "generation_history",
+            f"email=eq.{urllib.parse.quote(email)}"
+            f"&created_at=gte.{urllib.parse.quote(month_start.isoformat())}&select=id",
+        )
+        return {"week": len(week_rows), "month": len(month_rows)}
+    except Exception:
+        return {"week": 0, "month": 0}
 
 
 if __name__ == "__main__":
