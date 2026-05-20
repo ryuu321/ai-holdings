@@ -156,8 +156,23 @@ class TestSafetyChecks:
         assert "特定電子メール法" in out.getvalue() or "配信停止" in out.getvalue()
 
     def test_passes_clean_drafts(self):
-        # 特定電子メール法の必須3要素がそろったbody → True
-        drafts = [{"email": "a@test.co.jp", "body": _SAFE_BODY, "personalized": "True"}]
+        # 特定電子メール法の必須3要素がそろったbody + 法人格あり → True
+        drafts = [{"company_name": "株式会社テスト不動産", "email": "a@test.co.jp", "body": _SAFE_BODY, "personalized": "True"}]
+        result = send_emails._check_safety(drafts, limit=10)
+        assert result is True
+
+    def test_blocks_company_name_without_legal_entity(self):
+        # 「北九州の不動産」のような法人格なし → False かつ警告
+        drafts = [{"company_name": "北九州の不動産", "email": "a@test.co.jp", "body": _SAFE_BODY, "personalized": "True"}]
+        out = StringIO()
+        with patch("sys.stdout", out):
+            result = send_emails._check_safety(drafts, limit=10)
+        assert result is False
+        assert "法人格なし" in out.getvalue()
+
+    def test_allows_company_name_with_legal_entity(self):
+        # 「株式会社〇〇」は通過
+        drafts = [{"company_name": "株式会社山田不動産", "email": "a@test.co.jp", "body": _SAFE_BODY, "personalized": "True"}]
         result = send_emails._check_safety(drafts, limit=10)
         assert result is True
 
@@ -239,7 +254,7 @@ class TestDailyLimitEnforcement:
         ]
         log = _make_sent_log(tmp_path, log_rows)
         draft_rows = [
-            {"company_name": f"新会社{i}", "email": f"new{i}@test.co.jp",
+            {"company_name": f"株式会社新会社{i}", "email": f"new{i}@test.co.jp",
              "subject": "件名", "body": _SAFE_BODY, "url": "", "status": "draft", "personalized": "True"}
             for i in range(draft_count)
         ]
@@ -278,9 +293,9 @@ class TestDuplicatePrevention:
              "subject": "", "sent_at": "2026-05-15 10:00", "result": "sent"},
         ])
         draft = _make_draft_csv(tmp_path, [
-            {"company_name": "既送信", "email": "existing@test.co.jp",
+            {"company_name": "株式会社既送信不動産", "email": "existing@test.co.jp",
              "subject": "件名", "body": _SAFE_BODY, "url": "", "status": "draft", "personalized": "True"},
-            {"company_name": "新規", "email": "new@test.co.jp",
+            {"company_name": "株式会社新規不動産", "email": "new@test.co.jp",
              "subject": "件名", "body": _SAFE_BODY, "url": "", "status": "draft", "personalized": "True"},
         ])
         with patch("send_emails.DRAFT_FILE", draft), \
@@ -296,9 +311,9 @@ class TestDuplicatePrevention:
     def test_skips_status_sent_drafts(self, tmp_path):
         log = _make_sent_log(tmp_path, [])
         draft = _make_draft_csv(tmp_path, [
-            {"company_name": "送信済み", "email": "done@test.co.jp",
+            {"company_name": "株式会社送信済み不動産", "email": "done@test.co.jp",
              "subject": "件名", "body": _SAFE_BODY, "url": "", "status": "sent", "personalized": "True"},
-            {"company_name": "新規", "email": "new@test.co.jp",
+            {"company_name": "株式会社新規不動産", "email": "new@test.co.jp",
              "subject": "件名", "body": _SAFE_BODY, "url": "", "status": "draft", "personalized": "True"},
         ])
         with patch("send_emails.DRAFT_FILE", draft), \

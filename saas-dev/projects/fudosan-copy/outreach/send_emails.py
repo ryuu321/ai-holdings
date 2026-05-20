@@ -116,6 +116,9 @@ def _check_safety(drafts: list[dict], limit: int) -> bool:
         if any(sig in name for sig in _blog_signals):
             print(f"WARNING: {d['email']} — 会社名がブログタイトルの可能性: 「{name[:30]}」")
             ok = False
+        elif name and not any(kw in name for kw in _company_required):
+            print(f"WARNING: {d['email']} — 法人格なし（送信先が特定できない）: 「{name[:30]}」")
+            ok = False
 
     # personalized列がある場合: フォールバック率チェック
     if drafts and "personalized" in drafts[0]:
