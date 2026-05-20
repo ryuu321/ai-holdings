@@ -34,7 +34,8 @@
     "AIプレゼン資料自動生成術",
     "Kindle出版×Claude 3.5 Sonnet",
     "Vapiを活用したB2B店舗予約自動化代行",
-    "中小企業向けAI研修代行"
+    "中小企業向けAI研修代行",
+    "Perplexity×WordPressによる業界特化ニュースサイト自動運営代行"
   ],
   "articles": [
     {
@@ -280,6 +281,13 @@
       "title": "【Claude 3.5 Sonnet】×【Gamma】で【AI研修資料を15分で一括生成】！【中小企業のリスキリング支援で「月額30万」の顧問契約を勝ち取る実務マニュアル】",
       "price": 980,
       "url": "https://note.com/notes/nde606310f674",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-20",
+      "title": "【Perplexity】×【WordPress】で業界特化ニュースサイトを完全自動構築！月5万円の「運用代行案件」を勝ち取る全手順",
+      "price": 980,
+      "url": "https://note.com/notes/nefcd46094191",
       "status": "success"
     }
   ]
