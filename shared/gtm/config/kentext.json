@@ -25,6 +25,14 @@
     "auto_approve_threshold": 70,
     "review_threshold": 50
   },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/kensetsu/outreach/sent_log.csv",
+  "sent_log_gist_filename": "kentext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/kentext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/kensetsu/feedback_reports",
+  "feedback_prompt_context": "KenTextは建設業・工務店向けAI工事完了報告書生成ツール。ユーザーは施工管理担当者・現場監督。Word(.docx)形式で出力予定。",
   "email_template": {
     "template_file": "kentext_sequence_1.txt",
     "subject": "【工事報告書をAIで自動化】KenTextのご紹介",

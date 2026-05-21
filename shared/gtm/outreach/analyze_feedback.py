@@ -47,6 +47,45 @@ def fetch_csv(url: str) -> str:
         return resp.read().decode("utf-8")
 
 
+def fetch_from_supabase(project: str, days: int) -> list[dict]:
+    """Supabaseの{project}_feedbackテーブルから直接取得する（Google Forms不要）。"""
+    supabase_url = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
+    anon_key = os.environ.get("SUPABASE_ANON_KEY", "")
+    if not supabase_url or not anon_key:
+        return []
+    if supabase_url.endswith("/rest/v1"):
+        supabase_url = supabase_url[:-len("/rest/v1")]
+
+    from datetime import timedelta
+    cutoff = (datetime.now(tz=timezone.utc) - timedelta(days=days)).isoformat()
+    table = f"{project}_feedback"
+    import urllib.parse as _up
+    url = (
+        f"{supabase_url}/rest/v1/{table}"
+        f"?created_at=gte.{_up.quote(cutoff)}&select=*&order=created_at.desc"
+    )
+    headers = {"apikey": anon_key, "Authorization": f"Bearer {anon_key}"}
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            rows = json.loads(r.read())
+    except Exception as e:
+        print(f"Supabase取得失敗: {e}", file=sys.stderr)
+        return []
+
+    return [
+        {
+            "timestamp": r.get("created_at", ""),
+            "rating": r.get("rating", ""),
+            "regen_count": str(r.get("regen_count", 0)),
+            "reasons": r.get("reasons", "") or "",
+            "extra": {"category": r.get("category", "")},
+        }
+        for r in rows
+        if isinstance(r, dict)
+    ]
+
+
 def parse_feedback(csv_content: str, days: int = 7) -> list[dict]:
     """
     過去 N 日分の行を返す。
@@ -181,24 +220,24 @@ def main() -> None:
     report_dir = _ROOT / cfg.get("feedback_report_dir", f"saas-dev/projects/{args.project}/feedback_reports")
     extra_context = cfg.get("feedback_prompt_context", "")
 
-    csv_url = os.environ.get(csv_env_key, "")
+    csv_url = os.environ.get(csv_env_key, "") if csv_env_key else ""
     gemini_key = os.environ.get("GEMINI_API_KEY", "")
 
-    if not csv_url:
-        print(f"ERROR: {csv_env_key} が設定されていません", file=sys.stderr)
-        sys.exit(1)
     if not gemini_key:
         print("ERROR: GEMINI_API_KEY が設定されていません", file=sys.stderr)
         sys.exit(1)
 
-    print(f"[{product_name}] フィードバック CSV を取得中...")
-    try:
-        csv_content = fetch_csv(csv_url)
-    except Exception as e:
-        print(f"ERROR: CSV 取得失敗: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    rows = parse_feedback(csv_content, days=args.days)
+    if csv_url:
+        print(f"[{product_name}] Google Forms CSV を取得中...")
+        try:
+            csv_content = fetch_csv(csv_url)
+        except Exception as e:
+            print(f"ERROR: CSV 取得失敗: {e}", file=sys.stderr)
+            sys.exit(1)
+        rows = parse_feedback(csv_content, days=args.days)
+    else:
+        print(f"[{product_name}] Supabase からフィードバックを取得中...")
+        rows = fetch_from_supabase(args.project, args.days)
     print(f"過去{args.days}日のフィードバック: {len(rows)}件")
 
     if not rows:

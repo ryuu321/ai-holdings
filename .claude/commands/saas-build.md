@@ -365,6 +365,19 @@ SUPABASE_ANON_KEY = "..."
 
 `supabase/sql/{project}_tables.sql` を作成して Table Editor で実行:
 ```sql
+-- フィードバックテーブル（in-app 👍/👎 の保存先）
+CREATE TABLE {project}_feedback (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email text,
+  category text,
+  rating text NOT NULL,
+  regen_count integer DEFAULT 0,
+  reasons text,
+  created_at timestamptz DEFAULT now()
+);
+ALTER TABLE {project}_feedback ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON {project}_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
+
 CREATE TABLE {project}_trials (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   email text UNIQUE NOT NULL,
@@ -422,22 +435,25 @@ CREATE POLICY "anon_select" ON {project}_codes FOR SELECT TO anon USING (true);
 - [ ] 料金・プラン・トライアル期間が明示されている（無料トライアルの範囲を決める）
 - [ ] 問い合わせ先（メール等）が表示されている
 
-### Stripe 課金設定
+### Stripe 課金設定（自動化済み）
 
-標準プラン構成（変えない理由: Phase 0-A のスケール要件を満たす実績値）:
+標準プラン構成:
 | プラン | 月額 | 上限 |
 |--------|------|------|
 | スタンダード | ¥8,980 | 50件/月 |
 | プロ | ¥19,800 | 200件/月 |
 | 無料トライアル | — | 5件 |
 
-手順:
-1. Stripe Dashboard → 製品を作成（上記2プランをそれぞれ recurring で登録）
-2. 決済リンクを生成
-3. Streamlit Secrets の `{PROJECT_UPPER}_STRIPE_STANDARD_URL` / `{PROJECT_UPPER}_STRIPE_PRO_URL` に設定
-4. 決済完了の通知はStripeのメールで受け取り → GitHub Actions `{project}-send-code.yml` を手動実行してコードを発行
+```powershell
+# .env に STRIPE_SECRET_KEY を追加してから実行
+python shared/gtm/scripts/setup_stripe.py --project {project}
+# → clipboard.txt に Streamlit Secrets 用の URL が出力される
+# → Streamlit Cloud Secrets に貼り付けて保存
+```
 
-> **現在の運用**: Webhook 未実装のため「決済 → 手動コード発行」は初期50件まで許容。ユーザー数が増えたら Webhook + コード自動発行を実装する。
+決済完了後: Stripe メール受信 → GitHub Actions `{project}-send-code.yml` を手動実行してコードを発行。
+
+> **現在の運用**: Webhook 未実装のため「決済 → 手動コード発行」は初期50件まで許容。
 
 ---
 
@@ -917,14 +933,22 @@ python send_emails.py --limit 25  # 残り25件
 
 **完了基準**: 2週間以上データが蓄積し、KPIが数値で確認できる。
 
-### フィードバック収集設定（アンケートPDCA）
+### フィードバック収集設定（in-app → Supabase、Google Forms不要）
 
-1. Google フォームを作成（カラム: `timestamp` `rating` `regen_count` `reasons`）
-2. 「回答」→「スプレッドシートにリンク」→「ファイル」→「ウェブに公開（CSV）」でURLを取得
-   - URL形式: `https://docs.google.com/spreadsheets/d/{ID}/pub?gid={GID}&single=true&output=csv`
-3. GitHub Secrets に追加: `{PROJECT_UPPER}_FEEDBACK_CSV_URL`
-4. アプリ内にリンクを設置: `st.link_button("フィードバックを送る", form_url)`
-5. `{project}-feedback-pdca.yml` が毎週月曜に自動実行 → `saas-dev/projects/{project}/feedback_reports/` にレポートを保存
+新製品の標準はアプリ内の👍/👎ボタン → Supabase `{project}_feedback` テーブルに直接保存。
+
+実装済み内容（app.pyに組み込み済み）:
+- 生成結果の下に👍/👎ボタンを表示
+- 👎押下でテキストエリアを展開
+- `db.py` の `save_feedback()` がSupabaseに保存
+- `feedback_sent` session_state で二重送信を防止
+- 新しい生成のたびにフィードバックをリセット
+
+`{project}-feedback-pdca.yml` が毎週月曜に自動実行:
+- `analyze_feedback.py --project {project}` がSupabaseから直接取得
+- Gemini で分析 → `feedback_reports/YYYY-MM-DD.md` としてリポジトリにコミット
+
+> **FudoTextのみ**: Google Forms CSV モードを維持（`FUDOTEXT_FEEDBACK_CSV_URL` が設定されていれば自動でCSVモードを使用）
 
 ### 共通PDCAモジュールの使い方
 
