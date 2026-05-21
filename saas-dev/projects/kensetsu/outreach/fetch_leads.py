@@ -70,11 +70,10 @@ QUERIES = [
 def _brave_search(query: str, count: int = 10) -> list[dict]:
     if not BRAVE_KEY:
         return []
-    url = f"https://api.search.brave.com/res/v1/web/search?q={urllib.parse.quote(query)}&count={count}&country=jp&search_lang=ja"
+    url = f"https://api.search.brave.com/res/v1/web/search?q={urllib.parse.quote(query)}&count={count}&country=jp"
     try:
         req = urllib.request.Request(url, headers={
             "Accept": "application/json",
-            "Accept-Encoding": "gzip",
             "X-Subscription-Token": BRAVE_KEY,
         })
         with urllib.request.urlopen(req, timeout=15) as r:
