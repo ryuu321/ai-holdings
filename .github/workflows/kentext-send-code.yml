@@ -1,0 +1,72 @@
+name: kentext-send-code
+
+on:
+  workflow_dispatch:
+    inputs:
+      to_email:
+        description: 'Customer email'
+        required: true
+      plan:
+        description: 'Plan (standard or pro)'
+        required: true
+      code:
+        description: 'Access code (UUID)'
+        required: true
+
+jobs:
+  send-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send access code email
+        env:
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TO_EMAIL: ${{ inputs.to_email }}
+          PLAN: ${{ inputs.plan }}
+          CODE: ${{ inputs.code }}
+        run: |
+          python3 << 'PYEOF'
+          import smtplib, os
+          from email.mime.text import MIMEText
+
+          to_email = os.environ['TO_EMAIL']
+          plan = os.environ['PLAN']
+          code = os.environ['CODE']
+          gmail = os.environ['GMAIL_ADDRESS']
+          pwd = os.environ['GMAIL_APP_PASSWORD']
+          plan_label = 'スタンダード' if plan == 'standard' else 'プロ'
+          limit = '50件' if plan == 'standard' else '200件'
+          price = '¥8,980' if plan == 'standard' else '¥19,800'
+
+          body = (
+              f'この度はKenText {plan_label}プランにお申し込みいただき、誠にありがとうございます。\n\n'
+              f'アクセスコードをお送りします。\n\n'
+              f'■ アクセスコード\n{code}\n\n'
+              f'■ ご利用開始の手順\n'
+              f'1. KenTextを開く\n'
+              f'   https://kwntext-jy2lwkquv9yt3dogetd6vu.streamlit.app\n\n'
+              f'2. メールアドレスを入力してログイン\n\n'
+              f'3. 無料枠（5件）を使い切ると「アクセスコードを持っている方」欄が表示されます\n\n'
+              f'4. 上記コードを入力 → {plan_label}プラン（月{limit}）が有効化されます\n\n'
+              f'■ プラン内容\n'
+              f'プラン: {plan_label}\n'
+              f'月額: {price}\n'
+              f'月間上限: {limit}\n\n'
+              f'ご不明な点はお気軽にご返信ください。\n\n'
+              f'━━━━━━━━━━━━━━━━━━\n'
+              f'真柄 龍聖\n'
+              f'KenText 開発者\n'
+              f'Mail: ryuumg03@gmail.com\n'
+              f'━━━━━━━━━━━━━━━━━━'
+          )
+
+          msg = MIMEText(body, 'plain', 'utf-8')
+          msg['Subject'] = f'【KenText】{plan_label}プランのアクセスコードをお送りします'
+          msg['From'] = gmail
+          msg['To'] = to_email
+
+          with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=30) as smtp:
+              smtp.login(gmail, pwd)
+              smtp.send_message(msg)
+              print(f'送信成功: {to_email} / {plan_label}')
+          PYEOF
