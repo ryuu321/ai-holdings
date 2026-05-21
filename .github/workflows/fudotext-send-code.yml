@@ -25,58 +25,50 @@ jobs:
           PLAN: ${{ inputs.plan }}
           CODE: ${{ inputs.code }}
         run: |
-          python3 -c "
-import smtplib, os
-from email.mime.text import MIMEText
+          python3 << 'PYEOF'
+          import smtplib, os
+          from email.mime.text import MIMEText
 
-to_email = os.environ['TO_EMAIL']
-plan = os.environ['PLAN']
-code = os.environ['CODE']
-gmail = os.environ['GMAIL_ADDRESS']
-pwd = os.environ['GMAIL_APP_PASSWORD']
-plan_label = 'スタンダード' if plan == 'standard' else 'プロ'
-limit = '50件' if plan == 'standard' else '200件'
-price = '¥8,980' if plan == 'standard' else '¥19,800'
+          to_email = os.environ['TO_EMAIL']
+          plan = os.environ['PLAN']
+          code = os.environ['CODE']
+          gmail = os.environ['GMAIL_ADDRESS']
+          pwd = os.environ['GMAIL_APP_PASSWORD']
+          plan_label = 'スタンダード' if plan == 'standard' else 'プロ'
+          limit = '50件' if plan == 'standard' else '200件'
+          price = '¥8,980' if plan == 'standard' else '¥19,800'
 
-body = f'''この度はFudoText {plan_label}プランにお申し込みいただき、誠にありがとうございます。
+          body = (
+              f'この度はFudoText {plan_label}プランにお申し込みいただき、誠にありがとうございます。\n\n'
+              f'アクセスコードをお送りします。\n\n'
+              f'■ アクセスコード\n{code}\n\n'
+              f'■ ご利用開始の手順\n'
+              f'1. FudoTextを開く\n'
+              f'   https://fudotext-o7igtyxsc4jugjx94cz7rm.streamlit.app\n\n'
+              f'2. メールアドレスを入力してログイン\n\n'
+              f'3. 無料枠（5件）を使い切ると「アクセスコードを持っている方」欄が表示されます\n\n'
+              f'4. 上記コードを入力 → {plan_label}プラン（月{limit}）が有効化されます\n\n'
+              f'■ プラン内容\n'
+              f'プラン: {plan_label}\n'
+              f'月額: {price}\n'
+              f'月間上限: {limit}\n'
+              f'対応ポータル: SUUMO / at home / HOMES\n\n'
+              f'ご不明な点はお気軽にご返信ください。\n\n'
+              f'━━━━━━━━━━━━━━━━━━\n'
+              f'真柄 龍聖\n'
+              f'FudoText 開発者\n'
+              f'Mail: ryuumg03@gmail.com\n'
+              f'Web: https://ryuu321.github.io/ai-holdings/docs/fudotext.html\n'
+              f'━━━━━━━━━━━━━━━━━━'
+          )
 
-アクセスコードをお送りします。
+          msg = MIMEText(body, 'plain', 'utf-8')
+          msg['Subject'] = f'【FudoText】{plan_label}プランのアクセスコードをお送りします'
+          msg['From'] = gmail
+          msg['To'] = to_email
 
-■ アクセスコード
-{code}
-
-■ ご利用開始の手順
-1. FudoTextを開く
-   https://fudotext-o7igtyxsc4jugjx94cz7rm.streamlit.app
-
-2. メールアドレスを入力してログイン
-
-3. 無料枠（5件）を使い切ると「アクセスコードを持っている方」欄が表示されます
-
-4. 上記コードを入力 → {plan_label}プラン（月{limit}）が有効化されます
-
-■ プラン内容
-プラン: {plan_label}
-月額: {price}
-月間上限: {limit}
-対応ポータル: SUUMO / at home / HOMES
-
-ご不明な点はお気軽にご返信ください。
-
-━━━━━━━━━━━━━━━━━━
-真柄 龍聖
-FudoText 開発者
-Mail: ryuumg03@gmail.com
-Web: https://ryuu321.github.io/ai-holdings/docs/fudotext.html
-━━━━━━━━━━━━━━━━━━'''
-
-msg = MIMEText(body, 'plain', 'utf-8')
-msg['Subject'] = f'【FudoText】{plan_label}プランのアクセスコードをお送りします'
-msg['From'] = gmail
-msg['To'] = to_email
-
-with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=30) as smtp:
-    smtp.login(gmail, pwd)
-    smtp.send_message(msg)
-    print(f'送信成功: {to_email} / {plan_label}')
-"
+          with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=30) as smtp:
+              smtp.login(gmail, pwd)
+              smtp.send_message(msg)
+              print(f'送信成功: {to_email} / {plan_label}')
+          PYEOF
