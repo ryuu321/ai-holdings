@@ -1,4 +1,4 @@
-"""
+﻿"""
 承認済みリードからメール草稿を生成する
   python generate_emails.py --project fudotext [--dry-run] [--limit 50]
 入力: shared/gtm/data/{project}/leads_approved.csv
@@ -133,7 +133,7 @@ def main():
     template = load_template(template_file)
     api_key = os.environ.get("GEMINI_API_KEY", "")
     sender_address = os.environ.get("SENDER_ADDRESS", "")
-    model = cfg.get("gemini_model", "gemini-2.0-flash-lite")
+    model = cfg.get("gemini_model", "gemini-3.1-flash-lite")
     fallback = cfg["email_template"]["fallback_opening"]
     personalize_prompt = cfg["email_template"]["personalize_prompt"]
     subject = cfg["email_template"]["subject"]

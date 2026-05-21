@@ -1,0 +1,11 @@
+-- kensetsu_trials: ユーザー登録・更新を許可
+CREATE POLICY "anon_all" ON kensetsu_trials
+  FOR ALL TO anon USING (true) WITH CHECK (true);
+
+-- kensetsu_codes: コード検証（読み取りのみ）
+CREATE POLICY "anon_select" ON kensetsu_codes
+  FOR SELECT TO anon USING (true);
+
+-- kensetsu_history: 生成履歴の保存・読み取り
+CREATE POLICY "anon_all" ON kensetsu_history
+  FOR ALL TO anon USING (true) WITH CHECK (true);

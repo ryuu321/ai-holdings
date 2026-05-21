@@ -1,4 +1,4 @@
-"""
+﻿"""
 デジタルテンプレート生成: Gemini → CSV + カテゴリ管理
 """
 import json
@@ -96,7 +96,7 @@ def generate(category: dict, params: dict) -> dict:
     for attempt in range(4):
         try:
             resp = client.models.generate_content(
-                model="gemini-flash-latest",
+                model="gemini-3.1-flash-lite",
                 contents=prompt,
                 config={"temperature": 0.6}
             )

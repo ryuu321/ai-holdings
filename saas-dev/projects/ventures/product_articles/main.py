@@ -1,4 +1,4 @@
-"""
+﻿"""
 product_articles/main.py
 毎週実行: 各Gumroad商品に対応したバイヤーインテント記事を生成 → Dev.to + GitHub Pages投稿
 ターゲット: "ChatGPT prompts for [niche]" 系の購買意欲の高いキーワード
@@ -1070,7 +1070,7 @@ Return valid JSON only (no markdown fences):
     for attempt in range(3):
         try:
             resp = client.models.generate_content(
-                model="gemini-flash-latest",
+                model="gemini-3.1-flash-lite",
                 contents=prompt,
                 config={"temperature": 0.7},
             )

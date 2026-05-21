@@ -1,4 +1,4 @@
-"""
+﻿"""
 ventures/shared/optimizer.py — Gemini-powered parameter optimizer
 全Ventureで共用。パフォーマンスデータを分析してparamを自動更新する。
 """
@@ -64,7 +64,7 @@ def optimize(venture_name: str, state: dict) -> dict:
 
     for attempt in range(3):
         try:
-            resp = client.models.generate_content(model="gemini-flash-latest", contents=prompt)
+            resp = client.models.generate_content(model="gemini-3.1-flash-lite", contents=prompt)
             text = resp.text.strip()
             if "```json" in text:
                 text = text.split("```json")[1].split("```")[0].strip()

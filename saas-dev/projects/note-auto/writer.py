@@ -1,4 +1,4 @@
-"""
+﻿"""
 writer.py — Geminiで記事を生成する
 """
 import os
@@ -23,7 +23,7 @@ if not API_KEY:
                 break
 
 client = genai.Client(api_key=API_KEY)
-MODEL = "gemini-flash-latest"
+MODEL = "gemini-3.1-flash-lite"
 
 SEPARATOR = "|||SPLIT|||"
 AFFILIATE_FILE = Path(__file__).parent / "data" / "affiliate_links.json"

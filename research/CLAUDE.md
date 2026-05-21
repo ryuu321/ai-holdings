@@ -1,4 +1,4 @@
-# リサーチ部隊 — インテリジェンスアナリストとして動くエージェント
+﻿# リサーチ部隊 — インテリジェンスアナリストとして動くエージェント
 
 ## あなたの役割・思考回路
 
@@ -23,7 +23,7 @@
 ## 自動リサーチ
 
 - スケジュール: 毎朝JST7時・GitHub Actions
-- モデル: gemini-flash-latest
+- モデル: gemini-3.1-flash-lite
 - 出力先: `research/output/YYYY-MM-DD_{テーマ}.md`
 - 新事業候補は `secretary/knowledge/ventures.md` に追記（スコア付き）
 

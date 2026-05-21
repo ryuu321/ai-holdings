@@ -1,0 +1,10 @@
+I am building an automated social media posting system for a B2B SaaS product called FudoText, which helps Japanese real estate agents generate property descriptions using AI.
+
+Use cases:
+1. Post daily educational content about real estate regulations and best practices (targeting real estate agents in Japan)
+2. Share product updates and feature announcements for FudoText
+3. Engage with the real estate professional community (#宅建 #不動産)
+
+I will only use the Write API to post tweets. I will not access any other users' data, DMs, or timelines. No data will be stored or sold. All content is original, generated for business promotion purposes.
+
+Posting frequency: approximately 1 tweet per day (30/month, well within Free tier limits).

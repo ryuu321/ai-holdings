@@ -1,4 +1,4 @@
-"""
+﻿"""
 note記事（日本語）→ Medium記事（英語）に翻訳・再構成
 """
 import json
@@ -87,7 +87,7 @@ Respond with valid JSON only (no markdown fences, no extra text):
     for attempt in range(4):
         try:
             resp = client.models.generate_content(
-                model="gemini-flash-latest",
+                model="gemini-3.1-flash-lite",
                 contents=prompt,
                 config={"temperature": 0.75}
             )

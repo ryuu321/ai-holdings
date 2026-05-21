@@ -1,4 +1,4 @@
-# AI Holdings — 標準SaaSスタック & 実装パターン集
+﻿# AI Holdings — 標準SaaSスタック & 実装パターン集
 
 > `saas-build.md` = プロセス（何をするか）
 > このファイル = 実装（どう作るか）
@@ -67,7 +67,7 @@ def send_weekly_summary(user_email: str, user_id: str):
 | レイヤー | 選択肢 | 理由 |
 |---------|-------|------|
 | UI | Streamlit Cloud | 無料・デプロイ1コマンド |
-| AI | Gemini Flash (`gemini-2.0-flash-lite`) | 無料枠500RPD |
+| AI | Gemini Flash (`gemini-3.1-flash-lite`) | 無料枠500RPD |
 | DB | Supabase REST API直呼び | clientライブラリ不使用（互換問題多発） |
 | 課金 | 銀行振込 + アクセスコード | Stripe申告書不要・個人でも即開始 |
 | メール | Gmail SMTP + アプリパスワード | 無料・実績あり |
@@ -191,7 +191,7 @@ if st.session_state.get("count", 0) >= limit:
 ```python
 import os, json, time, urllib.request, urllib.error
 
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash-lite")
+MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite")
 
 def call_gemini(prompt: str, max_tokens: int = 800) -> dict:
     """戻り値: {"ok": True, "text": "..."} or {"ok": False, "error": "..."}"""
@@ -362,7 +362,7 @@ ICPキーワード・スコアリング・件名だけ変えればパイプラ�
   "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-2.0-flash-lite",
+  "gemini_model": "gemini-3.1-flash-lite",
   "icp": {
     "target_description": "",
     "target_keywords": [],

@@ -1,4 +1,4 @@
-"""
+﻿"""
 research.py — Geminiで今日投稿すべき「売れるテーマ」をリサーチ
 """
 import os
@@ -187,7 +187,7 @@ def research_topic(account_id: int) -> dict:
     import time
     for attempt in range(5):
         try:
-            response = client.models.generate_content(model="gemini-flash-latest", contents=prompt)
+            response = client.models.generate_content(model="gemini-3.1-flash-lite", contents=prompt)
             break
         except Exception as e:
             err = str(e)

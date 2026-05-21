@@ -1,4 +1,4 @@
-"""
+﻿"""
 research_daily.py — Gemini による毎日の情報収集 + CEOスコアリング
 
 実行: python shared/tools/research_daily.py
@@ -108,7 +108,7 @@ def fetch_topic(topic: dict) -> str:
     """Gemini でトピックを調査する"""
     try:
         response = client.models.generate_content(
-            model="gemini-flash-latest",
+            model="gemini-3.1-flash-lite",
             contents=topic["query"]
         )
         return response.text
@@ -120,7 +120,7 @@ def score_opportunities(research_summary: str) -> list:
     """CEOロジックでスコアリング"""
     try:
         response = client.models.generate_content(
-            model="gemini-flash-latest",
+            model="gemini-3.1-flash-lite",
             contents=SCORING_PROMPT + research_summary
         )
         text = response.text.strip()

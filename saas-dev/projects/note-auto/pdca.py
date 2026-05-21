@@ -1,4 +1,4 @@
-"""
+﻿"""
 note PDCA — 週次分析 → アカウント別戦略更新
 Usage: python pdca.py
 """
@@ -128,7 +128,7 @@ def run_pdca():
 
     for attempt in range(3):
         try:
-            response = client.models.generate_content(model="gemini-flash-latest", contents=prompt)
+            response = client.models.generate_content(model="gemini-3.1-flash-lite", contents=prompt)
             break
         except Exception as e:
             if attempt < 2 and ("429" in str(e) or "503" in str(e) or "RESOURCE_EXHAUSTED" in str(e)):

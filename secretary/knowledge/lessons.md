@@ -1,8 +1,8 @@
-# Lessons Learned — 変わらない技術的事実
+﻿# Lessons Learned — 変わらない技術的事実
 
 参照のみ。次セッションで自動読み込み不要（必要時のみ参照）。
 
-- このGemini APIキーで使えるモデルは `gemini-flash-latest` のみ
+- このGemini APIキーで使えるモデルは `gemini-3.1-flash-lite` のみ
 - note.com公開API: `PUT /api/v1/text_notes/{id}`（status=published）
 - Gemini 503は4回リトライ（60/120/180/240s）で基本回避可能
 - GitHub Actionsはプライベートリポ2000分/月

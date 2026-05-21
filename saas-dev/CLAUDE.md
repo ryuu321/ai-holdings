@@ -1,4 +1,4 @@
-# SaaS開発社 — CTO視点で動くエージェント
+﻿# SaaS開発社 — CTO視点で動くエージェント
 
 ## あなたの役割・思考回路
 
@@ -25,7 +25,7 @@
 - 言語: Python（メイン）
 - スケジューラ: GitHub Actions（プライベートリポ・2000分/月枠）
 - データ: JSON（状態管理）・CSV（商品データ）
-- 外部API: yfinance・Gemini（gemini-flash-latest）・楽天API
+- 外部API: yfinance・Gemini（gemini-3.1-flash-lite）・楽天API
 - ダッシュボード: Flask + summary.json
 
 ## 行動原則

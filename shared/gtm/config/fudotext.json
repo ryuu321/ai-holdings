@@ -1,4 +1,4 @@
-{
+﻿{
   "project": "fudotext",
   "product_name": "FudoText",
   "app_url": "https://fudotext-o7igtyxsc4jugjx94cz7rm.streamlit.app",
@@ -7,7 +7,7 @@
   "sender_email": "ryuumg03@gmail.com",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-2.0-flash-lite",
+  "gemini_model": "gemini-3.1-flash-lite",
   "icp": {
     "target_description": "不動産仲介会社の物件担当・営業スタッフ",
     "target_keywords": ["不動産", "賃貸", "仲介", "売買", "マンション", "アパート"],

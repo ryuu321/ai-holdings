@@ -1,4 +1,4 @@
-"""
+﻿"""
 AI News Daily Digest — HackerNews & ProductHunt からAI関連ニュースを自動収集
 → Geminiで要約・英語コンテンツ生成 → Dev.to + GitHub Pages に投稿
 毎日JST 9:00実行（朝のニュース感）
@@ -124,7 +124,7 @@ Return valid JSON only:
     for attempt in range(3):
         try:
             resp = client.models.generate_content(
-                model="gemini-flash-latest",
+                model="gemini-3.1-flash-lite",
                 contents=prompt,
                 config={"temperature": 0.6},
             )

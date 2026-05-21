@@ -1,4 +1,4 @@
----
+﻿---
 company: research
 updated: 2026-05-01
 ---
@@ -10,7 +10,7 @@ updated: 2026-05-01
 - ventures.mdへ自動追記
 
 ## モデル
-- gemini-flash-latest（SDK移行済み）
+- gemini-3.1-flash-lite（SDK移行済み）
 
 ## 重要パス
 - スクリプト: `research/research_daily.py`

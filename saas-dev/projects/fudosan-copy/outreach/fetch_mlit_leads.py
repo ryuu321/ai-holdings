@@ -1,4 +1,4 @@
-"""
+﻿"""
 宅建業者リードをMLIT etsuran + Brave APIで収集
   python fetch_mlit_leads.py
 
@@ -120,7 +120,7 @@ def _is_fudosan_ai(html: str) -> bool:
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": 5, "temperature": 0}
     }).encode()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={GEMINI_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key={GEMINI_KEY}"
     try:
         req = urllib.request.Request(url, data=payload,
                                       headers={"Content-Type": "application/json"}, method="POST")

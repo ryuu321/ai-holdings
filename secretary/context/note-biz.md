@@ -1,4 +1,4 @@
----
+﻿---
 company: note-biz
 updated: 2026-05-01
 ---
@@ -29,7 +29,7 @@ updated: 2026-05-01
 - Gemini 503エラー: 4回リトライ（60/120/180/240s）で基本回避
 
 ## Geminiモデル
-- 使用可能: gemini-flash-latest のみ
+- 使用可能: gemini-3.1-flash-lite のみ
 
 ## 廃止
 - チビの哲学（恋愛哲学ブランド）: 2026-05-01廃業決定

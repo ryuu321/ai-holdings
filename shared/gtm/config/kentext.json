@@ -1,4 +1,4 @@
-{
+﻿{
   "project": "kentext",
   "project_dir": "kensetsu",
   "product_name": "KenText",
@@ -8,7 +8,7 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/kentext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-2.0-flash-lite",
+  "gemini_model": "gemini-3.1-flash-lite",
   "icp": {
     "target_description": "建設業・工務店の現場監督・施工管理担当者",
     "target_keywords": ["建設", "工務店", "施工", "リフォーム", "土木", "設備工事", "内装", "外装", "塗装", "解体", "増改築", "配管", "電気工事"],
