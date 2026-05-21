@@ -183,7 +183,7 @@ def benchmark_industry(industry: dict, pages_per_query: int = 8) -> dict:
                         good_domain += 1
                     elif any(domain.endswith(b) for b in BAD_DOMAINS):
                         bad_domain += 1
-                print(f"    ✓ {emails[0]}")
+                print(f"    OK {emails[0]}")
             time.sleep(0.8)
 
     email_rate = email_found / fetched * 100 if fetched > 0 else 0
