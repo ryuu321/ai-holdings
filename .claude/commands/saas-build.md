@@ -644,16 +644,53 @@ python shared/gtm/outreach/generate_emails.py --project {name} --dry-run
 
 **目的**: 1通目で断られても2通目・3通目で返信をもらえる設計にする。
 
-手順:
-1. `shared/gtm/outreach/templates/` のテンプレートを製品に合わせて編集
-2. 編集後に `--preview N` で実際の本文を3件以上読む（自分が受け取ったら違和感がないか）
-3. `send_emails.py --test-to 自分のメアド` で実際に受信して確認
+**手順:**
 
-**本文チェックリスト（テスト送信後に自分の受信箱で確認）:**
-- [ ] 冒頭の会社名が正しい法人名になっているか
-- [ ] パーソナライズ文が自然な日本語か（不自然な造語・英字混じりがないか）
-- [ ] 署名に氏名・住所・メールが入っているか
-- [ ] 配信停止の案内文があるか
+**Step 1: テンプレート作成**
+```
+shared/gtm/outreach/templates/{name}_sequence_1.txt を新規作成
+→ saas-stack.md の「メールテンプレート」セクションをそのままコピーして製品文言に書き換える
+```
+
+テンプレートに必ず含める3要素（特定電子メール法・違反すると行政指導対象）:
+```
+━━━━━━━━━━━━━━━━━━━━━━
+{sender_name}
+{product_name} 運営
+{sender_address}   ← 住所（バーチャルオフィス）を必ず実記載
+{sender_email}
+━━━━━━━━━━━━━━━━━━━━━━
+
+※ ご不要の場合は、本メールにご返信いただければ以後の送付を停止いたします。
+```
+
+**Step 2: config に template_file を追記**
+```json
+"email_template": {
+  "template_file": "{name}_sequence_1.txt",   ← これがないと generate_emails.py が動かない
+  "subject": "...",
+  "fallback_opening": "...",
+  "personalize_prompt": "..."
+}
+```
+
+**Step 3: ドライランで本文確認**
+```powershell
+python shared/gtm/outreach/generate_emails.py --project {name} --dry-run
+# → emails_draft.csv を開いて本文を目視確認（3件以上）
+```
+
+**Step 4: 自分宛にテスト送信**
+```powershell
+python saas-dev/projects/{name}/outreach/send_emails.py --test-to ryuumg03@gmail.com
+```
+
+**本文チェックリスト（受信箱で確認）:**
+- [ ] `{company_name}` が正しい法人名になっているか（ブログタイトル・「お問い合わせ」等が混入していないか）
+- [ ] `{personalized_opening}` が自然な日本語か（不自然な造語・英字混じりがないか）
+- [ ] 署名ブロックに **氏名・住所・メールアドレス** の3点すべてが入っているか
+- [ ] 配信停止の案内文（「ご返信いただければ停止」）があるか
+- [ ] LP URL (`{app_url}`) が正しいか、リンクが開くか
 - [ ] スパムフォルダに入っていないか（入っていたら件名・送信ドメインを見直す）
 
 **完了基準**: 自分宛テスト送信を受信し、上記チェックリストを全クリア。

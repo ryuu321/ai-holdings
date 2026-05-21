@@ -355,8 +355,8 @@ ICPキーワード・スコアリング・件名だけ変えればパイプラ�
 {
   "project": "{name}",
   "product_name": "{ProductName}",
-  "app_url": "",
-  "lp_url": "",
+  "app_url": "https://{name}.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/{name}.html",
   "sender_name": "真柄 龍聖",
   "sender_email": "ryuumg03@gmail.com",
   "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
@@ -383,12 +383,64 @@ ICPキーワード・スコアリング・件名だけ変えればパイプラ�
     "review_threshold": 50
   },
   "email_template": {
-    "subject": "",
-    "personalize_prompt": "",
-    "fallback_opening": ""
+    "template_file": "{name}_sequence_1.txt",
+    "subject": "【{書類ペインを解決}】{ProductName}のご紹介",
+    "fallback_opening": "平素より{業種}業務でご尽力されていることと存じます。",
+    "personalize_prompt": "{業種}「{company_name}」の担当者向けに、{書類ペイン}の手間を減らせるAIツールを紹介する書き出し文を1文で。丁寧な敬語・自然な文体。最大級表現（最高・最良・一番等）禁止。"
   }
 }
 ```
+
+---
+
+## メールテンプレート（shared/gtm/outreach/templates/{name}_sequence_1.txt）
+
+> **必須**: 新規プロダクトを作るたびに、このテンプレートをコピーして製品固有の文言に書き換える。
+> 特定電子メール法により **氏名・住所・配信停止案内** の3点をメール本文に必ず含めること。
+
+```
+{company_name} 御中
+
+突然のご連絡、大変失礼いたします。
+
+{personalized_opening}
+
+私どもは「{product_name}」という、{業種}向けのAI文書生成ツールを提供しております。
+
+■ {ProductName}でできること
+・{書類ペイン1}を入力情報から数秒で生成
+・{書類ペイン2}のひな型を自動作成
+・{書類ペイン3}、過去の生成履歴も保存
+
+■ 無料で5件までお試しいただけます
+クレジットカード不要・メールアドレスのみで即日利用可能です。
+
+▶ {app_url}
+
+ご不明な点はお気軽にご返信ください。
+よろしくお願いいたします。
+
+━━━━━━━━━━━━━━━━━━━━━━
+{sender_name}
+{product_name} 運営
+{sender_address}
+{sender_email}
+━━━━━━━━━━━━━━━━━━━━━━
+
+※ 本メールは、{業種}様向けにご案内をお送りしております。
+　 ご不要の場合は、本メールにご返信いただければ以後の送付を停止いたします。
+```
+
+**テンプレート変数（generate_emails.py が自動置換）:**
+| 変数 | 値の出所 |
+|------|---------|
+| `{company_name}` | leads_approved.csv |
+| `{personalized_opening}` | Gemini が生成（失敗時は fallback_opening） |
+| `{product_name}` | config の product_name |
+| `{app_url}` | config の app_url |
+| `{sender_name}` | config の sender_name |
+| `{sender_address}` | config の sender_address ← **特定電子メール法必須** |
+| `{sender_email}` | config の sender_email |
 
 ---
 
