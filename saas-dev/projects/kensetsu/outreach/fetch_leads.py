@@ -43,6 +43,17 @@ SITE_SKIP = ["wikipedia", "google", "yahoo", "twitter", "facebook", "instagram",
 
 _COMPANY_KEYWORDS = ["株式会社", "有限会社", "合同会社"]
 
+_KENSETSU_KEYWORDS = [
+    "建設", "工務店", "施工", "リフォーム", "土木", "設備工事", "内装", "外装",
+    "塗装", "解体", "増改築", "配管", "電気工事", "大工", "左官", "基礎工事",
+    "建築", "工事", "kensetsu", "kouji", "koumuten",
+]
+
+
+def _is_kensetsu(company: str, url: str) -> bool:
+    text = f"{company} {url}".lower()
+    return any(kw in text for kw in _KENSETSU_KEYWORDS)
+
 QUERIES = [
     '工務店 株式会社 "お問い合わせ" site:co.jp',
     '建設会社 株式会社 "メールでのお問い合わせ" -求人',
@@ -184,6 +195,11 @@ def main(limit: int = 150):
 
                 company = _extract_company_name(html, r.get("title", ""))
                 if not company:
+                    existing.add(url)
+                    continue
+
+                if not _is_kensetsu(company, url):
+                    print(f"  - SKIP（建設業外）: {company[:30]}")
                     existing.add(url)
                     continue
 
