@@ -35,7 +35,8 @@
     "Kindle出版×Claude 3.5 Sonnet",
     "Vapiを活用したB2B店舗予約自動化代行",
     "中小企業向けAI研修代行",
-    "Perplexity×WordPressによる業界特化ニュースサイト自動運営代行"
+    "Perplexity×WordPressによる業界特化ニュースサイト自動運営代行",
+    "中小企業の社内FAQボット構築代行"
   ],
   "articles": [
     {
@@ -288,6 +289,13 @@
       "title": "【Perplexity】×【WordPress】で業界特化ニュースサイトを完全自動構築！月5万円の「運用代行案件」を勝ち取る全手順",
       "price": 980,
       "url": "https://note.com/notes/nefcd46094191",
+      "status": "success"
+    },
+    {
+      "date": "2026-05-21",
+      "title": "【Dify×Notion】で社内問い合わせを90%削減！月額保守を勝ち取る「AI社内ヘルプデスク」構築・提案の全手順",
+      "price": 980,
+      "url": "https://note.com/notes/n9008a49efd81",
       "status": "success"
     }
   ]
