@@ -352,6 +352,96 @@ Streamlit Cloudの場合:
 
 ---
 
+## Phase 10.5: リリース前最終バグチェック（**スキップ禁止**）
+
+**目的**: 本番デプロイ後・GTM開始前に、全フローを実際に動かして壊れていないことを確認する。
+UAT（Phase 9）はステージングで行うが、ここは**本番環境で**確認する。
+
+> **教訓**: Phase 9 を通過してもデプロイ後に環境差分（Secrets の設定漏れ・モデル名・Supabase の RLS）でバグが出ることがある。GTM を始める前に必ずここを通す。
+
+---
+
+### A. Streamlit アプリ本体の確認
+
+```
+実際にブラウザで操作する（dry-run ではなく本物の動作確認）
+```
+
+- [ ] メールアドレスでログインできるか
+- [ ] 入力フォームを埋めて生成ボタンを押したとき、報告書・文章が生成されるか
+- [ ] 生成結果が画面に表示されるか（`st.session_state` に保存されているか）
+- [ ] フリートライアル上限（5件）に達したとき、アップグレード案内が表示されるか
+- [ ] アクセスコード入力でプランが切り替わるか
+- [ ] Supabase に行が書き込まれているか（ダッシュボードの Table Editor で確認）
+- [ ] Gemini API が `gemini-3.1-flash-lite` で呼ばれているか（コードを grep で確認）
+
+```powershell
+# モデル名の確認
+grep -r "gemini" saas-dev/projects/{name}/ --include="*.py"
+```
+
+---
+
+### B. GTMパイプラインの確認
+
+**Step 1: リード収集 dry-run**
+```powershell
+python saas-dev/projects/{name}/outreach/fetch_leads.py --limit 5
+# → leads.csv を開いて会社名・メールアドレスを目視確認
+# → ブログタイトル・フリーメール・非対象業種が混入していないか
+```
+
+**Step 2: スコアリング確認**
+```powershell
+python shared/gtm/leads/qualify_leads.py --project {name} --input saas-dev/projects/{name}/outreach/leads.csv
+# → leads_approved.csv を開いてスコアを確認
+# → auto_approve_threshold（70点以上）のみが通っているか
+```
+
+**Step 3: メール本文 dry-run（目視必須）**
+```powershell
+python shared/gtm/outreach/generate_emails.py --project {name} --dry-run
+# → emails_draft.csv を開いて全件の本文を読む
+# チェック項目:
+# - 会社名が正しい法人名か
+# - personalized_opening が自然な日本語か
+# - 署名に氏名・住所・メールが入っているか
+# - 配信停止案内があるか
+# - app_url が正しいか（リンクを実際に開く）
+```
+
+**Step 4: 自分宛テスト送信**
+```powershell
+python saas-dev/projects/{name}/outreach/send_emails.py --test-to ryuumg03@gmail.com
+# → Gmail の受信箱で確認（スパムフォルダも確認）
+# → 本文・署名・リンクがすべて正常か
+```
+
+**Step 5: GitHub Actions の確認**
+```powershell
+gh workflow run {name}-daily-send.yml
+gh run list --workflow={name}-daily-send.yml --limit=1
+# → 成功（✓）になるまで待つ
+gh run view --job=<job_id> --log | grep -E "送信|SKIP|ERROR|件"
+```
+
+---
+
+### C. 法的セクション最終確認
+
+- [ ] LP（`docs/{name}.html`）に特定商取引法・プライバシーポリシーがあるか
+- [ ] 特定商取引法の住所が **実記載**（「請求があり次第」は住所を持たない場合のみ許容）
+- [ ] プライバシーポリシーに Gemini API・Supabase への送信を明記しているか
+- [ ] Streamlit アプリ末尾の法的 expander 3点セット（利用規約・PP・特商法）があるか
+- [ ] メール本文フッターに住所・配信停止案内が入っているか（Step 3 で確認済みであること）
+
+---
+
+**完了基準**: A・B・C の全チェックを通過し、自分宛テスト送信を実際に受信した。
+これを通過するまで GTM（Phase 12 以降）は開始しない。
+
+---
+
 ## Phase 11: 運用・モニタリング
 
 **目的**: 壊れたときに誰が・何を見て気づくか決める。
@@ -378,6 +468,7 @@ Streamlit Cloudの場合:
 - **「だいたい動く」は完了ではない** — 受け入れ基準を満たすまで次に進まない
 - **テストを緩めてパスさせない** — 実装を直す。テストの期待値を下げない
 - **コードより先に仕様を変えない** — 途中で要件が変わったらPhase 1に戻る
+- **GTM開始前に Phase 10.5 を必ず通す** — 本番環境での全フロー確認・自分宛テスト送信を完了させてからコールドメールを始める。「Phase 9 を通過した」はステージングの話であり本番の保証ではない
 
 ---
 
