@@ -311,6 +311,33 @@ def test_safety_check_blocks_blog_company_name():
 
 **完了基準**: GitHubのActionsタブでグリーンになる。
 
+### GitHub Secrets チェックリスト（新製品追加時）
+
+**製品固有（毎回追加）:**
+- [ ] `{PROJECT_UPPER}_SENT_LOG_GIST_ID` — private Gist を1件作成してIDを登録
+- [ ] `{PROJECT_UPPER}_FEEDBACK_CSV_URL` — Google Forms 公開CSVのURL（Phase 16で設定）
+
+**Streamlit Secrets（share.streamlit.io → Settings → Secrets）:**
+- [ ] `SUPABASE_URL` / `SUPABASE_ANON_KEY` — SupabaseダッシュボードのSettings → API
+- [ ] `{PROJECT_UPPER}_STRIPE_STANDARD_URL` / `{PROJECT_UPPER}_STRIPE_PRO_URL` — Phase 10で設定
+
+**共通（初回のみ・確認）:**
+`BRAVE_API_KEY` / `GEMINI_API_KEY` / `GMAIL_ADDRESS` / `GMAIL_APP_PASSWORD` / `GIST_TOKEN` / `SENDER_ADDRESS` / `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHANNEL_ID`
+
+### GitHub Actions ワークフロー（新製品追加時）
+
+既存のYAMLをコピーして `{project}` 部分だけ書き換える:
+
+| ワークフロー | コピー元 | 実行タイミング |
+|------------|---------|-------------|
+| `{project}-daily-send.yml` | `sharotext-daily-send.yml` | 平日 JST 11:00 |
+| `{project}-check-replies.yml` | `sharotext-check-replies.yml` | 平日 JST 10:00 |
+| `{project}-follow-up.yml` | `sharotext-follow-up.yml` | 毎週火曜 JST 10:30 |
+| `{project}-feedback-pdca.yml` | `sharotext-feedback-pdca.yml` | 毎週月曜 JST 5:00 |
+| `{project}-send-code.yml` | `sharotext-send-code.yml` | 手動（課金後コード発行） |
+
+Gistのファイル名は `{project}_sent_log.csv` に変更すること（daily-send と check-replies で統一）。
+
 ---
 
 ## Phase 8: デプロイ（ステージング）
@@ -318,10 +345,55 @@ def test_safety_check_blocks_blog_company_name():
 **目的**: 実際のURLで動作を確認する。本番ではない。
 
 Streamlit Cloudの場合:
-1. `streamlit.io/cloud` でリポジトリを接続
-2. `secrets.toml` にAPIキーを設定（GitHubには入れない）
-3. アプリのURLを取得
+1. `share.streamlit.io` → New app → fudotext リポジトリを選択
+2. Main file path: `saas-dev/projects/{project}/app.py`（サブディレクトリなので注意）
+3. Secrets を設定（下記テンプレート）
 4. ハッピーパスを1件手動で動かす
+
+**Streamlit Secrets テンプレート:**
+```toml
+GEMINI_API_KEY = "..."
+SUPABASE_URL = "https://xxxxx.supabase.co"   # SupabaseダッシュボードのSettings → API → Project URL
+SUPABASE_ANON_KEY = "..."
+{PROJECT_UPPER}_STRIPE_STANDARD_URL = ""     # Phase 10で設定
+{PROJECT_UPPER}_STRIPE_PRO_URL = ""
+```
+
+> **落とし穴**: SUPABASE_URL は Supabase JWT の `ref` フィールドから推測すると1文字違いになることがある。必ずダッシュボードのSettings → API → Project URL から直接コピーすること。
+
+**Supabase テーブル作成（初回のみ）:**
+
+`supabase/sql/{project}_tables.sql` を作成して Table Editor で実行:
+```sql
+CREATE TABLE {project}_trials (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email text UNIQUE NOT NULL,
+  count integer DEFAULT 0,
+  plan text,
+  created_at timestamptz DEFAULT now()
+);
+CREATE TABLE {project}_codes (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  code text UNIQUE NOT NULL,
+  plan text NOT NULL,
+  active boolean DEFAULT true,
+  created_at timestamptz DEFAULT now()
+);
+CREATE TABLE {project}_history (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email text NOT NULL,
+  doc_type text,
+  company text,
+  draft text,
+  created_at timestamptz DEFAULT now()
+);
+ALTER TABLE {project}_trials ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON {project}_trials FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE {project}_history ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON {project}_history FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE {project}_codes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_select" ON {project}_codes FOR SELECT TO anon USING (true);
+```
 
 **完了基準**: 公開URLで実際に生成が動く。
 
@@ -349,6 +421,23 @@ Streamlit Cloudの場合:
 - [ ] エラー時のメッセージが非技術者にも伝わる
 - [ ] 料金・プラン・トライアル期間が明示されている（無料トライアルの範囲を決める）
 - [ ] 問い合わせ先（メール等）が表示されている
+
+### Stripe 課金設定
+
+標準プラン構成（変えない理由: Phase 0-A のスケール要件を満たす実績値）:
+| プラン | 月額 | 上限 |
+|--------|------|------|
+| スタンダード | ¥8,980 | 50件/月 |
+| プロ | ¥19,800 | 200件/月 |
+| 無料トライアル | — | 5件 |
+
+手順:
+1. Stripe Dashboard → 製品を作成（上記2プランをそれぞれ recurring で登録）
+2. 決済リンクを生成
+3. Streamlit Secrets の `{PROJECT_UPPER}_STRIPE_STANDARD_URL` / `{PROJECT_UPPER}_STRIPE_PRO_URL` に設定
+4. 決済完了の通知はStripeのメールで受け取り → GitHub Actions `{project}-send-code.yml` を手動実行してコードを発行
+
+> **現在の運用**: Webhook 未実装のため「決済 → 手動コード発行」は初期50件まで許容。ユーザー数が増えたら Webhook + コード自動発行を実装する。
 
 ---
 
@@ -827,3 +916,38 @@ python send_emails.py --limit 25  # 残り25件
 4. 改善内容を `config/{project}.json` の `email_template` に反映
 
 **完了基準**: 2週間以上データが蓄積し、KPIが数値で確認できる。
+
+### フィードバック収集設定（アンケートPDCA）
+
+1. Google フォームを作成（カラム: `timestamp` `rating` `regen_count` `reasons`）
+2. 「回答」→「スプレッドシートにリンク」→「ファイル」→「ウェブに公開（CSV）」でURLを取得
+   - URL形式: `https://docs.google.com/spreadsheets/d/{ID}/pub?gid={GID}&single=true&output=csv`
+3. GitHub Secrets に追加: `{PROJECT_UPPER}_FEEDBACK_CSV_URL`
+4. アプリ内にリンクを設置: `st.link_button("フィードバックを送る", form_url)`
+5. `{project}-feedback-pdca.yml` が毎週月曜に自動実行 → `saas-dev/projects/{project}/feedback_reports/` にレポートを保存
+
+### 共通PDCAモジュールの使い方
+
+`shared/gtm/outreach/` の3モジュールは `--project` 指定だけで全製品対応:
+
+```powershell
+# 返信確認（Telegram通知 + sent_log.csv 更新）
+python shared/gtm/outreach/check_replies.py --project sharotext --mark
+
+# フォローアップ送信（7日後）
+python shared/gtm/outreach/follow_up.py --project sharotext --dry-run
+python shared/gtm/outreach/follow_up.py --project sharotext
+
+# フィードバック分析（Google Forms → Gemini → Markdownレポート）
+python shared/gtm/outreach/analyze_feedback.py --project sharotext
+```
+
+新製品を追加したら `shared/gtm/config/{project}.json` に以下を追加するだけで動く:
+```json
+"sent_log": "saas-dev/projects/{project}/outreach/sent_log.csv",
+"followup_days": 7,
+"followup_template": "shared/gtm/outreach/templates/{project}_sequence_2.txt",
+"feedback_csv_env": "{PROJECT_UPPER}_FEEDBACK_CSV_URL",
+"feedback_report_dir": "saas-dev/projects/{project}/feedback_reports",
+"feedback_prompt_context": "{製品とユーザー像の1〜2行説明}"
+```
