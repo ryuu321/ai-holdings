@@ -8,11 +8,18 @@ import csv
 import json
 import os
 import re
+import sys
 import time
 import urllib.parse
 import urllib.request
 from datetime import datetime
 from pathlib import Path
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, Exception):
+        pass
 
 _DIR = Path(__file__).parent
 LEADS_FILE = _DIR / "leads.csv"
@@ -35,13 +42,19 @@ TITLE_RE = re.compile(r"<title[^>]*>([^<]+)</title>", re.IGNORECASE)
 
 EMAIL_SKIP = ["noreply", "no-reply", "example", "sentry", "google",
               "schema.org", "w3.org", "placeholder", "sample@", "test@",
-              "@sample.", "@mail.jp", "@example.", "postmaster@", "webmaster@"]
+              "@sample.", "@mail.jp", "@example.", "postmaster@", "webmaster@",
+              "xxx@", "xxxxxx@", "@xxx.", "@xx."]
 FAKE_TLDS = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico", ".pdf", ".zip"}
+# x{2,}@x{2,} パターン（xxxxxx@xx.xx 等）をプレースホルダーとして弾く
+_PLACEHOLDER_RE = re.compile(r"^x+@x+\.", re.IGNORECASE)
 SITE_SKIP = ["wikipedia", "google", "yahoo", "twitter", "facebook", "instagram",
              "amazon", "rakuten", "mynavi", "doda", "rikunabi", "indeed",
-             "sr-jimusho.jp", "sharoushi.or.jp", "nikkei", "nhk", "pref.", "city.", "go.jp"]
+             "sr-jimusho.jp", "sharoushi.or.jp", "nikkei", "nhk", "pref.", "city.", "go.jp",
+             ".or.jp/consultant", "社労士会", "/search?", "/consultants/"]
 
 _COMPANY_KEYWORDS = ["株式会社", "有限会社", "合同会社", "事務所", "法人"]
+_NAME_SKIP_PREFIXES = ["お問い合わせ", "検索結果", "ご相談", "TOP", "HOME", "トップ"]
+_NAME_STRIP_RE = re.compile(r"^[【（(][^】）)]{0,20}[】）)]")
 _STRIP_TAGS = re.compile(r"<[^>]+>")
 _COLLAPSE_WS = re.compile(r"\s+")
 
@@ -136,6 +149,8 @@ def _extract_emails(html: str) -> list[str]:
         e = e.lower()
         if any(b in e for b in EMAIL_SKIP):
             continue
+        if _PLACEHOLDER_RE.match(e):
+            continue
         if any(e.endswith(t) for t in FAKE_TLDS):
             continue
         if e not in result:
@@ -147,20 +162,31 @@ def _extract_company_name(html: str, fallback: str = "") -> str:
     m = OG_SITE_RE.search(html)
     if m:
         name = (m.group(1) or m.group(2) or "").strip()
-        if name and any(kw in name for kw in _COMPANY_KEYWORDS):
-            return name[:40]
+        name = _NAME_STRIP_RE.sub("", name).strip()
+        if name and any(kw in name for kw in _COMPANY_KEYWORDS) and len(name) <= 30:
+            return name
     t = TITLE_RE.search(html)
     if t:
         title = t.group(1).strip()
+        # 冒頭が「お問い合わせ|検索結果」等ならポータルページとして破棄
+        if any(title.startswith(p) for p in _NAME_SKIP_PREFIXES):
+            return ""
         for sep in ["｜", "|", "–", "-", "—", "　"]:
             parts = title.split(sep)
             if len(parts) == 1:
                 continue
             for part in parts:
-                part = part.strip()
+                part = _NAME_STRIP_RE.sub("", part).strip()
                 if any(kw in part for kw in _COMPANY_KEYWORDS) and len(part) <= 30:
                     return part
-    return fallback[:40] if fallback else ""
+    if fallback:
+        # fallbackも冒頭チェック
+        if any(fallback.startswith(p) for p in _NAME_SKIP_PREFIXES):
+            return ""
+        cleaned = _NAME_STRIP_RE.sub("", fallback).strip()
+        if any(kw in cleaned for kw in _COMPANY_KEYWORDS):
+            return cleaned[:40]
+    return ""
 
 
 def main(limit: int = 150):

@@ -73,7 +73,9 @@ def _gemini_personalize(company_name: str, prompt_template: str, model: str, api
     return "", False
 
 
-_COMPANY_KEYWORDS = ["株式会社", "有限会社", "合同会社", "一般社団法人", "公益社団法人"]
+_COMPANY_KEYWORDS = ["株式会社", "有限会社", "合同会社", "一般社団法人", "公益社団法人",
+                     "社会保険労務士法人", "社労士法人", "社会保険労務士事務所", "社労士事務所",
+                     "行政書士法人", "司法書士法人", "税理士法人"]
 
 # これらが含まれる文字列は会社名ではなくブログタイトル等と判定してスキップ
 _BLOG_SIGNALS = [
@@ -101,12 +103,14 @@ def _clean_company_name(raw: str) -> str:
             part = part.strip()
             if any(kw in part for kw in _COMPANY_KEYWORDS) and len(part) <= 25:
                 return part
-    # 株式会社/有限会社/合同会社から始まるパターン
-    m2 = re.search(r'((?:株式会社|有限会社|合同会社)[^\s　。、！？]{1,15})', raw)
+    # 法人格から始まるパターン
+    _LEAD_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
+    m2 = re.search(rf'((?:{_LEAD_TYPES})[^\s　。、！？]{"{1,20}"})', raw)
     if m2:
         return m2.group(1).strip()
-    # 末尾に株式会社等がつくパターン（「〇〇なら△△株式会社」→「△△株式会社」）
-    m3 = re.search(r'([^\s　。、！？・「」【】]{1,15}(?:株式会社|有限会社|合同会社))$', raw.strip())
+    # 末尾に法人格がつくパターン
+    _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所"
+    m3 = re.search(rf'([^\s　。、！？・「」【】]{{1,20}}(?:{_TRAIL_TYPES}))$', raw.strip())
     if m3:
         return m3.group(1).strip()
     return ""

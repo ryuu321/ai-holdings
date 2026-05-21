@@ -23,8 +23,8 @@
     "has_company_type": 20,
     "bad_domain_penalty": -20,
     "exclude_keyword_penalty": -50,
-    "auto_approve_threshold": 70,
-    "review_threshold": 50
+    "auto_approve_threshold": 30,
+    "review_threshold": 0
   },
   "email_template": {
     "template_file": "sharotext_sequence_1.txt",
