@@ -69,7 +69,7 @@ def _is_kensetsu_ai(html: str) -> bool:
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": 5, "temperature": 0}
     }).encode()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={GEMINI_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_KEY}"
     try:
         req = urllib.request.Request(url, data=payload,
                                       headers={"Content-Type": "application/json"}, method="POST")
