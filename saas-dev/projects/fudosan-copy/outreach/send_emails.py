@@ -110,7 +110,8 @@ def _check_safety(drafts: list[dict], limit: int) -> bool:
 
     # 会社名チェック: ブログタイトルや未抽出の会社名が混入していないか
     _company_required = ["株式会社", "有限会社", "合同会社", "一般社団法人"]
-    _blog_signals = ["コツ", "方法", "選び方", "探し方", "ランキング", "名簿", "営業リスト", "お問い合わせ |", "お問い合わせ｜"]
+    _blog_signals = ["コツ", "方法", "選び方", "探し方", "ランキング", "名簿", "営業リスト", "お問い合わせ |", "お問い合わせ｜",
+                     "お任せ", "ご相談", "はこちら", "サポート", "にお任せ"]
     for d in drafts:
         name = d.get("company_name", "")
         if any(sig in name for sig in _blog_signals):
