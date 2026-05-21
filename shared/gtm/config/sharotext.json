@@ -26,6 +26,13 @@
     "auto_approve_threshold": 30,
     "review_threshold": 0
   },
+  "sent_log": "saas-dev/projects/sharotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "sharotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/sharotext_sequence_2.txt",
+  "feedback_csv_env": "SHAROTEXT_FEEDBACK_CSV_URL",
+  "feedback_report_dir": "saas-dev/projects/sharotext/feedback_reports",
+  "feedback_prompt_context": "SharoTextは社労士向けAI書類生成ツール。就業規則・36協定届・キャリアアップ助成金申請書をWord(.docx)で出力。ユーザーは社会保険労務士・社労士法人のスタッフ。",
   "email_template": {
     "template_file": "sharotext_sequence_1.txt",
     "subject": "【就業規則・助成金書類をAIで自動生成】SharoTextのご紹介",
