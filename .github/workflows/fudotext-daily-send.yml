@@ -33,10 +33,11 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/fudosan-copy/outreach/sent_log.csv || echo "Gist取得失敗: 新規作成"
 
-      # Step 1: リード収集 (Brave API)
+      # Step 1: リード収集 (Brave API + Gemini業種判定)
       - name: Fetch leads
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python saas-dev/projects/fudosan-copy/outreach/fetch_mlit_leads.py
 
       # Step 2: ICPスコアリング (閾値70点)

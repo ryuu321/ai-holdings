@@ -29,6 +29,7 @@ except ImportError:
     pass
 
 BRAVE_KEY = os.environ.get("BRAVE_API_KEY", "")
+GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
 OG_SITE_RE = re.compile(
     r'<meta[^>]+property=["\']og:site_name["\'][^>]+content=["\']([^"\']{2,40})["\']'
@@ -93,6 +94,42 @@ HEADERS_BASE = {
 }
 
 _robots_cache: dict = {}
+
+_STRIP_TAGS = re.compile(r"<[^>]+>")
+_COLLAPSE_WS = re.compile(r"\s+")
+
+
+def _html_to_text(html: str, max_chars: int = 1200) -> str:
+    text = _STRIP_TAGS.sub(" ", html)
+    return _COLLAPSE_WS.sub(" ", text).strip()[:max_chars]
+
+
+def _is_fudosan_ai(html: str) -> bool:
+    """ページ内容をGeminiで判定。不動産仲介業でなければFalseを返す。"""
+    if not GEMINI_KEY:
+        return True
+    text = _html_to_text(html)
+    prompt = (
+        "以下はある会社のウェブサイトのテキストです。"
+        "この会社が「不動産仲介・賃貸仲介・売買仲介・物件管理」などの"
+        "不動産仲介事業を主な事業として行っているかどうかを判定してください。\n\n"
+        f"---\n{text}\n---\n\n"
+        "不動産仲介企業なら「YES」、そうでなければ「NO」とだけ答えてください。"
+    )
+    payload = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"maxOutputTokens": 5, "temperature": 0}
+    }).encode()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={GEMINI_KEY}"
+    try:
+        req = urllib.request.Request(url, data=payload,
+                                      headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=15) as r:
+            data = json.loads(r.read())
+        answer = data["candidates"][0]["content"]["parts"][0]["text"].strip().upper()
+        return answer.startswith("YES")
+    except Exception:
+        return True
 
 
 def _can_fetch(url: str) -> bool:
@@ -288,12 +325,13 @@ def _process_brave_results(results: list[dict], existing: set[str],
 
         emails = _emails_from_html(desc + " " + title)
         company_name = ""
+        page_html = ""
         if not emails:
             if not _can_fetch(site):
                 continue
-            html = _fetch_page(site)
-            emails = _emails_from_html(html)
-            company_name = _extract_company_name(html, title)
+            page_html = _fetch_page(site)
+            emails = _emails_from_html(page_html)
+            company_name = _extract_company_name(page_html, title)
             if not emails or not company_name:
                 for path in ["/contact", "/inquiry", "/about"]:
                     cu = site.rstrip("/") + path
@@ -312,6 +350,12 @@ def _process_brave_results(results: list[dict], existing: set[str],
 
         # 法人格なしはスキップ
         if not company_name or not any(kw in company_name for kw in _COMPANY_KEYWORDS):
+            continue
+
+        # Geminiで不動産仲介業か判定（Phase 2のみ・MLITは国が保証済みなので不要）
+        if page_html and not _is_fudosan_ai(page_html):
+            print(f"  - SKIP（不動産仲介業外・AI判定）: {company_name[:30]}")
+            time.sleep(0.3)
             continue
 
         for email in emails:
