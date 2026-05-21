@@ -25,6 +25,7 @@ except ImportError:
     pass
 
 BRAVE_KEY = os.environ.get("BRAVE_API_KEY", "")
+GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
 OG_SITE_RE = re.compile(
     r'<meta[^>]+property=["\']og:site_name["\'][^>]+content=["\']([^"\']{2,40})["\']'
@@ -43,16 +44,41 @@ SITE_SKIP = ["wikipedia", "google", "yahoo", "twitter", "facebook", "instagram",
 
 _COMPANY_KEYWORDS = ["株式会社", "有限会社", "合同会社"]
 
-_KENSETSU_KEYWORDS = [
-    "建設", "工務店", "施工", "リフォーム", "土木", "設備工事", "内装", "外装",
-    "塗装", "解体", "増改築", "配管", "電気工事", "大工", "左官", "基礎工事",
-    "建築", "工事", "kensetsu", "kouji", "koumuten",
-]
+_STRIP_TAGS = re.compile(r"<[^>]+>")
+_COLLAPSE_WS = re.compile(r"\s+")
 
 
-def _is_kensetsu(company: str, url: str) -> bool:
-    text = f"{company} {url}".lower()
-    return any(kw in text for kw in _KENSETSU_KEYWORDS)
+def _html_to_text(html: str, max_chars: int = 1200) -> str:
+    text = _STRIP_TAGS.sub(" ", html)
+    text = _COLLAPSE_WS.sub(" ", text).strip()
+    return text[:max_chars]
+
+
+def _is_kensetsu_ai(html: str) -> bool:
+    if not GEMINI_KEY:
+        return True
+    text = _html_to_text(html)
+    prompt = (
+        "以下はある会社のウェブサイトのテキストです。"
+        "この会社が「建設業・工務店・施工管理・リフォーム・土木・設備工事・塗装・解体」などの"
+        "建設関連事業を主な事業として行っているかどうかを判定してください。\n\n"
+        f"---\n{text}\n---\n\n"
+        "建設関連企業なら「YES」、そうでなければ「NO」とだけ答えてください。"
+    )
+    payload = json.dumps({
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"maxOutputTokens": 5, "temperature": 0}
+    }).encode()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key={GEMINI_KEY}"
+    try:
+        req = urllib.request.Request(url, data=payload,
+                                      headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=15) as r:
+            data = json.loads(r.read())
+        answer = data["candidates"][0]["content"]["parts"][0]["text"].strip().upper()
+        return answer.startswith("YES")
+    except Exception:
+        return True
 
 QUERIES = [
     '工務店 株式会社 "お問い合わせ" site:co.jp',
@@ -198,9 +224,10 @@ def main(limit: int = 150):
                     existing.add(url)
                     continue
 
-                if not _is_kensetsu(company, url):
-                    print(f"  - SKIP（建設業外）: {company[:30]}")
+                if not _is_kensetsu_ai(html):
+                    print(f"  - SKIP（建設業外・AI判定）: {company[:30]}")
                     existing.add(url)
+                    time.sleep(0.5)
                     continue
 
                 for email in emails:
