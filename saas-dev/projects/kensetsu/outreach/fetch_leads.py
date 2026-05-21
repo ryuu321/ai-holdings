@@ -156,7 +156,10 @@ def _extract_company_name(html: str, fallback: str = "") -> str:
     if t:
         title = t.group(1).strip()
         for sep in ["｜", "|", "–", "-", "—", "　"]:
-            for part in title.split(sep):
+            parts = title.split(sep)
+            if len(parts) == 1:
+                continue
+            for part in parts:
                 part = part.strip()
                 if any(kw in part for kw in _COMPANY_KEYWORDS) and len(part) <= 30:
                     return part
