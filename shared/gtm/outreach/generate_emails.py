@@ -23,7 +23,8 @@ if sys.platform == "win32":
         pass  # pytest / non-reconfigurable stdout
 
 _GTM_DIR = Path(__file__).parent.parent
-_FUDOSAN_DIR = _GTM_DIR.parent.parent / "saas-dev" / "projects" / "fudosan-copy"
+_SAAS_PROJECTS_DIR = _GTM_DIR.parent.parent / "saas-dev" / "projects"
+_FUDOSAN_DIR = _SAAS_PROJECTS_DIR / "fudosan-copy"
 
 try:
     from dotenv import load_dotenv
@@ -128,7 +129,8 @@ def main():
     args = parser.parse_args()
 
     cfg = load_config(args.project)
-    template = load_template("sequence_1.txt")
+    template_file = cfg.get("email_template", {}).get("template_file", "sequence_1.txt")
+    template = load_template(template_file)
     api_key = os.environ.get("GEMINI_API_KEY", "")
     sender_address = os.environ.get("SENDER_ADDRESS", "")
     model = cfg.get("gemini_model", "gemini-2.0-flash-lite")
@@ -142,8 +144,10 @@ def main():
         print("先に qualify_leads.py を実行してください。")
         return
 
-    draft_file = _FUDOSAN_DIR / "outreach" / "emails_draft.csv"
-    sent_log = _FUDOSAN_DIR / "outreach" / "sent_log.csv"
+    project_dir_name = cfg.get("project_dir", "fudosan-copy")
+    _project_dir = _SAAS_PROJECTS_DIR / project_dir_name
+    draft_file = _project_dir / "outreach" / "emails_draft.csv"
+    sent_log = _project_dir / "outreach" / "sent_log.csv"
     existing = load_existing_emails(draft_file, sent_log)
 
     with open(approved_path, encoding="utf-8") as f:

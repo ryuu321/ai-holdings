@@ -1,0 +1,34 @@
+{
+  "project": "kentext",
+  "project_dir": "kensetsu",
+  "product_name": "KenText",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://kwntext-jy2lwkquv9yt3dogetd6vu.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/kentext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.0-flash-lite",
+  "icp": {
+    "target_description": "建設業・工務店の現場監督・施工管理担当者",
+    "target_keywords": ["建設", "工務店", "施工", "リフォーム", "土木", "設備工事", "内装", "外装", "塗装", "解体", "増改築", "配管", "電気工事"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "不動産仲介", "マンション販売", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "email_template": {
+    "template_file": "kentext_sequence_1.txt",
+    "subject": "【工事報告書をAIで自動化】KenTextのご紹介",
+    "fallback_opening": "平素より建設・施工管理業務でご尽力されていることと存じます。",
+    "personalize_prompt": "建設会社「{company_name}」の現場監督・施工管理担当者に向けた、工事完了報告書の作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  }
+}
