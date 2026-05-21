@@ -1,0 +1,35 @@
+{
+  "project": "sharotext",
+  "project_dir": "sharotext",
+  "product_name": "SharoText",
+  "app_url": "https://sharotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/sharotext.html",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "社会保険労務士事務所・社労士法人",
+    "target_keywords": ["社労士", "社会保険労務士", "労務", "就業規則", "助成金", "社労士法人"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["求人", "転職", "ランキング", "比較", "一覧", "まとめ", "とは", "コラム", "ブログ", "協会", "組合"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "email_template": {
+    "template_file": "sharotext_sequence_1.txt",
+    "subject": "【就業規則・助成金書類をAIで自動生成】SharoTextのご紹介",
+    "fallback_opening": "平素より社会保険・労務管理業務でご尽力されていることと存じます。",
+    "personalize_prompt": "社労士事務所「{company_name}」の先生・担当者向けに、就業規則や助成金申請書などの定型書類作成の手間を減らせるAIツールを紹介する書き出し文を1文で書いてください。丁寧な敬語で、押し付けがましくない自然な文体で。最大級表現（最高・最良・一番等）は使わないこと。"
+  }
+}
