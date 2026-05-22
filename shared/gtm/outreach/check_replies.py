@@ -35,7 +35,7 @@ except ImportError:
 
 def _load_config(project: str) -> dict:
     path = _CFG_DIR / f"{project}.json"
-    with open(path, encoding="utf-8") as f:
+    with open(path, encoding="utf-8-sig") as f:
         return json.load(f)
 
 
