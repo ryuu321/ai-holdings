@@ -91,14 +91,20 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
     hint_keywords: config の icp.company_name_hint_keywords（業種固有キーワード）
 
     ロジック順序:
+    0. 前置マーケティング語を除去（「全国対応の〇〇事務所」→「〇〇事務所」）
     1. 区切り文字で分割 → 会社名が取れたらブログシグナルに関係なく返す
        （「お任せ | 株式会社〇〇」の左側シグナルで正当企業を弾かないため）
     2. 【】パターン
-    3. 法人格前置パターン（区切りなし・ブログシグナルなし限定）
-    4. 末尾法人格パターン
+    3. ブログシグナルで弾く（区切りなし限定）
+    4. 法人格前置パターン（「〜と言えば、株式会社XXX」等）
+    5. 末尾法人格パターン
+    6. hint_keyword を含む短い名前を信頼（fetch_leads で既にAI検証済み）
     """
     _LEAD_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
     _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店"
+
+    # Step0: 地域・全国系の前置マーケティング語を除去
+    raw = re.sub(r'^(?:全国対応の?|全国の|地域密着型?の?)[　\s]*', '', raw)
 
     # Step1: 区切り文字で分割（ブログシグナルチェックより先）
     for sep in ["｜", "|", "–", "—", " - "]:
@@ -119,19 +125,23 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
         if hint_keywords and any(kw in candidate for kw in hint_keywords) and len(candidate) <= 25:
             return candidate
 
-    # Step3以降: 区切りなしの場合のみブログシグナルで弾く
+    # Step3: 区切りなしの場合のみブログシグナルで弾く
     if any(sig in raw for sig in _BLOG_SIGNALS):
         return ""
 
-    # Step3: 法人格前置パターン（「〜と言えば、株式会社XXX」等）
+    # Step4: 法人格前置パターン（「〜と言えば、株式会社XXX」等）
     m2 = re.search(rf'((?:{_LEAD_TYPES})[^\s　。、！？]{{1,20}})', raw)
     if m2:
         return m2.group(1).strip()
 
-    # Step4: 末尾法人格パターン（「XXX工務店」等）
+    # Step5: 末尾法人格パターン（「XXX工務店」等）
     m3 = re.search(rf'([^\s　。、！？・「」【】]{{1,20}}(?:{_TRAIL_TYPES}))$', raw.strip())
     if m3:
         return m3.group(1).strip()
+
+    # Step6: hint_keyword を含む短い名前を信頼（スペースなし＝事務所名、fetch_leads.py でAI検証済み）
+    if hint_keywords and any(kw in raw for kw in hint_keywords) and len(raw) <= 20 and " " not in raw and "　" not in raw:
+        return raw
 
     return ""
 
