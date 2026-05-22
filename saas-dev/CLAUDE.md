@@ -20,6 +20,29 @@
 | Redbubble MidnightTorii | `saas-dev/projects/redbubble/` | 手動アップ・next_index=4 |
 | ダッシュボード | `dashboard/` | Flask・summary.json経由 |
 
+## TextSeries（AI書類作成SaaS群）
+
+日本中小企業向け AI 文書生成 SaaS。共通インフラ: Streamlit Cloud + Supabase + Stripe + GitHub Actions GTM。
+
+アプリ本体は `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/` に格納（別リポジトリ）。
+GTM・ワークフロー・設定は `C:/Users/ryuuM/ai-holdings/` に格納（このリポジトリ）。
+
+| 製品名 | ターゲット | ランク | 状態 |
+|--------|-----------|--------|------|
+| SharoText | 社会保険労務士事務所 | #1 | ✅ 本番稼働中・GTM実行中 |
+| GyoText | 行政書士事務所 | #2 | ✅ 本番稼働中・GTM実行中 |
+| CareText | 訪問介護事業所 | #3 | ✅ 本番デプロイ済み |
+| KenText | 建設設計事務所 | #4 | ✅ 本番稼働中・GTM実行中 |
+| TaxText | 税理士事務所 | #5 | ✅ 本番デプロイ済み |
+| FudoText | 不動産仲介会社 | - | ✅ 本番稼働中・GTM実行中（原点） |
+
+**共通アーキテクチャ:**
+- Supabase テーブル: `{p}_trials` / `{p}_codes` / `{p}_history` / `{p}_feedback`
+- RLS: anon = INSERT + SELECT のみ。UPDATE は service role key 経由（プラン昇格バイパス防止）
+- GTM: daily-send（30件/日 JST11:30） → check-replies（JST10:00） → follow-up（火曜 JST10:30）
+- PDCA: feedback-pdca（月曜 JST5:00 週次自動改善）
+- Stripe: スタンダード ¥8,980 / プロ ¥19,800（setup_stripe.py で冪等セットアップ）
+
 ## 技術スタック
 
 - 言語: Python（メイン）

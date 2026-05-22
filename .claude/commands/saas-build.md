@@ -19,17 +19,29 @@ SaaSプロダクトを企画から運用まで、品質を落とさずに遂行�
 
 ### Step 2: ファイル自動生成
 
-`saas-dev/projects/kensetsu/` を参照テンプレートとして以下を生成する（**C:/Users/ryuuM/fudotext** 側と **C:/Users/ryuuM/ai-holdings** 側の両方）:
+`gyotext` / `taxtext` を参照テンプレートとして以下を生成する（**C:/Users/ryuuM/fudotext** 側と **C:/Users/ryuuM/ai-holdings** 側の両方）:
 
 | 生成先 | 内容 |
 |--------|------|
-| `C:/Users/ryuuM/ai-holdings/shared/gtm/config/{project}.json` | kentext.jsonをコピーして製品名・ICP・テンプレートパス等を書き換え |
-| `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/db.py` | kensetsu/db.pyをコピーしてテーブル名・定数を書き換え |
-| `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/app.py` | kensetsu/app.pyをコピーして書類タイプ・プロンプト・UI文言を書き換え |
-| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-check-replies.yml` | kentext-check-replies.ymlをコピーしてproject名・Gist変数名を書き換え |
-| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-follow-up.yml` | kentext-follow-up.ymlをコピーして書き換え |
-| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-feedback-pdca.yml` | kentext-feedback-pdca.ymlをコピーして書き換え |
-| `C:/Users/ryuuM/ai-holdings/shared/gtm/outreach/templates/{project}_sequence_2.txt` | kentext_sequence_2.txtをコピーして製品文言を書き換え |
+| `C:/Users/ryuuM/ai-holdings/shared/gtm/config/{project}.json` | gyotext.jsonをコピーして製品名・ICP・テンプレートパス・**history_columns**を書き換え |
+| `C:/Users/ryuuM/ai-holdings/saas-dev/projects/{project}/outreach/fetch_leads.py` | gyotextをコピーしてQUERIES・_COMPANY_KEYWORDS・SITE_SKIPを書き換え |
+| `C:/Users/ryuuM/ai-holdings/saas-dev/projects/{project}/outreach/send_emails.py` | gyotextをコピーして_COMPANY_REQUIREDキーワードを書き換え |
+| `C:/Users/ryuuM/ai-holdings/saas-dev/projects/{project}/outreach/pipeline.py` | gyotextをコピーしてPROJECT名を書き換え |
+| `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/db.py` | gyotext/db.pyをコピーしてテーブル名・historyカラム名を書き換え |
+| `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/gen.py` | gyotext/gen.pyをコピーしてPROMPT_TEMPLATEを書き換え |
+| `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/app.py` | gyotext/app.pyをコピーして書類タイプ・プロンプト・UI文言・Secrets変数名を書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-daily-send.yml` | gyotext-daily-send.ymlをコピーしてproject名・Gist変数名を書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-check-replies.yml` | gyotext-check-replies.ymlをコピーして書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-follow-up.yml` | gyotext-follow-up.ymlをコピーして書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-feedback-pdca.yml` | gyotext-feedback-pdca.ymlをコピーして書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-send-code.yml` | gyotext-send-code.ymlをコピーして書き換え |
+| `C:/Users/ryuuM/ai-holdings/shared/gtm/outreach/templates/{project}_sequence_1.txt` | gyotext_sequence_1.txtをコピーして製品文言を書き換え |
+| `C:/Users/ryuuM/ai-holdings/shared/gtm/outreach/templates/{project}_sequence_2.txt` | gyotext_sequence_2.txtをコピーして製品文言を書き換え |
+
+**config.jsonに必ず `history_columns` を追加すること**（これがないとSQLのhistoryテーブルがgenericカラムになる）:
+```json
+"history_columns": ["doc_type text", "field1 text", "field2 text", "result text"]
+```
 
 ### Step 3: Stripe自動セットアップ
 
@@ -38,8 +50,10 @@ python C:/Users/ryuuM/ai-holdings/shared/gtm/scripts/setup_stripe.py --project {
 ```
 
 これにより `clipboard.txt` に **2点セット** が出力される:
-1. Supabase SQL（feedbackテーブル作成）
-2. Streamlit Secrets（Gemini/Supabase/Stripe全キー）
+1. Supabase SQL（**全4テーブル**: trials / codes / history / feedback + RLS設定）
+2. Streamlit Secrets（Gemini / Supabase anon key / **Supabase service key** / Stripe URL）
+
+> **注意**: Gemini APIキーは手動でAI Studioから取得して `.env` の `GEMINI_API_KEY` に設定する。製品ごとに別キーを使うこと（500 RPD/プロジェクト・無料）。
 
 ### Step 4: 完了報告
 
@@ -49,15 +63,17 @@ python C:/Users/ryuuM/ai-holdings/shared/gtm/scripts/setup_stripe.py --project {
 ✅ 自動生成完了
 
 【自動で完了したこと】
-- config/{project}.json
-- fudotext: db.py / app.py
-- GitHub Actions: check-replies / follow-up / feedback-pdca
-- Stripe: スタンダード(¥8,980) / プロ(¥19,800) 決済リンク作成済み
-- clipboard.txt: SQL + Secrets 出力済み
+- config/{project}.json（history_columns含む）
+- fudotext: db.py / gen.py / app.py
+- ai-holdings: fetch_leads.py / send_emails.py / pipeline.py
+- GitHub Actions: daily-send / check-replies / follow-up / feedback-pdca / send-code
+- Stripe: スタンダード(¥8,980) / プロ(¥19,800) 決済リンク作成済み（重複防止済み）
+- clipboard.txt: SQL（4テーブル）+ Secrets（service key含む）出力済み
 
 【ユーザーが行う手動作業（clipboard.txtを使う）】
 ① Supabase Dashboard → SQL Editor → clipboard.txt の SQL をペースト → Run
 ② Streamlit Cloud → {project} アプリ新規作成 → Settings → Secrets → clipboard.txt の Secrets をペースト → Save
+③ AI Studio → 新規プロジェクト → Gemini API key 発行 → Secrets の GEMINI_API_KEY を更新
 ```
 
 ---
@@ -829,6 +845,88 @@ mock_response.text = f"CATCH: テスト\nBODY: {LONG_BODY}"
 
 **ルール**: データ処理関数のテストは必ず「実際に失敗した入力」か「本番で失敗しうる入力」を使う。
 きれいな架空のテストデータだけでは本番のノイズを再現できない。
+
+---
+
+### Supabase RLS（行レベルセキュリティ）
+
+**① `anon_all` ポリシーはプラン昇格バイパスの穴になる**
+
+> **根本原因 (2026-05-22)**: `CREATE POLICY "anon_all" ... FOR ALL TO anon WITH CHECK (true)` で
+> trials テーブルへの anon UPDATE を許可していた。
+> これにより悪意あるユーザーが Supabase 直接 API 経由で `plan` カラムを書き換えられる状態だった。
+
+- **解決策**: anon ロールには `INSERT` と `SELECT` のみ許可する。`UPDATE` / `DELETE` は service role key 経由のみ
+- db.py の `_headers()` は service key があれば service key を使う
+
+```python
+# db.py の標準パターン
+def _headers() -> dict:
+    key = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ["SUPABASE_ANON_KEY"]
+    return {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+    }
+```
+
+**② `CREATE POLICY IF NOT EXISTS` は PostgreSQL に存在しない**
+
+> **根本原因 (2026-05-22)**: SQL を2回 Run すると `ERROR: 42710: policy "anon_select" already exists` が出る。
+> PostgreSQL は `CREATE TABLE IF NOT EXISTS` はあるが `CREATE POLICY IF NOT EXISTS` はない。
+
+- **解決策**: 各 `CREATE POLICY` の前に `DROP POLICY IF EXISTS` を入れる
+
+```sql
+DROP POLICY IF EXISTS "anon_insert" ON {p}_trials;
+CREATE POLICY "anon_insert" ON {p}_trials FOR INSERT TO anon WITH CHECK (true);
+```
+
+- `setup_stripe.py` の `sql_block` はこのパターンで生成済み。手書きするときも同じパターンを使う
+
+**③ Supabase service role key と anon key を混同しない**
+
+- JWT のペイロードを base64 デコードして `"role":"service_role"` か `"role":"anon"` か確認する
+- `.env` の `SUPABASE_SERVICE_KEY` に anon key を誤入力するとプラン更新が全部サイレント失敗する
+- 正しい service_role key の JWT ペイロード: `{"iss":"supabase","ref":"...","role":"service_role",...}`
+
+---
+
+### Stripe セットアップの冪等性
+
+**① `setup_stripe.py` を2回実行すると Payment Link が増殖する（修正済み）**
+
+> **根本原因 (2026-05-22)**: 毎回 `products` / `prices` / `payment_links` を新規作成していた。
+> Payment Links 画面に kentext 系リンクが大量に発生。
+
+- **解決策（実装済み）**: 実行前に既存リソースを検索して再利用する
+  - `_find_existing_product(name, api_key)` → 同名の active product を返す
+  - `_find_existing_price(product_id, amount, api_key)` → 同額・月次の active price を返す
+  - `_find_active_payment_link(price_id, api_key)` → 同じ price_id を持つ active link を返す
+- 既存が見つかれば新規作成せず再利用。**何度実行しても安全**
+
+---
+
+### config.json の `history_columns` 設計
+
+**① `history_columns` がないと history テーブルが汎用カラムになる**
+
+> **根本原因 (2026-05-22)**: `setup_stripe.py` が `history_columns` を読まずに feedback テーブルだけ生成していた。
+> 4テーブルのうち3つが SQL に含まれない状態で clipboard.txt が出力されていた。
+
+- **解決策（実装済み）**: `setup_stripe.py` は `cfg.get("history_columns", [...])` で読み込み、全4テーブルを生成する
+- 新製品の config.json には必ず `history_columns` を追加する
+
+```json
+// 訪問介護の例
+"history_columns": ["doc_type text", "riyosha_info text", "service_naiyou text", "result text"]
+
+// 税理士の例
+"history_columns": ["doc_type text", "company_info text", "financial_info text", "result text"]
+```
+
+- db.py の `save_generation()` のカラム名と config.json の `history_columns` を必ず一致させる
+- `result` カラムは必ず含める（GTM の PDCA スクリプトが参照する）
 
 ---
 
