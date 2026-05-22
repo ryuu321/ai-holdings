@@ -1,9 +1,9 @@
 {
   "venture": "medium_publisher",
   "params": {
-    "priority_genre": "Integrated Wealth Engineering (Career Salary Arbitrage + Recursive Capital Efficiency & Tax-Leakage Mitigation)",
-    "writing_style": "Artifact-centric (Logic-Trees/Automated-Scripts/Simulators), dual-layer loss-aversion ($1,200 yearly leaks to $50,000 career opportunity costs), and 'System Engineering' terminology (Systemic-Leak/Recursive-Loop/Wealth-Accelerator) with 300%-400% ROI metrics.",
-    "target_length": "1300-1600 words (structured as a high-value technical whitepaper for the provided 'wealth-engine' artifact)"
+    "priority_genre": "Integrated Wealth Engineering (Career-Finance Feedback Loop: Salary Negotiation -> Tax-Arbitrage -> Recursive NISA Reinvestment)",
+    "writing_style": "Artifact-centric (Financial-Simulators/Negotiation-Scripts/Tax-Compliance-Matrices), extreme loss-aversion anchoring ($25,000 yearly career-leak to $200,000 compounded-wealth opportunity costs), and 'System Engineering' terminology (Systemic-Arbitrage/Compounded-Efficiency/Capital-Velocity) with 500%+ lifetime-ROI quantification.",
+    "target_length": "1400-1700 words (structured as a technical audit report for the 'Integrated Wealth Engine')"
   },
   "performance_history": [
     {
@@ -110,6 +110,13 @@
       "title_en": "The Digital Arbitrage Protocol: Recovering 1,200 Dollars Yearly from Big Tech to Fuel Your Wealth Engine",
       "status": "success",
       "articles_total": 14
+    },
+    {
+      "date": "2026-05-22",
+      "genre": "Career Development",
+      "title_en": "Boost Your Annual Salary by 2 Million Yen: A 3-Step System to Build an AI-Integrated Career Portfolio",
+      "status": "success",
+      "articles_total": 15
     }
   ],
   "learnings": [
@@ -152,9 +159,14 @@
       "date": "2026-05-18",
       "insight": "具体的な損失額（$15k-$45k）と即実装可能な成果物（Sheet/Protocol）を「システム工学」的言語でパッケージ化する手法が14回連続の成功を支えており、特にキャリアアップと個人財務（NISA/節税）を「一つの最適化システム」として統合する訴求が極めて高い反応を得ています。",
       "action": "年収$25,000の昇給分をNISAと税効率化で$150,000の資産形成に変換する「統合資産成長プロトコル（生涯収益シミュレーション・シート付）」を核に、キャリアと投資を直結させた記事を執筆してください。"
+    },
+    {
+      "date": "2026-05-22",
+      "insight": "「具体的な損失額」と「実装可能な成果物」を統合し、キャリアと資産形成を『単一の投資システム』としてパッケージ化する手法が極めて高水準で安定しています。抽象的な法則を完全に排除し、ROI（投資対効果）を可視化する構成を徹底することで、クリック率と購読転換率が最適化されます。",
+      "action": "昇給交渉で獲得した$25,000を、税制優遇制度を駆使して将来的に$250,000の資産へと複利変換する『Wealth-Amplifierシミュレーター』を核にした、キャリアと投資の統合最適化記事を執筆してください。"
     }
   ],
-  "last_optimized": "2026-05-18T14:31:38.179321+00:00",
+  "last_optimized": "2026-05-22T06:05:30.060841+00:00",
   "posted_titles": [
     "書類通過率が80%上がる！ネガティブな本音を「即採用」に変える退職理由の言い換え全10パターン",
     "【保存版】リファレンスチェック突破率100%へ。前職と疎遠・不仲でも内定を逃さない『推薦人依頼と事前準備』完全マニュアル",
@@ -169,7 +181,8 @@
     "【年間3万円の軍資金作り】ふるさと納税を「ポイ活」に全振りし、新NISAの買付余力を最大化する最適解",
     "【通過率3倍】6秒で決まる「職務経歴書」の視覚戦略：採用担当者の手を止めさせるレイアウトと強調の技術",
     "【車は売らなくていい】年間15万円の維持費を削減！保険・車検・燃費を徹底ハックして新NISAの入金力を最大化する実践マニュアル",
-    "【年12万浮く】Apple・Google・Amazon全サブスク見直し×新NISA。隠れた「デジタル固定費」を0にする家計大改造マニュアル"
+    "【年12万浮く】Apple・Google・Amazon全サブスク見直し×新NISA。隠れた「デジタル固定費」を0にする家計大改造マニュアル",
+    "【年収＋200万】ChatGPT×Notionで作る『AI共生実績』ポートフォリオ：面接で“代わりのいない人材”を証明する3ステップ"
   ],
-  "articles_published": 14
+  "articles_published": 15
 }
