@@ -200,10 +200,11 @@ def main() -> None:
         urls[plan["key"]] = link
         print(f"    → {link}")
 
-    project_upper = args.project.upper()
-    supabase_url  = os.environ.get("SUPABASE_URL", "")
-    supabase_key  = os.environ.get("SUPABASE_ANON_KEY", "")
-    gemini_key    = os.environ.get("GEMINI_API_KEY", "")
+    project_upper  = args.project.upper()
+    supabase_url   = os.environ.get("SUPABASE_URL", "")
+    supabase_key   = os.environ.get("SUPABASE_ANON_KEY", "")
+    service_key    = os.environ.get("SUPABASE_SERVICE_KEY", "")
+    gemini_key     = os.environ.get("GEMINI_API_KEY", "")
 
     history_cols = cfg.get("history_columns", ["doc_type text", "input_1 text", "input_2 text", "result text"])
     history_col_sql = "\n".join(f"  {col}," for col in history_cols)
@@ -238,19 +239,24 @@ CREATE TABLE IF NOT EXISTS {p}_feedback (
   created_at timestamptz DEFAULT now()
 );
 ALTER TABLE {p}_trials ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON {p}_trials FOR ALL TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "anon_insert" ON {p}_trials FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON {p}_trials FOR SELECT TO anon USING (true);
 ALTER TABLE {p}_history ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON {p}_history FOR ALL TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "anon_insert" ON {p}_history FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON {p}_history FOR SELECT TO anon USING (true);
 ALTER TABLE {p}_codes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "anon_select" ON {p}_codes FOR SELECT TO anon USING (true);
 ALTER TABLE {p}_feedback ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON {p}_feedback FOR ALL TO anon USING (true) WITH CHECK (true);"""
+CREATE POLICY "anon_insert" ON {p}_feedback FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON {p}_feedback FOR SELECT TO anon USING (true);"""
 
     q = '"'
+    service_line = f'SUPABASE_SERVICE_KEY = {q}{service_key}{q}\n' if service_key and service_key != supabase_key else ""
     secrets_block = (
         f'GEMINI_API_KEY = {q}{gemini_key}{q}\n'
         f'SUPABASE_URL = {q}{supabase_url}{q}\n'
         f'SUPABASE_ANON_KEY = {q}{supabase_key}{q}\n'
+        f'{service_line}'
         f'{project_upper}_STRIPE_STANDARD_URL = {q}{urls["standard"]}{q}\n'
         f'{project_upper}_STRIPE_PRO_URL = {q}{urls["pro"]}{q}'
     )
