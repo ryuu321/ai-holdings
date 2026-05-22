@@ -1,0 +1,44 @@
+{
+  "project": "churntext",
+  "project_dir": "churntext",
+  "product_name": "ChurnText",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://churntext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/churntext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "月額SaaS・サブスクサービスを運営する日本の事業者",
+    "document_types": ["解約引き留めメール", "リテンションオファー文", "ウィンバックメール"],
+    "company_name_hint_keywords": ["テック", "クラウド", "システム", "サービス", "ソリューション", "ソフトウェア"],
+    "target_keywords": ["SaaS", "サブスク", "月額", "会員", "定額", "クラウド", "システム", "プラットフォーム", "アプリ", "サービス"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ", "個人ブログ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/churntext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "churntext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/churntext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/churntext/feedback_reports",
+  "feedback_prompt_context": "ChurnTextは月額SaaS・サブスクサービス運営者向けAI解約引き留め文生成ツール。ユーザーはSaaS事業者・スタートアップ担当者。解約理由に応じたリテンションオファー文を自動生成する。",
+  "email_template": {
+    "template_file": "churntext_sequence_1.txt",
+    "subject": "【解約率を下げるAI文章生成】ChurnTextのご紹介",
+    "fallback_opening": "平素よりサービス運営にご尽力されていることと存じます。",
+    "personalize_prompt": "SaaS・サブスクサービスを運営する「{company_name}」のご担当者に向けた、解約対策への共感と課題提起の一文を書いてください。「御社のような〜」で始め、2文以内で。"
+  }
+}
