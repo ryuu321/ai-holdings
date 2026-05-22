@@ -1,53 +1,93 @@
-=== (1) Supabase SQL Editor にペースト → Run ===
+﻿=== 旧製品 RLS セキュリティ修正 SQL ===
+Supabase Dashboard → SQL Editor → 以下を全部ペースト → Run
+（5製品まとめて1回で実行できます）
 
-CREATE TABLE IF NOT EXISTS taxtext_trials (
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  email text UNIQUE NOT NULL,
-  count integer DEFAULT 0,
-  plan text,
-  created_at timestamptz DEFAULT now()
-);
-CREATE TABLE IF NOT EXISTS taxtext_codes (
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  code text UNIQUE NOT NULL,
-  plan text NOT NULL,
-  active boolean DEFAULT true,
-  created_at timestamptz DEFAULT now()
-);
-CREATE TABLE IF NOT EXISTS taxtext_history (
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  email text NOT NULL,
-  doc_type text,
-  company_info text,
-  financial_info text,
-  result text,
-  created_at timestamptz DEFAULT now()
-);
-CREATE TABLE IF NOT EXISTS taxtext_feedback (
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  email text,
-  category text,
-  rating text NOT NULL,
-  regen_count integer DEFAULT 0,
-  reasons text,
-  created_at timestamptz DEFAULT now()
-);
-ALTER TABLE taxtext_trials ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON taxtext_trials FOR ALL TO anon USING (true) WITH CHECK (true);
-ALTER TABLE taxtext_history ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON taxtext_history FOR ALL TO anon USING (true) WITH CHECK (true);
-ALTER TABLE taxtext_codes ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_select" ON taxtext_codes FOR SELECT TO anon USING (true);
-ALTER TABLE taxtext_feedback ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON taxtext_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
+-- ============ FudoText ============
+DROP POLICY IF EXISTS "anon_all" ON fudotext_trials;
+DROP POLICY IF EXISTS "anon_insert" ON fudotext_trials;
+DROP POLICY IF EXISTS "anon_select" ON fudotext_trials;
+CREATE POLICY "anon_insert" ON fudotext_trials FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON fudotext_trials FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON fudotext_history;
+DROP POLICY IF EXISTS "anon_insert" ON fudotext_history;
+DROP POLICY IF EXISTS "anon_select" ON fudotext_history;
+CREATE POLICY "anon_insert" ON fudotext_history FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON fudotext_history FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON fudotext_feedback;
+DROP POLICY IF EXISTS "anon_insert" ON fudotext_feedback;
+DROP POLICY IF EXISTS "anon_select" ON fudotext_feedback;
+CREATE POLICY "anon_insert" ON fudotext_feedback FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON fudotext_feedback FOR SELECT TO anon USING (true);
 
-=== (2) Streamlit Cloud → taxtext → Settings → Secrets にペースト → Save ===
+-- ============ SharoText ============
+DROP POLICY IF EXISTS "anon_all" ON sharotext_trials;
+DROP POLICY IF EXISTS "anon_insert" ON sharotext_trials;
+DROP POLICY IF EXISTS "anon_select" ON sharotext_trials;
+CREATE POLICY "anon_insert" ON sharotext_trials FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON sharotext_trials FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON sharotext_history;
+DROP POLICY IF EXISTS "anon_insert" ON sharotext_history;
+DROP POLICY IF EXISTS "anon_select" ON sharotext_history;
+CREATE POLICY "anon_insert" ON sharotext_history FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON sharotext_history FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON sharotext_feedback;
+DROP POLICY IF EXISTS "anon_insert" ON sharotext_feedback;
+DROP POLICY IF EXISTS "anon_select" ON sharotext_feedback;
+CREATE POLICY "anon_insert" ON sharotext_feedback FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON sharotext_feedback FOR SELECT TO anon USING (true);
 
-GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
-SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
-SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
-TAXTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/00w9AT5Ae4Udf2a3GlabK0m"
-TAXTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/aFa00j3s6biBdY66SxabK0n"
+-- ============ GyoText ============
+DROP POLICY IF EXISTS "anon_all" ON gyotext_trials;
+DROP POLICY IF EXISTS "anon_insert" ON gyotext_trials;
+DROP POLICY IF EXISTS "anon_select" ON gyotext_trials;
+CREATE POLICY "anon_insert" ON gyotext_trials FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON gyotext_trials FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON gyotext_history;
+DROP POLICY IF EXISTS "anon_insert" ON gyotext_history;
+DROP POLICY IF EXISTS "anon_select" ON gyotext_history;
+CREATE POLICY "anon_insert" ON gyotext_history FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON gyotext_history FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON gyotext_feedback;
+DROP POLICY IF EXISTS "anon_insert" ON gyotext_feedback;
+DROP POLICY IF EXISTS "anon_select" ON gyotext_feedback;
+CREATE POLICY "anon_insert" ON gyotext_feedback FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON gyotext_feedback FOR SELECT TO anon USING (true);
 
-=== 自動完了済み ===
-  ✅ TAXTEXT_SENT_LOG_GIST_ID = b911e623f69de0f3d768e701bfa9576d
+-- ============ KenText ============
+DROP POLICY IF EXISTS "anon_all" ON kentext_trials;
+DROP POLICY IF EXISTS "anon_insert" ON kentext_trials;
+DROP POLICY IF EXISTS "anon_select" ON kentext_trials;
+CREATE POLICY "anon_insert" ON kentext_trials FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON kentext_trials FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON kentext_history;
+DROP POLICY IF EXISTS "anon_insert" ON kentext_history;
+DROP POLICY IF EXISTS "anon_select" ON kentext_history;
+CREATE POLICY "anon_insert" ON kentext_history FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON kentext_history FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON kentext_feedback;
+DROP POLICY IF EXISTS "anon_insert" ON kentext_feedback;
+DROP POLICY IF EXISTS "anon_select" ON kentext_feedback;
+CREATE POLICY "anon_insert" ON kentext_feedback FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON kentext_feedback FOR SELECT TO anon USING (true);
+
+-- ============ ChurnText ============
+DROP POLICY IF EXISTS "anon_all" ON churntext_trials;
+DROP POLICY IF EXISTS "anon_insert" ON churntext_trials;
+DROP POLICY IF EXISTS "anon_select" ON churntext_trials;
+CREATE POLICY "anon_insert" ON churntext_trials FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON churntext_trials FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON churntext_history;
+DROP POLICY IF EXISTS "anon_insert" ON churntext_history;
+DROP POLICY IF EXISTS "anon_select" ON churntext_history;
+CREATE POLICY "anon_insert" ON churntext_history FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON churntext_history FOR SELECT TO anon USING (true);
+DROP POLICY IF EXISTS "anon_all" ON churntext_feedback;
+DROP POLICY IF EXISTS "anon_insert" ON churntext_feedback;
+DROP POLICY IF EXISTS "anon_select" ON churntext_feedback;
+CREATE POLICY "anon_insert" ON churntext_feedback FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON churntext_feedback FOR SELECT TO anon USING (true);
+
+=== Streamlit Secrets に追加するもの（全製品共通）===
+全製品の Streamlit Cloud → Settings → Secrets に以下を追加:
+
+SUPABASE_SERVICE_KEY = "<.envのSUPABASE_SERVICE_KEYの値>"
