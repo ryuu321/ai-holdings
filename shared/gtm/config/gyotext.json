@@ -1,0 +1,44 @@
+{
+  "project": "gyotext",
+  "project_dir": "gyotext",
+  "product_name": "GyoText",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://gyotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/gyotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "行政書士事務所の担当者・スタッフ",
+    "document_types": ["許認可申請書", "定款文案", "各種届出書", "依頼者向け説明文"],
+    "company_name_hint_keywords": ["行政書士", "行政書士事務所", "行政書士法人"],
+    "target_keywords": ["行政書士", "許認可", "申請書", "届出", "法人設立", "定款", "帰化", "在留資格", "建設業許可"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/gyotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "gyotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/gyotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/gyotext/feedback_reports",
+  "feedback_prompt_context": "GyoTextは行政書士事務所向けAI申請書文案生成ツール。ユーザーは行政書士・事務スタッフ。許認可申請書・定款・届出書の文案をAIが自動生成する。",
+  "email_template": {
+    "template_file": "gyotext_sequence_1.txt",
+    "subject": "【申請書類の文案をAIで自動化】GyoTextのご紹介",
+    "fallback_opening": "平素より行政書士業務にご尽力されていることと存じます。",
+    "personalize_prompt": "行政書士事務所「{company_name}」の担当者に向けた、申請書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  }
+}
