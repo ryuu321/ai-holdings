@@ -9,11 +9,18 @@ import csv
 import json
 import os
 import re
+import sys
 import time
 import urllib.parse
 import urllib.request
 from datetime import datetime
 from pathlib import Path
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, Exception):
+        pass
 
 _DIR = Path(__file__).parent
 LEADS_FILE = _DIR / "leads.csv"

@@ -35,7 +35,7 @@ except ImportError:
 
 def load_config(project: str) -> dict:
     path = _GTM_DIR / "config" / f"{project}.json"
-    with open(path, encoding="utf-8") as f:
+    with open(path, encoding="utf-8-sig") as f:
         return json.load(f)
 
 
@@ -141,7 +141,11 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
         return m3.group(1).strip()
 
     # Step6: hint_keyword を含む短い名前を信頼（スペースなし＝事務所名、fetch_leads.py でAI検証済み）
-    if hint_keywords and any(kw in raw for kw in hint_keywords) and len(raw) <= 20 and " " not in raw and "　" not in raw:
+    # ただし「業者」「一覧」等の業種カテゴリ語が含まれる場合は除外
+    _STEP6_BAD = ["業者", "一覧", "業者認定", "工事業", "認定協会"]
+    if (hint_keywords and any(kw in raw for kw in hint_keywords)
+            and len(raw) <= 20 and " " not in raw and "　" not in raw
+            and not any(sig in raw for sig in _STEP6_BAD)):
         return raw
 
     return ""

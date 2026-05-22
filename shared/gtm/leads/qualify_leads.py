@@ -28,7 +28,7 @@ def load_config(project: str) -> dict:
     path = _GTM_DIR / "config" / f"{project}.json"
     if not path.exists():
         raise FileNotFoundError(f"config/{project}.json が見つかりません。")
-    with open(path, encoding="utf-8") as f:
+    with open(path, encoding="utf-8-sig") as f:
         return json.load(f)
 
 
