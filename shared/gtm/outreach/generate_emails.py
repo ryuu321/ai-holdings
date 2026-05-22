@@ -89,40 +89,46 @@ _BLOG_SIGNALS = [
 def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str:
     """SEOタイトルから会社名だけを抽出。取れなければ空文字を返す（呼び出し側でスキップ）。
     hint_keywords: config の icp.company_name_hint_keywords（業種固有キーワード）
-    """
-    if any(sig in raw for sig in _BLOG_SIGNALS):
-        return ""
 
-    # ｜/|/-/—で分割して法人名を探す（メイン抽出ロジック）
-    for sep in ["｜", "|", "–", "-", "—"]:
+    ロジック順序:
+    1. 区切り文字で分割 → 会社名が取れたらブログシグナルに関係なく返す
+       （「お任せ | 株式会社〇〇」の左側シグナルで正当企業を弾かないため）
+    2. 【】パターン
+    3. 法人格前置パターン（区切りなし・ブログシグナルなし限定）
+    4. 末尾法人格パターン
+    """
+    _LEAD_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
+    _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店"
+
+    # Step1: 区切り文字で分割（ブログシグナルチェックより先）
+    for sep in ["｜", "|", "–", "—", " - "]:
         if sep not in raw:
             continue
         for part in raw.split(sep):
             part = part.strip()
-            # 法人格キーワードを含む部分を優先
             if any(kw in part for kw in _COMPANY_KEYWORDS) and len(part) <= 30:
                 return part
-            # 業種固有ヒントキーワードを含む部分（法人格がなくても抽出）
             if hint_keywords and any(kw in part for kw in hint_keywords) and len(part) <= 25:
                 return part
 
-    # 【】パターン（業種ヒントキーワードも対象）
-    bracket_pattern = r'[【(]([^)】]{2,30})[)】]'
-    for m in re.finditer(bracket_pattern, raw):
+    # Step2: 【】パターン
+    for m in re.finditer(r'[【(]([^)】]{2,30})[)】]', raw):
         candidate = m.group(1).strip()
         if any(kw in candidate for kw in _COMPANY_KEYWORDS):
             return candidate
         if hint_keywords and any(kw in candidate for kw in hint_keywords) and len(candidate) <= 25:
             return candidate
 
-    # 法人格から始まるパターン
-    _LEAD_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
+    # Step3以降: 区切りなしの場合のみブログシグナルで弾く
+    if any(sig in raw for sig in _BLOG_SIGNALS):
+        return ""
+
+    # Step3: 法人格前置パターン（「〜と言えば、株式会社XXX」等）
     m2 = re.search(rf'((?:{_LEAD_TYPES})[^\s　。、！？]{{1,20}})', raw)
     if m2:
         return m2.group(1).strip()
 
-    # 末尾に法人格がつくパターン
-    _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店|建設株式会社"
+    # Step4: 末尾法人格パターン（「XXX工務店」等）
     m3 = re.search(rf'([^\s　。、！？・「」【】]{{1,20}}(?:{_TRAIL_TYPES}))$', raw.strip())
     if m3:
         return m3.group(1).strip()
