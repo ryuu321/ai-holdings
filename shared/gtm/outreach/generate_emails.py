@@ -86,33 +86,47 @@ _BLOG_SIGNALS = [
 ]
 
 
-def _clean_company_name(raw: str) -> str:
-    """SEOタイトルから会社名だけを抽出。取れなければ空文字を返す（呼び出し側でスキップ）。"""
-    # ブログタイトルシグナルが入っていたら即スキップ
+def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str:
+    """SEOタイトルから会社名だけを抽出。取れなければ空文字を返す（呼び出し側でスキップ）。
+    hint_keywords: config の icp.company_name_hint_keywords（業種固有キーワード）
+    """
     if any(sig in raw for sig in _BLOG_SIGNALS):
         return ""
-    # 【ViVi（ヴィヴィ）不動産】のような【】パターン
-    m = re.search(r'[【(]([^)】]{2,30}不動産[^)】]{0,10})[)】]', raw)
-    if m:
-        return m.group(1).strip()
-    # ｜/|/-/—で分割して株式会社等を含む部分を探す
+
+    # ｜/|/-/—で分割して法人名を探す（メイン抽出ロジック）
     for sep in ["｜", "|", "–", "-", "—"]:
         if sep not in raw:
             continue
         for part in raw.split(sep):
             part = part.strip()
-            if any(kw in part for kw in _COMPANY_KEYWORDS) and len(part) <= 25:
+            # 法人格キーワードを含む部分を優先
+            if any(kw in part for kw in _COMPANY_KEYWORDS) and len(part) <= 30:
                 return part
+            # 業種固有ヒントキーワードを含む部分（法人格がなくても抽出）
+            if hint_keywords and any(kw in part for kw in hint_keywords) and len(part) <= 25:
+                return part
+
+    # 【】パターン（業種ヒントキーワードも対象）
+    bracket_pattern = r'[【(]([^)】]{2,30})[)】]'
+    for m in re.finditer(bracket_pattern, raw):
+        candidate = m.group(1).strip()
+        if any(kw in candidate for kw in _COMPANY_KEYWORDS):
+            return candidate
+        if hint_keywords and any(kw in candidate for kw in hint_keywords) and len(candidate) <= 25:
+            return candidate
+
     # 法人格から始まるパターン
     _LEAD_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
-    m2 = re.search(rf'((?:{_LEAD_TYPES})[^\s　。、！？]{"{1,20}"})', raw)
+    m2 = re.search(rf'((?:{_LEAD_TYPES})[^\s　。、！？]{{1,20}})', raw)
     if m2:
         return m2.group(1).strip()
+
     # 末尾に法人格がつくパターン
-    _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所"
+    _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店|建設株式会社"
     m3 = re.search(rf'([^\s　。、！？・「」【】]{{1,20}}(?:{_TRAIL_TYPES}))$', raw.strip())
     if m3:
         return m3.group(1).strip()
+
     return ""
 
 
@@ -179,9 +193,11 @@ def main():
         if write_header:
             writer.writeheader()
 
-        for i, lead in enumerate(targets, 1):
+        hint_keywords = cfg.get("icp", {}).get("company_name_hint_keywords", [])
+
+    for i, lead in enumerate(targets, 1):
             raw_name = lead["company_name"]
-            company = _clean_company_name(raw_name)
+            company = _clean_company_name(raw_name, hint_keywords)
             email = lead["email"]
             url = lead.get("url", "")
             if not company:

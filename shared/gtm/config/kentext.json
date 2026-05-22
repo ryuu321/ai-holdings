@@ -11,6 +11,8 @@
   "gemini_model": "gemini-3.1-flash-lite",
   "icp": {
     "target_description": "建設業・工務店の現場監督・施工管理担当者",
+    "document_types": ["工事完了報告書", "施工写真レポート", "安全管理報告書"],
+    "company_name_hint_keywords": ["工務店", "建設", "建工", "施工", "土木", "設備", "リフォーム", "塗装", "解体"],
     "target_keywords": ["建設", "工務店", "施工", "リフォーム", "土木", "設備工事", "内装", "外装", "塗装", "解体", "増改築", "配管", "電気工事"],
     "good_domain_suffixes": ["co.jp", "jp"],
     "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],

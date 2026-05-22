@@ -1,12 +1,14 @@
 """
 SharoText アウトリーチ パイプライン（1コマンドで全工程を実行）
 
-  python pipeline.py              # フルパイプライン（fetch→qualify→generate→send）
+  python pipeline.py              # フルパイプライン（fetch→qualify→generate→確認→send）
   python pipeline.py --no-send    # 送信なし（ドラフト生成まで）
   python pipeline.py --dry-run    # 全工程をドライラン（実際には送信しない）
   python pipeline.py --fetch-only # リード収集のみ
+  python pipeline.py --force      # 会社名確認をスキップ（GitHub Actions用）
 """
 import argparse
+import csv
 import subprocess
 import sys
 from pathlib import Path
@@ -34,6 +36,36 @@ def run(cmd: list[str], label: str) -> bool:
     return True
 
 
+def _review_draft(draft_file: Path, send_limit: int, force: bool) -> bool:
+    """draft CSVの会社名を表示してユーザー確認を取る。force=TrueはGitHub Actions用。"""
+    if not draft_file.exists():
+        print("draft CSVが見つかりません。")
+        return False
+
+    with open(draft_file, encoding="utf-8") as f:
+        rows = [r for r in csv.DictReader(f) if r.get("status") == "draft"]
+
+    targets = rows[:send_limit]
+    if not targets:
+        print("送信対象のdraftがありません。")
+        return False
+
+    print(f"\n{'='*60}")
+    print(f"[STEP 3.5: 送信前 会社名確認] {len(targets)}件")
+    print(f"{'='*60}")
+    for i, row in enumerate(targets, 1):
+        personalized = "AI" if row.get("personalized") == "True" else "FB"
+        print(f"  {i:2}. [{personalized}] {row['company_name'][:35]} | {row['email']}")
+
+    if force:
+        print("\n--force: 確認スキップして送信します。")
+        return True
+
+    print("\n上記の企業名・メールアドレスを確認してください。")
+    ans = input("送信しますか？ [y/N]: ").strip().lower()
+    return ans == "y"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--no-send", action="store_true", help="ドラフト生成まで（送信しない）")
@@ -41,6 +73,7 @@ def main():
     parser.add_argument("--fetch-only", action="store_true", help="リード収集のみ")
     parser.add_argument("--fetch-limit", type=int, default=100, help="1回の収集上限（デフォルト100）")
     parser.add_argument("--send-limit", type=int, default=30, help="1回の送信上限（デフォルト30）")
+    parser.add_argument("--force", action="store_true", help="会社名確認をスキップ（GitHub Actions用）")
     args = parser.parse_args()
 
     py = sys.executable
@@ -74,7 +107,14 @@ def main():
 
     if args.no_send or args.dry_run:
         print("\n--no-send / --dry-run モード: 送信をスキップしました。")
-        print("送信する場合: python send_emails.py")
+        print("送信する場合: python pipeline.py --force  または  python send_emails.py")
+        return
+
+    # Step 3.5: 会社名確認（強制ゲート）
+    project_dir_name = {"sharotext": "sharotext"}.get(PROJECT, PROJECT)
+    draft_file = _ROOT / "saas-dev" / "projects" / project_dir_name / "outreach" / "emails_draft.csv"
+    if not _review_draft(draft_file, args.send_limit, args.force):
+        print("\n送信をキャンセルしました。")
         return
 
     # Step 4: 送信
