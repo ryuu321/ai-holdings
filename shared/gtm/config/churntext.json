@@ -35,6 +35,7 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/churntext/feedback_reports",
   "feedback_prompt_context": "ChurnTextは月額SaaS・サブスクサービス運営者向けAI解約引き留め文生成ツール。ユーザーはSaaS事業者・スタートアップ担当者。解約理由に応じたリテンションオファー文を自動生成する。",
+  "history_columns": ["churn_reason text", "user_info text", "offer_type text", "result text"],
   "email_template": {
     "template_file": "churntext_sequence_1.txt",
     "subject": "【解約率を下げるAI文章生成】ChurnTextのご紹介",

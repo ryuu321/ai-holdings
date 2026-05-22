@@ -56,12 +56,46 @@ def _req(method: str, path: str, data: dict | None, api_key: str) -> dict:
         raise RuntimeError(f"Stripe API エラー ({e.code}): {err.get('error', {}).get('message', '')}") from None
 
 
+def _find_existing_product(name: str, api_key: str) -> str | None:
+    result = _req("GET", f"products?limit=100&active=true", None, api_key)
+    for p in result.get("data", []):
+        if p.get("name") == name:
+            return p["id"]
+    return None
+
+
+def _find_active_payment_link(price_id: str, api_key: str) -> str | None:
+    result = _req("GET", f"payment_links?limit=100&active=true", None, api_key)
+    for link in result.get("data", []):
+        items = _req("GET", f"payment_links/{link['id']}/line_items", None, api_key)
+        for item in items.get("data", []):
+            if item.get("price", {}).get("id") == price_id:
+                return link["url"]
+    return None
+
+
+def _find_existing_price(product_id: str, amount: int, api_key: str) -> str | None:
+    result = _req("GET", f"prices?product={product_id}&active=true&limit=10", None, api_key)
+    for p in result.get("data", []):
+        if p.get("unit_amount") == amount and p.get("recurring", {}).get("interval") == "month":
+            return p["id"]
+    return None
+
+
 def create_product(name: str, description: str, api_key: str) -> str:
+    existing = _find_existing_product(name, api_key)
+    if existing:
+        print(f"    既存のProductを再利用: {existing}")
+        return existing
     result = _req("POST", "products", {"name": name, "description": description}, api_key)
     return result["id"]
 
 
 def create_price(product_id: str, amount: int, api_key: str) -> str:
+    existing = _find_existing_price(product_id, amount, api_key)
+    if existing:
+        print(f"    既存のPriceを再利用: {existing}")
+        return existing
     result = _req("POST", "prices", {
         "product": product_id,
         "unit_amount": amount,
@@ -72,6 +106,10 @@ def create_price(product_id: str, amount: int, api_key: str) -> str:
 
 
 def create_payment_link(price_id: str, api_key: str) -> str:
+    existing = _find_active_payment_link(price_id, api_key)
+    if existing:
+        print(f"    既存のPayment Linkを再利用: {existing}")
+        return existing
     result = _req("POST", "payment_links", {
         "line_items[0][price]": price_id,
         "line_items[0][quantity]": "1",
@@ -167,7 +205,30 @@ def main() -> None:
     supabase_key  = os.environ.get("SUPABASE_ANON_KEY", "")
     gemini_key    = os.environ.get("GEMINI_API_KEY", "")
 
-    sql_block = f"""CREATE TABLE {args.project}_feedback (
+    history_cols = cfg.get("history_columns", ["doc_type text", "input_1 text", "input_2 text", "result text"])
+    history_col_sql = "\n".join(f"  {col}," for col in history_cols)
+    p = args.project
+    sql_block = f"""CREATE TABLE IF NOT EXISTS {p}_trials (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email text UNIQUE NOT NULL,
+  count integer DEFAULT 0,
+  plan text,
+  created_at timestamptz DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS {p}_codes (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  code text UNIQUE NOT NULL,
+  plan text NOT NULL,
+  active boolean DEFAULT true,
+  created_at timestamptz DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS {p}_history (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email text NOT NULL,
+{history_col_sql}
+  created_at timestamptz DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS {p}_feedback (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   email text,
   category text,
@@ -176,8 +237,14 @@ def main() -> None:
   reasons text,
   created_at timestamptz DEFAULT now()
 );
-ALTER TABLE {args.project}_feedback ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON {args.project}_feedback FOR ALL TO anon USING (true) WITH CHECK (true);"""
+ALTER TABLE {p}_trials ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON {p}_trials FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE {p}_history ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON {p}_history FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE {p}_codes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_select" ON {p}_codes FOR SELECT TO anon USING (true);
+ALTER TABLE {p}_feedback ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON {p}_feedback FOR ALL TO anon USING (true) WITH CHECK (true);"""
 
     q = '"'
     secrets_block = (

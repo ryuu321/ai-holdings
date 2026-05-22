@@ -35,6 +35,7 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/gyotext/feedback_reports",
   "feedback_prompt_context": "GyoTextは行政書士事務所向けAI申請書文案生成ツール。ユーザーは行政書士・事務スタッフ。許認可申請書・定款・届出書の文案をAIが自動生成する。",
+  "history_columns": ["tetsuzuki_shubetsu text", "irainin_info text", "gaiyou text", "result text"],
   "email_template": {
     "template_file": "gyotext_sequence_1.txt",
     "subject": "【申請書類の文案をAIで自動化】GyoTextのご紹介",
