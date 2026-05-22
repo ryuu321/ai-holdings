@@ -37,6 +37,17 @@ SaaSプロダクトを企画から運用まで、品質を落とさずに遂行�
 | `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-send-code.yml` | gyotext-send-code.ymlをコピーして書き換え |
 | `C:/Users/ryuuM/ai-holdings/shared/gtm/outreach/templates/{project}_sequence_1.txt` | gyotext_sequence_1.txtをコピーして製品文言を書き換え |
 | `C:/Users/ryuuM/ai-holdings/shared/gtm/outreach/templates/{project}_sequence_2.txt` | gyotext_sequence_2.txtをコピーして製品文言を書き換え |
+| `C:/Users/ryuuM/ai-holdings/docs/{project}.html` | kentext.htmlをコピーして製品名・カラー・ペインポイント・Stripe URL・app_urlを書き換え（特定商取引法・プライバシーポリシー含む） |
+
+**メールテンプレートには必ず `{app_url}` と `{lp_url}` を両方含めること**:
+```
+登録不要・無料でお試しいただけます:
+<{app_url}>
+
+詳しいご説明はこちら:
+<{lp_url}>
+```
+署名にも `Web: {lp_url}` を入れる。
 
 **config.jsonに必ず `history_columns` を追加すること**（これがないとSQLのhistoryテーブルがgenericカラムになる）:
 ```json
@@ -63,10 +74,12 @@ python C:/Users/ryuuM/ai-holdings/shared/gtm/scripts/setup_stripe.py --project {
 ✅ 自動生成完了
 
 【自動で完了したこと】
-- config/{project}.json（history_columns含む）
+- config/{project}.json（history_columns + lp_url含む）
 - fudotext: db.py / gen.py / app.py
 - ai-holdings: fetch_leads.py / send_emails.py / pipeline.py
 - GitHub Actions: daily-send / check-replies / follow-up / feedback-pdca / send-code
+- docs/{project}.html（LP・特定商取引法・PP含む）
+- sequence_1.txt（{app_url} + {lp_url} 両方含む）/ sequence_2.txt
 - Stripe: スタンダード(¥8,980) / プロ(¥19,800) 決済リンク作成済み（重複防止済み）
 - clipboard.txt: SQL（4テーブル）+ Secrets（service key含む）出力済み
 
