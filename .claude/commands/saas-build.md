@@ -462,7 +462,11 @@ CREATE TABLE {project}_feedback (
   created_at timestamptz DEFAULT now()
 );
 ALTER TABLE {project}_feedback ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON {project}_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "anon_all" ON {project}_feedback;
+DROP POLICY IF EXISTS "anon_insert" ON {project}_feedback;
+DROP POLICY IF EXISTS "anon_select" ON {project}_feedback;
+CREATE POLICY "anon_insert" ON {project}_feedback FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON {project}_feedback FOR SELECT TO anon USING (true);
 
 CREATE TABLE {project}_trials (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -487,10 +491,20 @@ CREATE TABLE {project}_history (
   created_at timestamptz DEFAULT now()
 );
 ALTER TABLE {project}_trials ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON {project}_trials FOR ALL TO anon USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "anon_all" ON {project}_trials;
+DROP POLICY IF EXISTS "anon_insert" ON {project}_trials;
+DROP POLICY IF EXISTS "anon_select" ON {project}_trials;
+CREATE POLICY "anon_insert" ON {project}_trials FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON {project}_trials FOR SELECT TO anon USING (true);
 ALTER TABLE {project}_history ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON {project}_history FOR ALL TO anon USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "anon_all" ON {project}_history;
+DROP POLICY IF EXISTS "anon_insert" ON {project}_history;
+DROP POLICY IF EXISTS "anon_select" ON {project}_history;
+CREATE POLICY "anon_insert" ON {project}_history FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "anon_select" ON {project}_history FOR SELECT TO anon USING (true);
 ALTER TABLE {project}_codes ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON {project}_codes;
+DROP POLICY IF EXISTS "anon_select" ON {project}_codes;
 CREATE POLICY "anon_select" ON {project}_codes FOR SELECT TO anon USING (true);
 ```
 
