@@ -239,14 +239,25 @@ CREATE TABLE IF NOT EXISTS {p}_feedback (
   created_at timestamptz DEFAULT now()
 );
 ALTER TABLE {p}_trials ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON {p}_trials;
+DROP POLICY IF EXISTS "anon_insert" ON {p}_trials;
+DROP POLICY IF EXISTS "anon_select" ON {p}_trials;
 CREATE POLICY "anon_insert" ON {p}_trials FOR INSERT TO anon WITH CHECK (true);
 CREATE POLICY "anon_select" ON {p}_trials FOR SELECT TO anon USING (true);
 ALTER TABLE {p}_history ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON {p}_history;
+DROP POLICY IF EXISTS "anon_insert" ON {p}_history;
+DROP POLICY IF EXISTS "anon_select" ON {p}_history;
 CREATE POLICY "anon_insert" ON {p}_history FOR INSERT TO anon WITH CHECK (true);
 CREATE POLICY "anon_select" ON {p}_history FOR SELECT TO anon USING (true);
 ALTER TABLE {p}_codes ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON {p}_codes;
+DROP POLICY IF EXISTS "anon_select" ON {p}_codes;
 CREATE POLICY "anon_select" ON {p}_codes FOR SELECT TO anon USING (true);
 ALTER TABLE {p}_feedback ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON {p}_feedback;
+DROP POLICY IF EXISTS "anon_insert" ON {p}_feedback;
+DROP POLICY IF EXISTS "anon_select" ON {p}_feedback;
 CREATE POLICY "anon_insert" ON {p}_feedback FOR INSERT TO anon WITH CHECK (true);
 CREATE POLICY "anon_select" ON {p}_feedback FOR SELECT TO anon USING (true);"""
 
