@@ -1,29 +1,29 @@
 === (1) Supabase SQL Editor にペースト → Run ===
 
-CREATE TABLE IF NOT EXISTS caretext_trials (
+CREATE TABLE IF NOT EXISTS taxtext_trials (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   email text UNIQUE NOT NULL,
   count integer DEFAULT 0,
   plan text,
   created_at timestamptz DEFAULT now()
 );
-CREATE TABLE IF NOT EXISTS caretext_codes (
+CREATE TABLE IF NOT EXISTS taxtext_codes (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   code text UNIQUE NOT NULL,
   plan text NOT NULL,
   active boolean DEFAULT true,
   created_at timestamptz DEFAULT now()
 );
-CREATE TABLE IF NOT EXISTS caretext_history (
+CREATE TABLE IF NOT EXISTS taxtext_history (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   email text NOT NULL,
   doc_type text,
-  riyosha_info text,
-  service_naiyou text,
+  company_info text,
+  financial_info text,
   result text,
   created_at timestamptz DEFAULT now()
 );
-CREATE TABLE IF NOT EXISTS caretext_feedback (
+CREATE TABLE IF NOT EXISTS taxtext_feedback (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   email text,
   category text,
@@ -32,22 +32,22 @@ CREATE TABLE IF NOT EXISTS caretext_feedback (
   reasons text,
   created_at timestamptz DEFAULT now()
 );
-ALTER TABLE caretext_trials ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON caretext_trials FOR ALL TO anon USING (true) WITH CHECK (true);
-ALTER TABLE caretext_history ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON caretext_history FOR ALL TO anon USING (true) WITH CHECK (true);
-ALTER TABLE caretext_codes ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_select" ON caretext_codes FOR SELECT TO anon USING (true);
-ALTER TABLE caretext_feedback ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON caretext_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE taxtext_trials ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON taxtext_trials FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE taxtext_history ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON taxtext_history FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE taxtext_codes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_select" ON taxtext_codes FOR SELECT TO anon USING (true);
+ALTER TABLE taxtext_feedback ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON taxtext_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
 
-=== (2) Streamlit Cloud → caretext → Settings → Secrets にペースト → Save ===
+=== (2) Streamlit Cloud → taxtext → Settings → Secrets にペースト → Save ===
 
 GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
 SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
 SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
-CARETEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/3cI8wP9Qu86pf2a4KpabK0k"
-CARETEXT_STRIPE_PRO_URL = "https://buy.stripe.com/3cIaEXfaOeuN2fo90FabK0l"
+TAXTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/00w9AT5Ae4Udf2a3GlabK0m"
+TAXTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/aFa00j3s6biBdY66SxabK0n"
 
 === 自動完了済み ===
-  ✅ CARETEXT_SENT_LOG_GIST_ID = 87b107bd88d755066fcae6eea32ebbad
+  ✅ TAXTEXT_SENT_LOG_GIST_ID = b911e623f69de0f3d768e701bfa9576d
