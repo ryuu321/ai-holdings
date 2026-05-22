@@ -95,7 +95,7 @@ def _today_sent_count() -> int:
         return sum(1 for row in csv.DictReader(f) if row.get("sent_at", "").startswith(today))
 
 
-_COMPANY_REQUIRED = ["株式会社", "有限会社", "合同会社"]
+_COMPANY_REQUIRED = ["株式会社", "有限会社", "合同会社", "法人", "事務所", "工務店", "建設"]
 _BLOG_SIGNALS = ["コツ", "方法", "選び方", "ランキング", "名簿", "営業リスト"]
 
 
@@ -115,7 +115,7 @@ def _check_safety(drafts: list[dict]) -> bool:
             missing.append("送信者名")
         if "配信停止" not in body:
             missing.append("配信停止文言")
-        if "住所" not in body:
+        if "〒" not in body and "住所" not in body:
             missing.append("住所")
         if "※要設定" in body:
             missing.append("住所（未設定）")

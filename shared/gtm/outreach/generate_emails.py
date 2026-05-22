@@ -103,8 +103,9 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
     _LEAD_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
     _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店"
 
-    # Step0: 地域・全国系の前置マーケティング語を除去
+    # Step0: 前置マーケティング語除去 ＋ 「法人　固有名詞」の全角スペースを結合
     raw = re.sub(r'^(?:全国対応の?|全国の|地域密着型?の?)[　\s]*', '', raw)
+    raw = re.sub(r'(社会保険労務士法人|社労士法人|株式会社|有限会社|合同会社|行政書士法人|司法書士法人|税理士法人)　(.{1,15})$', r'\1\2', raw)
 
     # Step1: 区切り文字で分割（ブログシグナルチェックより先）
     for sep in ["｜", "|", "–", "—", " - "]:
@@ -203,15 +204,14 @@ def main():
     fields = ["company_name", "email", "subject", "body", "url", "status", "personalized"]
     write_header = not draft_file.exists()
 
+    hint_keywords = cfg.get("icp", {}).get("company_name_hint_keywords", [])
     generated = 0
     with open(draft_file, "a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fields)
         if write_header:
             writer.writeheader()
 
-        hint_keywords = cfg.get("icp", {}).get("company_name_hint_keywords", [])
-
-    for i, lead in enumerate(targets, 1):
+        for i, lead in enumerate(targets, 1):
             raw_name = lead["company_name"]
             company = _clean_company_name(raw_name, hint_keywords)
             email = lead["email"]

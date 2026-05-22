@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 _DIR = Path(__file__).parent
-_ROOT = _DIR.parent.parent.parent.parent.parent  # ai-holdings/
+_ROOT = _DIR.parent.parent.parent.parent  # ai-holdings/
 
 _FETCH = _DIR / "fetch_leads.py"
 _QUALIFY = _ROOT / "shared" / "gtm" / "leads" / "qualify_leads.py"
