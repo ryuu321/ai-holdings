@@ -5,6 +5,63 @@ SaaSプロダクトを企画から運用まで、品質を落とさずに遂行�
 
 ---
 
+## 自動スキャフォールド（引数ありで呼ばれたとき・必ず実行）
+
+`/saas-build {project}` で呼ばれたら、フェーズ説明を読ませる前に**以下を順番に実行する**。
+
+### Step 1: ブリーフ収集（1回だけ聞く）
+
+以下を1メッセージでまとめて確認する（個別に何度も聞かない）:
+- 日本語製品名（例: 建設報告書AI → KenText）
+- ターゲット（例: 工務店・建設業の現場監督）→ `icp.target_description` に入る
+- 生成する書類の種類（例: 工事完了報告書・施工写真レポート）→ `icp.document_types` に入る
+- メール送信のターゲット業種キーワード（例: 工務店、建設、施工）→ `icp.target_keywords` に入る
+
+### Step 2: ファイル自動生成
+
+`saas-dev/projects/kensetsu/` を参照テンプレートとして以下を生成する（**C:/Users/ryuuM/fudotext** 側と **C:/Users/ryuuM/ai-holdings** 側の両方）:
+
+| 生成先 | 内容 |
+|--------|------|
+| `C:/Users/ryuuM/ai-holdings/shared/gtm/config/{project}.json` | kentext.jsonをコピーして製品名・ICP・テンプレートパス等を書き換え |
+| `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/db.py` | kensetsu/db.pyをコピーしてテーブル名・定数を書き換え |
+| `C:/Users/ryuuM/fudotext/saas-dev/projects/{project}/app.py` | kensetsu/app.pyをコピーして書類タイプ・プロンプト・UI文言を書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-check-replies.yml` | kentext-check-replies.ymlをコピーしてproject名・Gist変数名を書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-follow-up.yml` | kentext-follow-up.ymlをコピーして書き換え |
+| `C:/Users/ryuuM/ai-holdings/.github/workflows/{project}-feedback-pdca.yml` | kentext-feedback-pdca.ymlをコピーして書き換え |
+| `C:/Users/ryuuM/ai-holdings/shared/gtm/outreach/templates/{project}_sequence_2.txt` | kentext_sequence_2.txtをコピーして製品文言を書き換え |
+
+### Step 3: Stripe自動セットアップ
+
+```powershell
+python C:/Users/ryuuM/ai-holdings/shared/gtm/scripts/setup_stripe.py --project {project}
+```
+
+これにより `clipboard.txt` に **2点セット** が出力される:
+1. Supabase SQL（feedbackテーブル作成）
+2. Streamlit Secrets（Gemini/Supabase/Stripe全キー）
+
+### Step 4: 完了報告
+
+以下の形式で報告する:
+
+```
+✅ 自動生成完了
+
+【自動で完了したこと】
+- config/{project}.json
+- fudotext: db.py / app.py
+- GitHub Actions: check-replies / follow-up / feedback-pdca
+- Stripe: スタンダード(¥8,980) / プロ(¥19,800) 決済リンク作成済み
+- clipboard.txt: SQL + Secrets 出力済み
+
+【ユーザーが行う手動作業（clipboard.txtを使う）】
+① Supabase Dashboard → SQL Editor → clipboard.txt の SQL をペースト → Run
+② Streamlit Cloud → {project} アプリ新規作成 → Settings → Secrets → clipboard.txt の Secrets をペースト → Save
+```
+
+---
+
 ## フェーズ一覧
 
 ```
@@ -611,6 +668,11 @@ if submitted:
 if st.session_state.get("last_result"):
     st.code(st.session_state.last_result["body"])  # ← 消えない
 ```
+
+**⑤ db.py の型注釈は `from __future__ import annotations` を先頭に必須**
+- Streamlit Cloud は Python 3.9 系で動くことがある
+- `str | None`（Python 3.10+）や `list[dict]`（Python 3.9+）をファイル先頭の `from __future__ import annotations` なしで書くと ImportError になる
+- **解決策**: `db.py` の先頭行に必ず `from __future__ import annotations` を入れる（Python 3.7以降で有効）
 
 **③ ローカルと Cloud の二重シークレット対応パターン**
 ```python

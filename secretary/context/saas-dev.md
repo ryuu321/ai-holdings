@@ -1,6 +1,6 @@
 ---
 company: saas-dev
-updated: 2026-05-19
+updated: 2026-05-22
 ---
 
 ## 稼働中プロジェクト
@@ -10,45 +10,58 @@ updated: 2026-05-19
 - Redbubble: MidnightTorii 手動アップロード（next_index=4、残16件）
 - ダッシュボード: docs/index.html（毎日JST7時自動生成）+ Flask app
 
+## SaaS プロダクト（3本稼働中）
+
+### FudoText（不動産仲介向け）
+- LP: `docs/fudotext.html`（GitHub Pages公開済み）
+- コールドメール: 8社送信済み（2026-05-19）・返信待ち
+- Supabase: trials/codes/history テーブル稼働中
+- Stripe: payment link 作成済み（setup_stripe.py で自動作成）
+- PDCA: Google Forms CSV → Gemini 分析（週次・GitHub Actions）
+
+### SharoText（社労士向け）
+- アプリ: Streamlit Cloud 稼働中
+- Supabase: trials/codes/history/feedback テーブル稼働中
+- in-app フィードバック: 👍/👎 → `sharotext_feedback` テーブル
+- Stripe: payment link 作成済み（スタンダード ¥8,980 / プロ ¥19,800）
+- GitHub Actions: check-replies / follow-up / feedback-pdca 稼働中
+- コールドメール: 送信中（sent_log Gist管理）
+
+### KenText（建設・工務店向け）
+- アプリ: Streamlit Cloud 稼働中
+- Supabase: trials/codes/history/feedback テーブル稼働中
+- in-app フィードバック: 👍/👎 → `kensetsu_feedback` テーブル
+- Stripe: payment link 作成済み（スタンダード ¥8,980 / プロ ¥19,800）
+- GitHub Actions: check-replies / follow-up / feedback-pdca 稼働中
+
+## 新事業セットアップ（/saas-build スキル）
+- `/saas-build {project}` → 名前 + 1往復 + コピペ2回 = 新事業完成
+- `setup_stripe.py --project {name}` で自動完了するもの:
+  - Stripe 決済リンク作成
+  - sent_log Gist 作成
+  - GitHub Secrets (`{PROJECT}_SENT_LOG_GIST_ID`) 登録
+  - clipboard.txt: SQL + Streamlit Secrets の2点セット出力
+- 手動作業は2ステップのみ: Supabase SQL実行 + Streamlit Cloud デプロイ
+
 ## Gumroad（ventures-auto 傘下）
 - **9商品公開済み** / 売上 $0 / 全商品アフィリエイト25%設定済み
-- 商品一覧: Procreate Assets($37) / DesignGenie($37) / AI Content Boost($39) / Procreate AI($39) / Procreate Aid($39) / Viral Content($39) / ADHD Unlocked($39) / Etsy Seller Boost($39) / Etsy Success Boost($39)
-
-## Dev.to Publisher（ventures-auto 傘下）
-- 2x/day化完了（JST 11:00 + 20:00）
-- ジャンル別Gumroad CTA設定済み
 
 ## 重要パス
-- 投資ボット: `saas-dev/projects/auto-invest/`
-- 楽天ROOM: `saas-dev/projects/rakuten-room/`（auth更新: `.\update_auth.ps1`）
-- Kindle KDP: `saas-dev/projects/kindle-kdp/output/` (6冊)
 - FudoText: `saas-dev/projects/fudosan-copy/`
-- コールドメール: `saas-dev/projects/fudosan-copy/outreach/`
-
-## FudoText 顧客獲得（進行中）
-- LP: `docs/fudotext.html`（GitHub Pages公開済み）
-- SEO記事: `docs/fudotext/` 8本（週次自動追加・毎週月曜）
-- コールドメールパイプライン: `outreach/` フォルダ
-  - leads.csv: 26件収集済み（Brave Search API使用）
-  - 送信済み: **7件（誤送信・パーソナライズなし・署名「ryuu」）**
-  - draft待機: 18件（未送信・確認待ち）
-  - .env設定済み: GMAIL_ADDRESS / GMAIL_APP_PASSWORD / BRAVE_API_KEY
-- **次のアクション**: テストメール表示確認 → leads.csvクリーンアップ → 本番送信
+- SharoText: `fudotext/saas-dev/projects/sharotext/`
+- KenText: `fudotext/saas-dev/projects/kensetsu/`
+- 新事業セットアップ: `shared/gtm/scripts/setup_stripe.py`
+- GTM設定: `shared/gtm/config/{project}.json`
+- GitHub Actions: `.github/workflows/{project}-*.yml`
 
 ## 現在の課題
-- FudoText: メール文字化け疑い・Gemini 429でパーソナライズ失敗中
-- FudoText: leads.csvに不適切リード混在（求人サイト・メール営業会社）
-- 楽天ROOM: セッション切れ（ローカルで`.\update_auth.ps1`必須）
+- FudoText: 8社からの返信待ち（2026-05-19送信・3日経過）
+- 楽天ROOM: セッション切れ（ローカルで `.\update_auth.ps1` 必須）
 - KDP: 6冊のEPUBが未アップロード
 - Gumroad売上 $0
 
-## ユニバース（ATTACK/VOLT/MEDIUM）
-BTC-USD, ETH-USD, SOL-USD, NVDA, AMD, TSLA, META, PLTR, COIN, MSTR, ARM, AVGO
-
 ## 直近の決定
-- X(Twitter) API: 有料のため永久廃止（2026-05-19）
-- note.com: FudoText集客には不向き（ジャンル不一致）廃止（2026-05-19）
-- コールドメール: Brave Search API（$5無料枠）でリード収集（2026-05-19）
-- 本名「真柄龍聖」をメール署名に使用（特定電子メール法対応・2026-05-19）
-- 本物企業への送信はメール品質確認後のみ（2026-05-19）
-- FudoText SEO記事8本公開・週次自動追加（2026-05-19）
+- Stripe 復活: sk_live_ キーで payment link 作成成功（2026-05-22）
+- in-app フィードバック標準化: Google Forms 不要・Supabase 直接保存（2026-05-22）
+- /saas-build スキル全自動化: Gist + GitHub Secrets まで自動（2026-05-22）
+- icp.document_types をconfig標準フィールドに追加（2026-05-22）

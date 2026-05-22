@@ -13,13 +13,26 @@ Usage:
 import argparse
 import json
 import os
+import sys
 import urllib.parse
 import urllib.request
 import urllib.error
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 _ROOT = Path(__file__).resolve().parent.parent.parent.parent
 _CFG_DIR = _ROOT / "shared" / "gtm" / "config"
+
+# .envを手動ロード（python-dotenv不要）
+_env_file = _ROOT / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text(encoding="utf-8").splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _, _v = _line.partition("=")
+            os.environ.setdefault(_k.strip(), _v.strip())
 
 PLANS = [
     {"key": "standard", "label": "スタンダード", "amount": 8980,  "limit": "月50件"},
@@ -66,6 +79,59 @@ def create_payment_link(price_id: str, api_key: str) -> str:
     return result["url"]
 
 
+def _gh_req(method: str, path: str, token: str, data: dict | None = None) -> dict:
+    url = f"https://api.github.com{path}"
+    body = json.dumps(data).encode() if data is not None else None
+    req = urllib.request.Request(url, data=body, headers={
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
+    }, method=method)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            content = r.read()
+            return json.loads(content) if content else {}
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"GitHub API エラー ({e.code}): {e.read().decode()}") from None
+
+
+def create_gist(project: str, token: str) -> str:
+    filename = f"{project}_sent_log.csv"
+    result = _gh_req("POST", "/gists", token, {
+        "description": f"{project} sent_log (auto-created by setup_stripe.py)",
+        "public": False,
+        "files": {filename: {"content": "sent_at,email,replied"}},
+    })
+    return result["id"]
+
+
+def set_github_secret(repo: str, secret_name: str, secret_value: str, token: str) -> None:
+    # リポジトリの公開鍵を取得
+    pub_key_data = _gh_req("GET", f"/repos/{repo}/actions/secrets/public-key", token)
+    key_id = pub_key_data["key_id"]
+    key_b64 = pub_key_data["key"]
+
+    # libsodium で暗号化（PyNaClが必要）
+    # PyNaClがない場合は gh CLI にフォールバック
+    try:
+        from base64 import b64decode, b64encode
+        from nacl import encoding, public  # type: ignore
+        pub_key = public.PublicKey(key_b64.encode(), encoding.Base64Encoder)
+        box = public.SealedBox(pub_key)
+        encrypted = b64encode(box.encrypt(secret_value.encode())).decode()
+        _gh_req("PUT", f"/repos/{repo}/actions/secrets/{secret_name}", token, {
+            "encrypted_value": encrypted,
+            "key_id": key_id,
+        })
+    except ImportError:
+        # PyNaClがない場合はgh CLIを使う
+        import subprocess
+        subprocess.run(
+            ["gh", "secret", "set", secret_name, "--body", secret_value, "--repo", repo],
+            check=True,
+        )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--project", required=True)
@@ -77,7 +143,7 @@ def main() -> None:
         return
 
     cfg_path = _CFG_DIR / f"{args.project}.json"
-    with open(cfg_path, encoding="utf-8") as f:
+    with open(cfg_path, encoding="utf-8-sig") as f:
         cfg = json.load(f)
 
     product_name = cfg["product_name"]
@@ -97,19 +163,68 @@ def main() -> None:
         print(f"    → {link}")
 
     project_upper = args.project.upper()
-    secrets_block = f"""{project_upper}_STRIPE_STANDARD_URL = "{urls['standard']}"
-{project_upper}_STRIPE_PRO_URL = "{urls['pro']}"
-"""
+    supabase_url  = os.environ.get("SUPABASE_URL", "")
+    supabase_key  = os.environ.get("SUPABASE_ANON_KEY", "")
+    gemini_key    = os.environ.get("GEMINI_API_KEY", "")
+
+    sql_block = f"""CREATE TABLE {args.project}_feedback (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email text,
+  category text,
+  rating text NOT NULL,
+  regen_count integer DEFAULT 0,
+  reasons text,
+  created_at timestamptz DEFAULT now()
+);
+ALTER TABLE {args.project}_feedback ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON {args.project}_feedback FOR ALL TO anon USING (true) WITH CHECK (true);"""
+
+    q = '"'
+    secrets_block = (
+        f'GEMINI_API_KEY = {q}{gemini_key}{q}\n'
+        f'SUPABASE_URL = {q}{supabase_url}{q}\n'
+        f'SUPABASE_ANON_KEY = {q}{supabase_key}{q}\n'
+        f'{project_upper}_STRIPE_STANDARD_URL = {q}{urls["standard"]}{q}\n'
+        f'{project_upper}_STRIPE_PRO_URL = {q}{urls["pro"]}{q}'
+    )
+
+    # Gist作成 + GitHub Secrets登録
+    gist_token  = os.environ.get("GIST_TOKEN", "")
+    github_token = os.environ.get("GITHUB_TOKEN", "")
+    gist_secret_name = f"{project_upper}_SENT_LOG_GIST_ID"
+    gist_id = ""
+
+    if gist_token:
+        print(f"\nGist を作成中...")
+        try:
+            gist_id = create_gist(args.project, gist_token)
+            print(f"  → Gist ID: {gist_id}")
+        except Exception as e:
+            print(f"  Gist作成失敗: {e}")
+
+    if gist_id and github_token:
+        print(f"GitHub Secrets に {gist_secret_name} を登録中...")
+        # GISTトークンとGITHUBトークンは同じリポジトリ用途で使用
+        # repoはGITHUB_TOKENのスコープに依存するため環境変数から読む
+        repo = os.environ.get("GITHUB_REPOSITORY", "ryuu321/ai-holdings")
+        try:
+            set_github_secret(repo, gist_secret_name, gist_id, github_token)
+            print(f"  → {gist_secret_name} 登録完了")
+        except Exception as e:
+            print(f"  Secrets登録失敗（手動で登録してください）: {e}")
 
     clipboard_path = _ROOT / "clipboard.txt"
+    gist_line = f"  ✅ {gist_secret_name} = {gist_id}\n" if gist_id else f"  ⚠️  Gist作成失敗（手動で作成してください）\n"
     clipboard_path.write_text(
-        f"【{product_name} Stripe設定完了】\n\n"
-        f"Streamlit Cloud → sharotext アプリ → Settings → Secrets に追加:\n\n"
-        f"{secrets_block}\n"
-        f"保存後にアプリが自動再起動されます。\n",
+        f"=== (1) Supabase SQL Editor にペースト → Run ===\n\n"
+        f"{sql_block}\n\n"
+        f"=== (2) Streamlit Cloud → {args.project} → Settings → Secrets にペースト → Save ===\n\n"
+        f"{secrets_block}\n\n"
+        f"=== 自動完了済み ===\n"
+        f"{gist_line}",
         encoding="utf-8",
     )
-    print(f"\n完了。clipboard.txt に Streamlit Secrets 用の設定を出力しました。")
+    print(f"\n完了。clipboard.txt に SQL + Secrets の2点セットを出力しました。")
 
 
 if __name__ == "__main__":

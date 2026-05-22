@@ -1,9 +1,6 @@
-【SharoText / KenText — Supabase feedbackテーブル追加SQL】
+=== (1) Supabase SQL Editor にペースト → Run ===
 
-Supabase Dashboard → SQL Editor で実行してください。
-
--- SharoText
-CREATE TABLE sharotext_feedback (
+CREATE TABLE caretext_feedback (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   email text,
   category text,
@@ -12,18 +9,16 @@ CREATE TABLE sharotext_feedback (
   reasons text,
   created_at timestamptz DEFAULT now()
 );
-ALTER TABLE sharotext_feedback ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON sharotext_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
+ALTER TABLE caretext_feedback ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "anon_all" ON caretext_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
 
--- KenText（同じSupabaseプロジェクトを使う場合）
-CREATE TABLE kensetsu_feedback (
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  email text,
-  category text,
-  rating text NOT NULL,
-  regen_count integer DEFAULT 0,
-  reasons text,
-  created_at timestamptz DEFAULT now()
-);
-ALTER TABLE kensetsu_feedback ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "anon_all" ON kensetsu_feedback FOR ALL TO anon USING (true) WITH CHECK (true);
+=== (2) Streamlit Cloud → caretext → Settings → Secrets にペースト → Save ===
+
+GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+CARETEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/3cI8wP9Qu86pf2a4KpabK0k"
+CARETEXT_STRIPE_PRO_URL = "https://buy.stripe.com/3cIaEXfaOeuN2fo90FabK0l"
+
+=== 自動完了済み ===
+  ✅ CARETEXT_SENT_LOG_GIST_ID = 72089480e0791fe8bed0179a0dea0e27
