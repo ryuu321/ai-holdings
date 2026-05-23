@@ -1,0 +1,45 @@
+{
+  "project": "kanritext",
+  "project_dir": "kanritext",
+  "product_name": "KanriText",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://kanritext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/kanritext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "不動産管理会社の担当者・スタッフ",
+    "document_types": ["管理委託契約書", "修繕提案書", "入退去精算書", "物件点検報告書", "家賃督促文書"],
+    "company_name_hint_keywords": ["不動産管理", "賃貸管理", "建物管理", "プロパティ", "管理株式会社"],
+    "target_keywords": ["不動産管理", "賃貸管理", "建物管理", "プロパティマネジメント", "管理会社", "賃貸オーナー", "入退去"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/kanritext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "kanritext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/kanritext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/kanritext/feedback_reports",
+  "feedback_prompt_context": "KanriTextは不動産管理会社向けAI文書生成ツール。ユーザーは不動産管理会社の担当者・スタッフ。管理委託契約書・修繕提案書・入退去精算書・物件点検報告書・家賃督促文書をAIが自動生成する。",
+  "history_columns": ["doc_type text", "bukken_info text", "client_info text", "result text"],
+  "email_template": {
+    "template_file": "kanritext_sequence_1.txt",
+    "subject": "【管理書類の作成をAIで自動化】KanriTextのご紹介",
+    "fallback_opening": "平素より不動産管理業務にご尽力されていることと存じます。",
+    "personalize_prompt": "不動産管理会社「{company_name}」の担当者に向けた、管理書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  }
+}
