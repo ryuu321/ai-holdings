@@ -1,0 +1,45 @@
+{
+  "project": "pharmtext",
+  "project_dir": "pharmtext",
+  "product_name": "PharmText",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://pharmtext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/pharmtext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "調剤薬局の薬剤師・管理薬剤師・事務長",
+    "document_types": ["薬歴（SOAP形式）", "服薬指導記録", "疑義照会記録", "残薬確認・調整記録", "患者向け説明文"],
+    "company_name_hint_keywords": ["薬局", "ファーマシー", "調剤", "ドラッグ"],
+    "target_keywords": ["調剤薬局", "薬局", "薬剤師", "調剤", "ファーマシー"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ", "病院", "クリニック", "医院"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/pharmtext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "pharmtext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/pharmtext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/pharmtext/feedback_reports",
+  "feedback_prompt_context": "PharmTextは調剤薬局向けAI書類作成支援ツール。ユーザーは薬剤師・管理薬剤師。薬歴（SOAP形式）・服薬指導記録・疑義照会記録の文案をAIが自動生成する。",
+  "history_columns": ["doc_type text", "patient_info text", "medication_info text", "result text"],
+  "email_template": {
+    "template_file": "pharmtext_sequence_1.txt",
+    "subject": "【薬歴・服薬指導記録をAIで自動化】PharmTextのご紹介",
+    "fallback_opening": "平素より調剤業務に日々ご尽力されていることと存じます。",
+    "personalize_prompt": "調剤薬局「{company_name}」の薬剤師に向けた、薬歴記載・服薬指導記録の文書化業務の負担への共感と課題提起の一文を書いてください。「御局では〜」で始め、2文以内で。"
+  }
+}
