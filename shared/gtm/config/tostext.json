@@ -1,0 +1,47 @@
+{
+  "project": "tostext",
+  "project_dir": "tostext",
+  "product_name": "TosText",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://tostext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/tostext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "塗装・防水工事会社の経営者・現場監督・営業担当",
+    "document_types": ["工事見積書", "施工前後報告書", "施工計画書", "完工報告書"],
+    "company_name_hint_keywords": ["塗装", "防水", "外壁", "塗工", "施工"],
+    "target_keywords": ["塗装", "防水", "外壁", "屋根塗装", "防水工事"],
+    "good_domain_suffixes": ["co.jp", "jp", "or.jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/tostext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "tostext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/tostext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/tostext/feedback_reports",
+  "feedback_prompt_context": "TosTextは塗装・防水工事会社向けAI書類文案生成ツール。ユーザーは塗装・防水業者の経営者・現場監督・営業担当。工事見積書・施工前後報告書・施工計画書・完工報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/aFa3cv1jYaexf2a7WBabK0G",
+  "stripe_pro_url": "https://buy.stripe.com/eVqcN52o2fyR07gccRabK0H",
+  "history_columns": ["doc_type text", "koji_info text", "genba_info text", "result text"],
+  "email_template": {
+    "template_file": "tostext_sequence_1.txt",
+    "subject": "【工事書類の作成をAIで効率化】TosTextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。塗装・防水工事の現場業務でご多忙のことと存じます。",
+    "personalize_prompt": "塗装・防水工事会社「{company_name}」の経営者・担当者に向けた、工事書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  }
+}
