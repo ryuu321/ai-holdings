@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShoshiText — 登記申請書・遺産分割協議書をAIで30秒に</title>
+  <meta name="description" content="依頼人情報と物件情報を入力するだけで、AIが登記申請書・遺産分割協議書・抵当権書類の文案を自動生成。司法書士事務所の書類作成時間を大幅に短縮。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); }
+    .feature-card:hover { transform: translateY(-4px); transition: transform 0.2s; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- ヘッダー -->
+  <header class="gradient-hero text-white py-20 px-6 text-center">
+    <p class="text-blue-200 text-sm font-medium mb-4 tracking-widest uppercase">司法書士事務所向け AI ツール</p>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      登記書類の文案作成、<br class="md:hidden">まだ1件ずつゼロから書いてますか？
+    </h1>
+    <p class="text-xl text-blue-100 mb-10 max-w-xl mx-auto">
+      依頼人情報と物件概要を入力するだけで<strong class="text-white">30秒</strong>で文案生成。<br>
+      登記申請書・遺産分割協議書・抵当権書類が自動で完成。
+    </p>
+    <a href="https://shoshitext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      無料で試してみる
+    </a>
+    <p class="text-blue-200 text-sm mt-4">クレジットカード不要・登録不要・5件まで無料</p>
+  </header>
+
+  <!-- 課題提起 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10 text-gray-700">こんな悩み、ありませんか？</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⏰</div>
+          <p class="font-semibold mb-1">案件が増えるほど文案作成が追いつかない</p>
+          <p class="text-gray-500 text-sm">売買・相続・抵当権と書類の種類が多く、依頼人ごとに情報が異なるため毎回ゼロから文案を起こしている</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">📋</div>
+          <p class="font-semibold mb-1">遺産分割協議書で漏れが怖い</p>
+          <p class="text-gray-500 text-sm">相続人の人数・財産の種類が多いケースで、記載漏れや財産の特定が不十分で法務局から補正を求められるリスク</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">😓</div>
+          <p class="font-semibold mb-1">依頼者への説明に時間がかかる</p>
+          <p class="text-gray-500 text-sm">登記手続きの流れ・費用・必要書類を毎回口頭で説明しており、丁寧にやるほど時間を取られる</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 解決策 -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">ShoshiText が解決します</h2>
+      <p class="text-gray-500 mb-12">司法書士業務の実務を知ったAIが、不動産登記法・商業登記法に沿った書類の文案を自動で仕上げます</p>
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">📂</div>
+          <h3 class="font-bold text-lg mb-2">11書類種別に対応</h3>
+          <p class="text-gray-600 text-sm">売買・相続・贈与・抵当権設定/抹消・遺産分割協議書・会社設立・役員変更・本店移転・解散清算。司法書士業務のコア書類を網羅。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">⚖️</div>
+          <h3 class="font-bold text-lg mb-2">法令準拠の記載要件を自動確認</h3>
+          <p class="text-gray-600 text-sm">書類種別ごとに不動産登記法・商業登記法の記載要件をチェック。添付書類リスト・登録免許税の計算根拠も文案に含めます。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">👤</div>
+          <h3 class="font-bold text-lg mb-2">司法書士が最終確認</h3>
+          <p class="text-gray-600 text-sm">AIは文案のドラフトを作成し、最終確認・修正は担当司法書士が行う設計。法的責任を負う判断は必ず専門家が行います。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">💾</div>
+          <h3 class="font-bold text-lg mb-2">依頼人情報を保存・再利用</h3>
+          <p class="text-gray-600 text-sm">一度入力した依頼人情報を保存。次回からは選択するだけで自動入力。繰り返し依頼のある法人客に特に便利。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使い方 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-12">使い方はシンプル</h2>
+      <div class="space-y-8">
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div>
+            <p class="font-semibold text-lg">書類種別・依頼人情報を入力</p>
+            <p class="text-gray-500 text-sm">書類の種類・当事者の情報・物件概要・特記事項を入力（1〜2分）</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div>
+            <p class="font-semibold text-lg">AIが文案を自動生成（30秒）</p>
+            <p class="text-gray-500 text-sm">法令準拠の記載要件・添付書類リスト・依頼者説明文を含む文案を30秒で生成</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div>
+            <p class="font-semibold text-lg">担当司法書士が確認・修正して完成</p>
+            <p class="text-gray-500 text-sm">生成された文案を確認し、実際の数値・日付・印鑑情報を追記。申請書に貼り付けて完成</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 対応書類一覧 -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">対応書類一覧</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-left">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-2">不動産登記</p>
+          <ul class="text-gray-600 text-sm space-y-1">
+            <li>• 売買登記（所有権移転）</li>
+            <li>• 相続登記（2024年義務化対応）</li>
+            <li>• 贈与登記</li>
+            <li>• 抵当権設定登記</li>
+            <li>• 抵当権抹消登記</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-2">相続・遺言</p>
+          <ul class="text-gray-600 text-sm space-y-1">
+            <li>• 遺産分割協議書（財産目録付き）</li>
+            <li>• 相続人・財産の特定支援</li>
+          </ul>
+          <p class="font-semibold text-blue-800 mb-2 mt-4">商業登記</p>
+          <ul class="text-gray-600 text-sm space-y-1">
+            <li>• 会社設立（株式会社・合同会社）</li>
+            <li>• 役員変更・本店移転・解散清算</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 料金 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">料金プラン</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">無料トライアル</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-4">5件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ 全11書類種別に対応</li>
+            <li>✓ 登録不要</li>
+          </ul>
+        </div>
+        <div class="bg-blue-700 text-white rounded-xl p-6 shadow-lg border border-blue-600">
+          <p class="text-blue-200 text-sm mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980<span class="text-lg font-normal">/月</span></p>
+          <p class="text-blue-200 text-sm mb-4">月50件まで</p>
+          <ul class="text-blue-100 text-sm text-left space-y-1">
+            <li>✓ 全機能利用可能</li>
+            <li>✓ 依頼人情報の保存</li>
+            <li>✓ 生成履歴の閲覧</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800<span class="text-lg font-normal">/月</span></p>
+          <p class="text-gray-400 text-sm mb-4">月200件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 大量案件に対応</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8">
+        <a href="https://shoshitext.streamlit.app"
+           target="_blank"
+           class="inline-block bg-blue-700 hover:bg-blue-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+          無料で試してみる
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-10 text-center">よくある質問</h2>
+      <div class="space-y-4">
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">AIが生成した文案をそのまま申請書に使えますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">いいえ、必ず担当司法書士による確認・修正が必要です。数値・日付・登記識別情報等のプレースホルダーを実際の値に置き換え、法務局の書式に合わせた調整を行ってください。ShoshiTextは文案作成の補助ツールです。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">入力した依頼人情報は安全ですか？</summary>
+          <p class="text-gray-600 text-sm mt-3">入力した情報はAI文案生成のためにのみ使用します。氏名・住所等の個人情報はサーバーに保存せず、Google Gemini APIを通じて処理されます。プライバシーポリシーをご参照ください。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">2024年4月施行の相続登記義務化に対応していますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">はい。相続登記（所有権移転）を選択すると、義務化に関する依頼者向け説明文（3年以内の申請義務・正当な理由がない場合の10万円以下の過料）を自動的に文案に含めます。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">解約はいつでもできますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">はい、いつでも解約できます。次回更新日の前日までに解約手続きを行えば、翌月以降の請求は発生しません。アプリ内の「プラン管理・解約」ボタンから手続きいただけます。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 px-6 gradient-hero text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">まずは無料でお試しください</h2>
+    <p class="text-blue-100 mb-8">クレジットカード不要・登録不要・5件まで完全無料</p>
+    <a href="https://shoshitext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      ShoshiTextを試してみる
+    </a>
+  </section>
+
+  <!-- フッター -->
+  <footer class="py-12 px-6 bg-gray-900 text-gray-400 text-sm">
+    <div class="max-w-3xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div>
+          <p class="font-semibold text-white mb-3">特定商取引法に基づく表記</p>
+          <table class="text-xs w-full">
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">販売事業者</td><td>真柄 龍聖</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">所在地</td><td>〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">メール</td><td>ryuumg03@gmail.com</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">販売価格</td><td>スタンダード ¥8,980/月 / プロ ¥19,800/月</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">支払方法</td><td>クレジットカード（Stripe）</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">返品・キャンセル</td><td>デジタルサービスのため提供済み期間の返金不可</td></tr>
+          </table>
+        </div>
+        <div>
+          <p class="font-semibold text-white mb-3">プライバシーポリシー</p>
+          <p class="text-xs leading-relaxed">収集情報: メールアドレス（利用回数管理）。入力された登記情報はAI生成のみに使用。文案生成のためGoogle Gemini APIに送信、利用回数管理のためSupabaseに保存。それ以外の第三者提供なし。お問い合わせ: ryuumg03@gmail.com</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-6 text-center text-xs">
+        <p>© 2026 ShoshiText — 真柄 龍聖 | <a href="mailto:ryuumg03@gmail.com" class="text-blue-400 hover:underline">ryuumg03@gmail.com</a></p>
+        <p class="mt-1 text-gray-500">本サービスは司法書士法に基づく法律事務の提供ではありません。文案は必ず担当司法書士がご確認ください。</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
