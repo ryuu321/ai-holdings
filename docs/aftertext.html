@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AfterText — 個別支援計画書・療育記録をAIで30秒に</title>
+  <meta name="description" content="お子さんの情報とサービス内容を入力するだけで、AIが個別支援計画書・療育記録・モニタリング報告書の文案を自動生成。放課後等デイサービスの記録業務を大幅に短縮。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #1a5c45 0%, #16a34a 100%); }
+    .feature-card:hover { transform: translateY(-4px); transition: transform 0.2s; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- ヘッダー -->
+  <header class="gradient-hero text-white py-20 px-6 text-center">
+    <p class="text-green-200 text-sm font-medium mb-4 tracking-widest uppercase">放課後等デイサービス向け AI ツール</p>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      個別支援計画書・療育記録、<br class="md:hidden">まだ毎回ゼロから書いてますか？
+    </h1>
+    <p class="text-xl text-green-100 mb-10 max-w-xl mx-auto">
+      お子さんの情報とサービス内容を入力するだけで<strong class="text-white">30秒</strong>で文案生成。<br>
+      個別支援計画書・療育記録・モニタリング報告書が自動で完成。
+    </p>
+    <a href="https://aftertext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      無料で試してみる
+    </a>
+    <p class="text-green-200 text-sm mt-4">クレジットカード不要・登録不要・5件まで無料</p>
+  </header>
+
+  <!-- 課題提起 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10 text-gray-700">こんな悩み、ありませんか？</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⏰</div>
+          <p class="font-semibold mb-1">記録業務で残業が続いている</p>
+          <p class="text-gray-500 text-sm">個別支援計画書・療育記録・モニタリング報告書を毎回一から書いており、支援の時間より記録の時間の方が長くなることも</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">📋</div>
+          <p class="font-semibold mb-1">専門的な文章表現が難しい</p>
+          <p class="text-gray-500 text-sm">「支援目標」「アセスメント」など、保護者・行政・学校と共有できる専門的かつわかりやすい文章を書くのが難しい</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">😓</div>
+          <p class="font-semibold mb-1">計画書の更新が追いつかない</p>
+          <p class="text-gray-500 text-sm">半年ごとの計画書更新・モニタリングが重なると、スタッフ全員で記録業務に追われ、支援の質が下がってしまう</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 解決策 -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">AfterText が解決します</h2>
+      <p class="text-gray-500 mb-12">放課後等デイサービスの現場を知ったAIが、児童福祉法・障害者総合支援法に沿った書類の文案を自動で仕上げます</p>
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div class="feature-card bg-green-50 rounded-xl p-6 border border-green-100">
+          <div class="text-2xl mb-3">📂</div>
+          <h3 class="font-bold text-lg mb-2">8書類種別に対応</h3>
+          <p class="text-gray-600 text-sm">個別支援計画書・療育記録・モニタリング報告書・アセスメントシート・保護者向け説明文・支援会議録など。放デイ業務のコア書類を網羅。</p>
+        </div>
+        <div class="feature-card bg-green-50 rounded-xl p-6 border border-green-100">
+          <div class="text-2xl mb-3">🧒</div>
+          <h3 class="font-bold text-lg mb-2">お子さんの特性に合わせた文案</h3>
+          <p class="text-gray-600 text-sm">障がいの種別・年齢・支援の様子を入力すると、その子の特性や課題に即した具体的な支援目標・支援内容の文案を生成します。</p>
+        </div>
+        <div class="feature-card bg-green-50 rounded-xl p-6 border border-green-100">
+          <div class="text-2xl mb-3">👨‍👩‍👧</div>
+          <h3 class="font-bold text-lg mb-2">保護者・学校と共有できる文体</h3>
+          <p class="text-gray-600 text-sm">専門用語には括弧で補足を入れ、保護者・学校の先生にも伝わる文章で出力。最終確認は担当スタッフが行う設計。</p>
+        </div>
+        <div class="feature-card bg-green-50 rounded-xl p-6 border border-green-100">
+          <div class="text-2xl mb-3">💾</div>
+          <h3 class="font-bold text-lg mb-2">お子さん情報を保存・再利用</h3>
+          <p class="text-gray-600 text-sm">一度入力したお子さんの基本情報を保存。次回からは選択するだけで自動入力。定期更新が必要な計画書に特に便利。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使い方 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-12">使い方はシンプル</h2>
+      <div class="space-y-8">
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-green-700 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div>
+            <p class="font-semibold text-lg">書類種別・お子さんの情報を入力</p>
+            <p class="text-gray-500 text-sm">書類の種類・お子さんの特性・サービスの内容・特記事項を入力（1〜2分）</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-green-700 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div>
+            <p class="font-semibold text-lg">AIが文案を自動生成（30秒）</p>
+            <p class="text-gray-500 text-sm">支援目標・支援内容・評価・保護者説明文を含む文案を30秒で生成</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-green-700 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div>
+            <p class="font-semibold text-lg">担当スタッフが確認・修正して完成</p>
+            <p class="text-gray-500 text-sm">生成された文案を確認し、日付・数値を追記。書類に貼り付けて完成</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 対応書類一覧 -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">対応書類一覧</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-left">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-green-800 mb-2">支援計画</p>
+          <ul class="text-gray-600 text-sm space-y-1">
+            <li>• 個別支援計画書（短期・長期目標）</li>
+            <li>• アセスメントシート（初回・更新）</li>
+            <li>• モニタリング報告書</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-green-800 mb-2">記録・報告</p>
+          <ul class="text-gray-600 text-sm space-y-1">
+            <li>• 療育記録・活動記録</li>
+            <li>• 支援会議録</li>
+            <li>• 保護者向け説明文書</li>
+            <li>• 事業所内研修記録</li>
+            <li>• その他（自由記述）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 料金 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">料金プラン</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">無料トライアル</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-4">5件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ 全8書類種別に対応</li>
+            <li>✓ 登録不要</li>
+          </ul>
+        </div>
+        <div class="bg-green-700 text-white rounded-xl p-6 shadow-lg border border-green-600">
+          <p class="text-green-200 text-sm mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980<span class="text-lg font-normal">/月</span></p>
+          <p class="text-green-200 text-sm mb-4">月50件まで</p>
+          <ul class="text-green-100 text-sm text-left space-y-1">
+            <li>✓ 全機能利用可能</li>
+            <li>✓ お子さん情報の保存</li>
+            <li>✓ 生成履歴の閲覧</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800<span class="text-lg font-normal">/月</span></p>
+          <p class="text-gray-400 text-sm mb-4">月200件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 多人数施設に対応</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8">
+        <a href="https://aftertext.streamlit.app"
+           target="_blank"
+           class="inline-block bg-green-700 hover:bg-green-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+          無料で試してみる
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-10 text-center">よくある質問</h2>
+      <div class="space-y-4">
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">AIが生成した文案をそのまま書類に使えますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">いいえ、必ず担当スタッフ（サービス管理責任者等）による確認・修正が必要です。日付・数値・お子さんの具体的な様子を追記し、実際の支援内容に合わせた調整を行ってください。AfterTextは文案作成の補助ツールです。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">入力したお子さんの情報は安全ですか？</summary>
+          <p class="text-gray-600 text-sm mt-3">入力した情報はAI文案生成のためにのみ使用します。個人を特定できる情報はサーバーに保存せず、Google Gemini APIを通じて処理されます。プライバシーポリシーをご参照ください。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">個別支援計画書の法定様式に対応していますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">はい。児童福祉法・障害者総合支援法が定める記載要件（アセスメント・短期目標・長期目標・支援内容・モニタリング）を踏まえた文案を生成します。ただし最終的な書式への転記・確認は担当スタッフが行ってください。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">解約はいつでもできますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">はい、いつでも解約できます。次回更新日の前日までに解約手続きを行えば、翌月以降の請求は発生しません。アプリ内の「プラン管理・解約」ボタンから手続きいただけます。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 px-6 gradient-hero text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">まずは無料でお試しください</h2>
+    <p class="text-green-100 mb-8">クレジットカード不要・登録不要・5件まで完全無料</p>
+    <a href="https://aftertext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      AfterTextを試してみる
+    </a>
+  </section>
+
+  <!-- フッター -->
+  <footer class="py-12 px-6 bg-gray-900 text-gray-400 text-sm">
+    <div class="max-w-3xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div>
+          <p class="font-semibold text-white mb-3">特定商取引法に基づく表記</p>
+          <table class="text-xs w-full">
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">販売事業者</td><td>TextSeries（運営者: 真柄 龍聖）</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">所在地</td><td>〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">メール</td><td>ryuumg03@gmail.com</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">販売価格</td><td>スタンダード ¥8,980/月 / プロ ¥19,800/月</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">支払方法</td><td>クレジットカード（Stripe）</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">返品・キャンセル</td><td>デジタルサービスのため提供済み期間の返金不可</td></tr>
+          </table>
+        </div>
+        <div>
+          <p class="font-semibold text-white mb-3">プライバシーポリシー</p>
+          <p class="text-xs leading-relaxed">収集情報: メールアドレス（利用回数管理）。入力された支援情報はAI生成のみに使用。文案生成のためGoogle Gemini APIに送信、利用回数管理のためSupabaseに保存。それ以外の第三者提供なし。お問い合わせ: ryuumg03@gmail.com</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-6 text-center text-xs">
+        <p>© 2026 AfterText — TextSeries（運営者: 真柄 龍聖） | <a href="mailto:ryuumg03@gmail.com" class="text-green-400 hover:underline">ryuumg03@gmail.com</a></p>
+        <p class="mt-1 text-gray-500">本サービスは児童福祉法に基づく専門的支援の提供ではありません。文案は必ず担当スタッフ（サービス管理責任者等）がご確認ください。</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

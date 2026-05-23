@@ -35,6 +35,8 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/aftertext/feedback_reports",
   "feedback_prompt_context": "AfterTextは放課後等デイサービス向けAI個別支援計画・療育記録文案生成ツール。ユーザーは管理者・児童発達支援管理責任者。個別支援計画・療育記録・保護者連絡文の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/6oU6oH0fUcmF8DM1ydabK0A",
+  "stripe_pro_url": "https://buy.stripe.com/7sY9ATgeSdqJf2aekZabK0B",
   "history_columns": ["doc_type text", "jidou_info text", "service_info text", "result text"],
   "email_template": {
     "template_file": "aftertext_sequence_1.txt",
