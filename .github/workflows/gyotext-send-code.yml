@@ -54,8 +54,8 @@ jobs:
               f'月間上限: {limit}\n\n'
               f'ご不明な点はお気軽にご返信ください。\n\n'
               f'━━━━━━━━━━━━━━━━━━\n'
-              f'真柄 龍聖\n'
-              f'GyoText 開発者\n'
+              f'TextSeries\n'
+              f'運営者: 真柄 龍聖\n'
               f'Mail: ryuumg03@gmail.com\n'
               f'━━━━━━━━━━━━━━━━━━'
           )

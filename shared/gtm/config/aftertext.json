@@ -1,0 +1,45 @@
+{
+  "project": "aftertext",
+  "project_dir": "aftertext",
+  "product_name": "AfterText",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://aftertext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/aftertext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "放課後等デイサービス事業所の管理者・児童発達支援管理責任者",
+    "document_types": ["個別支援計画", "療育記録", "保護者連絡文", "モニタリング報告書"],
+    "company_name_hint_keywords": ["放課後等デイサービス", "放デイ", "児童発達支援", "療育"],
+    "target_keywords": ["放課後等デイサービス", "放デイ", "児童発達支援", "療育", "障害児", "個別支援計画"],
+    "good_domain_suffixes": ["co.jp", "jp", "or.jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/aftertext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "aftertext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/aftertext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/aftertext/feedback_reports",
+  "feedback_prompt_context": "AfterTextは放課後等デイサービス向けAI個別支援計画・療育記録文案生成ツール。ユーザーは管理者・児童発達支援管理責任者。個別支援計画・療育記録・保護者連絡文の文案をAIが自動生成する。",
+  "history_columns": ["doc_type text", "jidou_info text", "service_info text", "result text"],
+  "email_template": {
+    "template_file": "aftertext_sequence_1.txt",
+    "subject": "【個別支援計画の作成をAIで効率化】AfterTextのご紹介",
+    "fallback_opening": "平素より放課後等デイサービスの運営にご尽力されていることと存じます。",
+    "personalize_prompt": "放課後等デイサービス事業所「{company_name}」の管理者に向けた、個別支援計画・療育記録の作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  }
+}

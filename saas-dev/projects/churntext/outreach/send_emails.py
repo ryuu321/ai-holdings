@@ -111,7 +111,7 @@ def _check_safety(drafts: list[dict]) -> bool:
             ok = False
         body = d.get("body", "")
         missing = []
-        if "真柄" not in body:
+        if "TextSeries" not in body:
             missing.append("送信者名")
         if not any(p in body for p in ["配信停止", "送付を停止", "送信停止", "ご連絡いたしません"]):
             missing.append("配信停止文言")

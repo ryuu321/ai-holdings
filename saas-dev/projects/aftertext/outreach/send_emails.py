@@ -1,5 +1,5 @@
 """
-CmText アウトリーチ送信スクリプト（Gmail SMTP・30件/日）
+AfterText アウトリーチ送信スクリプト（Gmail SMTP・30件/日）
 """
 import argparse
 import csv
@@ -86,8 +86,8 @@ def _today_sent_count() -> int:
         return sum(1 for row in csv.DictReader(f) if row.get("sent_at", "").startswith(today))
 
 
-_COMPANY_REQUIRED = ["居宅介護支援", "ケアプラン", "ケアマネ", "介護支援"]
-_BLOG_SIGNALS = ["コツ", "方法", "選び方", "ランキング", "名簿", "営業リスト", "一覧", "比較"]
+_COMPANY_REQUIRED = ["放課後", "デイサービス", "療育", "児童", "発達"]
+_BLOG_SIGNALS = ["コツ", "方法", "選び方", "ランキング", "名簿", "営業リスト"]
 
 
 def _check_safety(drafts: list[dict]) -> bool:
@@ -98,7 +98,7 @@ def _check_safety(drafts: list[dict]) -> bool:
             print(f"WARNING: {d['email']} — 会社名がブログタイトルの可能性: 「{name[:30]}」")
             ok = False
         elif name and not any(kw in name for kw in _COMPANY_REQUIRED):
-            print(f"WARNING: {d['email']} — 居宅介護支援事業所名なし: 「{name[:30]}」")
+            print(f"WARNING: {d['email']} — 放課後等デイサービス名なし: 「{name[:30]}」")
             ok = False
         body = d.get("body", "")
         missing = []
@@ -108,8 +108,6 @@ def _check_safety(drafts: list[dict]) -> bool:
             missing.append("配信停止文言")
         if "〒" not in body and "住所" not in body:
             missing.append("住所")
-        if "※要設定" in body:
-            missing.append("住所（未設定）")
         if missing:
             print(f"WARNING: {d['email']} — 特定電子メール法違反の可能性: {', '.join(missing)}")
             ok = False

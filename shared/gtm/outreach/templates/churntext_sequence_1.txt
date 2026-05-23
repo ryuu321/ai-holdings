@@ -28,11 +28,11 @@ Churnkeyなど海外ツールと同等の機能を、日本語・日本のビジ
 ご不明な点はお気軽にご返信ください。
 
 ━━━━━━━━━━━━━━━━━━
-{sender_name}
-{product_name} 開発者
+TextSeries（{product_name}）
 Mail: {sender_email}
 Web: {lp_url}
 住所: {sender_address}
+運営者: 真柄 龍聖
 ━━━━━━━━━━━━━━━━━━
 ※本メールは広告・宣伝を目的としております。
 ※配信停止をご希望の方は、このメールに「配信停止」とご返信ください。
