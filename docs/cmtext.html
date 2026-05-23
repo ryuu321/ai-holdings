@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CmText — ケアプラン・記録書類をAIで30秒に</title>
+  <meta name="description" content="利用者情報とニーズを入力するだけで、AIがケアプラン・アセスメントシート・モニタリング記録を自動生成。居宅介護支援事業所の書類作業を大幅に短縮。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #4a1942 0%, #7c3aed 100%); }
+    .feature-card:hover { transform: translateY(-4px); transition: transform 0.2s; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- ヘッダー -->
+  <header class="gradient-hero text-white py-20 px-6 text-center">
+    <p class="text-purple-200 text-sm font-medium mb-4 tracking-widest uppercase">居宅介護支援事業所（ケアマネ）向け AI ツール</p>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      ケアプラン作成、<br class="md:hidden">まだ1件2時間かけてますか？
+    </h1>
+    <p class="text-xl text-purple-100 mb-10 max-w-xl mx-auto">
+      利用者情報とニーズを入力するだけで<strong class="text-white">30秒</strong>で文案生成。<br>
+      ケアプラン・アセスメント・モニタリング記録が自動で完成。
+    </p>
+    <a href="https://cmtext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      無料で試してみる
+    </a>
+    <p class="text-purple-200 text-sm mt-4">クレジットカード不要・登録不要・5件まで無料</p>
+  </header>
+
+  <!-- 課題提起 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10 text-gray-700">こんな悩み、ありませんか？</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⏰</div>
+          <p class="font-semibold mb-1">担当件数が多すぎる</p>
+          <p class="text-gray-500 text-sm">1人40件以上の利用者を抱え、月末のケアプラン更新・モニタリング対応で残業続き</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">📝</div>
+          <p class="font-semibold mb-1">個別性のある文章が難しい</p>
+          <p class="text-gray-500 text-sm">利用者ごとのニーズを適切な言葉でケアプランに落とし込むのに毎回悩む</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">😓</div>
+          <p class="font-semibold mb-1">訪問・相談の時間が削られる</p>
+          <p class="text-gray-500 text-sm">書類作業に追われて、本来注力すべき利用者への相談支援・家族対応が後回し</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 解決策 -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">CmText が解決します</h2>
+      <p class="text-gray-500 mb-12">介護保険制度を知ったAIが、個別性のあるケアプラン文案を自動で仕上げます</p>
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div class="feature-card bg-purple-50 rounded-xl p-6 border border-purple-100">
+          <div class="text-2xl mb-3">📋</div>
+          <h3 class="font-bold text-lg mb-2">5書類に対応</h3>
+          <p class="text-gray-600 text-sm">ケアプラン（第1・第2表）・アセスメントシート・モニタリング記録・担当者会議録・経過記録に対応。</p>
+        </div>
+        <div class="feature-card bg-purple-50 rounded-xl p-6 border border-purple-100">
+          <div class="text-2xl mb-3">⚡</div>
+          <h3 class="font-bold text-lg mb-2">厚労省様式準拠の文案</h3>
+          <p class="text-gray-600 text-sm">居宅サービス計画書の様式趣旨に合わせた「利用者が主語の目標」「自立支援の視点」を自動生成。</p>
+        </div>
+        <div class="feature-card bg-purple-50 rounded-xl p-6 border border-purple-100">
+          <div class="text-2xl mb-3">👥</div>
+          <h3 class="font-bold text-lg mb-2">ケアマネが最終判断</h3>
+          <p class="text-gray-600 text-sm">AIは文案を作成し、最終確認・修正はケアマネジャーが行う設計。専門的判断を補助します。</p>
+        </div>
+        <div class="feature-card bg-purple-50 rounded-xl p-6 border border-purple-100">
+          <div class="text-2xl mb-3">💾</div>
+          <h3 class="font-bold text-lg mb-2">利用者情報を保存</h3>
+          <p class="text-gray-600 text-sm">利用者のニーズ・状況を保存しておけば、次月の更新は選択するだけ。繰り返し入力不要。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使い方 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-12">使い方はシンプル</h2>
+      <div class="space-y-8">
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-purple-700 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div>
+            <p class="font-semibold text-lg">利用者情報・ニーズを入力</p>
+            <p class="text-gray-500 text-sm">書類種別・利用者情報・本人の希望・生活課題・サービス状況を入力（1〜2分）</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-purple-700 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div>
+            <p class="font-semibold text-lg">生成ボタンを押す</p>
+            <p class="text-gray-500 text-sm">AIが厚労省様式準拠のケアプラン文案を30秒以内に生成</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-purple-700 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div>
+            <p class="font-semibold text-lg">確認・修正してコピペ</p>
+            <p class="text-gray-500 text-sm">内容を確認してシステムに貼り付けるだけ。月末の書類山積みがすっきり解消。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 料金プラン -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">料金プラン</h2>
+      <p class="text-gray-500 mb-12">まず無料で試してから、必要に応じてアップグレード</p>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+          <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">無料</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-6">5件まで</p>
+          <ul class="text-sm text-gray-600 space-y-2 mb-8">
+            <li>✓ AI文案生成（1件ずつ）</li>
+            <li>✓ 全書類種別に対応</li>
+            <li>✓ コピペしてすぐ使える</li>
+          </ul>
+          <a href="https://cmtext.streamlit.app"
+             target="_blank"
+             class="block text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-full transition text-sm">
+            無料で試す
+          </a>
+        </div>
+        <div class="bg-purple-700 rounded-2xl p-6 border border-purple-600 text-white relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-full">人気</span>
+          <p class="text-sm font-semibold text-purple-200 uppercase tracking-wide mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980</p>
+          <p class="text-purple-200 text-sm mb-6">/ 月・50件まで</p>
+          <ul class="text-sm text-purple-100 space-y-2 mb-8">
+            <li>✓ 無料プランの全機能</li>
+            <li>✓ <strong class="text-white">月50件まで生成</strong></li>
+            <li>✓ 生成履歴を保存</li>
+            <li>✓ 利用者情報の保存</li>
+          </ul>
+          <a href="https://buy.stripe.com/cNiaEX1jY3Q96vE3GlabK0s"
+             target="_blank"
+             id="stripe-standard"
+             class="block text-center bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-3 rounded-full transition text-sm">
+            今すぐ申し込む
+          </a>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+          <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800</p>
+          <p class="text-gray-400 text-sm mb-6">/ 月・200件まで</p>
+          <ul class="text-sm text-gray-600 space-y-2 mb-8">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 月200件まで生成</li>
+            <li>✓ 複数CM対応</li>
+            <li>✓ 優先サポート</li>
+          </ul>
+          <a href="https://buy.stripe.com/3cI28r2o286p2foccRabK0t"
+             target="_blank"
+             id="stripe-pro"
+             class="block text-center bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded-full transition text-sm">
+            プロに申し込む
+          </a>
+        </div>
+      </div>
+      <p class="text-gray-400 text-xs mt-8">クレジットカード決済（Stripe）。いつでもキャンセル可能。</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="gradient-hero text-white py-20 px-6 text-center">
+    <h2 class="text-3xl font-bold mb-4">今すぐ無料で試す</h2>
+    <p class="text-purple-100 mb-8 text-lg">登録不要。1分以内に最初のケアプラン文案が完成します。</p>
+    <a href="https://cmtext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      CmText を試してみる
+    </a>
+    <p class="text-purple-200 text-sm mt-6">
+      ご意見・ご要望:
+      <a href="mailto:ryuumg03@gmail.com" class="underline hover:text-white">ryuumg03@gmail.com</a>
+    </p>
+  </section>
+
+  <!-- 特定商取引法に基づく表記 -->
+  <section id="tokushoho" class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-xl font-bold mb-8 text-gray-700">特定商取引法に基づく表記</h2>
+      <table class="w-full text-sm text-gray-600 border-collapse">
+        <tbody>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700 w-36">販売事業者</td><td class="py-3">真柄 龍聖</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">所在地</td><td class="py-3">〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">電話番号</td><td class="py-3">請求があり次第、遅滞なく開示します</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">メール</td><td class="py-3"><a href="mailto:ryuumg03@gmail.com" class="underline">ryuumg03@gmail.com</a></td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">販売価格</td><td class="py-3">無料プラン：無料（5件まで） / スタンダードプラン：¥8,980/月（50件） / プロプラン：¥19,800/月（200件）</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">支払方法</td><td class="py-3">クレジットカード（Stripe決済）</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">提供時期</td><td class="py-3">決済完了後、アクセスコードをメールにてお送りします（通常1営業日以内）</td></tr>
+          <tr class="border-b border-gray-200"><td class="py-3 pr-6 font-medium text-gray-700">返品・キャンセル</td><td class="py-3">デジタルコンテンツの性質上、アクセスコード発行後の返品・返金はお受けできません</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- プライバシーポリシー -->
+  <section id="privacy" class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-xl font-bold mb-8 text-gray-700">プライバシーポリシー</h2>
+      <div class="space-y-6 text-sm text-gray-600">
+        <div>
+          <h3 class="font-semibold text-gray-700 mb-2">収集する情報</h3>
+          <p>本サービスへの問い合わせ・返信メールにより、メールアドレスおよびメール本文に含まれる情報を取得する場合があります。アプリ利用時に入力された介護情報（書類種別・利用者情報・ニーズ等）は、文案生成のためにGoogle Gemini API（Google LLC）に送信されます。個人を特定できる利用者情報の入力はお控えください。送信された情報はGoogleのプライバシーポリシーに基づいて処理されます。生成履歴はサービス改善のためSupabase（Supabase Inc.）のデータベースに保存されます。</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-700 mb-2">利用目的</h3>
+          <p>取得した情報は、お問い合わせへの回答、サービス改善、および有償プランの契約手続きにのみ使用します。</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-700 mb-2">第三者への提供</h3>
+          <p>法令に基づく場合を除き、取得した個人情報を第三者へ提供することはありません。</p>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-700 mb-2">お問い合わせ・開示請求</h3>
+          <p>個人情報の開示・訂正・削除のご請求は <a href="mailto:ryuumg03@gmail.com" class="underline">ryuumg03@gmail.com</a> までご連絡ください。</p>
+        </div>
+        <p class="text-xs text-gray-400">制定日：2026年5月23日　真柄 龍聖</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="py-8 px-6 text-center text-gray-400 text-sm">
+    <p>© 2026 CmText &nbsp;|&nbsp;
+      <a href="https://cmtext.streamlit.app" class="underline hover:text-gray-600" target="_blank">アプリを開く</a>
+      &nbsp;|&nbsp;
+      <a href="#tokushoho" class="underline hover:text-gray-600">特定商取引法</a>
+      &nbsp;|&nbsp;
+      <a href="#privacy" class="underline hover:text-gray-600">プライバシーポリシー</a>
+    </p>
+    <p class="mt-2 text-xs text-gray-300">AIが生成したコンテンツです。ご利用前に必ず内容をご確認ください。</p>
+  </footer>
+
+</body>
+</html>

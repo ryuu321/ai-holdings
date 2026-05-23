@@ -1,0 +1,45 @@
+{
+  "project": "cmtext",
+  "project_dir": "cmtext",
+  "product_name": "CmText",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://cmtext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/cmtext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "居宅介護支援事業所の主任介護支援専門員・介護支援専門員（ケアマネ）",
+    "document_types": ["ケアプラン（居宅サービス計画書）", "アセスメントシート", "モニタリング記録", "担当者会議録", "経過記録"],
+    "company_name_hint_keywords": ["居宅介護支援", "ケアマネ", "ケアプランセンター", "介護支援"],
+    "target_keywords": ["居宅介護支援", "ケアマネジャー", "介護支援専門員", "ケアプラン", "ケアマネ"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ", "訪問介護", "通所介護", "特養"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/cmtext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "cmtext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/cmtext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/cmtext/feedback_reports",
+  "feedback_prompt_context": "CmTextは居宅介護支援事業所向けAI書類作成支援ツール。ユーザーは介護支援専門員（ケアマネジャー）。ケアプラン・アセスメントシート・モニタリング記録の文案をAIが自動生成する。",
+  "history_columns": ["doc_type text", "riyosha_info text", "needs_info text", "result text"],
+  "email_template": {
+    "template_file": "cmtext_sequence_1.txt",
+    "subject": "【ケアプラン・記録書類をAIで自動化】CmTextのご紹介",
+    "fallback_opening": "平素よりケアマネジメント業務に日々ご尽力されていることと存じます。",
+    "personalize_prompt": "居宅介護支援事業所「{company_name}」のケアマネジャーに向けた、ケアプラン作成・モニタリング記録など書類作成業務の負担への共感と課題提起の一文を書いてください。「御事業所では〜」で始め、2文以内で。"
+  }
+}
