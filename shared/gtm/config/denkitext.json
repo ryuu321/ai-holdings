@@ -1,0 +1,45 @@
+{
+  "project": "denkitext",
+  "project_dir": "denkitext",
+  "product_name": "DenkiText",
+  "sender_name": "真柄 龍聖",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://denkitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/denkitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "電気工事業者の担当者・現場監督",
+    "document_types": ["電気工事完了報告書", "検査成績書", "施工計画書", "竣工検査チェックリスト", "作業報告書"],
+    "company_name_hint_keywords": ["電気工事", "電設", "電機工事", "設備工事", "電気設備"],
+    "target_keywords": ["電気工事", "電設", "設備工事", "電気設備", "配線", "受電", "変電", "幹線"],
+    "good_domain_suffixes": ["co.jp", "jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/denkitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "denkitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/denkitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/denkitext/feedback_reports",
+  "feedback_prompt_context": "DenkiTextは電気工事業者向けAI文書生成ツール。ユーザーは電気工事業者の担当者・現場監督。電気工事完了報告書・検査成績書・施工計画書・竣工検査チェックリスト・作業報告書をAIが自動生成する。",
+  "history_columns": ["doc_type text", "koji_info text", "setsubi_info text", "result text"],
+  "email_template": {
+    "template_file": "denkitext_sequence_1.txt",
+    "subject": "【電気工事書類の作成をAIで自動化】DenkiTextのご紹介",
+    "fallback_opening": "平素より電気工事業務にご尽力されていることと存じます。",
+    "personalize_prompt": "電気工事業者「{company_name}」の担当者に向けた、工事書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  }
+}
