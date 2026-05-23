@@ -26,5 +26,19 @@
     "hold_min": 155.2,
     "rsi_at_entry": 31.82388884079606,
     "strategy_version": 1
+  },
+  {
+    "id": 3,
+    "entry_time": "2026-05-22T22:43:24.683235+00:00",
+    "exit_time": "2026-05-23T03:36:05.945798+00:00",
+    "entry_price": 75606.29,
+    "exit_price": 75529.31,
+    "shares": 0.1055162443953687,
+    "pnl": -24.078,
+    "pnl_pct": -0.072,
+    "reason": "timeout",
+    "hold_min": 292.7,
+    "rsi_at_entry": 14.699156456416816,
+    "strategy_version": 1
   }
 ]
