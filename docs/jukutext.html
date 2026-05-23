@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JukuText — 月次報告書・面談資料・学習計画書をAIで30秒に</title>
+  <meta name="description" content="生徒の情報と学習状況を入力するだけで、AIが月次報告書・面談資料・学習計画書・模試分析レポートの文案を自動生成。塾の書類作成時間を大幅に短縮。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #92400e 0%, #d97706 100%); }
+    .feature-card:hover { transform: translateY(-4px); transition: transform 0.2s; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <!-- ヘッダー -->
+  <header class="gradient-hero text-white py-20 px-6 text-center">
+    <p class="text-amber-200 text-sm font-medium mb-4 tracking-widest uppercase">学習塾・個別指導塾向け AI ツール</p>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      月次報告書・面談資料、<br class="md:hidden">まだ毎回ゼロから書いてますか？
+    </h1>
+    <p class="text-xl text-amber-100 mb-10 max-w-xl mx-auto">
+      生徒情報と学習状況を入力するだけで<strong class="text-white">30秒</strong>で文案生成。<br>
+      月次報告書・面談資料・学習計画書・模試分析レポートが自動で完成。
+    </p>
+    <a href="https://jukutext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      無料で試してみる
+    </a>
+    <p class="text-amber-200 text-sm mt-4">クレジットカード不要・登録不要・5件まで無料</p>
+  </header>
+
+  <!-- 課題提起 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10 text-gray-700">こんな悩み、ありませんか？</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⏰</div>
+          <p class="font-semibold mb-1">月次報告書の作成が毎月大変</p>
+          <p class="text-gray-500 text-sm">生徒ひとりひとりの今月の様子・進捗・来月の方針を書くのに、生徒数が多いと数時間かかることも</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">📋</div>
+          <p class="font-semibold mb-1">面談資料の準備が追いつかない</p>
+          <p class="text-gray-500 text-sm">保護者面談の前日に複数の面談資料を用意しなければならず、授業準備との両立が難しい</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">😓</div>
+          <p class="font-semibold mb-1">講師によって書類の質がばらつく</p>
+          <p class="text-gray-500 text-sm">アルバイト講師が書く月次報告書の質が担当者によって差が出る。塾全体の品質を統一したい</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 解決策 -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">JukuText が解決します</h2>
+      <p class="text-gray-500 mb-12">塾の実務を知ったAIが、保護者が読んで安心できる書類の文案を自動で仕上げます</p>
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div class="feature-card bg-amber-50 rounded-xl p-6 border border-amber-100">
+          <div class="text-2xl mb-3">📂</div>
+          <h3 class="font-bold text-lg mb-2">8書類種別に対応</h3>
+          <p class="text-gray-600 text-sm">月次報告書・面談資料・学習計画書・模試分析レポート・授業記録・入塾アセスメント・在籍証明書など。塾業務のコア書類を網羅。</p>
+        </div>
+        <div class="feature-card bg-amber-50 rounded-xl p-6 border border-amber-100">
+          <div class="text-2xl mb-3">📚</div>
+          <h3 class="font-bold text-lg mb-2">生徒の状況に即した文案</h3>
+          <p class="text-gray-600 text-sm">生徒の学年・志望校・苦手科目・今月の進捗を入力すると、保護者が読んで安心できる具体的な報告書を自動生成します。</p>
+        </div>
+        <div class="feature-card bg-amber-50 rounded-xl p-6 border border-amber-100">
+          <div class="text-2xl mb-3">😊</div>
+          <h3 class="font-bold text-lg mb-2">課題も成長も伝わる文体</h3>
+          <p class="text-gray-600 text-sm">課題だけでなく「良かった点・成長した点」も必ず盛り込む設計。保護者に信頼を与え、継続率向上にもつながります。</p>
+        </div>
+        <div class="feature-card bg-amber-50 rounded-xl p-6 border border-amber-100">
+          <div class="text-2xl mb-3">💾</div>
+          <h3 class="font-bold text-lg mb-2">生徒情報を保存・再利用</h3>
+          <p class="text-gray-600 text-sm">一度入力した生徒の基本情報を保存。毎月の報告書作成時は選択するだけ。入力の手間を最小化します。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使い方 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-12">使い方はシンプル</h2>
+      <div class="space-y-8">
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div>
+            <p class="font-semibold text-lg">書類種別・生徒情報・学習状況を入力</p>
+            <p class="text-gray-500 text-sm">書類の種類・生徒の学年・志望校・今月の授業内容・進捗を入力（1〜2分）</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div>
+            <p class="font-semibold text-lg">AIが文案を自動生成（30秒）</p>
+            <p class="text-gray-500 text-sm">今月の様子・学習進捗・来月の方針・保護者へのお願いを含む文案を30秒で生成</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-amber-600 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div>
+            <p class="font-semibold text-lg">担当講師が確認・修正して完成</p>
+            <p class="text-gray-500 text-sm">生成された文案を確認し、固有名詞・数値を追記。コピーして報告書・面談資料に貼り付けて完成</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 対応書類一覧 -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">対応書類一覧</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-left">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-amber-800 mb-2">保護者向け書類</p>
+          <ul class="text-gray-600 text-sm space-y-1">
+            <li>• 保護者向け月次報告書</li>
+            <li>• 面談資料（保護者面談）</li>
+            <li>• 在籍証明・通塾記録</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-amber-800 mb-2">指導・計画書類</p>
+          <ul class="text-gray-600 text-sm space-y-1">
+            <li>• 学習計画書</li>
+            <li>• 模試分析レポート</li>
+            <li>• 授業記録（指導記録）</li>
+            <li>• 入塾時アセスメント</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 料金 -->
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">料金プラン</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">無料トライアル</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-4">5件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ 全8書類種別に対応</li>
+            <li>✓ 登録不要</li>
+          </ul>
+        </div>
+        <div class="bg-amber-600 text-white rounded-xl p-6 shadow-lg border border-amber-500">
+          <p class="text-amber-200 text-sm mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980<span class="text-lg font-normal">/月</span></p>
+          <p class="text-amber-200 text-sm mb-4">月50件まで</p>
+          <ul class="text-amber-100 text-sm text-left space-y-1">
+            <li>✓ 全機能利用可能</li>
+            <li>✓ 生徒情報の保存</li>
+            <li>✓ 生成履歴の閲覧</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800<span class="text-lg font-normal">/月</span></p>
+          <p class="text-gray-400 text-sm mb-4">月200件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 多講師・多教室に対応</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8">
+        <a href="https://jukutext.streamlit.app"
+           target="_blank"
+           class="inline-block bg-amber-600 hover:bg-amber-500 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+          無料で試してみる
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-10 text-center">よくある質問</h2>
+      <div class="space-y-4">
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">AIが生成した報告書をそのまま保護者に送れますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">担当講師・塾長による確認・修正を経てからご使用ください。生徒の固有名詞・具体的な数値（成績点数・模試偏差値等）を必ず追記し、塾の文体・スタイルに合わせて調整してください。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">入力した生徒情報は安全ですか？</summary>
+          <p class="text-gray-600 text-sm mt-3">入力した情報はAI文案生成のためにのみ使用します。氏名・住所等の機微な個人情報の入力は避け、学年・苦手科目・授業内容等の概要情報のみご入力ください。生成結果はサーバーに永続保存しません。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">複数の講師で使えますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">はい、メールアドレスが異なれば複数の講師でご利用いただけます。プロプランでは月200件生成でき、複数講師・複数教室での運用に適しています。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">解約はいつでもできますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">はい、いつでも解約できます。次回更新日の前日までに解約手続きを行えば、翌月以降の請求は発生しません。アプリ内の「プラン管理・解約」ボタンから手続きいただけます。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 px-6 gradient-hero text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">まずは無料でお試しください</h2>
+    <p class="text-amber-100 mb-8">クレジットカード不要・登録不要・5件まで完全無料</p>
+    <a href="https://jukutext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      JukuTextを試してみる
+    </a>
+  </section>
+
+  <!-- フッター -->
+  <footer class="py-12 px-6 bg-gray-900 text-gray-400 text-sm">
+    <div class="max-w-3xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div>
+          <p class="font-semibold text-white mb-3">特定商取引法に基づく表記</p>
+          <table class="text-xs w-full">
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">販売事業者</td><td>TextSeries（運営者: 真柄 龍聖）</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">所在地</td><td>〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">メール</td><td>ryuumg03@gmail.com</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">販売価格</td><td>スタンダード ¥8,980/月 / プロ ¥19,800/月</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">支払方法</td><td>クレジットカード（Stripe）</td></tr>
+            <tr><td class="pr-4 py-1 font-medium text-gray-300">返品・キャンセル</td><td>デジタルサービスのため提供済み期間の返金不可</td></tr>
+          </table>
+        </div>
+        <div>
+          <p class="font-semibold text-white mb-3">プライバシーポリシー</p>
+          <p class="text-xs leading-relaxed">収集情報: メールアドレス（利用回数管理）。入力された生徒情報はAI生成のみに使用。文案生成のためGoogle Gemini APIに送信、利用回数管理のためSupabaseに保存。それ以外の第三者提供なし。お問い合わせ: ryuumg03@gmail.com</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-6 text-center text-xs">
+        <p>© 2026 JukuText — TextSeries（運営者: 真柄 龍聖） | <a href="mailto:ryuumg03@gmail.com" class="text-amber-400 hover:underline">ryuumg03@gmail.com</a></p>
+        <p class="mt-1 text-gray-500">本サービスは教育サービスの提供ではありません。生成された文案は必ず担当講師・塾長がご確認ください。</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

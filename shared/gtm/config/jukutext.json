@@ -1,0 +1,47 @@
+{
+  "project": "jukutext",
+  "project_dir": "jukutext",
+  "product_name": "JukuText",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://jukutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/jukutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-3.1-flash-lite",
+  "icp": {
+    "target_description": "学習塾・個別指導塾の塾長・教室長",
+    "document_types": ["保護者向け月次報告書", "面談資料・面談記録", "学習計画書", "模試分析レポート"],
+    "company_name_hint_keywords": ["学習塾", "個別指導", "進学塾", "学習院", "スクール"],
+    "target_keywords": ["学習塾", "個別指導", "進学塾", "塾", "家庭教師"],
+    "good_domain_suffixes": ["co.jp", "jp", "or.jp"],
+    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
+    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/jukutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "jukutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/jukutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/jukutext/feedback_reports",
+  "feedback_prompt_context": "JukuTextは学習塾・個別指導塾向けAI書類文案生成ツール。ユーザーは塾長・教室長・講師。保護者向け月次報告書・面談資料・学習計画・模試分析の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/8x27sLgeS2M55rA5OtabK0E",
+  "stripe_pro_url": "https://buy.stripe.com/7sY3cv2o2fyR5rA2ChabK0F",
+  "history_columns": ["doc_type text", "seito_info text", "gakushu_info text", "result text"],
+  "email_template": {
+    "template_file": "jukutext_sequence_1.txt",
+    "subject": "【保護者報告書の作成をAIで効率化】JukuTextのご紹介",
+    "fallback_opening": "平素より学習塾の運営にご尽力されていることと存じます。",
+    "personalize_prompt": "学習塾・個別指導塾「{company_name}」の塾長・教室長に向けた、保護者向け月次報告書・面談資料の作成業務への共感と課題提起の一文を書いてください。「御塾では〜」で始め、2文以内で。"
+  }
+}
