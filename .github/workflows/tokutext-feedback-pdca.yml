@@ -1,4 +1,4 @@
-name: pharmtext-feedback-pdca
+name: tokutext-feedback-pdca
 
 on:
   schedule:
@@ -24,16 +24,16 @@ jobs:
       - name: Fetch and analyze feedback
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          SUPABASE_URL: ${{ secrets.PHARMTEXT_SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.PHARMTEXT_SUPABASE_ANON_KEY }}
-        run: python shared/gtm/outreach/analyze_feedback.py --project pharmtext
+          SUPABASE_URL: ${{ secrets.TOKUTEXT_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.TOKUTEXT_SUPABASE_ANON_KEY }}
+        run: python shared/gtm/outreach/analyze_feedback.py --project tokutext
 
       - name: Commit report
         run: |
           git config user.email "actions@github.com"
           git config user.name "Auto Bot"
-          git add saas-dev/projects/pharmtext/feedback_reports/ || true
-          git diff --staged --quiet || git commit -m "pharmtext: フィードバック分析レポート $(date -u '+%Y-%m-%d') [skip ci]"
+          git add saas-dev/projects/tokutext/feedback_reports/ || true
+          git diff --staged --quiet || git commit -m "tokutext: フィードバック分析レポート $(date -u '+%Y-%m-%d') [skip ci]"
           git pull --rebase -X theirs
           git push
 
@@ -41,4 +41,4 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FUDOTEXT_PAT: ${{ secrets.FUDOTEXT_PAT }}
-        run: python shared/gtm/scripts/apply_pdca.py --project pharmtext
+        run: python shared/gtm/scripts/apply_pdca.py --project tokutext

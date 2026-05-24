@@ -36,3 +36,9 @@ jobs:
           git diff --staged --quiet || git commit -m "caretext: フィードバック分析レポート $(date -u '+%Y-%m-%d') [skip ci]"
           git pull --rebase -X theirs
           git push
+
+      - name: Apply PDCA improvements to gen.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FUDOTEXT_PAT: ${{ secrets.FUDOTEXT_PAT }}
+        run: python shared/gtm/scripts/apply_pdca.py --project caretext

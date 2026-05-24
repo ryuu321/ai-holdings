@@ -1,0 +1,48 @@
+name: textseries-check-paid
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # 毎時間 UTC（JST 9:00-24:00 は UTC 0:00-15:00）
+  workflow_dispatch:
+    inputs:
+      project:
+        description: '対象プロジェクト（省略で全製品）'
+        required: false
+        default: ''
+
+jobs:
+  check-paid:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check new subscriptions and send codes
+        env:
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          if [ -n "${{ inputs.project }}" ]; then
+            python shared/gtm/scripts/check_paid.py --project "${{ inputs.project }}"
+          else
+            python shared/gtm/scripts/check_paid.py
+          fi
+
+      - name: Commit sent_subscriptions.json if updated
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add shared/gtm/state/sent_subscriptions.json || true
+          git diff --staged --quiet || git commit -m "check-paid: 送信済みサブスクリプション更新 $(date -u '+%Y-%m-%d %H:%M') [skip ci]"
+          git pull --rebase -X theirs
+          git push
