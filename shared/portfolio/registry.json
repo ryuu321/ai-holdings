@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "sharotext",
+    "emoji": "👔",
+    "industry": "社会保険労務士事務所",
+    "docs": "就業規則・36協定届・助成金申請書",
+    "status": "live"
+  },
+  {
+    "slug": "kentext",
+    "emoji": "🏗️",
+    "industry": "建設業・工務店",
+    "docs": "工事請負契約書・仕様書・施工管理報告書",
+    "status": "live"
+  },
+  {
+    "slug": "fudotext",
+    "emoji": "🏠",
+    "industry": "不動産仲介会社",
+    "docs": "物件紹介文・重要事項説明・契約書類",
+    "status": "live"
+  },
+  {
+    "slug": "caretext",
+    "emoji": "🤲",
+    "industry": "訪問介護事業所",
+    "docs": "個別支援計画・サービス提供記録・訪問記録",
+    "status": "live"
+  },
+  {
+    "slug": "taxtext",
+    "emoji": "🧾",
+    "industry": "税理士事務所",
+    "docs": "税務申告書・経営計画書・融資相談用資料",
+    "status": "live"
+  },
+  {
+    "slug": "churntext",
+    "emoji": "🔄",
+    "industry": "月額SaaS・サブスク事業者",
+    "docs": "解約防止メール・ウィンバック文・FAQ文案",
+    "status": "live"
+  }
+]

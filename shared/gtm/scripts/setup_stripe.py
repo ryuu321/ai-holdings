@@ -13,6 +13,8 @@ Usage:
 import argparse
 import json
 import os
+import re
+import subprocess
 import sys
 import urllib.parse
 import urllib.request
@@ -170,9 +172,99 @@ def set_github_secret(repo: str, secret_name: str, secret_value: str, token: str
         )
 
 
+_GCLOUD_CMD = r"C:\Users\ryuuM\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+
+
+def _gcloud(*args: str, timeout: int = 120) -> tuple[int, str]:
+    result = subprocess.run(
+        [_GCLOUD_CMD, *args],
+        capture_output=True, text=True, timeout=timeout,
+    )
+    return result.returncode, result.stdout + result.stderr
+
+
+def create_gemini_api_key(project_id: str, display_name: str) -> str:
+    """事業専用GCPプロジェクトを新規作成してGemini APIキーを発行（無料・課金不要）。
+    gemini-2.5-flash を使うことで新規プロジェクトでもフリー枠が有効になる。
+    """
+    print(f"  GCPプロジェクト [{project_id}] を確認中...")
+    rc, out = _gcloud("projects", "describe", project_id, "--format=value(lifecycleState)")
+    state = out.strip()
+
+    if state == "ACTIVE":
+        print(f"  既存プロジェクトを再利用 (ACTIVE)")
+    elif state == "DELETE_REQUESTED":
+        print(f"  削除予約中のプロジェクトを復元中...")
+        rc2, out2 = _gcloud("projects", "undelete", project_id)
+        if rc2 != 0:
+            print(f"  復元失敗: {out2[:200]}")
+            return ""
+        import time; time.sleep(10)
+    else:
+        print(f"  新規作成中...")
+        rc2, out2 = _gcloud("projects", "create", project_id, f"--name={display_name}")
+        if rc2 != 0:
+            print(f"  プロジェクト作成失敗: {out2[:200]}")
+            return ""
+
+    # プロジェクト番号を取得（ID依存のDNS伝搬待ちを回避）
+    _, num_out = _gcloud("projects", "describe", project_id, "--format=value(projectNumber)")
+    project_num = num_out.strip()
+    if not project_num:
+        print(f"  プロジェクト番号取得失敗")
+        return ""
+
+    print(f"  Gemini API を有効化中...")
+    rc, out = _gcloud("services", "enable", "generativelanguage.googleapis.com",
+                      f"--project={project_num}")
+    if rc != 0:
+        print(f"  API有効化失敗: {out[:200]}")
+        return ""
+
+    print(f"  APIキーを発行中...")
+    rc, out = _gcloud(
+        "alpha", "services", "api-keys", "create",
+        f"--project={project_num}",
+        f"--display-name={display_name}",
+        "--api-target=service=generativelanguage.googleapis.com",
+    )
+    m = re.search(r'"keyString":\s*"(AIza[^"]+)"', out)
+    if not m:
+        print(f"  キー取得失敗: {out[:200]}")
+        return ""
+    key = m.group(1)
+    print(f"  → 完了: {key[:20]}...")
+    return key
+
+
+def run_supabase_sql(sql: str, access_token: str, project_ref: str) -> list[str]:
+    """Supabase Management API でSQLを実行する。エラーリストを返す。"""
+    url = f"https://api.supabase.com/v1/projects/{project_ref}/database/query"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+        "User-Agent": "setup-stripe/1.0",
+    }
+    errors = []
+    statements = [s.strip() for s in sql.split(";") if s.strip()]
+    for stmt in statements:
+        body = json.dumps({"query": stmt + ";"}).encode()
+        req = urllib.request.Request(url, data=body, headers=headers, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                r.read()
+        except urllib.error.HTTPError as e:
+            msg = e.read().decode()
+            errors.append(f"{stmt[:60]}... → {msg[:100]}")
+    return errors
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--project", required=True)
+    parser.add_argument("--emoji",    default="📄", help="ポートフォリオカード用絵文字")
+    parser.add_argument("--industry", default="",   help="業種表示テキスト（省略時はconfig自動取得）")
+    parser.add_argument("--docs",     default="",   help="書類説明テキスト（省略時はconfig自動取得）")
     args = parser.parse_args()
 
     api_key = os.environ.get("STRIPE_SECRET_KEY", "")
@@ -204,7 +296,13 @@ def main() -> None:
     supabase_url   = os.environ.get("SUPABASE_URL", "")
     supabase_key   = os.environ.get("SUPABASE_ANON_KEY", "")
     service_key    = os.environ.get("SUPABASE_SERVICE_KEY", "")
-    gemini_key     = os.environ.get("GEMINI_API_KEY", "")
+
+    print(f"\nGemini APIキーを自動作成中...")
+    gcp_project_id = f"textseries-{args.project}-api"
+    gemini_key = create_gemini_api_key(gcp_project_id, product_name)
+    if not gemini_key:
+        gemini_key = os.environ.get("GEMINI_API_KEY", "")
+        print(f"  .env の GEMINI_API_KEY にフォールバック")
 
     history_cols = cfg.get("history_columns", ["doc_type text", "input_1 text", "input_2 text", "result text"])
     history_col_sql = "\n".join(f"  {col}," for col in history_cols)
@@ -272,6 +370,20 @@ CREATE POLICY "anon_select" ON {p}_feedback FOR SELECT TO anon USING (true);"""
         f'{project_upper}_STRIPE_PRO_URL = {q}{urls["pro"]}{q}'
     )
 
+    # Supabase SQL 自動実行
+    supabase_token = os.environ.get("SUPABASE_ACCESS_TOKEN", "")
+    supabase_ref = supabase_url.split("//")[-1].split(".")[0] if supabase_url else ""
+    sql_done = False
+    if supabase_token and supabase_ref:
+        print(f"\nSupabase にテーブルを自動作成中...")
+        errs = run_supabase_sql(sql_block, supabase_token, supabase_ref)
+        if errs:
+            for e in errs:
+                print(f"  ⚠️  {e}")
+        else:
+            print(f"  → 全テーブル作成完了")
+            sql_done = True
+
     # Gist作成 + GitHub Secrets登録
     gist_token  = os.environ.get("GIST_TOKEN", "")
     github_token = os.environ.get("GITHUB_TOKEN", "")
@@ -299,16 +411,32 @@ CREATE POLICY "anon_select" ON {p}_feedback FOR SELECT TO anon USING (true);"""
 
     clipboard_path = _ROOT / "clipboard.txt"
     gist_line = f"  ✅ {gist_secret_name} = {gist_id}\n" if gist_id else f"  ⚠️  Gist作成失敗（手動で作成してください）\n"
+    sql_section = (
+        f"=== ✅ Supabase SQL 自動実行済み ===\n"
+        if sql_done else
+        f"=== (1) Supabase SQL Editor にペースト → Run ===\n\n{sql_block}\n\n"
+    )
     clipboard_path.write_text(
-        f"=== (1) Supabase SQL Editor にペースト → Run ===\n\n"
-        f"{sql_block}\n\n"
-        f"=== (2) Streamlit Cloud → {args.project} → Settings → Secrets にペースト → Save ===\n\n"
+        f"{sql_section}"
+        f"\n=== {'(2)' if not sql_done else '(1)'} Streamlit Cloud → {args.project} → Settings → Secrets にペースト → Save ===\n\n"
         f"{secrets_block}\n\n"
         f"=== 自動完了済み ===\n"
         f"{gist_line}",
         encoding="utf-8",
     )
-    print(f"\n完了。clipboard.txt に SQL + Secrets の2点セットを出力しました。")
+    print(f"\n完了。clipboard.txt を確認してください。")
+
+    # ポートフォリオ自動更新
+    update_script = Path(__file__).parent / "update_portfolio.py"
+    cmd = [sys.executable, str(update_script), "--add", args.project, "--emoji", args.emoji]
+    if args.industry:
+        cmd += ["--industry", args.industry]
+    if args.docs:
+        cmd += ["--docs", args.docs]
+    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    print(result.stdout.strip() or "(portfolio更新ログなし)")
+    if result.returncode != 0:
+        print(f"⚠️  portfolio更新エラー: {result.stderr[:200]}")
 
 
 if __name__ == "__main__":
