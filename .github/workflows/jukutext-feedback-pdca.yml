@@ -24,8 +24,8 @@ jobs:
       - name: Fetch and analyze feedback
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          SUPABASE_URL: ${{ secrets.JUKUTEXT_SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.JUKUTEXT_SUPABASE_ANON_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: python shared/gtm/outreach/analyze_feedback.py --project jukutext
 
       - name: Commit report
