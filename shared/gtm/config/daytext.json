@@ -8,15 +8,57 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/daytext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "通所介護事業所（デイサービス）の管理者・生活相談員・機能訓練指導員",
-    "document_types": ["個別機能訓練計画書", "通所介護計画書", "モニタリング報告書", "サービス担当者会議録", "ヒヤリハット報告書"],
-    "company_name_hint_keywords": ["デイサービス", "通所介護", "介護センター", "ケアセンター"],
-    "target_keywords": ["デイサービス", "通所介護", "機能訓練", "通所リハ", "介護老人", "通所", "日中預かり"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ", "訪問介護", "訪問看護", "特別養護", "老人ホーム"]
+    "document_types": [
+      "個別機能訓練計画書",
+      "通所介護計画書",
+      "モニタリング報告書",
+      "サービス担当者会議録",
+      "ヒヤリハット報告書"
+    ],
+    "company_name_hint_keywords": [
+      "デイサービス",
+      "通所介護",
+      "介護センター",
+      "ケアセンター"
+    ],
+    "target_keywords": [
+      "デイサービス",
+      "通所介護",
+      "機能訓練",
+      "通所リハ",
+      "介護老人",
+      "通所",
+      "日中預かり"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "名簿",
+      "営業リスト",
+      "求人",
+      "転職",
+      "ランキング",
+      "コツ",
+      "選び方",
+      "比較",
+      "一覧",
+      "まとめ",
+      "訪問介護",
+      "訪問看護",
+      "特別養護",
+      "老人ホーム"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,
@@ -35,7 +77,12 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/daytext/feedback_reports",
   "feedback_prompt_context": "DayTextは通所介護事業所（デイサービス）向けAI書類作成支援ツール。ユーザーは生活相談員・機能訓練指導員・管理者。個別機能訓練計画書・通所介護計画書・モニタリング報告書の文案をAIが自動生成する。",
-  "history_columns": ["doc_type text", "riyosha_info text", "kinou_info text", "result text"],
+  "history_columns": [
+    "doc_type text",
+    "riyosha_info text",
+    "kinou_info text",
+    "result text"
+  ],
   "email_template": {
     "template_file": "daytext_sequence_1.txt",
     "subject": "【介護書類の文案をAIで自動化】DayTextのご紹介",

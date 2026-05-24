@@ -8,15 +8,52 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/caretext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "訪問介護事業所の管理者・サービス提供責任者",
-    "document_types": ["個別支援計画書", "サービス提供記録票", "ヒヤリハット報告書", "業務日誌・申し送り書"],
-    "company_name_hint_keywords": ["訪問介護", "ホームヘルプ", "ヘルパーステーション", "居宅介護"],
-    "target_keywords": ["訪問介護", "ホームヘルプ", "ヘルパーステーション", "居宅介護", "サービス提供責任者", "介護事業所", "在宅介護"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+    "document_types": [
+      "個別支援計画書",
+      "サービス提供記録票",
+      "ヒヤリハット報告書",
+      "業務日誌・申し送り書"
+    ],
+    "company_name_hint_keywords": [
+      "訪問介護",
+      "ホームヘルプ",
+      "ヘルパーステーション",
+      "居宅介護"
+    ],
+    "target_keywords": [
+      "訪問介護",
+      "ホームヘルプ",
+      "ヘルパーステーション",
+      "居宅介護",
+      "サービス提供責任者",
+      "介護事業所",
+      "在宅介護"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "名簿",
+      "営業リスト",
+      "求人",
+      "転職",
+      "ランキング",
+      "コツ",
+      "選び方",
+      "比較",
+      "一覧",
+      "まとめ"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,
@@ -35,7 +72,12 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/caretext/feedback_reports",
   "feedback_prompt_context": "CareTextは訪問介護事業所向けAI書類作成ツール。ユーザーは管理者・サービス提供責任者。個別支援計画書・サービス提供記録・ヒヤリハット報告書の文案をAIが自動生成する。",
-  "history_columns": ["doc_type text", "riyosha_info text", "service_naiyou text", "result text"],
+  "history_columns": [
+    "doc_type text",
+    "riyosha_info text",
+    "service_naiyou text",
+    "result text"
+  ],
   "email_template": {
     "template_file": "caretext_sequence_1.txt",
     "subject": "【訪問介護の書類作成をAIで効率化】CareTextのご紹介",

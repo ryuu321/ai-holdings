@@ -8,15 +8,51 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/shoshitext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "司法書士事務所の担当者・スタッフ",
-    "document_types": ["登記申請書", "遺産分割協議書", "抵当権設定・抹消書類", "商業登記書類"],
-    "company_name_hint_keywords": ["司法書士", "司法書士事務所", "司法書士法人"],
-    "target_keywords": ["司法書士", "登記", "相続", "法務", "登記申請", "不動産登記", "商業登記"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+    "document_types": [
+      "登記申請書",
+      "遺産分割協議書",
+      "抵当権設定・抹消書類",
+      "商業登記書類"
+    ],
+    "company_name_hint_keywords": [
+      "司法書士",
+      "司法書士事務所",
+      "司法書士法人"
+    ],
+    "target_keywords": [
+      "司法書士",
+      "登記",
+      "相続",
+      "法務",
+      "登記申請",
+      "不動産登記",
+      "商業登記"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "名簿",
+      "営業リスト",
+      "求人",
+      "転職",
+      "ランキング",
+      "コツ",
+      "選び方",
+      "比較",
+      "一覧",
+      "まとめ"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,
@@ -37,7 +73,12 @@
   "stripe_pro_url": "https://buy.stripe.com/fZu6oH1jYaex8DMa4JabK0z",
   "feedback_report_dir": "saas-dev/projects/shoshitext/feedback_reports",
   "feedback_prompt_context": "ShoshiTextは司法書士事務所向けAI登記申請書・遺産分割協議書文案生成ツール。ユーザーは司法書士・事務スタッフ。登記申請書・遺産分割協議書・抵当権書類の文案をAIが自動生成する。",
-  "history_columns": ["doc_type text", "iraisha_info text", "bukken_info text", "result text"],
+  "history_columns": [
+    "doc_type text",
+    "iraisha_info text",
+    "bukken_info text",
+    "result text"
+  ],
   "email_template": {
     "template_file": "shoshitext_sequence_1.txt",
     "subject": "【登記書類の文案をAIで自動化】ShoshiTextのご紹介",

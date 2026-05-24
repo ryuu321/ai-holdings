@@ -8,15 +8,54 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/kanritext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "不動産管理会社の担当者・スタッフ",
-    "document_types": ["管理委託契約書", "修繕提案書", "入退去精算書", "物件点検報告書", "家賃督促文書"],
-    "company_name_hint_keywords": ["不動産管理", "賃貸管理", "建物管理", "プロパティ", "管理株式会社"],
-    "target_keywords": ["不動産管理", "賃貸管理", "建物管理", "プロパティマネジメント", "管理会社", "賃貸オーナー", "入退去"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+    "document_types": [
+      "管理委託契約書",
+      "修繕提案書",
+      "入退去精算書",
+      "物件点検報告書",
+      "家賃督促文書"
+    ],
+    "company_name_hint_keywords": [
+      "不動産管理",
+      "賃貸管理",
+      "建物管理",
+      "プロパティ",
+      "管理株式会社"
+    ],
+    "target_keywords": [
+      "不動産管理",
+      "賃貸管理",
+      "建物管理",
+      "プロパティマネジメント",
+      "管理会社",
+      "賃貸オーナー",
+      "入退去"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "名簿",
+      "営業リスト",
+      "求人",
+      "転職",
+      "ランキング",
+      "コツ",
+      "選び方",
+      "比較",
+      "一覧",
+      "まとめ"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,
@@ -35,7 +74,12 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/kanritext/feedback_reports",
   "feedback_prompt_context": "KanriTextは不動産管理会社向けAI文書生成ツール。ユーザーは不動産管理会社の担当者・スタッフ。管理委託契約書・修繕提案書・入退去精算書・物件点検報告書・家賃督促文書をAIが自動生成する。",
-  "history_columns": ["doc_type text", "bukken_info text", "client_info text", "result text"],
+  "history_columns": [
+    "doc_type text",
+    "bukken_info text",
+    "client_info text",
+    "result text"
+  ],
   "email_template": {
     "template_file": "kanritext_sequence_1.txt",
     "subject": "【管理書類の作成をAIで自動化】KanriTextのご紹介",

@@ -8,15 +8,53 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/gyotext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "行政書士事務所の担当者・スタッフ",
-    "document_types": ["許認可申請書", "定款文案", "各種届出書", "依頼者向け説明文"],
-    "company_name_hint_keywords": ["行政書士", "行政書士事務所", "行政書士法人"],
-    "target_keywords": ["行政書士", "許認可", "申請書", "届出", "法人設立", "定款", "帰化", "在留資格", "建設業許可"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+    "document_types": [
+      "許認可申請書",
+      "定款文案",
+      "各種届出書",
+      "依頼者向け説明文"
+    ],
+    "company_name_hint_keywords": [
+      "行政書士",
+      "行政書士事務所",
+      "行政書士法人"
+    ],
+    "target_keywords": [
+      "行政書士",
+      "許認可",
+      "申請書",
+      "届出",
+      "法人設立",
+      "定款",
+      "帰化",
+      "在留資格",
+      "建設業許可"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "名簿",
+      "営業リスト",
+      "求人",
+      "転職",
+      "ランキング",
+      "コツ",
+      "選び方",
+      "比較",
+      "一覧",
+      "まとめ"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,
@@ -35,7 +73,12 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/gyotext/feedback_reports",
   "feedback_prompt_context": "GyoTextは行政書士事務所向けAI申請書文案生成ツール。ユーザーは行政書士・事務スタッフ。許認可申請書・定款・届出書の文案をAIが自動生成する。",
-  "history_columns": ["tetsuzuki_shubetsu text", "irainin_info text", "gaiyou text", "result text"],
+  "history_columns": [
+    "tetsuzuki_shubetsu text",
+    "irainin_info text",
+    "gaiyou text",
+    "result text"
+  ],
   "email_template": {
     "template_file": "gyotext_sequence_1.txt",
     "subject": "【申請書類の文案をAIで自動化】GyoTextのご紹介",

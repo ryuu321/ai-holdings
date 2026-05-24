@@ -9,15 +9,52 @@
   "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "社会保険労務士事務所・社労士法人",
-    "document_types": ["就業規則", "36協定届", "キャリアアップ助成金申請書"],
-    "company_name_hint_keywords": ["社労士", "社会保険労務士", "労務", "SR", "シャロウ"],
-    "target_keywords": ["社労士", "社会保険労務士", "労務", "就業規則", "助成金", "社労士法人"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["求人", "転職", "ランキング", "比較", "一覧", "まとめ", "とは", "コラム", "ブログ", "協会", "組合"]
+    "document_types": [
+      "就業規則",
+      "36協定届",
+      "キャリアアップ助成金申請書"
+    ],
+    "company_name_hint_keywords": [
+      "社労士",
+      "社会保険労務士",
+      "労務",
+      "SR",
+      "シャロウ"
+    ],
+    "target_keywords": [
+      "社労士",
+      "社会保険労務士",
+      "労務",
+      "就業規則",
+      "助成金",
+      "社労士法人"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "一覧",
+      "まとめ",
+      "とは",
+      "コラム",
+      "ブログ",
+      "協会",
+      "組合"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,

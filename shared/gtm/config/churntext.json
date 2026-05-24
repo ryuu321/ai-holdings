@@ -8,15 +8,57 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/churntext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "月額SaaS・サブスクサービスを運営する日本の事業者",
-    "document_types": ["解約引き留めメール", "リテンションオファー文", "ウィンバックメール"],
-    "company_name_hint_keywords": ["テック", "クラウド", "システム", "サービス", "ソリューション", "ソフトウェア"],
-    "target_keywords": ["SaaS", "サブスク", "月額", "会員", "定額", "クラウド", "システム", "プラットフォーム", "アプリ", "サービス"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ", "個人ブログ"]
+    "document_types": [
+      "解約引き留めメール",
+      "リテンションオファー文",
+      "ウィンバックメール"
+    ],
+    "company_name_hint_keywords": [
+      "テック",
+      "クラウド",
+      "システム",
+      "サービス",
+      "ソリューション",
+      "ソフトウェア"
+    ],
+    "target_keywords": [
+      "SaaS",
+      "サブスク",
+      "月額",
+      "会員",
+      "定額",
+      "クラウド",
+      "システム",
+      "プラットフォーム",
+      "アプリ",
+      "サービス"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "名簿",
+      "営業リスト",
+      "求人",
+      "転職",
+      "ランキング",
+      "コツ",
+      "選び方",
+      "比較",
+      "一覧",
+      "まとめ",
+      "個人ブログ"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,
@@ -35,7 +77,12 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/churntext/feedback_reports",
   "feedback_prompt_context": "ChurnTextは月額SaaS・サブスクサービス運営者向けAI解約引き留め文生成ツール。ユーザーはSaaS事業者・スタートアップ担当者。解約理由に応じたリテンションオファー文を自動生成する。",
-  "history_columns": ["churn_reason text", "user_info text", "offer_type text", "result text"],
+  "history_columns": [
+    "churn_reason text",
+    "user_info text",
+    "offer_type text",
+    "result text"
+  ],
   "email_template": {
     "template_file": "churntext_sequence_1.txt",
     "subject": "【解約率を下げるAI文章生成】ChurnTextのご紹介",

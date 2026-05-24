@@ -8,15 +8,53 @@
   "lp_url": "https://ryuu321.github.io/ai-holdings/docs/taxtext.html",
   "daily_send_limit": 30,
   "send_interval_sec": 30,
-  "gemini_model": "gemini-3.1-flash-lite",
+  "gemini_model": "gemini-2.5-flash",
   "icp": {
     "target_description": "税理士事務所の担当者・スタッフ",
-    "document_types": ["経営計画書", "融資相談用資料", "税務説明資料", "決算報告書コメント"],
-    "company_name_hint_keywords": ["税理士", "税理士事務所", "税理士法人", "会計事務所"],
-    "target_keywords": ["税理士", "税理士事務所", "税理士法人", "会計事務所", "税務", "確定申告", "法人税", "経営計画"],
-    "good_domain_suffixes": ["co.jp", "jp"],
-    "bad_domain_suffixes": ["gmail.com", "yahoo.co.jp", "hotmail.com", "outlook.com"],
-    "exclude_keywords": ["名簿", "営業リスト", "求人", "転職", "ランキング", "コツ", "選び方", "比較", "一覧", "まとめ"]
+    "document_types": [
+      "経営計画書",
+      "融資相談用資料",
+      "税務説明資料",
+      "決算報告書コメント"
+    ],
+    "company_name_hint_keywords": [
+      "税理士",
+      "税理士事務所",
+      "税理士法人",
+      "会計事務所"
+    ],
+    "target_keywords": [
+      "税理士",
+      "税理士事務所",
+      "税理士法人",
+      "会計事務所",
+      "税務",
+      "確定申告",
+      "法人税",
+      "経営計画"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "名簿",
+      "営業リスト",
+      "求人",
+      "転職",
+      "ランキング",
+      "コツ",
+      "選び方",
+      "比較",
+      "一覧",
+      "まとめ"
+    ]
   },
   "scoring": {
     "target_keyword_hit": 30,
@@ -35,7 +73,12 @@
   "feedback_csv_env": "",
   "feedback_report_dir": "saas-dev/projects/taxtext/feedback_reports",
   "feedback_prompt_context": "TaxTextは税理士事務所向けAI資料作成ツール。ユーザーは税理士・担当スタッフ。経営計画書・融資相談用資料・税務説明資料の文案をAIが自動生成する。",
-  "history_columns": ["doc_type text", "company_info text", "financial_info text", "result text"],
+  "history_columns": [
+    "doc_type text",
+    "company_info text",
+    "financial_info text",
+    "result text"
+  ],
   "email_template": {
     "template_file": "taxtext_sequence_1.txt",
     "subject": "【経営計画書・融資資料の作成をAIで効率化】TaxTextのご紹介",
