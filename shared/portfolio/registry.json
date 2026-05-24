@@ -40,5 +40,89 @@
     "industry": "月額SaaS・サブスク事業者",
     "docs": "解約防止メール・ウィンバック文・FAQ文案",
     "status": "live"
+  },
+  {
+    "slug": "aftertext",
+    "emoji": "📄",
+    "industry": "放課後等デイサービス事業所の管理者",
+    "docs": "個別支援計画・療育記録・保護者連絡文",
+    "status": "live"
+  },
+  {
+    "slug": "cmtext",
+    "emoji": "📄",
+    "industry": "居宅介護支援事業所の主任介護支援専門員",
+    "docs": "ケアプラン（居宅サービス計画書）・アセスメントシート・モニタリング記録",
+    "status": "live"
+  },
+  {
+    "slug": "daytext",
+    "emoji": "📄",
+    "industry": "通所介護事業所（デイサービス）の管理者",
+    "docs": "個別機能訓練計画書・通所介護計画書・モニタリング報告書",
+    "status": "live"
+  },
+  {
+    "slug": "denkitext",
+    "emoji": "📄",
+    "industry": "電気工事業者の担当者",
+    "docs": "電気工事完了報告書・検査成績書・施工計画書",
+    "status": "live"
+  },
+  {
+    "slug": "gyotext",
+    "emoji": "📄",
+    "industry": "行政書士事務所の担当者",
+    "docs": "許認可申請書・定款文案・各種届出書",
+    "status": "live"
+  },
+  {
+    "slug": "kanritext",
+    "emoji": "📄",
+    "industry": "不動産管理会社の担当者",
+    "docs": "管理委託契約書・修繕提案書・入退去精算書",
+    "status": "live"
+  },
+  {
+    "slug": "pharmtext",
+    "emoji": "📄",
+    "industry": "調剤薬局の薬剤師",
+    "docs": "薬歴（SOAP形式）・服薬指導記録・疑義照会記録",
+    "status": "live"
+  },
+  {
+    "slug": "tokutext",
+    "emoji": "📄",
+    "industry": "特別養護老人ホーム",
+    "docs": "個別援助計画書・ヒヤリハット報告書・事故報告書",
+    "status": "live"
+  },
+  {
+    "slug": "iintext",
+    "emoji": "📄",
+    "industry": "内科",
+    "docs": "紹介状・診断書・患者向け説明文書",
+    "status": "live"
+  },
+  {
+    "slug": "jukutext",
+    "emoji": "📄",
+    "industry": "学習塾",
+    "docs": "保護者向け月次報告書・面談資料・面談記録・学習計画書",
+    "status": "live"
+  },
+  {
+    "slug": "shoshitext",
+    "emoji": "📄",
+    "industry": "司法書士事務所の担当者",
+    "docs": "登記申請書・遺産分割協議書・抵当権設定・抹消書類",
+    "status": "live"
+  },
+  {
+    "slug": "tostext",
+    "emoji": "📄",
+    "industry": "塗装",
+    "docs": "工事見積書・施工前後報告書・施工計画書",
+    "status": "live"
   }
 ]

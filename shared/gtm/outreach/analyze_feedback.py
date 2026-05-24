@@ -32,7 +32,7 @@ try:
 except ImportError:
     pass
 
-MODEL = "gemini-3.1-flash-lite"
+MODEL = "gemini-2.5-flash"
 MAX_TOKENS = 2000
 
 
