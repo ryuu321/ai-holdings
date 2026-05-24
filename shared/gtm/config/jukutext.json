@@ -85,5 +85,6 @@
     "subject": "【保護者報告書の作成をAIで効率化】JukuTextのご紹介",
     "fallback_opening": "平素より学習塾の運営にご尽力されていることと存じます。",
     "personalize_prompt": "学習塾・個別指導塾「{company_name}」の塾長・教室長に向けた、保護者向け月次報告書・面談資料の作成業務への共感と課題提起の一文を書いてください。「御塾では〜」で始め、2文以内で。"
-  }
+  },
+  "gemini_api_key": "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
 }

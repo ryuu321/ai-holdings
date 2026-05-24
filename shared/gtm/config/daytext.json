@@ -88,5 +88,8 @@
     "subject": "【介護書類の文案をAIで自動化】DayTextのご紹介",
     "fallback_opening": "平素よりデイサービスの運営・書類作成にご尽力されていることと存じます。",
     "personalize_prompt": "通所介護事業所「{company_name}」の担当者に向けた、個別機能訓練計画書など書類作成業務の負担への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
-  }
+  },
+  "stripe_standard_url": "https://buy.stripe.com/eVq8wP0fU0DX07gdgVabK0o",
+  "stripe_pro_url": "https://buy.stripe.com/28EeVd3s69at2foccRabK0p",
+  "gemini_api_key": "AIzaSyDC4sq2kpoJzJCcwxgUoKiUaLehrq94924"
 }

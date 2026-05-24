@@ -409,22 +409,36 @@ CREATE POLICY "anon_select" ON {p}_feedback FOR SELECT TO anon USING (true);"""
         except Exception as e:
             print(f"  Secrets登録失敗（手動で登録してください）: {e}")
 
+    # config JSON に gemini_api_key と stripe_standard/pro_url を永続化
+    cfg["gemini_api_key"] = gemini_key
+    cfg["stripe_standard_url"] = urls["standard"]
+    cfg["stripe_pro_url"] = urls["pro"]
+    with open(cfg_path, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, ensure_ascii=False, indent=2)
+    print(f"  → config JSON に gemini_api_key / stripe URL を保存")
+
+    # clipboard.txt に追記（上書きしない）
     clipboard_path = _ROOT / "clipboard.txt"
+    sep = "━" * 40
     gist_line = f"  ✅ {gist_secret_name} = {gist_id}\n" if gist_id else f"  ⚠️  Gist作成失敗（手動で作成してください）\n"
     sql_section = (
         f"=== ✅ Supabase SQL 自動実行済み ===\n"
         if sql_done else
         f"=== (1) Supabase SQL Editor にペースト → Run ===\n\n{sql_block}\n\n"
     )
-    clipboard_path.write_text(
+    block = (
+        f"\n{sep}\n"
+        f"# {product_name} → {args.project}.streamlit.app\n"
+        f"{sep}\n\n"
         f"{sql_section}"
         f"\n=== {'(2)' if not sql_done else '(1)'} Streamlit Cloud → {args.project} → Settings → Secrets にペースト → Save ===\n\n"
         f"{secrets_block}\n\n"
         f"=== 自動完了済み ===\n"
-        f"{gist_line}",
-        encoding="utf-8",
+        f"{gist_line}"
     )
-    print(f"\n完了。clipboard.txt を確認してください。")
+    with open(clipboard_path, "a", encoding="utf-8") as f:
+        f.write(block)
+    print(f"\n完了。clipboard.txt に追記しました。")
 
     # ポートフォリオ自動更新
     update_script = Path(__file__).parent / "update_portfolio.py"

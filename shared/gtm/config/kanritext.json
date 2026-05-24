@@ -85,5 +85,8 @@
     "subject": "【管理書類の作成をAIで自動化】KanriTextのご紹介",
     "fallback_opening": "平素より不動産管理業務にご尽力されていることと存じます。",
     "personalize_prompt": "不動産管理会社「{company_name}」の担当者に向けた、管理書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
-  }
+  },
+  "stripe_standard_url": "https://buy.stripe.com/14AfZhaUycmFbPYdgVabK0u",
+  "stripe_pro_url": "https://buy.stripe.com/00w5kD6EicmF3jsgt7abK0v",
+  "gemini_api_key": "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
 }

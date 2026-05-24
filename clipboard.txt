@@ -1,6 +1,129 @@
-=== ✅ Supabase SQL 自動実行済み ===
+=== ✅ 全製品 Supabase SQL 自動実行済み / GitHub Actions Secrets 登録済み ===
 
-=== (1) Streamlit Cloud → tostext → Settings → Secrets にペースト → Save ===
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# AfterText → aftertext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyCg-I_Fam1PUI9iQak75izhyt81q5gfz3o"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+AFTERTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/6oU6oH0fUcmF8DM1ydabK0A"
+AFTERTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/7sY9ATgeSdqJf2aekZabK0B"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# CmText → cmtext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyCIWL3LjQp882Fy8g1oyejFZvvLwIstlOQ"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+CMTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/cNiaEX1jY3Q96vE3GlabK0s"
+CMTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/3cI28r2o286p2foccRabK0t"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DayText → daytext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyDC4sq2kpoJzJCcwxgUoKiUaLehrq94924"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+DAYTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/eVq8wP0fU0DX07gdgVabK0o"
+DAYTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/28EeVd3s69at2foccRabK0p"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DenkiText → denkitext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyCcQD91CpP2GbbKJocl0N5wQzNb-653WOs"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+DENKITEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/aFa4gz2o25Yh3jsccRabK0w"
+DENKITEXT_STRIPE_PRO_URL = "https://buy.stripe.com/aFa7sLgeSaexaLUdgVabK0x"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# GyoText → gyotext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyB97X4uiObyTkkxreCJjmbqku0mYMpETyE"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+GYOTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/9B66oHe6K0DXaLUgt7abK0i"
+GYOTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/6oU9AT7ImbiB5rA4KpabK0j"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# IinText → iintext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+IINTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/aFa14ngeSfyR6vE6SxabK0C"
+IINTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/fZudR99QudqJ3jsa4JabK0D"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# JukuText → jukutext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+JUKUTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/8x27sLgeS2M55rA5OtabK0E"
+JUKUTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/7sY3cv2o2fyR5rA2ChabK0F"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# KanriText → kanritext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+KANRITEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/14AfZhaUycmFbPYdgVabK0u"
+KANRITEXT_STRIPE_PRO_URL = "https://buy.stripe.com/00w5kD6EicmF3jsgt7abK0v"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# PharmText → pharmtext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+PHARMTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/4gM00j8Mq1I1g6edgVabK0q"
+PHARMTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/00w4gz9QueuNbPYfp3abK0r"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ShoshiText → shoshitext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+SHOSHITEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/aFaeVdfaO2M507g4KpabK0y"
+SHOSHITEXT_STRIPE_PRO_URL = "https://buy.stripe.com/fZu6oH1jYaex8DMa4JabK0z"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# TokuText → tokutext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GEMINI_API_KEY = "AIzaSyAnC1w70nWOa8Zgfo5QItysUdGF0pglKaw"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+TOKUTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/5kQ28r5AeeuNcU2dgVabK0I"
+TOKUTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/4gM7sLd2G72l6vE4KpabK0J"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# TosText → tostext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 GEMINI_API_KEY = "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
 SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
@@ -8,6 +131,3 @@ SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
 TOSTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/aFa3cv1jYaexf2a7WBabK0G"
 TOSTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/eVqcN52o2fyR07gccRabK0H"
-
-=== 自動完了済み ===
-  ✅ TOSTEXT_SENT_LOG_GIST_ID = 5e0d30697263d89b08a4eda8d3264da4
