@@ -44,21 +44,54 @@ FUDOTEXT = Path("C:/Users/ryuuM/fudotext")
 
 # ── Gemini helper ──────────────────────────────────────────────────────────────
 
+def _load_all_api_keys() -> list:
+    """GEMINI_API_KEY, GEMINI_API_KEY_2, _3 ... を全部読んでリストで返す"""
+    env_path = Path("C:/Users/ryuuM/ai-holdings/.env")
+    if env_path.exists():
+        for line in env_path.read_text(encoding="utf-8").splitlines():
+            k, _, v = line.partition("=")
+            if v and k.strip() not in os.environ:
+                os.environ[k.strip()] = v.strip()
+
+    keys = []
+    if k := os.environ.get("GEMINI_API_KEY", ""):
+        keys.append(k)
+    for i in range(2, 30):
+        if k := os.environ.get(f"GEMINI_API_KEY_{i}", ""):
+            keys.append(k)
+    return list(dict.fromkeys(keys))  # 重複除去・順序保持
+
+
 def _gemini(prompt: str, api_key: str, max_tokens: int = 6000) -> str:
+    # 指定キーを先頭に、残りのキーも順番に試す
+    all_keys = _load_all_api_keys()
+    keys = [api_key] + [k for k in all_keys if k != api_key]
+
     payload = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": max_tokens, "temperature": 0.4},
     }).encode()
-    url = (
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-2.5-flash:generateContent?key={api_key}"
-    )
-    req = urllib.request.Request(
-        url, data=payload, headers={"Content-Type": "application/json"}, method="POST"
-    )
-    with urllib.request.urlopen(req, timeout=90) as r:
-        data = json.loads(r.read())
-    return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+
+    last_err = None
+    for i, key in enumerate(keys):
+        url = (
+            "https://generativelanguage.googleapis.com/v1beta/models/"
+            f"gemini-2.5-flash:generateContent?key={key}"
+        )
+        req = urllib.request.Request(
+            url, data=payload, headers={"Content-Type": "application/json"}, method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=90) as r:
+                data = json.loads(r.read())
+            return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        except urllib.error.HTTPError as e:
+            if e.code in (403, 429):
+                print(f"  ⚠️  キー{i+1} ({key[:16]}...) → {e.code} / 次のキーへ")
+                last_err = e
+                continue
+            raise
+    raise last_err
 
 
 def _extract_json(text: str) -> dict:
