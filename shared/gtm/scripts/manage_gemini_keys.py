@@ -83,29 +83,28 @@ def delete_key(key_name: str, account: str):
 
 def create_key(project: str, account: str, display_name: str = "gemini-auto") -> str:
     """新規APIキーを作成してキー文字列を返す"""
-    out = _run(["gcloud", "services", "api-keys", "create",
-                f"--project={project}",
-                f"--display-name={display_name}",
-                "--format=value(response.name)"], account)
-    # 非同期オペレーションを待つ
-    if "operations/" in out:
-        op = out.strip()
-        _run(["gcloud", "services", "api-keys", "operations", "wait", op], account)
-        # operations/xxx → キー名を取得
-        key_id = op.split("/")[-1]
-        # プロジェクトのキー一覧から最新のものを取得
-        time.sleep(2)
-        keys = list_keys(project, account)
-        if keys:
-            return get_key_string(keys[-1], account)
+    # 作成前のキー一覧を記録
+    before = set(list_keys(project, account))
+
+    _run(["gcloud", "services", "api-keys", "create",
+          f"--project={project}",
+          f"--display-name={display_name}", "--quiet"], account)
+
+    # 最大30秒待って新しいキーが現れるまでリトライ
+    for _ in range(6):
+        time.sleep(5)
+        after = set(list_keys(project, account))
+        new_keys = after - before
+        if new_keys:
+            return get_key_string(list(new_keys)[0], account)
     return ""
 
 
 def create_project(project_id: str, account: str) -> bool:
     r = subprocess.run(
-        ["gcloud", "projects", "create", project_id,
+        [GCLOUD, "projects", "create", project_id,
          "--name", project_id, f"--account={account}", "--quiet"],
-        capture_output=True, text=True
+        capture_output=True, text=True, encoding="utf-8", errors="replace"
     )
     return r.returncode == 0
 
