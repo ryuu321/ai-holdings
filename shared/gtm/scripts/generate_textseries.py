@@ -2123,16 +2123,10 @@ def main() -> None:
     if not docs:
         sys.exit("--docs に書類種別を1つ以上指定してください")
 
-    api_key = os.environ.get("GEMINI_API_KEY", "")
-    if not api_key:
-        try:
-            from dotenv import load_dotenv
-            load_dotenv(dotenv_path=Path("C:/Users/ryuuM/fudotext/.env"))
-            api_key = os.environ.get("GEMINI_API_KEY", "")
-        except ImportError:
-            pass
-    if not api_key:
+    keys = _load_all_api_keys()
+    if not keys:
         sys.exit("GEMINI_API_KEY が環境変数または .env に設定されていません")
+    api_key = keys[0]
 
     print(f"\n🚀 {product_name} ({slug}) の生成を開始します")
     print(f"   業界: {industry}")
