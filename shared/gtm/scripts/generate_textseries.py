@@ -217,6 +217,7 @@ def write_requirements_txt(dest: Path, dry_run: bool) -> None:
         "streamlit>=1.32.0\n"
         "python-dotenv>=1.0.0\n"
         "python-docx>=1.1.0\n"
+        "supabase>=2.3.0\n"
     )
     _write(dest / "requirements.txt", content, dry_run)
 
