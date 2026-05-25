@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "ADHD Productivity",
-    "UX Designers",
-    "Personal Finance Beginners"
+    "Free Resources",
+    "Digital Art Assets",
+    "Passive Income Builders"
   ],
-  "recommended_niche": "ADHD Productivity",
+  "recommended_niche": "Free Resources",
   "recommended_type": "ai_prompts",
-  "title_idea": "Boost Focus",
-  "cached_at": "2026-05-22T02:08:46.173685+00:00",
+  "title_idea": "Free AI Assets",
+  "cached_at": "2026-05-25T02:13:47.412341+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
