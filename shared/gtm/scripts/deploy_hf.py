@@ -19,6 +19,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import textwrap
 from pathlib import Path
 
 AI_HOLDINGS = Path("C:/Users/ryuuM/ai-holdings")
@@ -67,14 +68,42 @@ def load_config(slug: str) -> dict:
 
 # ── app.py パッチ（HF Spaces は st.secrets ではなく env var） ────────────
 
+_SECRETS_BLOCK_RE = re.compile(
+    r'if "GEMINI_API_KEY" in st\.secrets:.*?'
+    r'(?=\n_USE_DB|\nst\.set_page|\n\n)',
+    re.DOTALL,
+)
+
+_SECRETS_BLOCK_REPLACEMENT = textwrap.dedent("""\
+    try:
+        if "GEMINI_API_KEY" in st.secrets:
+            os.environ.setdefault("GEMINI_API_KEY", st.secrets["GEMINI_API_KEY"])
+            os.environ.setdefault("SUPABASE_URL", st.secrets.get("SUPABASE_URL", ""))
+            os.environ.setdefault("SUPABASE_ANON_KEY", st.secrets.get("SUPABASE_ANON_KEY", ""))
+    except Exception:
+        pass
+    if not os.environ.get("GEMINI_API_KEY"):
+        try:
+            from dotenv import load_dotenv
+            load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "../../../../.env"))
+        except Exception:
+            pass""")
+
+
 def patch_app_py(content: str, slug: str) -> str:
     upper = slug.upper()
-    # STRIPE_STANDARD_URL / STRIPE_PRO_URL に env var フォールバックを追加
+
+    # STRIPE URL: st.secrets.get → os.environ.get（HF Spaces はenv var）
     for suffix in ("STRIPE_STANDARD_URL", "STRIPE_PRO_URL"):
         key = f"{upper}_{suffix}"
-        old = f'st.secrets.get("{key}", "")'
-        new = f'(st.secrets.get("{key}", "") or os.environ.get("{key}", ""))'
-        content = content.replace(old, new)
+        content = content.replace(
+            f'st.secrets.get("{key}", "")',
+            f'os.environ.get("{key}", "")',
+        )
+
+    # secrets loading ブロックを try/except でラップ
+    content = _SECRETS_BLOCK_RE.sub(_SECRETS_BLOCK_REPLACEMENT, content)
+
     return content
 
 
@@ -148,10 +177,16 @@ def deploy_product(slug: str, hf_token: str, dry_run: bool = False) -> bool:
         print(f"  [dry-run] secrets: {list(secrets.keys())}")
         return True
 
-    # Space 作成
-    api.create_repo(repo_id=repo_id, repo_type="space", space_sdk="docker",
-                    private=False, exist_ok=True)
-    print("  ✓ Space 作成/確認")
+    # Space 作成（既存の場合はスキップ、レート制限時も続行）
+    try:
+        api.create_repo(repo_id=repo_id, repo_type="space", space_sdk="docker",
+                        private=False, exist_ok=True)
+        print("  ✓ Space 作成/確認")
+    except Exception as e:
+        if "429" in str(e) or "rate limit" in str(e).lower():
+            print("  ⚠️  Space作成レート制限 → 既存Spaceを更新")
+        else:
+            raise
 
     # ファイルをテンポラリに展開してアップロード
     with tempfile.TemporaryDirectory() as tmpdir:
