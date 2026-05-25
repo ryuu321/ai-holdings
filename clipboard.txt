@@ -221,3 +221,21 @@ RIFOTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/00w7sL6Ei2M5aLU2ChabK0T"
 
 === 自動完了済み ===
   ✅ RIFOTEXT_SENT_LOG_GIST_ID = 4c9877204ce4fe761e56a2e72a171790
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Tokuyoutext → tokuyoutext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+=== ✅ Supabase SQL 自動実行済み ===
+
+=== (1) Streamlit Cloud → tokuyoutext → Settings → Secrets にペースト → Save ===
+
+GEMINI_API_KEY = "AIzaSyCC9ZWoPrKzkw5FsAQ2RQoBhFmiY-yoE-4"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+TOKUYOUTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/7sY7sL9Qu0DX7zI1ydabK0U"
+TOKUYOUTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/fZu00jgeSaex1bk7WBabK0V"
+
+=== 自動完了済み ===
+  ✅ TOKUYOUTEXT_SENT_LOG_GIST_ID = 3f5a2e5c91d693488cd84a491363f9fc
