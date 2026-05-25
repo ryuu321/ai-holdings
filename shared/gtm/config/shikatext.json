@@ -1,0 +1,94 @@
+{
+  "project": "shikatext",
+  "project_dir": "shikatext",
+  "product_name": "Shikatext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://shikatext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/shikatext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "歯科クリニックの院長、事務長、または書類作成を担当するスタッフ。日々の診療業務に追われ、書類作成の効率化や正確性向上に課題を感じている方。",
+    "document_types": [
+      "治療計画書",
+      "説明同意書",
+      "問診票",
+      "歯科技工指示書"
+    ],
+    "company_name_hint_keywords": [
+      "歯科",
+      "クリニック",
+      "歯医者",
+      "デンタル",
+      "オーラル",
+      "医院"
+    ],
+    "target_keywords": [
+      "歯科クリニック 書類作成",
+      "治療計画書 テンプレート",
+      "説明同意書 歯科",
+      "問診票 自動作成",
+      "歯科技工指示書 効率化",
+      "歯科業務効率化 AI",
+      "歯科医院 DX"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp",
+      "clinic",
+      "dental"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "採用",
+      "募集"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/shikatext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "shikatext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/shikatext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/shikatext/feedback_reports",
+  "feedback_prompt_context": "Shikatextは歯科クリニック向けAI書類文案生成ツール。ユーザーは歯科クリニックの担当者・管理者。治療計画書・説明同意書・問診票・歯科技工指示書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/3cI9ATaUy2M56vE1ydabK0O",
+  "stripe_pro_url": "https://buy.stripe.com/8x2cN5d2GbiB4nw3GlabK0P",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "shikatext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Shikatextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。歯科クリニックの実務でご多忙のことと存じます。",
+    "personalize_prompt": "歯科クリニック「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+}

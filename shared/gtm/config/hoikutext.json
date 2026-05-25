@@ -1,0 +1,89 @@
+{
+  "project": "hoikutext",
+  "project_dir": "hoikutext",
+  "product_name": "Hoikutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://hoikutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/hoikutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "日々の多忙な業務の中で、書類作成に多くの時間を費やしている保育園・認定こども園の園長、主任保育士、または事務担当者。",
+    "document_types": [
+      "個別指導計画",
+      "保育日誌",
+      "連絡帳文案",
+      "保護者おたより"
+    ],
+    "company_name_hint_keywords": [
+      "保育園",
+      "こども園",
+      "幼稚園",
+      "学童",
+      "乳児院",
+      "児童養護施設"
+    ],
+    "target_keywords": [
+      "保育園 書類作成 効率化",
+      "個別指導計画 テンプレート",
+      "保育日誌 自動生成",
+      "連絡帳 文案 AI",
+      "保護者おたより 例文",
+      "保育業務支援システム",
+      "保育ICT",
+      "保育士 業務負担軽減"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/hoikutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "hoikutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/hoikutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/hoikutext/feedback_reports",
+  "feedback_prompt_context": "Hoikutextは保育園・認定こども園向けAI書類文案生成ツール。ユーザーは保育園・認定こども園の担当者・管理者。個別指導計画・保育日誌・連絡帳文案・保護者おたよりの文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/00wdR92o272laLUb8NabK0M",
+  "stripe_pro_url": "https://buy.stripe.com/4gM7sL4waeuN5rA0u9abK0N",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "hoikutext_sequence_1.txt",
+    "subject": "【保育業務を効率化】Hoikutextで書類作成の負担を軽減しませんか？",
+    "fallback_opening": "突然のご連絡をご容赦ください。日々の保育業務と書類作成でご多忙のことと存じます。",
+    "personalize_prompt": "保育園・認定こども園「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+}

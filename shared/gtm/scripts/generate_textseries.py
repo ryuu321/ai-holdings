@@ -107,7 +107,7 @@ _SPEC_PROMPT = """\
     ]
   }},
   "prompts": {{
-    "書類種別名": "あなたは{industry}のアシスタントとして、書類名のドラフトを作成します。\\n\\n以下の情報をもとに...\\n\\n【案件情報】\\n{company_label}: {{company}}\\n{gyoshu_label}: {{gyoshu}}\\n{employees_label}: {{employees}}\\nfield_label: {{field_name}}\\n...\\n\\n【出力ルール】\\n1. ...\\n2. ...\\n3. ...\\n4. {{MIN_CHARS}}字以上で作成すること\\n5. 末尾に「本書類はドラフトです。専門家確認が必要です。」と注記\\n\\nドラフト本文のみ出力してください:"
+    "書類種別名": "あなたは{industry}のアシスタントとして、書類名のドラフトを作成します。\\n\\n以下の情報をもとに...\\n\\n【案件情報】\\n{{company_label}}: {{company}}\\n{{gyoshu_label}}: {{gyoshu}}\\n{{employees_label}}: {{employees}}\\nfield_label: {{field_name}}\\n...\\n\\n【出力ルール】\\n1. ...\\n2. ...\\n3. ...\\n4. {{MIN_CHARS}}字以上で作成すること\\n5. 末尾に「本書類はドラフトです。専門家確認が必要です。」と注記\\n\\nドラフト本文のみ出力してください:"
   }},
   "icp": {{
     "target_description": "ターゲット担当者の説明",
@@ -126,7 +126,7 @@ _SPEC_PROMPT = """\
       {{"icon": "😓", "title": "タイトル", "desc": "説明文"}}
     ],
     "features": [
-      {{"icon": "📂", "title": "{len(docs)}書類種別に対応", "desc": "説明文"}},
+      {{"icon": "📂", "title": "{docs_count}書類種別に対応", "desc": "説明文"}},
       {{"icon": "🏢", "title": "業務に即した文案", "desc": "説明文"}},
       {{"icon": "⚖️", "title": "法令・業界標準を踏まえた設計", "desc": "説明文"}},
       {{"icon": "💾", "title": "情報を保存・再利用", "desc": "説明文"}}
@@ -181,13 +181,13 @@ def generate_spec(slug: str, industry: str, docs: list[str], emoji: str,
         docs=", ".join(docs),
         emoji=emoji,
         product_name=product_name,
-        len=len,
+        docs_count=len(docs),
         target=f"{industry}の担当者・管理者",
         docs_str="・".join(docs),
     )
     for attempt in range(3):
         try:
-            raw = _gemini(prompt, api_key, max_tokens=8000)
+            raw = _gemini(prompt, api_key, max_tokens=16000)
             spec = _extract_json(raw)
             # Validate minimum required fields
             for required in ("tagline", "prompts", "form_fields", "icp"):

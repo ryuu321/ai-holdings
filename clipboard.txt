@@ -131,3 +131,93 @@ SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
 TOSTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/aFa3cv1jYaexf2a7WBabK0G"
 TOSTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/eVqcN52o2fyR07gccRabK0H"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Kangotext → kangotext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+=== ✅ Supabase SQL 自動実行済み ===
+
+=== (1) Streamlit Cloud → kangotext → Settings → Secrets にペースト → Save ===
+
+GEMINI_API_KEY = "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+KANGOTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/3cIfZhbYC5YhdY66SxabK0K"
+KANGOTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/bJedR99Qu2M53jsgt7abK0L"
+
+=== 自動完了済み ===
+  ✅ KANGOTEXT_SENT_LOG_GIST_ID = bb996fd920651f007bdd4b5b5bf8ab10
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Hoikutext → hoikutext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+=== ✅ Supabase SQL 自動実行済み ===
+
+=== (1) Streamlit Cloud → hoikutext → Settings → Secrets にペースト → Save ===
+
+GEMINI_API_KEY = "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+HOIKUTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/00wdR92o272laLUb8NabK0M"
+HOIKUTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/4gM7sL4waeuN5rA0u9abK0N"
+
+=== 自動完了済み ===
+  ✅ HOIKUTEXT_SENT_LOG_GIST_ID = afcaa6f95d8a1bd3d536db118c9589ea
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Shikatext → shikatext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+=== ✅ Supabase SQL 自動実行済み ===
+
+=== (1) Streamlit Cloud → shikatext → Settings → Secrets にペースト → Save ===
+
+GEMINI_API_KEY = "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+SHIKATEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/3cI9ATaUy2M56vE1ydabK0O"
+SHIKATEXT_STRIPE_PRO_URL = "https://buy.stripe.com/8x2cN5d2GbiB4nw3GlabK0P"
+
+=== 自動完了済み ===
+  ✅ SHIKATEXT_SENT_LOG_GIST_ID = 14e3f26fab7375a17b86acd18d9d334d
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Sekkotsutext → sekkotsutext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+=== ✅ Supabase SQL 自動実行済み ===
+
+=== (1) Streamlit Cloud → sekkotsutext → Settings → Secrets にペースト → Save ===
+
+GEMINI_API_KEY = "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+SEKKOTSUTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/4gMdR9geS72l4nw90FabK0Q"
+SEKKOTSUTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/cNi00jfaObiB9HQa4JabK0R"
+
+=== 自動完了済み ===
+  ✅ SEKKOTSUTEXT_SENT_LOG_GIST_ID = 262a5e03879693de358ad0aa2881a706
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Rifotext → rifotext.streamlit.app
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+=== ✅ Supabase SQL 自動実行済み ===
+
+=== (1) Streamlit Cloud → rifotext → Settings → Secrets にペースト → Save ===
+
+GEMINI_API_KEY = "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+SUPABASE_URL = "https://byzjkcywrhtmjicrrwfw.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
+SUPABASE_SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+RIFOTEXT_STRIPE_STANDARD_URL = "https://buy.stripe.com/14A3cv2o22M5dY690FabK0S"
+RIFOTEXT_STRIPE_PRO_URL = "https://buy.stripe.com/00w7sL6Ei2M5aLU2ChabK0T"
+
+=== 自動完了済み ===
+  ✅ RIFOTEXT_SENT_LOG_GIST_ID = 4c9877204ce4fe761e56a2e72a171790

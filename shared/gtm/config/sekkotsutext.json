@@ -1,0 +1,94 @@
+{
+  "project": "sekkotsutext",
+  "project_dir": "sekkotsutext",
+  "product_name": "Sekkotsutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://sekkotsutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/sekkotsutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "整骨院・接骨院の経営者、院長、または事務長。日々の書類作成業務に時間を取られ、患者対応や経営戦略に集中できないと感じている方。業務効率化や法令遵守に関心が高い。",
+    "document_types": [
+      "施術記録",
+      "同意書",
+      "保険申請書類",
+      "施術計画書"
+    ],
+    "company_name_hint_keywords": [
+      "整骨院",
+      "接骨院",
+      "治療院",
+      "鍼灸院",
+      "整体院",
+      "クリニック"
+    ],
+    "target_keywords": [
+      "整骨院 業務効率化",
+      "接骨院 書類作成",
+      "施術記録 AI",
+      "同意書 テンプレート",
+      "保険申請 業務",
+      "施術計画書 作成支援",
+      "整骨院 事務作業 削減",
+      "医療事務 AI",
+      "柔道整復師 書類"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com",
+      "ne.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/sekkotsutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "sekkotsutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/sekkotsutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/sekkotsutext/feedback_reports",
+  "feedback_prompt_context": "Sekkotsutextは整骨院・接骨院向けAI書類文案生成ツール。ユーザーは整骨院・接骨院の担当者・管理者。施術記録・同意書・保険申請書類・施術計画書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/4gMdR9geS72l4nw90FabK0Q",
+  "stripe_pro_url": "https://buy.stripe.com/cNi00jfaObiB9HQa4JabK0R",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "sekkotsutext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Sekkotsutextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。整骨院・接骨院の実務でご多忙のことと存じます。",
+    "personalize_prompt": "整骨院・接骨院「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+}
