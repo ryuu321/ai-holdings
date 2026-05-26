@@ -32,10 +32,14 @@ SLUG_DIR_MAP = {
     "fudotext": "fudosan-copy",
 }
 
-VALID_GEMINI_KEY   = "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
 SUPABASE_URL       = "https://byzjkcywrhtmjicrrwfw.supabase.co"
 SUPABASE_ANON_KEY  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
 SUPABASE_SVC_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+
+_KNOWN_BAD_KEYS = {
+    "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI",
+    "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE",
+}
 
 
 # ── ライブラリ確認 ────────────────────────────────────────────────────────────
@@ -158,10 +162,21 @@ def deploy_product(slug: str, hf_token: str, dry_run: bool = False) -> bool:
         print(f"  ❌ {src} が見つかりません（fudotextリポジトリ未生成）")
         return False
 
-    # Gemini キー（無効キーは有効キーで上書き）
-    gemini_key = cfg.get("gemini_api_key", VALID_GEMINI_KEY)
-    if gemini_key == "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI":
-        gemini_key = VALID_GEMINI_KEY
+    # Gemini キー（config JSONから取得、無効キーは gcp_pools.json にフォールバック）
+    gemini_key = cfg.get("gemini_api_key", "")
+    if not gemini_key or gemini_key in _KNOWN_BAD_KEYS:
+        pools_path = AI_HOLDINGS / "shared/gtm/config/gcp_pools.json"
+        try:
+            pools_data = json.loads(pools_path.read_text(encoding="utf-8"))
+            for pool in pools_data.get("pools", []):
+                if slug in pool.get("products", []):
+                    gemini_key = pool.get("api_key", "")
+                    break
+        except Exception:
+            pass
+    if not gemini_key or gemini_key in _KNOWN_BAD_KEYS:
+        gemini_key = ""
+        print(f"  ⚠️  有効なGemini APIキーが見つかりません")
 
     secrets = {
         "GEMINI_API_KEY":                       gemini_key,

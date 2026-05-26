@@ -77,5 +77,6 @@
     "subject": "【就業規則・助成金書類をAIで自動生成】SharoTextのご紹介",
     "fallback_opening": "平素より社会保険・労務管理業務でご尽力されていることと存じます。",
     "personalize_prompt": "社労士事務所「{company_name}」の先生・担当者向けに、就業規則や助成金申請書などの定型書類作成の手間を減らせるAIツールを紹介する書き出し文を1文で書いてください。丁寧な敬語で、押し付けがましくない自然な文体で。最大級表現（最高・最良・一番等）は使わないこと。"
-  }
+  },
+  "gemini_api_key": "AIzaSyARxwgjaWlMXjpUS1-zIlMkljWOsYNHxsM"
 }

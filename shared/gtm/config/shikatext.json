@@ -90,5 +90,5 @@
     "fallback_opening": "突然のご連絡をご容赦ください。歯科クリニックの実務でご多忙のことと存じます。",
     "personalize_prompt": "歯科クリニック「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyBEYO6UnCWpbJk8nBRY1ID49rEa08TKltE"
+  "gemini_api_key": "AIzaSyARxwgjaWlMXjpUS1-zIlMkljWOsYNHxsM"
 }

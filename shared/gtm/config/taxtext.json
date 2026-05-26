@@ -84,5 +84,6 @@
     "subject": "【経営計画書・融資資料の作成をAIで効率化】TaxTextのご紹介",
     "fallback_opening": "平素より税務・会計業務にご尽力されていることと存じます。",
     "personalize_prompt": "税理士事務所「{company_name}」の担当者に向けた、経営計画書・融資資料の作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
-  }
+  },
+  "gemini_api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s"
 }

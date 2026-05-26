@@ -1,0 +1,51 @@
+{
+  "products_per_pool": 5,
+  "pool_prefix": "textseries-pool-",
+  "pools": [
+    {
+      "project_id": "textseries-pool-001",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk",
+      "products": [
+        "caretext",
+        "churntext",
+        "fudotext",
+        "hoikutext",
+        "iintext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-002",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyD7ZIUSayJDfHF3J2bNfoZpLzy9usYUkEA",
+      "products": [
+        "jukutext",
+        "kangotext",
+        "kanritext",
+        "kentext",
+        "pharmtext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-003",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyARxwgjaWlMXjpUS1-zIlMkljWOsYNHxsM",
+      "products": [
+        "rifotext",
+        "sekkotsutext",
+        "sharotext",
+        "shikatext",
+        "shoshitext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-004",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s",
+      "products": [
+        "taxtext",
+        "tostext"
+      ]
+    }
+  ]
+}

@@ -88,5 +88,6 @@
     "subject": "【解約率を下げるAI文章生成】ChurnTextのご紹介",
     "fallback_opening": "平素よりサービス運営にご尽力されていることと存じます。",
     "personalize_prompt": "SaaS・サブスクサービスを運営する「{company_name}」のご担当者に向けた、解約対策への共感と課題提起の一文を書いてください。「御社のような〜」で始め、2文以内で。"
-  }
+  },
+  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk"
 }

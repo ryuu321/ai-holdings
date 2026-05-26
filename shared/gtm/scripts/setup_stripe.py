@@ -173,42 +173,48 @@ def set_github_secret(repo: str, secret_name: str, secret_value: str, token: str
 
 
 _GCLOUD_CMD = r"C:\Users\ryuuM\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+_POOLS_JSON = _CFG_DIR / "gcp_pools.json"
+
+# APIキー専用アカウント（表に出さない）
+_POOL_ACCOUNTS = [
+    "zhenbinglongsheng@gmail.com",
+    "longshengzhenbing07@gmail.com",
+]
+_PROJECT_CAP = 10
 
 
-def _gcloud(*args: str, timeout: int = 120) -> tuple[int, str]:
+def _gcloud(*args: str, account: str = None, timeout: int = 120) -> tuple[int, str]:
+    cmd = [_GCLOUD_CMD, *args]
+    if account:
+        cmd.append(f"--account={account}")
     result = subprocess.run(
-        [_GCLOUD_CMD, *args],
-        capture_output=True, text=True, timeout=timeout,
+        cmd, capture_output=True, text=True, timeout=timeout,
+        encoding="utf-8", errors="replace",
     )
     return result.returncode, result.stdout + result.stderr
 
 
-def create_gemini_api_key(project_id: str, display_name: str) -> str:
-    """事業専用GCPプロジェクトを新規作成してGemini APIキーを発行（無料・課金不要）。
-    gemini-2.5-flash を使うことで新規プロジェクトでもフリー枠が有効になる。
-    """
-    print(f"  GCPプロジェクト [{project_id}] を確認中...")
-    rc, out = _gcloud("projects", "describe", project_id, "--format=value(lifecycleState)")
-    state = out.strip()
+def _gcloud_project_count(account: str) -> int:
+    rc, out = _gcloud("projects", "list", "--format=value(projectId)", account=account)
+    return len([p for p in out.splitlines() if p.strip()])
 
-    if state == "ACTIVE":
-        print(f"  既存プロジェクトを再利用 (ACTIVE)")
-    elif state == "DELETE_REQUESTED":
-        print(f"  削除予約中のプロジェクトを復元中...")
-        rc2, out2 = _gcloud("projects", "undelete", project_id)
-        if rc2 != 0:
-            print(f"  復元失敗: {out2[:200]}")
-            return ""
-        import time; time.sleep(10)
-    else:
-        print(f"  新規作成中...")
-        rc2, out2 = _gcloud("projects", "create", project_id, f"--name={display_name}")
-        if rc2 != 0:
-            print(f"  プロジェクト作成失敗: {out2[:200]}")
+
+def _create_pool_project(pool_id: str, account: str) -> str:
+    """プールプロジェクトを新規作成し Gemini APIキーを返す。"""
+    import time
+
+    print(f"  プールプロジェクト [{pool_id}] を {account} で作成中...")
+    rc, out = _gcloud("projects", "create", pool_id, f"--name={pool_id}", "--quiet",
+                      account=account)
+    if rc != 0:
+        if "already in use" in out or "already exists" in out:
+            print(f"  プロジェクトは既に存在します。既存プロジェクトを再利用...")
+        else:
+            print(f"  プロジェクト作成失敗: {out[:200]}")
             return ""
 
-    # プロジェクト番号を取得（ID依存のDNS伝搬待ちを回避）
-    _, num_out = _gcloud("projects", "describe", project_id, "--format=value(projectNumber)")
+    _, num_out = _gcloud("projects", "describe", pool_id, "--format=value(projectNumber)",
+                         account=account)
     project_num = num_out.strip()
     if not project_num:
         print(f"  プロジェクト番号取得失敗")
@@ -216,25 +222,120 @@ def create_gemini_api_key(project_id: str, display_name: str) -> str:
 
     print(f"  Gemini API を有効化中...")
     rc, out = _gcloud("services", "enable", "generativelanguage.googleapis.com",
-                      f"--project={project_num}")
+                      f"--project={project_num}", account=account)
     if rc != 0:
         print(f"  API有効化失敗: {out[:200]}")
         return ""
 
     print(f"  APIキーを発行中...")
-    rc, out = _gcloud(
-        "alpha", "services", "api-keys", "create",
-        f"--project={project_num}",
-        f"--display-name={display_name}",
-        "--api-target=service=generativelanguage.googleapis.com",
+    before_rc, before_out = _gcloud(
+        "services", "api-keys", "list",
+        f"--project={project_num}", "--format=value(name)", account=account,
     )
-    m = re.search(r'"keyString":\s*"(AIza[^"]+)"', out)
-    if not m:
-        print(f"  キー取得失敗: {out[:200]}")
+    before = set(l for l in before_out.splitlines() if l.strip())
+
+    # 既存キーがあれば再利用
+    if before:
+        _, ks_out = _gcloud(
+            "services", "api-keys", "get-key-string",
+            list(before)[0], "--format=value(keyString)", account=account,
+        )
+        ks = ks_out.strip()
+        if ks and ks.startswith("AIzaSy"):
+            print(f"  既存キーを再利用: {ks[:20]}...")
+            return ks
+
+    _gcloud(
+        "services", "api-keys", "create",
+        f"--project={project_num}",
+        f"--display-name=textseries-pool",
+        "--quiet", account=account,
+    )
+
+    key_string = ""
+    for _ in range(6):
+        time.sleep(5)
+        rc, out = _gcloud(
+            "services", "api-keys", "list",
+            f"--project={project_num}", "--format=value(name)", account=account,
+        )
+        after = set(l for l in out.splitlines() if l.strip())
+        new_keys = after - before
+        if new_keys:
+            _, ks_out = _gcloud(
+                "services", "api-keys", "get-key-string",
+                list(new_keys)[0], "--format=value(keyString)", account=account,
+            )
+            key_string = ks_out.strip()
+            break
+
+    if not key_string:
+        print(f"  キー取得失敗")
         return ""
-    key = m.group(1)
-    print(f"  → 完了: {key[:20]}...")
-    return key
+    print(f"  → 完了: {key_string[:20]}...")
+    return key_string
+
+
+def get_pool_gemini_key(slug: str) -> str:
+    """
+    slug をプールプロジェクトにアサインし Gemini APIキーを返す。
+    プールは 5製品/プロジェクト。満杯なら新規プールを作成する。
+    """
+    pools_data = json.loads(_POOLS_JSON.read_text(encoding="utf-8"))
+    products_per_pool: int = pools_data.get("products_per_pool", 5)
+    pool_prefix: str = pools_data.get("pool_prefix", "textseries-pool-")
+    pools: list = pools_data.get("pools", [])
+
+    # 既にアサイン済みなら返す
+    for pool in pools:
+        if slug in pool.get("products", []):
+            key = pool.get("api_key", "")
+            if key:
+                print(f"  既存プール [{pool['project_id']}] のキーを使用")
+                return key
+
+    # 空きのあるプールを探す
+    for pool in pools:
+        if len(pool.get("products", [])) < products_per_pool:
+            pool["products"].append(slug)
+            _POOLS_JSON.write_text(
+                json.dumps(pools_data, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
+            print(f"  既存プール [{pool['project_id']}] に {slug} をアサイン")
+            return pool.get("api_key", "")
+
+    # 新しいプールを作成
+    pool_num = len(pools) + 1
+    pool_id = f"{pool_prefix}{pool_num:03d}"
+
+    chosen_account = ""
+    for account in _POOL_ACCOUNTS:
+        count = _gcloud_project_count(account)
+        if count < _PROJECT_CAP:
+            chosen_account = account
+            break
+
+    if not chosen_account:
+        print(f"  ⚠️  全APIアカウントがプロジェクト上限。.env のキーにフォールバック")
+        return ""
+
+    api_key = _create_pool_project(pool_id, chosen_account)
+    if not api_key:
+        return ""
+
+    new_pool = {
+        "project_id": pool_id,
+        "account": chosen_account,
+        "api_key": api_key,
+        "products": [slug],
+    }
+    pools.append(new_pool)
+    pools_data["pools"] = pools
+    _POOLS_JSON.write_text(
+        json.dumps(pools_data, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    print(f"  新規プール [{pool_id}] 作成 → {slug} をアサイン")
+    return api_key
 
 
 def run_supabase_sql(sql: str, access_token: str, project_ref: str) -> list[str]:
@@ -297,9 +398,8 @@ def main() -> None:
     supabase_key   = os.environ.get("SUPABASE_ANON_KEY", "")
     service_key    = os.environ.get("SUPABASE_SERVICE_KEY", "")
 
-    print(f"\nGemini APIキーを自動作成中...")
-    gcp_project_id = f"textseries-{args.project}-api"
-    gemini_key = create_gemini_api_key(gcp_project_id, product_name)
+    print(f"\nGemini APIキー（プール方式）を取得中...")
+    gemini_key = get_pool_gemini_key(args.project)
     if not gemini_key:
         gemini_key = os.environ.get("GEMINI_API_KEY", "")
         print(f"  .env の GEMINI_API_KEY にフォールバック")

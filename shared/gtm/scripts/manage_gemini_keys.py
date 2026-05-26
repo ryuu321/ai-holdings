@@ -175,15 +175,22 @@ def save_gemini_keys(valid_keys: list):
 
 # ── メイン処理 ───────────────────────────────────────────────────────────────
 
+def _is_textseries_project(project_id: str) -> bool:
+    """TextSeriesのプロジェクトのみ対象にする（gen-lang-client-* などは除外）"""
+    return project_id.startswith("textseries-")
+
+
 def collect_all_keys() -> list:
-    """全アカウント・全プロジェクトからキー文字列を収集"""
+    """TextSeriesプロジェクトのみからキー文字列を収集"""
     accounts = list_accounts()
     print(f"📋 gcloudアカウント: {accounts}")
     result = []  # [(account, project, key_name, key_string)]
 
     for account in accounts:
-        projects = list_projects(account)
-        print(f"\n👤 {account} → {len(projects)}プロジェクト")
+        all_projects = list_projects(account)
+        projects = [p for p in all_projects if _is_textseries_project(p)]
+        skipped = len(all_projects) - len(projects)
+        print(f"\n👤 {account} → {len(projects)}プロジェクト（非TextSeries {skipped}件をスキップ）")
         for project in projects:
             keys = list_keys(project, account)
             for key_name in keys:

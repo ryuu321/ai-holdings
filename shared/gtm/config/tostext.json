@@ -86,5 +86,5 @@
     "fallback_opening": "突然のご連絡をご容赦ください。塗装・防水工事の現場業務でご多忙のことと存じます。",
     "personalize_prompt": "塗装・防水工事会社「{company_name}」の経営者・担当者に向けた、工事書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI"
+  "gemini_api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s"
 }
