@@ -82,6 +82,5 @@
     "subject": "【業務効率化】特別養護老人ホームの書類作成をAIで30秒に - Tokuyoutextのご紹介",
     "fallback_opening": "突然のご連絡を失礼いたします。特別養護老人ホームの実務でご多忙のことと存じます。",
     "personalize_prompt": "特別養護老人ホーム「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
-  },
-  "gemini_api_key": "AIzaSyCC9ZWoPrKzkw5FsAQ2RQoBhFmiY-yoE-4"
+  }
 }

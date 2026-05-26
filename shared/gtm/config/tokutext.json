@@ -86,6 +86,5 @@
     "subject": "【介護書類の作成をAIで効率化】TokuTextのご紹介",
     "fallback_opening": "突然のご連絡をご容赦ください。介護施設の運営・記録業務でご多忙のことと存じます。",
     "personalize_prompt": "特別養護老人ホーム・介護施設「{company_name}」の施設長・ケアマネジャーに向けた、個別援助計画書・ヒヤリハット報告書等の記録業務への共感と課題提起の一文を書いてください。「御施設では〜」で始め、2文以内で。"
-  },
-  "gemini_api_key": "AIzaSyAnC1w70nWOa8Zgfo5QItysUdGF0pglKaw"
+  }
 }

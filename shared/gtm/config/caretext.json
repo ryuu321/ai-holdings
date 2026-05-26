@@ -84,7 +84,6 @@
     "fallback_opening": "平素より訪問介護業務にご尽力されていることと存じます。",
     "personalize_prompt": "訪問介護事業所「{company_name}」の管理者・サービス提供責任者に向けた、書類作成業務の負担への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyB6Cb7Cqza-M5hShpA53CzPjfKbJyS3eI4",
   "stripe_standard_url": "https://buy.stripe.com/3cI8wP9Qu86pf2a4KpabK0k",
   "stripe_pro_url": "https://buy.stripe.com/3cIaEXfaOeuN2fo90FabK0l"
 }

@@ -87,6 +87,5 @@
     "personalize_prompt": "調剤薬局「{company_name}」の薬剤師に向けた、薬歴記載・服薬指導記録の文書化業務の負担への共感と課題提起の一文を書いてください。「御局では〜」で始め、2文以内で。"
   },
   "stripe_standard_url": "https://buy.stripe.com/4gM00j8Mq1I1g6edgVabK0q",
-  "stripe_pro_url": "https://buy.stripe.com/00w4gz9QueuNbPYfp3abK0r",
-  "gemini_api_key": "AIzaSyBxeKcY46rBpKSFKXKOQix6rDiKhvKagSk"
+  "stripe_pro_url": "https://buy.stripe.com/00w4gz9QueuNbPYfp3abK0r"
 }

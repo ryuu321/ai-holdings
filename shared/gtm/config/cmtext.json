@@ -87,6 +87,5 @@
     "personalize_prompt": "居宅介護支援事業所「{company_name}」のケアマネジャーに向けた、ケアプラン作成・モニタリング記録など書類作成業務の負担への共感と課題提起の一文を書いてください。「御事業所では〜」で始め、2文以内で。"
   },
   "stripe_standard_url": "https://buy.stripe.com/cNiaEX1jY3Q96vE3GlabK0s",
-  "stripe_pro_url": "https://buy.stripe.com/3cI28r2o286p2foccRabK0t",
-  "gemini_api_key": "AIzaSyCIWL3LjQp882Fy8g1oyejFZvvLwIstlOQ"
+  "stripe_pro_url": "https://buy.stripe.com/3cI28r2o286p2foccRabK0t"
 }

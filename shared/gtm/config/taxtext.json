@@ -85,7 +85,6 @@
     "fallback_opening": "平素より税務・会計業務にご尽力されていることと存じます。",
     "personalize_prompt": "税理士事務所「{company_name}」の担当者に向けた、経営計画書・融資資料の作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyAJkP6PUg0M3Vkov0ciGOxlJPYxwwtRlP0",
   "stripe_standard_url": "https://buy.stripe.com/cNi9AT1jY5Yh2fo6SxabK3i",
   "stripe_pro_url": "https://buy.stripe.com/dRmaEX9QugCVcU21ydabK3j"
 }

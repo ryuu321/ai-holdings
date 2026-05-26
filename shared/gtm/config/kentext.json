@@ -90,7 +90,6 @@
     "fallback_opening": "平素より建設・施工管理業務でご尽力されていることと存じます。",
     "personalize_prompt": "建設会社「{company_name}」の現場監督・施工管理担当者に向けた、工事完了報告書の作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyBxeKcY46rBpKSFKXKOQix6rDiKhvKagSk",
   "stripe_standard_url": "https://buy.stripe.com/aFa14n0fUfyR7zI7WBabK28",
   "stripe_pro_url": "https://buy.stripe.com/bJeaEX4wa4Udg6e1ydabK29"
 }

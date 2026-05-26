@@ -86,6 +86,5 @@
     "personalize_prompt": "行政書士事務所「{company_name}」の担当者に向けた、申請書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
   "stripe_standard_url": "https://buy.stripe.com/9B66oHe6K0DXaLUgt7abK0i",
-  "stripe_pro_url": "https://buy.stripe.com/6oU9AT7ImbiB5rA4KpabK0j",
-  "gemini_api_key": "AIzaSyB97X4uiObyTkkxreCJjmbqku0mYMpETyE"
+  "stripe_pro_url": "https://buy.stripe.com/6oU9AT7ImbiB5rA4KpabK0j"
 }

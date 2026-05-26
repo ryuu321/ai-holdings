@@ -89,7 +89,6 @@
     "fallback_opening": "平素よりサービス運営にご尽力されていることと存じます。",
     "personalize_prompt": "SaaS・サブスクサービスを運営する「{company_name}」のご担当者に向けた、解約対策への共感と課題提起の一文を書いてください。「御社のような〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyB6Cb7Cqza-M5hShpA53CzPjfKbJyS3eI4",
   "stripe_standard_url": "https://buy.stripe.com/fZu7sLbYC72l9HQgt7abK0g",
   "stripe_pro_url": "https://buy.stripe.com/bJecN52o24Ud9HQgt7abK0h"
 }

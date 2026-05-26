@@ -83,6 +83,5 @@
     "subject": "【書類作成をAIで効率化】Braidaltextのご紹介",
     "fallback_opening": "突然のご連絡をご容赦ください。ブライダル会社の実務でご多忙のことと存じます。",
     "personalize_prompt": "ブライダル会社「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
-  },
-  "gemini_api_key": "AIzaSyB6Cb7Cqza-M5hShpA53CzPjfKbJyS3eI4"
+  }
 }

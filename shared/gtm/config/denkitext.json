@@ -88,6 +88,5 @@
     "personalize_prompt": "電気工事業者「{company_name}」の担当者に向けた、工事書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
   "stripe_standard_url": "https://buy.stripe.com/aFa4gz2o25Yh3jsccRabK0w",
-  "stripe_pro_url": "https://buy.stripe.com/aFa7sLgeSaexaLUdgVabK0x",
-  "gemini_api_key": "AIzaSyCcQD91CpP2GbbKJocl0N5wQzNb-653WOs"
+  "stripe_pro_url": "https://buy.stripe.com/aFa7sLgeSaexaLUdgVabK0x"
 }
