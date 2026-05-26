@@ -85,5 +85,5 @@
     "fallback_opening": "平素より司法書士業務にご尽力されていることと存じます。",
     "personalize_prompt": "司法書士事務所「{company_name}」の担当者に向けた、登記申請書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyARxwgjaWlMXjpUS1-zIlMkljWOsYNHxsM"
+  "gemini_api_key": "AIzaSyDBPWu5rFjXuuuPf_1BU-cMkL0HRCnrZLY"
 }

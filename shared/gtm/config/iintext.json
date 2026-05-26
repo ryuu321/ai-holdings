@@ -93,5 +93,5 @@
     "fallback_opening": "平素よりクリニックの運営にご尽力されていることと存じます。",
     "personalize_prompt": "クリニック「{company_name}」の院長・事務長に向けた、紹介状・診断書の作成業務への共感と課題提起の一文を書いてください。「御院では〜」で始め、2文以内で。"
   },
-  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk"
+  "gemini_api_key": "AIzaSyB6Cb7Cqza-M5hShpA53CzPjfKbJyS3eI4"
 }
