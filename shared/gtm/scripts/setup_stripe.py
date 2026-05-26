@@ -509,13 +509,12 @@ CREATE POLICY "anon_select" ON {p}_feedback FOR SELECT TO anon USING (true);"""
         except Exception as e:
             print(f"  Secrets登録失敗（手動で登録してください）: {e}")
 
-    # config JSON に gemini_api_key と stripe_standard/pro_url を永続化
-    cfg["gemini_api_key"] = gemini_key
+    # config JSON に stripe URL を永続化（gemini_api_key はgcp_pools.jsonで管理するため書かない）
     cfg["stripe_standard_url"] = urls["standard"]
     cfg["stripe_pro_url"] = urls["pro"]
     with open(cfg_path, "w", encoding="utf-8") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
-    print(f"  → config JSON に gemini_api_key / stripe URL を保存")
+    print(f"  → config JSON に stripe URL を保存")
 
     # clipboard.txt に追記（上書きしない）
     clipboard_path = _ROOT / "clipboard.txt"
