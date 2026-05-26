@@ -1,0 +1,92 @@
+{
+  "project": "yakuzaishitext",
+  "project_dir": "yakuzaishitext",
+  "product_name": "Yakuzaishitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://yakuzaishitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/yakuzaishitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "病院薬剤部に勤務する薬剤師、特に管理薬剤師や病棟薬剤師。日常的に持参薬鑑別報告書、処方提案書、服薬指導記録などの書類作成に時間を費やしている方。",
+    "document_types": [
+      "持参薬鑑別報告書",
+      "処方提案書",
+      "服薬指導記録"
+    ],
+    "company_name_hint_keywords": [
+      "病院",
+      "医療センター",
+      "クリニック",
+      "総合病院",
+      "大学病院",
+      "薬剤部",
+      "医療法人"
+    ],
+    "target_keywords": [
+      "病院薬剤師 業務効率化",
+      "持参薬鑑別 報告書 テンプレート",
+      "処方提案書 書き方",
+      "服薬指導記録 AI",
+      "薬剤部 書類作成 支援",
+      "薬剤師 文書作成 自動化"
+    ],
+    "good_domain_suffixes": [
+      "or.jp",
+      "go.jp",
+      "ac.jp",
+      "hosp.jp",
+      "med.or.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/yakuzaishitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "yakuzaishitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/yakuzaishitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/yakuzaishitext/feedback_reports",
+  "feedback_prompt_context": "Yakuzaishitextは薬剤師（病院薬剤部）向けAI書類文案生成ツール。ユーザーは病院薬剤部の担当薬剤師・管理薬剤師。持参薬鑑別報告書・処方提案書・服薬指導記録の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/7sY9ATgeSgCV9HQccRabK3q",
+  "stripe_pro_url": "https://buy.stripe.com/bJe4gz0fUeuNf2a0u9abK3r",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "yakuzaishitext_sequence_1.txt",
+    "subject": "【📄書類作成をAIで効率化】Yakuzaishitextのご紹介 - 病院薬剤師の負担軽減へ",
+    "fallback_opening": "突然のご連絡をご容赦ください。病院薬剤部での実務でご多忙のことと存じます。",
+    "personalize_prompt": "病院薬剤部「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB3ChYOhPaQz5m-WxNO6FcC1HwTKGL2HSc"
+}

@@ -1,0 +1,90 @@
+{
+  "project": "hakentext",
+  "project_dir": "hakentext",
+  "product_name": "Hakentext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://hakentext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/hakentext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "人材派遣会社の営業担当者、労務担当者、または管理職。書類作成業務の効率化や法令遵守に課題を感じている。",
+    "document_types": [
+      "派遣契約書",
+      "就業条件明示書",
+      "スタッフ評価報告書"
+    ],
+    "company_name_hint_keywords": [
+      "人材派遣",
+      "人材紹介",
+      "アウトソーシング",
+      "HR",
+      "ワーク",
+      "スタッフ",
+      "キャリア"
+    ],
+    "target_keywords": [
+      "派遣契約書 作成",
+      "就業条件明示書 テンプレート",
+      "スタッフ評価シート",
+      "派遣管理システム",
+      "労務管理 派遣",
+      "派遣法 改正",
+      "派遣業務 効率化",
+      "派遣会社 書類作成",
+      "派遣先管理台帳"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/hakentext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "hakentext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/hakentext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/hakentext/feedback_reports",
+  "feedback_prompt_context": "Hakentextは人材派遣会社向けAI書類文案生成ツール。ユーザーは人材派遣会社の担当者・管理者。派遣契約書・就業条件明示書・スタッフ評価報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/3cIeVd7ImgCV6vE90FabK1E",
+  "stripe_pro_url": "https://buy.stripe.com/8x29AT4wa5YhcU27WBabK1F",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "hakentext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Hakentextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。人材派遣会社の実務でご多忙のことと存じます。",
+    "personalize_prompt": "人材派遣会社「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s"
+}

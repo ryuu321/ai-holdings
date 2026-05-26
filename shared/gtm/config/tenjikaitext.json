@@ -1,0 +1,91 @@
+{
+  "project": "tenjikaitext",
+  "project_dir": "tenjikaitext",
+  "product_name": "Tenjikaitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://tenjikaitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/tenjikaitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "展示会・見本市運営会社の企画・営業・運営担当者。日々、多岐にわたるイベントの書類作成に多くの時間を費やし、本来の業務に集中できていないと感じている。業務効率化ツールやAI活用に関心があり、新しいテクノロジーを積極的に導入したいと考えている。",
+    "document_types": [
+      "出展者向け説明資料",
+      "運営マニュアル",
+      "実施報告書"
+    ],
+    "company_name_hint_keywords": [
+      "EXPO",
+      "見本市",
+      "展示会",
+      "イベント",
+      "コンベンション",
+      "トレードショー",
+      "事務局",
+      "運営",
+      "企画"
+    ],
+    "target_keywords": [
+      "展示会 運営 効率化",
+      "見本市 書類作成 AI",
+      "イベント マニュアル 自動生成",
+      "出展者資料 テンプレート",
+      "実施報告書 作成 支援",
+      "イベント主催 業務効率",
+      "コンベンション 企画支援",
+      "展示会 事務局 ツール"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/tenjikaitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "tenjikaitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/tenjikaitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/tenjikaitext/feedback_reports",
+  "feedback_prompt_context": "Tenjikaitextは展示会・見本市運営会社向けAI書類文案生成ツール。ユーザーは展示会・見本市運営会社の担当者・管理者。出展者向け説明資料・運営マニュアル・実施報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/8x228r6EibiB2fo5OtabK3k",
+  "stripe_pro_url": "https://buy.stripe.com/28E7sL8MqcmF7zI7WBabK3l",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "tenjikaitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Tenjikaitextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。展示会・見本市運営会社の実務でご多忙のことと存じます。",
+    "personalize_prompt": "展示会・見本市運営会社「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAhfiSU42A8q3OZ1xQAn9qC2oERe40_ibU"
+}

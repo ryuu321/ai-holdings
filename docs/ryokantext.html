@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ryokantext — 宿泊プラン説明文・クレーム対応文書をAIで30秒に</title>
+  <meta name="description" content="旅館・ホテル特化型AIが、必要な情報を入力するだけで30秒で文案生成。業務効率を劇的に改善します。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #1a4a7a 0%, #1a4a7acc 100%); }
+    .feature-card:hover { transform: translateY(-4px); transition: transform 0.2s; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <header class="gradient-hero text-white py-20 px-6 text-center">
+    <p class="text-blue-200 text-sm font-medium mb-4 tracking-widest uppercase">旅館・ホテル向けAI書類ジェネレーター</p>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      宿泊プラン、クレーム対応、館内規定…書類作成にまだ時間と手間をかけていますか？
+    </h1>
+    <p class="text-xl text-blue-100 mb-10 max-w-xl mx-auto">
+      旅館・ホテル特化型AIが、必要な情報を入力するだけで30秒で文案生成。業務効率を劇的に改善します。<br>
+      宿泊プラン説明文・クレーム対応文書・館内規定が自動で完成。
+    </p>
+    <a href="https://ryokantext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      無料で試してみる
+    </a>
+    <p class="text-blue-200 text-sm mt-4">クレジットカード不要・登録不要・5件まで無料</p>
+  </header>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10 text-gray-700">こんな悩み、ありませんか？</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⏰</div>
+          <p class="font-semibold mb-1">作成に時間がかかる</p>
+          <p class="text-gray-500 text-sm">宿泊プランの企画から文案作成、クレーム対応の文面考案など、多忙な業務の中で書類作成に多くの時間を費やしていませんか？</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">📋</div>
+          <p class="font-semibold mb-1">毎回ゼロから作成</p>
+          <p class="text-gray-500 text-sm">過去の資料を探したり、毎回一から文面を考えたり。定型業務にも関わらず、非効率な作業に悩んでいませんか？</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">😓</div>
+          <p class="font-semibold mb-1">適切な表現に悩む</p>
+          <p class="text-gray-500 text-sm">お客様への丁寧な言葉遣い、クレーム対応での誠意ある表現、館内規定の分かりやすさなど、文面作成の難しさに直面していませんか？</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Ryokantext が解決します</h2>
+      <p class="text-gray-500 mb-12">業界の実務を知ったAIが、現場で使える書類の文案を自動で仕上げます</p>
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">📂</div>
+          <h3 class="font-bold text-lg mb-2">3書類種別に対応</h3>
+          <p class="text-gray-600 text-sm">宿泊プラン説明文、クレーム対応文書、館内規定の主要3書類に対応。旅館・ホテルの多様なニーズに応えます。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">🏢</div>
+          <h3 class="font-bold text-lg mb-2">業務に即した文案</h3>
+          <p class="text-gray-600 text-sm">旅館・ホテル業界の専門知識と慣習に基づいたAIが、貴施設の業務に最適な文案を生成します。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">⚖️</div>
+          <h3 class="font-bold text-lg mb-2">品格と配慮を両立</h3>
+          <p class="text-gray-600 text-sm">お客様への配慮と施設の品格を保ちつつ、法令や業界標準を踏まえた、信頼性の高い文案を提供します。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">💾</div>
+          <h3 class="font-bold text-lg mb-2">情報を保存・再利用</h3>
+          <p class="text-gray-600 text-sm">一度入力した施設情報や過去の書類は保存され、次回以降の作成時に再利用可能。効率がさらに向上します。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-12">使い方はシンプル</h2>
+      <div class="space-y-8">
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div>
+            <p class="font-semibold text-lg">書類種別・必要情報を入力</p>
+            <p class="text-gray-500 text-sm">書類の種類と必要情報を入力（1〜2分）</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div>
+            <p class="font-semibold text-lg">AIが文案を自動生成（30秒）</p>
+            <p class="text-gray-500 text-sm">必要な記載事項を含む文案を30秒で生成</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div>
+            <p class="font-semibold text-lg">確認・修正して完成</p>
+            <p class="text-gray-500 text-sm">生成された文案を確認し、固有名詞・数値・日付を追記して完成</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">対応書類一覧</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-left">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-2">お客様向け書類</p>
+          <ul class="text-gray-600 text-sm space-y-1"><li>• 宿泊プラン説明文</li><li>• 館内規定</li></ul>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-2">対応文書</p>
+          <ul class="text-gray-600 text-sm space-y-1"><li>• クレーム対応文書</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">料金プラン</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">無料トライアル</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-4">5件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ 全3書類種別に対応</li>
+            <li>✓ 登録不要</li>
+          </ul>
+        </div>
+        <div class="bg-blue-700 text-white rounded-xl p-6 shadow-lg border border-blue-600">
+          <p class="text-blue-200 text-sm mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980<span class="text-lg font-normal">/月</span></p>
+          <p class="text-blue-200 text-sm mb-4">月50件まで</p>
+          <ul class="text-blue-100 text-sm text-left space-y-1">
+            <li>✓ 全機能利用可能</li>
+            <li>✓ 生成履歴の閲覧</li>
+            <li>✓ 情報の保存・再利用</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800<span class="text-lg font-normal">/月</span></p>
+          <p class="text-gray-400 text-sm mb-4">月200件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 大量・高頻度利用に対応</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8">
+        <a href="https://ryokantext.streamlit.app"
+           target="_blank"
+           class="inline-block bg-blue-700 hover:bg-blue-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+          無料で試してみる
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-10 text-center">よくある質問</h2>
+      <div class="space-y-4">
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">生成した書類をそのまま使えますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">Ryokantextが生成する書類はドラフトです。最終的な利用にあたっては、必ず貴施設の担当者による内容確認・修正をお願いいたします。特にクレーム対応文書や館内規定など、法的な側面やお客様との関係に影響する可能性のある書類は、専門家による確認を強く推奨します。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">入力した情報は安全ですか？</summary>
+          <p class="text-gray-600 text-sm mt-3">お客様がRyokantextに入力された情報は、AIによる文案生成のためにのみ使用されます。厳重なセキュリティ対策を講じており、お客様のデータが第三者に漏洩することや、AIの学習データとして利用されることはございません。安心してご利用いただけます。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 gradient-hero text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">まずは無料でお試しください</h2>
+    <p class="text-blue-100 mb-8">クレジットカード不要・登録不要・5件まで完全無料</p>
+    <a href="https://ryokantext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      Ryokantextを試してみる
+    </a>
+  </section>
+
+  <footer class="py-12 px-6 bg-gray-900 text-gray-400 text-sm">
+    <div class="max-w-3xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <p class="font-bold text-white text-lg mb-1">🏯 Ryokantext</p>
+        <p>旅館・ホテル向けAI書類ジェネレーター</p>
+      </div>
+      <div class="text-right">
+        <p>© 2026 TextSeries</p>
+        <p class="mt-1"><a href="mailto:ryuumg03@gmail.com" class="hover:text-white">ryuumg03@gmail.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

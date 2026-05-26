@@ -1,0 +1,44 @@
+name: deliverytext-feedback-pdca
+
+on:
+  schedule:
+    - cron: "0 20 * * 0"  # 毎週日曜 UTC 20:00（月曜 JST 5:00）
+  workflow_dispatch:
+
+jobs:
+  pdca:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install python-dotenv
+
+      - name: Fetch and analyze feedback
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.DELIVERYTEXT_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.DELIVERYTEXT_SUPABASE_ANON_KEY }}
+        run: python shared/gtm/outreach/analyze_feedback.py --project deliverytext
+
+      - name: Commit report
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add saas-dev/projects/deliverytext/feedback_reports/ || true
+          git diff --staged --quiet || git commit -m "deliverytext: フィードバック分析レポート $(date -u '+%Y-%m-%d') [skip ci]"
+          git pull --rebase -X theirs
+          git push
+
+      - name: Apply PDCA improvements to gen.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FUDOTEXT_PAT: ${{ secrets.FUDOTEXT_PAT }}
+        run: python shared/gtm/scripts/apply_pdca.py --project deliverytext

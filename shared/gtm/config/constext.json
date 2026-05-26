@@ -1,0 +1,90 @@
+{
+  "project": "constext",
+  "project_dir": "constext",
+  "product_name": "Constext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://constext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/constext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "中小〜大手コンサルティング会社のプロジェクトマネージャー、コンサルタント、または管理職。日常的にクライアント向けの提案書や報告書作成に時間を費やしている方。",
+    "document_types": [
+      "提案書",
+      "業務改善計画書",
+      "プロジェクト完了報告書"
+    ],
+    "company_name_hint_keywords": [
+      "コンサルティング",
+      "ソリューション",
+      "パートナーズ",
+      "ストラテジー",
+      "アドバイザリー",
+      "マネジメント",
+      "ファーム"
+    ],
+    "target_keywords": [
+      "コンサルティング 提案書 作成 効率化",
+      "業務改善計画書 テンプレート AI",
+      "プロジェクト完了報告書 自動生成",
+      "コンサルタント 書類作成 時間短縮",
+      "経営コンサルティング 業務効率",
+      "ITコンサルティング ドキュメント作成",
+      "戦略コンサルティング 報告書",
+      "コンサルティングファーム ツール",
+      "コンサルティング業務 支援AI"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/constext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "constext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/constext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/constext/feedback_reports",
+  "feedback_prompt_context": "Constextはコンサルティング会社向けAI書類文案生成ツール。ユーザーはコンサルティング会社の担当者・管理者。提案書・業務改善計画書・プロジェクト完了報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/8x23cv8Mq72l6vE0u9abK14",
+  "stripe_pro_url": "https://buy.stripe.com/5kQeVd6Ei0DX5rAb8NabK15",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "constext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Constextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。コンサルティング会社の実務でご多忙のことと存じます。",
+    "personalize_prompt": "コンサルティング会社「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk"
+}

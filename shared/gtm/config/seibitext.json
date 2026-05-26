@@ -1,0 +1,94 @@
+{
+  "project": "seibitext",
+  "project_dir": "seibitext",
+  "product_name": "Seibitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://seibitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/seibitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "自動車整備工場、カーディーラーのサービス部門、板金塗装工場などの経営者、工場長、サービスフロント担当者。",
+    "document_types": [
+      "点検整備記録簿",
+      "顧客向け整備説明書",
+      "見積書"
+    ],
+    "company_name_hint_keywords": [
+      "自動車",
+      "モータース",
+      "カー",
+      "車検",
+      "整備",
+      "板金",
+      "塗装",
+      "サービス",
+      "修理"
+    ],
+    "target_keywords": [
+      "自動車整備 書類作成 効率化",
+      "整備記録簿 自動作成",
+      "顧客説明書 AI",
+      "見積書 作成 整備工場",
+      "整備業務 効率化 ツール",
+      "車検 書類作成 時間短縮",
+      "自動車修理工場 業務改善",
+      "サービスフロント 効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "アルバイト",
+      "採用"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/seibitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "seibitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/seibitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/seibitext/feedback_reports",
+  "feedback_prompt_context": "Seibitextは自動車整備業向けAI書類文案生成ツール。ユーザーは自動車整備業の担当者・管理者。点検整備記録簿・顧客向け整備説明書・見積書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/cNicN5bYCdqJg6e0u9abK2I",
+  "stripe_pro_url": "https://buy.stripe.com/14A7sL5Ae5Yh8DM1ydabK2J",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "seibitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】自動車整備業向けSeibitextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。自動車整備業の実務でご多忙のことと存じます。",
+    "personalize_prompt": "自動車整備業「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw"
+}

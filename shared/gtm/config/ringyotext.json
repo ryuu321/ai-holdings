@@ -1,0 +1,90 @@
+{
+  "project": "ringyotext",
+  "project_dir": "ringyotext",
+  "product_name": "Ringyotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://ringyotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/ringyotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "林業・製材業の現場担当者、管理者、経営者。特に、書類作成業務に時間を要している方や、法改正・業界標準への対応に課題を感じている方。",
+    "document_types": [
+      "施業計画書",
+      "森林経営計画書",
+      "木材出荷記録"
+    ],
+    "company_name_hint_keywords": [
+      "林業",
+      "製材",
+      "森林",
+      "木材",
+      "山林",
+      "協同組合",
+      "製材所",
+      "木材加工"
+    ],
+    "target_keywords": [
+      "施業計画書 作成",
+      "森林経営計画書 テンプレート",
+      "木材出荷管理",
+      "林業 効率化",
+      "製材業 DX",
+      "林業 書類作成 支援",
+      "森林組合 業務効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/ringyotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "ringyotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/ringyotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/ringyotext/feedback_reports",
+  "feedback_prompt_context": "Ringyotextは林業・製材業者向けAI書類文案生成ツール。ユーザーは林業・製材業者の担当者・管理者。施業計画書・森林経営計画書・木材出荷記録の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/dRmbJ11jYgCVcU290FabK2A",
+  "stripe_pro_url": "https://buy.stripe.com/00wdR9geS3Q91bkdgVabK2B",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "ringyotext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Ringyotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。林業・製材業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "林業・製材業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBiwwEqVT3otQMInWgtFuJCBPBTqrypRjs"
+}

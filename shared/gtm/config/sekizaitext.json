@@ -1,0 +1,92 @@
+{
+  "project": "sekizaitext",
+  "project_dir": "sekizaitext",
+  "product_name": "Sekizaitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://sekizaitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/sekizaitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "石材・墓石業者で、施主との契約や工事に関する書類作成を担当する担当者、あるいは経営者。",
+    "document_types": [
+      "施工説明書",
+      "完成報告書",
+      "見積書"
+    ],
+    "company_name_hint_keywords": [
+      "石材",
+      "墓石",
+      "石工",
+      "霊園",
+      "墓地",
+      "供養",
+      "石材店"
+    ],
+    "target_keywords": [
+      "石材店",
+      "墓石",
+      "霊園",
+      "墓地",
+      "供養",
+      "墓じまい",
+      "永代供養",
+      "墓石リフォーム",
+      "石材工事",
+      "石材販売",
+      "石材加工"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/sekizaitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "sekizaitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/sekizaitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/sekizaitext/feedback_reports",
+  "feedback_prompt_context": "Sekizaitextは石材・墓石業者向けAI書類文案生成ツール。ユーザーは石材・墓石業者の担当者・管理者。施工説明書・完成報告書・見積書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/bJe8wPbYCcmF6vE90FabK2O",
+  "stripe_pro_url": "https://buy.stripe.com/aFacN5geS0DX5rAgt7abK2P",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "sekizaitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Sekizaitextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。石材・墓石業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "石材・墓石業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw"
+}

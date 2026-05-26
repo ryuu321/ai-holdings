@@ -1,0 +1,89 @@
+{
+  "project": "haikitext",
+  "project_dir": "haikitext",
+  "product_name": "Haikitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://haikitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/haikitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "産業廃棄物処理業者の経営者、管理者、または実務担当者。日常的に複雑な書類作成に時間を取られ、法令改正への対応や業務効率化に課題を感じている方。",
+    "document_types": [
+      "廃棄物処理計画書",
+      "マニフェスト管理報告書",
+      "業務実績報告書"
+    ],
+    "company_name_hint_keywords": [
+      "環境",
+      "リサイクル",
+      "クリーン",
+      "資源",
+      "廃棄物",
+      "処理",
+      "収集運搬"
+    ],
+    "target_keywords": [
+      "廃棄物処理計画書 作成",
+      "マニフェスト管理 効率化",
+      "産業廃棄物 報告書 AI",
+      "廃棄物処理 業務改善",
+      "産廃 書類作成 ツール",
+      "廃棄物処理法 改正 対応",
+      "電子マニフェスト 導入",
+      "環境コンプライアンス 支援"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/haikitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "haikitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/haikitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/haikitext/feedback_reports",
+  "feedback_prompt_context": "Haikitextは産業廃棄物処理業者向けAI書類文案生成ツール。ユーザーは産業廃棄物処理業者の担当者・管理者。廃棄物処理計画書・マニフェスト管理報告書・業務実績報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/4gMbJ14wabiB07gdgVabK1C",
+  "stripe_pro_url": "https://buy.stripe.com/5kQaEXfaO4UdaLUa4JabK1D",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "haikitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Haikitextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。産業廃棄物処理業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "産業廃棄物処理業者「{company_name}」の担当者に向けた、廃棄物処理計画書やマニフェスト管理報告書の作成業務における共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s"
+}

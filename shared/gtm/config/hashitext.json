@@ -1,0 +1,96 @@
+{
+  "project": "hashitext",
+  "project_dir": "hashitext",
+  "product_name": "Hashitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://hashitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/hashitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "橋梁・鋼構造物工事の現場監督、品質管理担当者、施工管理技士、またはその管理職。書類作成業務に多くの時間を費やし、効率化を求めている。",
+    "document_types": [
+      "品質管理計画書",
+      "完成検査記録書",
+      "施工報告書"
+    ],
+    "company_name_hint_keywords": [
+      "建設",
+      "工業",
+      "橋梁",
+      "鋼構造",
+      "土木",
+      "エンジニアリング",
+      "コンストラクション",
+      "製作所"
+    ],
+    "target_keywords": [
+      "品質管理計画書 作成",
+      "完成検査記録書 書き方",
+      "施工報告書 テンプレート",
+      "橋梁工事 書類作成",
+      "鋼構造物 品質管理",
+      "建設業 書類効率化",
+      "施工管理 AI",
+      "建設DX 書類",
+      "工事書類 自動生成",
+      "現場書類 効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "資格",
+      "研修"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/hashitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "hashitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/hashitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/hashitext/feedback_reports",
+  "feedback_prompt_context": "Hashitextは建設業（橋梁・鋼構造物）向けAI書類文案生成ツール。ユーザーは橋梁・鋼構造物工事の現場監督、品質管理担当者、施工管理技士。品質管理計画書・完成検査記録書・施工報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/aFa4gz1jYgCV7zIdgVabK1G",
+  "stripe_pro_url": "https://buy.stripe.com/14A00jd2G2M53jsfp3abK1H",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "hashitext_sequence_1.txt",
+    "subject": "【建設業（橋梁・鋼構造物）の書類作成をAIで効率化】Hashitextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。建設業（橋梁・鋼構造物）の実務でご多忙のことと存じます。",
+    "personalize_prompt": "建設業（橋梁・鋼構造物）「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAoHzAL_gqxisvWnw2Uxo43NxGK1zXdNUE"
+}

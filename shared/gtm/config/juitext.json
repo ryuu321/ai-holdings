@@ -1,0 +1,89 @@
+{
+  "project": "juitext",
+  "project_dir": "juitext",
+  "product_name": "Juitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://juitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/juitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "動物病院の院長、事務長、または書類作成業務を担当する獣医師や動物看護師。日々の業務で発生する多岐にわたる書類作成に時間を取られ、本来の診療業務に集中できていないと感じている方。",
+    "document_types": [
+      "診療記録",
+      "飼い主向け説明書",
+      "予防接種管理表"
+    ],
+    "company_name_hint_keywords": [
+      "動物病院",
+      "アニマルクリニック",
+      "獣医",
+      "ペットクリニック",
+      "総合動物病院"
+    ],
+    "target_keywords": [
+      "動物病院 書類作成 効率化",
+      "獣医 診療記録 AI",
+      "動物病院 飼い主説明書 自動生成",
+      "予防接種管理表 テンプレート",
+      "獣医療 事務作業 削減",
+      "動物病院 業務改善",
+      "獣医 AIツール"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "ブログ"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/juitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "juitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/juitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/juitext/feedback_reports",
+  "feedback_prompt_context": "Juitextは獣医師・動物病院向けAI書類文案生成ツール。ユーザーは動物病院の院長、事務長、または書類作成業務を担当する獣医師や動物看護師。診療記録・飼い主向け説明書・予防接種管理表の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/28EcN5geS5Yh9HQ3GlabK1U",
+  "stripe_pro_url": "https://buy.stripe.com/00weVdd2GbiBaLU3GlabK1V",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "juitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Juitextのご紹介 - 獣医師・動物病院向け",
+    "fallback_opening": "突然のご連絡をご容赦ください。獣医師・動物病院の実務でご多忙のことと存じます。",
+    "personalize_prompt": "獣医師・動物病院「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAoHzAL_gqxisvWnw2Uxo43NxGK1zXdNUE"
+}

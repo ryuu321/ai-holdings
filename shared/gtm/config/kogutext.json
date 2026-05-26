@@ -1,0 +1,91 @@
+{
+  "project": "kogutext",
+  "project_dir": "kogutext",
+  "product_name": "Kogutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://kogutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/kogutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "機械工具卸売業者の営業担当者、営業企画担当者、または経営者。日々の書類作成業務に時間を取られ、効率化を求めている方。",
+    "document_types": [
+      "商品仕様説明書",
+      "導入事例資料",
+      "見積書"
+    ],
+    "company_name_hint_keywords": [
+      "機械工具",
+      "産業機械",
+      "工具商",
+      "金物",
+      "専門商社",
+      "卸売",
+      "販売"
+    ],
+    "target_keywords": [
+      "機械工具 卸売 営業",
+      "工具 商社 効率化",
+      "見積書 作成 ツール",
+      "商品仕様書 自動生成",
+      "導入事例 作成 効率",
+      "営業資料 AI",
+      "機械部品 卸売 業務効率"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "個人"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/kogutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "kogutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/kogutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/kogutext/feedback_reports",
+  "feedback_prompt_context": "Kogutextは機械工具卸売業者向けAI書類文案生成ツール。ユーザーは機械工具卸売業者の営業担当者・管理者。商品仕様説明書・導入事例資料・見積書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/bJe8wP1jYeuN6vEgt7abK2a",
+  "stripe_pro_url": "https://buy.stripe.com/00w9AT1jY0DXaLUb8NabK2b",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "kogutext_sequence_1.txt",
+    "subject": "【⚙️書類作成をAIで効率化】機械工具卸売業向けKogutextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。機械工具卸売業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "機械工具卸売業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCaueIfs5_zBQyvxhCNz7BNSnj3yPIbVgg"
+}

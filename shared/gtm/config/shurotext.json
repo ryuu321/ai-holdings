@@ -1,0 +1,91 @@
+{
+  "project": "shurotext",
+  "project_dir": "shurotext",
+  "product_name": "Shurotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://shurotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/shurotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "障害者就労支援B型事業所の管理者、サービス管理責任者、就労支援員。日々の書類作成業務に多くの時間と労力を費やし、効率化を求めている方。",
+    "document_types": [
+      "個別支援計画",
+      "就労記録",
+      "利用者評価報告書"
+    ],
+    "company_name_hint_keywords": [
+      "就労支援",
+      "ワーク",
+      "サポート",
+      "福祉",
+      "センター",
+      "工房",
+      "事業所",
+      "生活介護",
+      "地域活動"
+    ],
+    "target_keywords": [
+      "就労継続支援B型 書類作成",
+      "個別支援計画 効率化",
+      "就労記録 自動生成",
+      "利用者評価報告書 テンプレート",
+      "サービス管理責任者 業務効率化",
+      "障害福祉サービス 書類負担軽減",
+      "就労支援B型 AIツール",
+      "福祉事業所 書類作成支援"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/shurotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "shurotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/shurotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/shurotext/feedback_reports",
+  "feedback_prompt_context": "Shurotextは障害者就労支援B型向けAI書類文案生成ツール。ユーザーは障害者就労支援B型の担当者・管理者。個別支援計画・就労記録・利用者評価報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/aFa9AT4waeuN07g7WBabK32",
+  "stripe_pro_url": "https://buy.stripe.com/7sY4gzd2G0DX5rA4KpabK33",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "shurotext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Shurotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。障害者就労支援B型の実務でご多忙のことと存じます。",
+    "personalize_prompt": "障害者就労支援B型「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAhfiSU42A8q3OZ1xQAn9qC2oERe40_ibU"
+}

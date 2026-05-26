@@ -1,0 +1,87 @@
+{
+  "project": "shushokutext",
+  "project_dir": "shushokutext",
+  "product_name": "Shushokutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://shushokutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/shushokutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "キャリアアドバイザー、人材紹介コンサルタント、就職支援部門のマネージャー、または就職支援会社の経営者",
+    "document_types": [
+      "キャリアプラン提案書",
+      "就職活動報告書",
+      "面談記録"
+    ],
+    "company_name_hint_keywords": [
+      "人材紹介",
+      "キャリア支援",
+      "就職支援",
+      "転職エージェント",
+      "人材サービス",
+      "キャリアコンサルティング"
+    ],
+    "target_keywords": [
+      "就職支援 業務効率化",
+      "キャリアコンサルタント 書類作成",
+      "人材紹介 報告書 自動化",
+      "面談記録 AI",
+      "採用支援 提案書",
+      "人材ビジネス DX",
+      "キャリア支援 ツール"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/shushokutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "shushokutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/shushokutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/shushokutext/feedback_reports",
+  "feedback_prompt_context": "Shushokutextは就職支援会社向けAI書類文案生成ツール。ユーザーは就職支援会社の担当者・管理者。キャリアプラン提案書・就職活動報告書・面談記録の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/8x25kD3s686pg6e0u9abK34",
+  "stripe_pro_url": "https://buy.stripe.com/00w9AT6Ei2M5cU2fp3abK35",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "shushokutext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Shushokutextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。就職支援会社の実務でご多忙のことと存じます。",
+    "personalize_prompt": "就職支援会社「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAhfiSU42A8q3OZ1xQAn9qC2oERe40_ibU"
+}

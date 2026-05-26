@@ -1,0 +1,87 @@
+{
+  "project": "shindantext",
+  "project_dir": "shindantext",
+  "product_name": "Shindantext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://shindantext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/shindantext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "中小企業診断士事務所の担当者または管理者。日々の顧問先支援業務において、経営改善計画書や補助金申請書、事業再生計画書などの書類作成に多くの時間を費やしており、その効率化と品質向上を求めている。",
+    "document_types": [
+      "経営改善計画書",
+      "補助金申請書",
+      "事業再生計画書"
+    ],
+    "company_name_hint_keywords": [
+      "診断士",
+      "コンサルティング",
+      "経営支援",
+      "事務所",
+      "税理士法人",
+      "行政書士法人"
+    ],
+    "target_keywords": [
+      "中小企業診断士",
+      "経営改善計画書 作成",
+      "補助金申請代行",
+      "事業再生支援",
+      "コンサルティング 契約書",
+      "士業 業務効率化",
+      "経営支援ツール"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/shindantext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "shindantext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/shindantext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/shindantext/feedback_reports",
+  "feedback_prompt_context": "Shindantextは中小企業診断士事務所向けAI書類文案生成ツール。ユーザーは中小企業診断士事務所の担当者・管理者。経営改善計画書・補助金申請書・事業再生計画書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/eVq14n8MqaexbPY6SxabK2U",
+  "stripe_pro_url": "https://buy.stripe.com/3cIcN58MqbiB3js90FabK2V",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "shindantext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Shindantextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。中小企業診断士事務所の実務でご多忙のことと存じます。",
+    "personalize_prompt": "中小企業診断士事務所「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw"
+}

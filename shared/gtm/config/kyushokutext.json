@@ -1,0 +1,88 @@
+{
+  "project": "kyushokutext",
+  "project_dir": "kyushokutext",
+  "product_name": "Kyushokutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://kyushokutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/kyushokutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "給食受託会社に勤務する栄養士、調理師、または施設管理者で、日々の書類作成業務に追われている方。",
+    "document_types": [
+      "献立表",
+      "栄養管理報告書",
+      "衛生管理チェックリスト"
+    ],
+    "company_name_hint_keywords": [
+      "給食",
+      "フードサービス",
+      "メディカル",
+      "ヘルスケア",
+      "食事サービス",
+      "ケータリング",
+      "委託給食"
+    ],
+    "target_keywords": [
+      "給食受託 献立",
+      "栄養管理報告書 作成",
+      "衛生管理チェックリスト 給食",
+      "給食業務 効率化",
+      "給食委託 書類作成",
+      "給食管理 AI",
+      "給食サービス 文書作成"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/kyushokutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "kyushokutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/kyushokutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/kyushokutext/feedback_reports",
+  "feedback_prompt_context": "Kyushokutextは給食受託会社向けAI書類文案生成ツール。ユーザーは給食受託会社の担当者・管理者。献立表・栄養管理報告書・衛生管理チェックリストの文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/fZu3cvd2G72l7zI4KpabK2i",
+  "stripe_pro_url": "https://buy.stripe.com/6oUfZh5Ae1I1g6ea4JabK2j",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "kyushokutext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Kyushokutextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。給食受託会社の実務でご多忙のことと存じます。",
+    "personalize_prompt": "給食受託会社「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCaueIfs5_zBQyvxhCNz7BNSnj3yPIbVgg"
+}

@@ -1,0 +1,92 @@
+{
+  "project": "pettotext",
+  "project_dir": "pettotext",
+  "product_name": "Pettotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://pettotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/pettotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "ペットショップ、ペットサロン、動物病院の経営者や店長、トリマー、動物看護師など、ペット関連事業で書類作成業務に携わる担当者。",
+    "document_types": [
+      "健康状態記録",
+      "飼育指導書",
+      "トリミング報告書"
+    ],
+    "company_name_hint_keywords": [
+      "ペット",
+      "動物",
+      "犬",
+      "猫",
+      "トリミング",
+      "サロン",
+      "ホテル",
+      "クリニック",
+      "病院",
+      "アニマル"
+    ],
+    "target_keywords": [
+      "ペットショップ 書類作成",
+      "ペットサロン 業務効率化",
+      "トリミング報告書 テンプレート",
+      "飼育指導書 作成",
+      "動物病院 事務作業",
+      "ペットカルテ 電子化",
+      "ペット管理システム",
+      "トリマー 業務支援"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/pettotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "pettotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/pettotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/pettotext/feedback_reports",
+  "feedback_prompt_context": "Pettotextはペットショップ・ペットサロン向けAI書類文案生成ツール。ユーザーはペットショップ・ペットサロンの担当者・管理者。健康状態記録・飼育指導書・トリミング報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/eVq6oHbYCfyRaLU2ChabK2u",
+  "stripe_pro_url": "https://buy.stripe.com/dRm5kD7ImeuNdY6dgVabK2v",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "pettotext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Pettotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。ペットショップ・ペットサロンの実務でご多忙のことと存じます。",
+    "personalize_prompt": "ペットショップ・ペットサロン「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBiwwEqVT3otQMInWgtFuJCBPBTqrypRjs"
+}

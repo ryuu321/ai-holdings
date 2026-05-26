@@ -1,0 +1,88 @@
+{
+  "project": "braidaltext",
+  "project_dir": "braidaltext",
+  "product_name": "Braidaltext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://braidaltext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/braidaltext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "結婚式場、ウェディングプランニング会社、ホテルブライダル部門、ゲストハウスウェディング運営会社などのウェディングプランナー、営業担当者、またはマネージャー。",
+    "document_types": [
+      "挙式プラン提案書",
+      "演出進行表",
+      "当日タイムライン"
+    ],
+    "company_name_hint_keywords": [
+      "ウェディング",
+      "ブライダル",
+      "結婚式",
+      "ゲストハウス",
+      "ホテル",
+      "リゾート",
+      "マリアージュ"
+    ],
+    "target_keywords": [
+      "ウェディングプランナー 業務効率",
+      "結婚式 提案書 作成",
+      "ブライダル 書類 自動生成",
+      "演出進行表 テンプレート",
+      "当日タイムライン 作成ツール",
+      "ブライダル業務 AI",
+      "ウェディングプランニング ツール"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/braidaltext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "braidaltext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/braidaltext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/braidaltext/feedback_reports",
+  "feedback_prompt_context": "Braidaltextはブライダル会社向けAI書類文案生成ツール。ユーザーはブライダル会社の担当者・管理者。挙式プラン提案書・演出進行表・当日タイムラインの文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/cNi9ATaUycmFf2a6SxabK10",
+  "stripe_pro_url": "https://buy.stripe.com/eVq6oH3s61I1g6e0u9abK11",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "braidaltext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Braidaltextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。ブライダル会社の実務でご多忙のことと存じます。",
+    "personalize_prompt": "ブライダル会社「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk"
+}

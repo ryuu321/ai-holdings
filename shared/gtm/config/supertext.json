@@ -1,0 +1,91 @@
+{
+  "project": "supertext",
+  "project_dir": "supertext",
+  "product_name": "Supertext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://supertext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/supertext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "地場スーパー・食品小売の経営者、店長、品質管理担当者、仕入れ担当者。書類作成業務に時間を取られ、効率化を求めている方。",
+    "document_types": [
+      "仕入先交渉用資料",
+      "食品表示確認書",
+      "衛生管理記録"
+    ],
+    "company_name_hint_keywords": [
+      "スーパー",
+      "ストア",
+      "食品",
+      "マーケット",
+      "生鮮",
+      "青果",
+      "精肉",
+      "鮮魚",
+      "惣菜",
+      "デリ"
+    ],
+    "target_keywords": [
+      "スーパー 書類作成 効率化",
+      "食品小売 業務改善 AI",
+      "仕入れ交渉 資料作成",
+      "食品表示 作成 ツール",
+      "衛生管理 記録 自動化",
+      "小売業 AI導入",
+      "HACCP 書類作成"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/supertext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "supertext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/supertext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/supertext/feedback_reports",
+  "feedback_prompt_context": "Supertextは地場スーパー・食品小売向けAI書類文案生成ツール。ユーザーは地場スーパー・食品小売の担当者・管理者。仕入先交渉用資料・食品表示確認書・衛生管理記録の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/3cIaEXgeS4UddY690FabK3g",
+  "stripe_pro_url": "https://buy.stripe.com/eVqcN53s62M57zIdgVabK3h",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "supertext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Supertextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。地場スーパー・食品小売の実務でご多忙のことと存じます。",
+    "personalize_prompt": "地場スーパー・食品小売「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAhfiSU42A8q3OZ1xQAn9qC2oERe40_ibU"
+}

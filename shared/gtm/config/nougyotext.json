@@ -1,0 +1,90 @@
+{
+  "project": "nougyotext",
+  "project_dir": "nougyotext",
+  "product_name": "Nougyotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://nougyotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/nougyotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "農業法人の経営者、生産管理者、または事務担当者。特に、GAP認証取得を目指している、または既に取得しており、書類作成業務の効率化を課題としている担当者。",
+    "document_types": [
+      "GAP認証書類",
+      "農薬使用記録",
+      "収穫管理報告書"
+    ],
+    "company_name_hint_keywords": [
+      "農業",
+      "農園",
+      "ファーム",
+      "生産",
+      "アグリ",
+      "協同組合",
+      "農場"
+    ],
+    "target_keywords": [
+      "農業法人 書類作成",
+      "GAP認証 記録",
+      "農薬使用記録 テンプレート",
+      "収穫報告書 自動生成",
+      "農業 DX",
+      "スマート農業 事務"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "補助金"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/nougyotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "nougyotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/nougyotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/nougyotext/feedback_reports",
+  "feedback_prompt_context": "Nougyotextは農業法人向けAI書類文案生成ツール。ユーザーは農業法人の経営者、生産管理者、または事務担当者。GAP認証書類・農薬使用記録・収穫管理報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/fZu00j5Ae0DX7zIa4JabK2s",
+  "stripe_pro_url": "https://buy.stripe.com/aFa9AT0fUbiB4nw1ydabK2t",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "nougyotext_sequence_1.txt",
+    "subject": "【🌾書類作成をAIで効率化】Nougyotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。農業法人の実務でご多忙のことと存じます。",
+    "personalize_prompt": "農業法人「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBiwwEqVT3otQMInWgtFuJCBPBTqrypRjs"
+}

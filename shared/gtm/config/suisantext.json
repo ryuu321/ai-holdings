@@ -1,0 +1,94 @@
+{
+  "project": "suisantext",
+  "project_dir": "suisantext",
+  "product_name": "Suisantext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://suisantext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/suisantext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "水産加工業の品質管理担当者、工場長、HACCP管理者、または経営者。日々の書類作成業務に課題を感じ、効率化と正確性向上を求める方。",
+    "document_types": [
+      "HACCP管理記録",
+      "アレルゲン管理書類",
+      "品質検査記録"
+    ],
+    "company_name_hint_keywords": [
+      "水産",
+      "漁業",
+      "加工",
+      "食品",
+      "冷凍",
+      "冷蔵",
+      "鮮魚",
+      "養殖",
+      "フーズ",
+      "物産"
+    ],
+    "target_keywords": [
+      "HACCP",
+      "アレルゲン管理",
+      "品質管理",
+      "食品安全",
+      "衛生管理",
+      "水産加工",
+      "工場管理",
+      "トレーサビリティ",
+      "記録作成",
+      "業務効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/suisantext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "suisantext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/suisantext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/suisantext/feedback_reports",
+  "feedback_prompt_context": "Suisantextは水産加工業者向けAI書類文案生成ツール。ユーザーは水産加工業者の担当者・管理者。HACCP管理記録・アレルゲン管理書類・品質検査記録の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/fZu00jaUy72l07g5OtabK3e",
+  "stripe_pro_url": "https://buy.stripe.com/dRmdR95Ae5Yh6vE3GlabK3f",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "suisantext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Suisantextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。水産加工業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "水産加工業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAhfiSU42A8q3OZ1xQAn9qC2oERe40_ibU"
+}

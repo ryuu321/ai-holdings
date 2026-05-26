@@ -1,0 +1,88 @@
+{
+  "project": "kanteitext",
+  "project_dir": "kanteitext",
+  "product_name": "Kanteitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://kanteitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/kanteitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "不動産鑑定士事務所の代表者、または書類作成を担当する鑑定士・事務担当者。業務効率化や品質向上に関心がある。",
+    "document_types": [
+      "鑑定評価書",
+      "市場調査報告書",
+      "価格査定報告書"
+    ],
+    "company_name_hint_keywords": [
+      "不動産鑑定",
+      "鑑定評価",
+      "鑑定事務所",
+      "不動産コンサルティング"
+    ],
+    "target_keywords": [
+      "不動産鑑定士 業務効率化",
+      "鑑定評価書 作成支援",
+      "不動産鑑定 AI",
+      "市場調査報告書 テンプレート",
+      "価格査定 効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp",
+      "gr.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "資格",
+      "勉強"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/kanteitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "kanteitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/kanteitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/kanteitext/feedback_reports",
+  "feedback_prompt_context": "Kanteitextは不動産鑑定士事務所向けAI書類文案生成ツール。ユーザーは不動産鑑定士事務所の代表者、または書類作成を担当する鑑定士・事務担当者。鑑定評価書・市場調査報告書・価格査定報告書の文案をAIが自動生成する。不動産鑑定評価基準や関連法令、業界慣習に基づいた専門性の高い文案生成が特徴。",
+  "stripe_standard_url": "https://buy.stripe.com/6oUfZh2o2aexcU2gt7abK22",
+  "stripe_pro_url": "https://buy.stripe.com/aFadR94wa4UdbPY90FabK23",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "kanteitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Kanteitextのご紹介 - 不動産鑑定士事務所様向け",
+    "fallback_opening": "突然のご連絡をご容赦ください。不動産鑑定士事務所の実務でご多忙のことと存じます。",
+    "personalize_prompt": "不動産鑑定士事務所「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCaueIfs5_zBQyvxhCNz7BNSnj3yPIbVgg"
+}

@@ -1,0 +1,87 @@
+{
+  "project": "yunyutext",
+  "project_dir": "yunyutext",
+  "product_name": "Yunyutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://yunyutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/yunyutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "輸入食品卸業者の品質管理担当者、商品企画担当者、貿易実務担当者、または経営者。書類作成の効率化と正確性向上に課題を感じている。",
+    "document_types": [
+      "成分表示確認書",
+      "商品説明書",
+      "輸入検査記録"
+    ],
+    "company_name_hint_keywords": [
+      "輸入食品",
+      "貿易",
+      "グローバル",
+      "フーズ",
+      "インターナショナル",
+      "商事"
+    ],
+    "target_keywords": [
+      "輸入食品 書類作成",
+      "成分表示 確認書 テンプレート",
+      "商品説明書 作成",
+      "輸入検査記録 効率化",
+      "食品 輸入 規制",
+      "食品安全 AI",
+      "食品卸 業務効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/yunyutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "yunyutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/yunyutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/yunyutext/feedback_reports",
+  "feedback_prompt_context": "Yunyutextは輸入食品卸業者向けAI書類文案生成ツール。ユーザーは輸入食品卸業者の担当者・管理者。成分表示確認書・商品説明書・輸入検査記録の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/5kQ6oHbYCeuN1bkccRabK3u",
+  "stripe_pro_url": "https://buy.stripe.com/eVq28r6Ei5Yh6vEccRabK3v",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "yunyutext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Yunyutextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。輸入食品卸業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "輸入食品卸業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB3ChYOhPaQz5m-WxNO6FcC1HwTKGL2HSc"
+}

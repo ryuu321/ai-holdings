@@ -1,0 +1,92 @@
+{
+  "project": "ihintext",
+  "project_dir": "ihintext",
+  "product_name": "Ihintext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://ihintext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/ihintext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "遺品整理業者の経営者、現場責任者、または事務担当者。書類作成業務に多くの時間を費やし、効率化や正確性向上に関心がある方。",
+    "document_types": [
+      "作業完了報告書",
+      "廃棄物処分証明書",
+      "お見積書"
+    ],
+    "company_name_hint_keywords": [
+      "遺品整理",
+      "特殊清掃",
+      "生前整理",
+      "終活",
+      "ごみ屋敷",
+      "空き家整理"
+    ],
+    "target_keywords": [
+      "遺品整理 書類作成",
+      "遺品整理 報告書",
+      "遺品整理 見積書",
+      "遺品整理 事務効率化",
+      "遺品整理 廃棄物証明",
+      "遺品整理士 業務改善",
+      "特殊清掃 書類",
+      "生前整理 事務作業"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "ブログ",
+      "口コミ"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/ihintext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "ihintext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/ihintext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/ihintext/feedback_reports",
+  "feedback_prompt_context": "Ihintextは遺品整理業者向けAI書類文案生成ツール。ユーザーは遺品整理業者の担当者・管理者。作業完了報告書・廃棄物処分証明書・お見積書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/cNi9ATaUy4UdcU2a4JabK1K",
+  "stripe_pro_url": "https://buy.stripe.com/aFa9AT4wagCV9HQfp3abK1L",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "ihintext_sequence_1.txt",
+    "subject": "【遺品整理業務をAIで効率化】Ihintextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。遺品整理業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "遺品整理業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAoHzAL_gqxisvWnw2Uxo43NxGK1zXdNUE"
+}

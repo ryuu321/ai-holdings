@@ -1,0 +1,102 @@
+{
+  "project": "shokuhintext",
+  "project_dir": "shokuhintext",
+  "product_name": "Shokuhintext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://shokuhintext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/shokuhintext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "食品製造業の品質管理担当者、生産管理者、衛生管理者、工場長、総務担当者など、HACCPや食品安全に関する書類作成・管理業務に携わる方。",
+    "document_types": [
+      "HACCP管理記録",
+      "異物混入対応報告書",
+      "衛生管理計画書"
+    ],
+    "company_name_hint_keywords": [
+      "食品",
+      "フーズ",
+      "製菓",
+      "加工",
+      "乳業",
+      "ミート",
+      "水産",
+      "飲料",
+      "酒造",
+      "工場",
+      "製造",
+      "プロダクト",
+      "ケータリング"
+    ],
+    "target_keywords": [
+      "HACCP",
+      "食品衛生",
+      "品質管理",
+      "異物混入",
+      "衛生管理",
+      "FSSC22000",
+      "ISO22000",
+      "食品安全",
+      "製造業",
+      "工場管理",
+      "リスク管理",
+      "監査",
+      "記録作成",
+      "食品衛生法",
+      "生産管理"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/shokuhintext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "shokuhintext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/shokuhintext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/shokuhintext/feedback_reports",
+  "feedback_prompt_context": "Shokuhintextは食品製造業向けAI書類文案生成ツール。ユーザーは食品製造業の担当者・管理者。HACCP管理記録・異物混入対応報告書・衛生管理計画書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/9B67sL9Qu4Ud9HQccRabK30",
+  "stripe_pro_url": "https://buy.stripe.com/4gMeVdd2G3Q98DMa4JabK31",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "shokuhintext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Shokuhintextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。食品製造業の実務でご多忙のことと存じます。",
+    "personalize_prompt": "食品製造業「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw"
+}

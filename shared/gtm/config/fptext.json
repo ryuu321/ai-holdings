@@ -1,0 +1,88 @@
+{
+  "project": "fptext",
+  "project_dir": "fptext",
+  "product_name": "Fptext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://fptext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/fptext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "ファイナンシャルプランナー（FP）事務所の経営者、独立系FP、またはFP業務を担う金融機関・保険代理店の担当者。顧客への提案書作成業務に多くの時間を費やしており、効率化を求めている。",
+    "document_types": [
+      "ライフプラン提案書",
+      "保険見直し提案書",
+      "資産運用計画書"
+    ],
+    "company_name_hint_keywords": [
+      "FP",
+      "ファイナンシャルプランナー",
+      "ライフプラン",
+      "資産運用",
+      "保険",
+      "コンサルティング"
+    ],
+    "target_keywords": [
+      "ファイナンシャルプランナー",
+      "FP",
+      "ライフプランニング",
+      "資産運用",
+      "保険見直し",
+      "提案書作成",
+      "顧客管理"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/fptext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "fptext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/fptext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/fptext/feedback_reports",
+  "feedback_prompt_context": "Fptextはファイナンシャルプランナー向けAI書類文案生成ツール。ユーザーはファイナンシャルプランナーの担当者・管理者。ライフプラン提案書・保険見直し提案書・資産運用計画書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/dRm8wP1jY2M54nwccRabK1m",
+  "stripe_pro_url": "https://buy.stripe.com/6oU00j4wa4Ud7zI5OtabK1n",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "fptext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Fptextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。ファイナンシャルプランナーの実務でご多忙のことと存じます。",
+    "personalize_prompt": "ファイナンシャルプランナー「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyARxwgjaWlMXjpUS1-zIlMkljWOsYNHxsM"
+}

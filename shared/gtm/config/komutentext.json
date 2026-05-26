@@ -1,0 +1,94 @@
+{
+  "project": "komutentext",
+  "project_dir": "komutentext",
+  "product_name": "Komutentext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://komutentext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/komutentext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "木造住宅の新築・リフォームを手がける工務店の経営者、営業担当者、設計担当者、または書類作成業務に携わる事務担当者。",
+    "document_types": [
+      "施主向け工程説明文",
+      "引渡し書類",
+      "リフォーム提案書"
+    ],
+    "company_name_hint_keywords": [
+      "工務店",
+      "建設",
+      "建築",
+      "住宅",
+      "ホーム",
+      "ハウス",
+      "住まい",
+      "工房",
+      "設計"
+    ],
+    "target_keywords": [
+      "工務店 書類作成 効率化",
+      "住宅メーカー 提案書 AI",
+      "施主向け説明文 自動生成",
+      "リフォーム提案書 作成ツール",
+      "引渡し書類 テンプレート",
+      "建設業 DX",
+      "工務店 業務改善",
+      "住宅建築 営業支援"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "ブログ"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/komutentext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "komutentext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/komutentext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/komutentext/feedback_reports",
+  "feedback_prompt_context": "Komutentextは木造住宅メーカー（工務店）向けAI書類文案生成ツール。ユーザーは木造住宅メーカー（工務店）の経営者、営業担当者、設計担当者、または書類作成業務に携わる事務担当者。施主向け工程説明文・引渡し書類・リフォーム提案書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/aFa3cv5AefyRf2a4KpabK2c",
+  "stripe_pro_url": "https://buy.stripe.com/8x2eVd1jY5YhaLUb8NabK2d",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "komutentext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Komutentextのご紹介 🏠",
+    "fallback_opening": "突然のご連絡をご容赦ください。木造住宅メーカー（工務店）の実務でご多忙のことと存じます。",
+    "personalize_prompt": "木造住宅メーカー（工務店）「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCaueIfs5_zBQyvxhCNz7BNSnj3yPIbVgg"
+}

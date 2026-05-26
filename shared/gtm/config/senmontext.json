@@ -1,0 +1,90 @@
+{
+  "project": "senmontext",
+  "project_dir": "senmontext",
+  "product_name": "Senmontext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://senmontext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/senmontext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "専門学校の教員、事務職員、キャリアセンター担当者。生徒の指導や評価、就職支援に関わる書類作成業務に多くの時間を費やしている。",
+    "document_types": [
+      "実習日誌添削",
+      "就職活動支援書",
+      "学習評価報告書"
+    ],
+    "company_name_hint_keywords": [
+      "専門学校",
+      "学院",
+      "カレッジ",
+      "スクール",
+      "大学校"
+    ],
+    "target_keywords": [
+      "専門学校 書類作成 効率化",
+      "実習日誌 添削 効率",
+      "就職支援書 作成 AI",
+      "学習評価報告書 テンプレート",
+      "教員 業務効率化",
+      "キャリアセンター 支援"
+    ],
+    "good_domain_suffixes": [
+      "ac.jp",
+      "ed.jp",
+      "go.jp",
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "バイト"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/senmontext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "senmontext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/senmontext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/senmontext/feedback_reports",
+  "feedback_prompt_context": "Senmontextは専門学校向けAI書類文案生成ツール。ユーザーは専門学校の担当者・管理者。実習日誌添削・就職活動支援書・学習評価報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/3cI8wP6EicmFf2a1ydabK2Q",
+  "stripe_pro_url": "https://buy.stripe.com/14AaEX2o25Yh4nwa4JabK2R",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "senmontext_sequence_1.txt",
+    "subject": "【専門学校の書類作成をAIで効率化】Senmontextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。専門学校の実務でご多忙のことと存じます。",
+    "personalize_prompt": "専門学校「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw"
+}

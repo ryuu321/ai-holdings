@@ -1,0 +1,100 @@
+{
+  "project": "fukushitext",
+  "project_dir": "fukushitext",
+  "product_name": "Fukushitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://fukushitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/fukushitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "社会福祉法人の現場で、相談支援記録、保護者向け文書、サービス計画書などの書類作成に日々追われている担当者や管理者。書類作成の負担を軽減し、利用者支援に集中したいと考えている方。",
+    "document_types": [
+      "相談支援記録",
+      "保護者向け文書",
+      "サービス計画書"
+    ],
+    "company_name_hint_keywords": [
+      "社会福祉法人",
+      "福祉会",
+      "〇〇苑",
+      "〇〇ホーム",
+      "〇〇園",
+      "〇〇の家",
+      "〇〇会",
+      "〇〇事業所",
+      "特別養護老人ホーム",
+      "障害者支援施設",
+      "放課後等デイサービス",
+      "児童発達支援",
+      "地域包括支援センター"
+    ],
+    "target_keywords": [
+      "相談支援記録 作成",
+      "保護者向け文書 テンプレート",
+      "サービス計画書 書き方",
+      "福祉書類 効率化",
+      "AI 福祉",
+      "記録業務 負担軽減",
+      "社会福祉法人 業務改善",
+      "福祉施設 書類作成",
+      "支援記録 自動生成"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp",
+      "go.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "採用"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/fukushitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "fukushitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/fukushitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/fukushitext/feedback_reports",
+  "feedback_prompt_context": "Fukushitextは社会福祉法人向けAI書類文案生成ツール。ユーザーは社会福祉法人の担当者・管理者。相談支援記録・保護者向け文書・サービス計画書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/28E9ATbYC9at1bkccRabK1o",
+  "stripe_pro_url": "https://buy.stripe.com/dRmbJ1faO72l4nw5OtabK1p",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "fukushitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Fukushitextのご紹介 🌸",
+    "fallback_opening": "突然のご連絡をご容赦ください。社会福祉法人の実務でご多忙のことと存じます。",
+    "personalize_prompt": "社会福祉法人「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyARxwgjaWlMXjpUS1-zIlMkljWOsYNHxsM"
+}

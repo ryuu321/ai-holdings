@@ -1,0 +1,89 @@
+{
+  "project": "seishintext",
+  "project_dir": "seishintext",
+  "product_name": "Seishintext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://seishintext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/seishintext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "精神科・心療内科クリニックの医師、事務長、医療事務担当者。日々発生する診療情報提供書、傷病手当意見書、患者向け説明文などの書類作成業務に時間と労力を感じている方。",
+    "document_types": [
+      "診療情報提供書",
+      "傷病手当意見書",
+      "患者向け説明文"
+    ],
+    "company_name_hint_keywords": [
+      "クリニック",
+      "メンタルヘルス",
+      "心療内科",
+      "精神科",
+      "医療法人"
+    ],
+    "target_keywords": [
+      "診療情報提供書 作成",
+      "傷病手当意見書 書き方",
+      "医療書類 AI",
+      "クリニック 業務効率化",
+      "精神科 事務 負担軽減",
+      "心療内科 書類作成"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "ne.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "ブログ",
+      "コラム"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/seishintext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "seishintext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/seishintext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/seishintext/feedback_reports",
+  "feedback_prompt_context": "Seishintextは精神科・心療内科クリニック向けAI書類文案生成ツール。ユーザーは精神科・心療内科クリニックの担当者・管理者。診療情報提供書・傷病手当意見書・患者向け説明文の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/4gM3cvfaO1I18DM2ChabK2K",
+  "stripe_pro_url": "https://buy.stripe.com/dRm5kD1jY86p6vE7WBabK2L",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "seishintext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Seishintextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。精神科・心療内科クリニックの実務でご多忙のことと存じます。",
+    "personalize_prompt": "精神科・心療内科クリニック「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw"
+}

@@ -1,0 +1,84 @@
+{
+  "project": "bengoshitext",
+  "project_dir": "bengoshitext",
+  "product_name": "Bengoshitext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://bengoshitext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/bengoshitext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "弁護士事務所の弁護士、パラリーガル、事務担当者。書類作成業務の効率化や品質向上に関心がある。",
+    "document_types": [
+      "内容証明",
+      "依頼者向け説明文書",
+      "法律意見書"
+    ],
+    "company_name_hint_keywords": [
+      "法律事務所",
+      "弁護士法人",
+      "合同法律事務所",
+      "総合法律事務所"
+    ],
+    "target_keywords": [
+      "弁護士 書類作成 効率化",
+      "法律事務所 AI",
+      "内容証明 自動作成",
+      "法律意見書 テンプレート",
+      "弁護士業務 効率化",
+      "リーガルテック"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/bengoshitext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "bengoshitext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/bengoshitext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/bengoshitext/feedback_reports",
+  "feedback_prompt_context": "Bengoshitextは弁護士事務所向けAI書類文案生成ツール。ユーザーは弁護士事務所の担当者・管理者。内容証明・依頼者向け説明文書・法律意見書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/8x23cv3s64Ud9HQ4KpabK0W",
+  "stripe_pro_url": "https://buy.stripe.com/dRm14nfaO86p7zIb8NabK0X",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "bengoshitext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Bengoshitextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。弁護士事務所の実務でご多忙のことと存じます。",
+    "personalize_prompt": "弁護士事務所「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk"
+}

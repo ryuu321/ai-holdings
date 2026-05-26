@@ -1,0 +1,92 @@
+{
+  "project": "zoentext",
+  "project_dir": "zoentext",
+  "product_name": "Zoentext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://zoentext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/zoentext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "造園・緑化工事業者の経営者、現場管理者、設計担当者、営業担当者。書類作成に時間を取られ、本来の業務に集中できないと感じている方。",
+    "document_types": [
+      "施工計画書",
+      "工事完了報告書",
+      "緑化提案書"
+    ],
+    "company_name_hint_keywords": [
+      "造園",
+      "緑化",
+      "園芸",
+      "庭園",
+      "植木",
+      "景観",
+      "ランドスケープ"
+    ],
+    "target_keywords": [
+      "造園工事 書類作成",
+      "緑化計画書 作成",
+      "施工計画書 テンプレート 造園",
+      "工事完了報告書 書き方 緑化",
+      "緑化提案書 事例",
+      "造園業 業務効率化 AI",
+      "建設業 書類作成 効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "資格",
+      "学校"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/zoentext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "zoentext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/zoentext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/zoentext/feedback_reports",
+  "feedback_prompt_context": "Zoentextは造園・緑化工事業者向けAI書類文案生成ツール。ユーザーは造園・緑化工事業者の経営者、現場管理者、設計担当者、営業担当者。施工計画書・工事完了報告書・緑化提案書の文案をAIが自動生成する。業界特有の専門用語や法令、慣習を理解し、Word形式で出力可能。",
+  "stripe_standard_url": "https://buy.stripe.com/8x2cN5aUy4Ud6vEdgVabK3y",
+  "stripe_pro_url": "https://buy.stripe.com/dRmbJ11jY5Yhg6egt7abK3z",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "zoentext_sequence_1.txt",
+    "subject": "【🌿書類作成をAIで効率化】造園・緑化工事業者向けZoentextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。造園・緑化工事業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "造園・緑化工事業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB3ChYOhPaQz5m-WxNO6FcC1HwTKGL2HSc"
+}

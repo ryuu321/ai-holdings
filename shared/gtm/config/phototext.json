@@ -1,0 +1,89 @@
+{
+  "project": "phototext",
+  "project_dir": "phototext",
+  "product_name": "Phototext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://phototext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/phototext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "写真スタジオの経営者、マネージャー、または顧客対応・書類作成を担当するスタッフ。業務効率化と顧客満足度向上に関心がある。",
+    "document_types": [
+      "撮影仕様確認書",
+      "修正依頼対応文書",
+      "見積書"
+    ],
+    "company_name_hint_keywords": [
+      "フォト",
+      "写真",
+      "スタジオ",
+      "ウェディング",
+      "記念",
+      "七五三",
+      "出張撮影",
+      "写真館"
+    ],
+    "target_keywords": [
+      "写真スタジオ 業務効率化",
+      "写真スタジオ 書類作成",
+      "撮影仕様確認書 テンプレート",
+      "見積書 作成 写真",
+      "修正依頼 対応 写真館",
+      "顧客管理 写真スタジオ",
+      "フォトスタジオ 経営"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/phototext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "phototext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/phototext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/phototext/feedback_reports",
+  "feedback_prompt_context": "Phototextは写真スタジオ向けAI書類文案生成ツール。ユーザーは写真スタジオの担当者・管理者。撮影仕様確認書・修正依頼対応文書・見積書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/3cI8wPe6KdqJf2afp3abK2w",
+  "stripe_pro_url": "https://buy.stripe.com/7sYdR95Ae86p7zIfp3abK2x",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "phototext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】写真スタジオ向けAI書類ジェネレーターPhototextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。写真スタジオの実務でご多忙のことと存じます。",
+    "personalize_prompt": "写真スタジオ「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBiwwEqVT3otQMInWgtFuJCBPBTqrypRjs"
+}

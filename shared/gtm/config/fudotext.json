@@ -117,5 +117,7 @@
     "personalize_prompt": "不動産仲介会社へのビジネスメールの書き出し（1〜2文、60字以内）を書いてください。会社名: {company_name}。要件: 自然で押しつけがましくない / 物件説明文の作成工数削減の文脈 / 敬体・丁寧語 / 60字以内",
     "fallback_opening": "貴社の物件説明文作成業務において、ご担当者様のお時間を少しでも省けるのではと思い、ご連絡させていただきました。"
   },
-  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk"
+  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk",
+  "stripe_standard_url": "https://buy.stripe.com/eVqfZh5Ae1I1aLU5OtabK00",
+  "stripe_pro_url": "https://buy.stripe.com/00w7sLgeSfyR6vE1ydabK01"
 }

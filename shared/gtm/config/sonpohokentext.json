@@ -1,0 +1,86 @@
+{
+  "project": "sonpohokentext",
+  "project_dir": "sonpohokentext",
+  "product_name": "Sonpohokentext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://sonpohokentext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/sonpohokentext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "損害保険代理店の経営者、または実務担当者。日常的に事故対応報告書、示談交渉補助文書、保険提案書などの書類作成に多くの時間を費やしており、業務効率化と書類品質の向上に関心がある方。",
+    "document_types": [
+      "事故対応報告書",
+      "示談交渉補助文書",
+      "保険提案書"
+    ],
+    "company_name_hint_keywords": [
+      "損保",
+      "保険",
+      "代理店",
+      "リスクマネジメント",
+      "コンサルティング"
+    ],
+    "target_keywords": [
+      "損害保険代理店 効率化",
+      "保険提案書 作成 時間",
+      "事故対応報告書 テンプレート",
+      "示談交渉 文書 AI",
+      "保険業務 自動化",
+      "損害保険 書類作成 負担",
+      "保険代理店 DX"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/sonpohokentext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "sonpohokentext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/sonpohokentext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/sonpohokentext/feedback_reports",
+  "feedback_prompt_context": "Sonpohokentextは損害保険代理店向けAI書類文案生成ツールです。ユーザーは損害保険代理店の担当者・管理者で、事故対応報告書・示談交渉補助文書・保険提案書の文案をAIが自動生成します。生成されたドラフトの品質、使いやすさ、業務への適合性についてフィードバックを求めています。",
+  "stripe_standard_url": "https://buy.stripe.com/9B6dR99QucmF5rA6SxabK3c",
+  "stripe_pro_url": "https://buy.stripe.com/4gM5kDgeSdqJ9HQ7WBabK3d",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "sonpohokentext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Sonpohokentextのご紹介🛡️",
+    "fallback_opening": "突然のご連絡をご容赦ください。損害保険代理店の実務でご多忙のことと存じます。",
+    "personalize_prompt": "損害保険代理店「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAhfiSU42A8q3OZ1xQAn9qC2oERe40_ibU"
+}

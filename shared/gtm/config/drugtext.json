@@ -1,0 +1,90 @@
+{
+  "project": "drugtext",
+  "project_dir": "drugtext",
+  "product_name": "Drugtext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://drugtext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/drugtext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "全国のドラッグストアチェーン、地域密着型薬局、調剤薬局併設型ドラッグストアの店舗責任者、薬剤師、または人事・総務担当者。書類作成業務の効率化と品質向上に課題を感じている方。",
+    "document_types": [
+      "薬剤服用歴管理記録",
+      "業務マニュアル",
+      "接客マニュアル"
+    ],
+    "company_name_hint_keywords": [
+      "薬局",
+      "ドラッグ",
+      "ファーマシー",
+      "調剤",
+      "ヘルスケア",
+      "メディカル"
+    ],
+    "target_keywords": [
+      "ドラッグストア 業務効率化",
+      "薬剤服用歴 管理記録 テンプレート",
+      "ドラッグストア マニュアル作成",
+      "薬局 書類作成 AI",
+      "接客マニュアル ドラッグストア",
+      "薬剤師 業務負担軽減"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "アルバイト",
+      "パート"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/drugtext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "drugtext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/drugtext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/drugtext/feedback_reports",
+  "feedback_prompt_context": "Drugtextはドラッグストア向けAI書類文案生成ツール。ユーザーはドラッグストアの担当者・管理者。薬剤服用歴管理記録・業務マニュアル・接客マニュアルの文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/3cI00j8Mq2M507gccRabK1a",
+  "stripe_pro_url": "https://buy.stripe.com/8x228r3s672l8DMekZabK1b",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "drugtext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Drugtextのご紹介 - 貴社のドラッグストア業務をサポート",
+    "fallback_opening": "突然のご連絡をご容赦ください。ドラッグストアの実務でご多忙のことと存じます。",
+    "personalize_prompt": "ドラッグストア「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyD7ZIUSayJDfHF3J2bNfoZpLzy9usYUkEA"
+}

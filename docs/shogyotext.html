@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shogyotext — 株主総会議事録・取締役会議事録・登記申請書をAIで30秒に</title>
+  <meta name="description" content="商業登記関連の議事録や申請書ドラフトを、情報を入力するだけで30秒で文案生成。司法書士補助業務の効率を劇的に向上させます。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #1a4a7a 0%, #1a4a7acc 100%); }
+    .feature-card:hover { transform: translateY(-4px); transition: transform 0.2s; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <header class="gradient-hero text-white py-20 px-6 text-center">
+    <p class="text-blue-200 text-sm font-medium mb-4 tracking-widest uppercase">司法書士補助（商業登記）向けAI書類ジェネレーター</p>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      書類、まだ毎回ゼロから作ってますか？
+    </h1>
+    <p class="text-xl text-blue-100 mb-10 max-w-xl mx-auto">
+      商業登記関連の議事録や申請書ドラフトを、情報を入力するだけで30秒で文案生成。司法書士補助業務の効率を劇的に向上させます。<br>
+      株主総会議事録・取締役会議事録・登記申請書が自動で完成。
+    </p>
+    <a href="https://shogyotext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      無料で試してみる
+    </a>
+    <p class="text-blue-200 text-sm mt-4">クレジットカード不要・登録不要・5件まで無料</p>
+  </header>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10 text-gray-700">こんな悩み、ありませんか？</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⏰</div>
+          <p class="font-semibold mb-1">煩雑な書類作成に時間を取られる</p>
+          <p class="text-gray-500 text-sm">商業登記関連の書類は定型的ながらも、毎回ゼロから作成したり、過去の書類を探して修正する手間がかかります。</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⚖️</div>
+          <p class="font-semibold mb-1">法令改正や専門知識のキャッチアップが大変</p>
+          <p class="text-gray-500 text-sm">会社法や商業登記法の改正に常に注意を払い、正確な文言で書類を作成することは、専門知識と経験を要します。</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">✍️</div>
+          <p class="font-semibold mb-1">ヒューマンエラーのリスクを抱えている</p>
+          <p class="text-gray-500 text-sm">手作業での入力や修正は、誤字脱字、日付の間違い、記載漏れなど、重大なミスにつながる可能性があります。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Shogyotext が解決します</h2>
+      <p class="text-gray-500 mb-12">業界の実務を知ったAIが、現場で使える書類の文案を自動で仕上げます</p>
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">📂</div>
+          <h3 class="font-bold text-lg mb-2">主要3書類種別に対応</h3>
+          <p class="text-gray-600 text-sm">株主総会議事録、取締役会議事録、登記申請書といった商業登記業務で頻繁に利用する主要書類のドラフト生成に対応しています。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">🏢</div>
+          <h3 class="font-bold text-lg mb-2">業務に即した正確な文案</h3>
+          <p class="text-gray-600 text-sm">司法書士補助（商業登記）の専門知識を学習したAIが、法令や実務慣行に沿った正確かつ自然な文案を生成します。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">💾</div>
+          <h3 class="font-bold text-lg mb-2">顧問先情報を保存・再利用</h3>
+          <p class="text-gray-600 text-sm">一度入力した顧問先の基本情報や案件情報を保存し、次回以降の書類作成時に再利用できるため、入力の手間を大幅に削減します。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">🚀</div>
+          <h3 class="font-bold text-lg mb-2">Word形式で即ダウンロード</h3>
+          <p class="text-gray-600 text-sm">生成されたドラフトはWord形式でダウンロード可能。既存のテンプレートへの組み込みや、最終確認・修正作業がスムーズに行えます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-12">使い方はシンプル</h2>
+      <div class="space-y-8">
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div>
+            <p class="font-semibold text-lg">書類種別・必要情報を入力</p>
+            <p class="text-gray-500 text-sm">書類の種類と必要情報を入力（1〜2分）</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div>
+            <p class="font-semibold text-lg">AIが文案を自動生成（30秒）</p>
+            <p class="text-gray-500 text-sm">必要な記載事項を含む文案を30秒で生成</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div>
+            <p class="font-semibold text-lg">確認・修正して完成</p>
+            <p class="text-gray-500 text-sm">生成された文案を確認し、固有名詞・数値・日付を追記して完成</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">対応書類一覧</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-left">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-2">商業登記関連書類</p>
+          <ul class="text-gray-600 text-sm space-y-1"><li>• 株主総会議事録</li><li>• 取締役会議事録</li><li>• 登記申請書</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">料金プラン</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">無料トライアル</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-4">5件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ 全3書類種別に対応</li>
+            <li>✓ 登録不要</li>
+          </ul>
+        </div>
+        <div class="bg-blue-700 text-white rounded-xl p-6 shadow-lg border border-blue-600">
+          <p class="text-blue-200 text-sm mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980<span class="text-lg font-normal">/月</span></p>
+          <p class="text-blue-200 text-sm mb-4">月50件まで</p>
+          <ul class="text-blue-100 text-sm text-left space-y-1">
+            <li>✓ 全機能利用可能</li>
+            <li>✓ 生成履歴の閲覧</li>
+            <li>✓ 情報の保存・再利用</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800<span class="text-lg font-normal">/月</span></p>
+          <p class="text-gray-400 text-sm mb-4">月200件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 大量・高頻度利用に対応</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8">
+        <a href="https://shogyotext.streamlit.app"
+           target="_blank"
+           class="inline-block bg-blue-700 hover:bg-blue-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+          無料で試してみる
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-10 text-center">よくある質問</h2>
+      <div class="space-y-4">
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">生成した書類をそのまま使えますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">Shogyotextが生成する書類はあくまでドラフトです。最終的な提出書類としては、必ず司法書士や担当者による内容の確認・修正が必要です。法令遵守と正確性を確保するため、専門家による最終チェックをお願いいたします。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">入力した情報は安全ですか？</summary>
+          <p class="text-gray-600 text-sm mt-3">お客様がShogyotextに入力された情報は、AIによる書類生成のためのみに使用され、厳重に管理されます。第三者への開示や、AIモデルの学習データとして再利用されることはございません。安心してご利用いただけます。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 gradient-hero text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">まずは無料でお試しください</h2>
+    <p class="text-blue-100 mb-8">クレジットカード不要・登録不要・5件まで完全無料</p>
+    <a href="https://shogyotext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      Shogyotextを試してみる
+    </a>
+  </section>
+
+  <footer class="py-12 px-6 bg-gray-900 text-gray-400 text-sm">
+    <div class="max-w-3xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <p class="font-bold text-white text-lg mb-1">📑 Shogyotext</p>
+        <p>司法書士補助（商業登記）向けAI書類ジェネレーター</p>
+      </div>
+      <div class="text-right">
+        <p>© 2026 TextSeries</p>
+        <p class="mt-1"><a href="mailto:ryuumg03@gmail.com" class="hover:text-white">ryuumg03@gmail.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

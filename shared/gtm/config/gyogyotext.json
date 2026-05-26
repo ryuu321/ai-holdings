@@ -1,0 +1,91 @@
+{
+  "project": "gyogyotext",
+  "project_dir": "gyogyotext",
+  "product_name": "Gyogyotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://gyogyotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/gyogyotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "漁業（養殖・定置網）の現場で、漁獲記録、品質管理、出荷管理などの書類作成に日々追われている担当者や管理者。特に、手書きやExcelでの管理に限界を感じ、効率化を求めている方。",
+    "document_types": [
+      "漁獲記録",
+      "品質管理報告書",
+      "出荷管理表"
+    ],
+    "company_name_hint_keywords": [
+      "水産",
+      "漁業",
+      "養殖",
+      "定置網",
+      "漁協",
+      "漁師",
+      "マリン",
+      "シーフード"
+    ],
+    "target_keywords": [
+      "漁獲記録 効率化",
+      "品質管理報告書 テンプレート",
+      "出荷管理表 自動作成",
+      "漁業 DX",
+      "養殖 管理システム",
+      "定置網 記録",
+      "水産 書類作成 AI",
+      "漁業 業務改善",
+      "漁業日誌 デジタル化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/gyogyotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "gyogyotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/gyogyotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/gyogyotext/feedback_reports",
+  "feedback_prompt_context": "Gyogyotextは漁業（養殖・定置網）向けAI書類文案生成ツール。ユーザーは漁業（養殖・定置網）の担当者・管理者。漁獲記録・品質管理報告書・出荷管理表の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/eVq6oH7Im1I18DM1ydabK1y",
+  "stripe_pro_url": "https://buy.stripe.com/aFa00jfaObiBbPY0u9abK1z",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "gyogyotext_sequence_1.txt",
+    "subject": "【漁業の書類作成をAIで効率化】Gyogyotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。漁業（養殖・定置網）の現場でご多忙のことと存じます。",
+    "personalize_prompt": "漁業（養殖・定置網）「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s"
+}

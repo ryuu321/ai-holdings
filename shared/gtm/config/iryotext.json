@@ -1,0 +1,91 @@
+{
+  "project": "iryotext",
+  "project_dir": "iryotext",
+  "product_name": "Iryotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://iryotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/iryotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "医療法人クリニックグループの総務、人事、経営企画、または院長・事務長など、書類作成や管理業務に携わる担当者。",
+    "document_types": [
+      "採用説明文",
+      "院内規定",
+      "研修資料"
+    ],
+    "company_name_hint_keywords": [
+      "医療法人",
+      "クリニック",
+      "病院",
+      "診療所",
+      "医院",
+      "メディカル",
+      "〇〇会"
+    ],
+    "target_keywords": [
+      "医療法人 書類作成",
+      "クリニック 採用",
+      "院内規定 テンプレート",
+      "研修資料 医療",
+      "事務長 業務効率化",
+      "人事 医療法人",
+      "総務 クリニック",
+      "医療機関 文書作成",
+      "クリニック経営 効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/iryotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "iryotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/iryotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/iryotext/feedback_reports",
+  "feedback_prompt_context": "Iryotextは医療法人クリニックグループ向けAI書類文案生成ツール。ユーザーは医療法人クリニックグループの総務・人事担当者、または事務長・院長。採用説明文・院内規定・研修資料の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/dRm3cv8MqeuN3jsekZabK1Q",
+  "stripe_pro_url": "https://buy.stripe.com/cNi4gz5Ae72l1bkgt7abK1R",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "iryotext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Iryotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。医療法人クリニックグループの実務でご多忙のことと存じます。",
+    "personalize_prompt": "医療法人クリニックグループ「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyAoHzAL_gqxisvWnw2Uxo43NxGK1zXdNUE"
+}

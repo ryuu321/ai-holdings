@@ -1,0 +1,91 @@
+{
+  "project": "chukotext",
+  "project_dir": "chukotext",
+  "product_name": "Chukotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://chukotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/chukotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "中古車販売店の経営者、店長、営業担当者、買取担当者。日々の書類作成業務に時間を取られ、効率化を求めている方。",
+    "document_types": [
+      "車両査定報告書",
+      "状態説明書",
+      "買取提案書"
+    ],
+    "company_name_hint_keywords": [
+      "オート",
+      "カー",
+      "モータース",
+      "販売",
+      "買取",
+      "中古車",
+      "ガレージ",
+      "自動車"
+    ],
+    "target_keywords": [
+      "中古車 査定 書類",
+      "中古車 買取 提案",
+      "車両 状態 説明",
+      "中古車 業務 効率化",
+      "中古車 AI ツール",
+      "自動車販売 書類作成",
+      "中古車査定システム",
+      "買取業務 効率化",
+      "自動車ディーラー 業務改善"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/chukotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "chukotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/chukotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/chukotext/feedback_reports",
+  "feedback_prompt_context": "Chukotextは中古車販売業者向けAI書類文案生成ツール。ユーザーは中古車販売業者の担当者・管理者。車両査定報告書・状態説明書・買取提案書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/7sY7sLgeS5Yh8DM90FabK12",
+  "stripe_pro_url": "https://buy.stripe.com/8x27sLe6KgCV7zI2ChabK13",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "chukotext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Chukotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。中古車販売業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "中古車販売業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyDJcfyFIKsoA2MOZsIotBdzPxHvvGKmzIk"
+}

@@ -1,5 +1,5 @@
 {
-  "products_per_pool": 5,
+  "products_per_pool": 10,
   "pool_prefix": "textseries-pool-",
   "pools": [
     {
@@ -11,7 +11,12 @@
         "churntext",
         "fudotext",
         "hoikutext",
-        "iintext"
+        "iintext",
+        "bengoshitext",
+        "birutext",
+        "braidaltext",
+        "chukotext",
+        "constext"
       ]
     },
     {
@@ -23,7 +28,12 @@
         "kangotext",
         "kanritext",
         "kentext",
-        "pharmtext"
+        "pharmtext",
+        "deliverytext",
+        "dobokutext",
+        "drugtext",
+        "eventtext",
+        "extext"
       ]
     },
     {
@@ -35,7 +45,12 @@
         "sekkotsutext",
         "sharotext",
         "shikatext",
-        "shoshitext"
+        "shoshitext",
+        "fctext",
+        "fittext",
+        "flowertext",
+        "fptext",
+        "fukushitext"
       ]
     },
     {
@@ -44,7 +59,113 @@
       "api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s",
       "products": [
         "taxtext",
-        "tostext"
+        "tostext",
+        "gakudotext",
+        "gasutext",
+        "ghtext",
+        "gogakutext",
+        "gyogyotext",
+        "haikantext",
+        "haikitext",
+        "hakentext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-005",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyAoHzAL_gqxisvWnw2Uxo43NxGK1zXdNUE",
+      "products": [
+        "hashitext",
+        "hokentext",
+        "ihintext",
+        "insatsutext",
+        "iryokikitext",
+        "iryotext",
+        "iyakuhintext",
+        "juitext",
+        "kaikeishitext",
+        "kaitaitext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-006",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyCaueIfs5_zBQyvxhCNz7BNSnj3yPIbVgg",
+      "products": [
+        "kaiuntext",
+        "kanteitext",
+        "keibitext",
+        "kensetsuconstext",
+        "kogutext",
+        "komutentext",
+        "kyoshujotext",
+        "kyuhaisuitext",
+        "kyushokutext",
+        "mokkotext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-007",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyBiwwEqVT3otQMInWgtFuJCBPBTqrypRjs",
+      "products": [
+        "nailtext",
+        "naisotext",
+        "nokitext",
+        "nougyotext",
+        "pettotext",
+        "phototext",
+        "reizotext",
+        "ringyotext",
+        "ryokantext",
+        "salontext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-008",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw",
+      "products": [
+        "sangyoitext",
+        "seibitext",
+        "seishintext",
+        "seisoutext",
+        "sekizaitext",
+        "senmontext",
+        "shindantext",
+        "shinkyutext",
+        "shogyotext",
+        "shokuhintext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-009",
+      "account": "zhenbinglongsheng@gmail.com",
+      "api_key": "AIzaSyAhfiSU42A8q3OZ1xQAn9qC2oERe40_ibU",
+      "products": [
+        "shurotext",
+        "shushokutext",
+        "sogitext",
+        "sokotext",
+        "sokuryotext",
+        "sonpohokentext",
+        "suisantext",
+        "supertext",
+        "tenjikaitext",
+        "unsotext"
+      ]
+    },
+    {
+      "project_id": "textseries-pool-010",
+      "account": "longshengzhenbing07@gmail.com",
+      "api_key": "AIzaSyB3ChYOhPaQz5m-WxNO6FcC1HwTKGL2HSc",
+      "products": [
+        "yakuhintext",
+        "yakuzaishitext",
+        "yanetext",
+        "yunyutext",
+        "yurohokentext",
+        "zoentext"
       ]
     }
   ]

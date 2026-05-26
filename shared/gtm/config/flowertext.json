@@ -1,0 +1,97 @@
+{
+  "project": "flowertext",
+  "project_dir": "flowertext",
+  "product_name": "Flowertext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://flowertext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/flowertext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "法人向けの装花サービスを提供するフラワーショップの経営者、店長、法人営業担当者、またはイベント企画・空間デザイン担当者。書類作成の効率化や品質向上に関心がある。",
+    "document_types": [
+      "装花仕様確認書",
+      "施工報告書",
+      "見積書"
+    ],
+    "company_name_hint_keywords": [
+      "ホテル",
+      "イベント",
+      "商業施設",
+      "オフィス",
+      "病院",
+      "ギャラリー",
+      "レストラン",
+      "百貨店",
+      "結婚式場"
+    ],
+    "target_keywords": [
+      "法人装花",
+      "オフィス装花",
+      "イベント装飾",
+      "空間装飾",
+      "店舗装花",
+      "定期装花",
+      "ディスプレイ装花",
+      "ウェディング装花 法人",
+      "フラワーアレンジメント 法人"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "ne.jp",
+      "or.jp"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧",
+      "個人向け",
+      "教室"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/flowertext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "flowertext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/flowertext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/flowertext/feedback_reports",
+  "feedback_prompt_context": "Flowertextはフラワーショップ（法人装花）向けAI書類文案生成ツール。ユーザーはフラワーショップ（法人装花）の担当者・管理者。装花仕様確認書・施工報告書・見積書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/6oU3cv9QucmF1bk4KpabK1k",
+  "stripe_pro_url": "https://buy.stripe.com/eVq6oH5Ae0DX2foekZabK1l",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "flowertext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Flowertextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。フラワーショップ（法人装花）の実務でご多忙のことと存じます。",
+    "personalize_prompt": "フラワーショップ（法人装花）「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyARxwgjaWlMXjpUS1-zIlMkljWOsYNHxsM"
+}

@@ -1,0 +1,89 @@
+{
+  "project": "gakudotext",
+  "project_dir": "gakudotext",
+  "product_name": "Gakudotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://gakudotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/gakudotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "学童保育施設の運営責任者、管理者、または書類作成を担当する職員。日々の業務で保護者向け報告書や安全対策説明書、活動記録などの書類作成に多くの時間を費やし、効率化を強く求めている。",
+    "document_types": [
+      "保護者向け月次報告書",
+      "安全対策説明書",
+      "活動記録"
+    ],
+    "company_name_hint_keywords": [
+      "学童",
+      "児童クラブ",
+      "放課後児童クラブ",
+      "キッズクラブ",
+      "アフタースクール",
+      "育成クラブ"
+    ],
+    "target_keywords": [
+      "学童保育 書類作成 効率化",
+      "学童 報告書 テンプレート AI",
+      "学童 安全対策 マニュアル 作成",
+      "学童 活動記録 自動生成",
+      "学童 業務改善 ツール",
+      "民間学童 運営 効率化"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "or.jp",
+      "gr.jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com",
+      "outlook.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/gakudotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "gakudotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/gakudotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/gakudotext/feedback_reports",
+  "feedback_prompt_context": "Gakudotextは学童保育（民間）向けAI書類文案生成ツール。ユーザーは学童保育（民間）の担当者・管理者。保護者向け月次報告書・安全対策説明書・活動記録の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/7sY6oHgeS0DX6vE5OtabK1q",
+  "stripe_pro_url": "https://buy.stripe.com/6oU6oH4waeuNf2aa4JabK1r",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "gakudotext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Gakudotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。学童保育（民間）の実務でご多忙のことと存じます。",
+    "personalize_prompt": "学童保育（民間）「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s"
+}

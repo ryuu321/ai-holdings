@@ -1,0 +1,88 @@
+{
+  "project": "yakuhintext",
+  "project_dir": "yakuhintext",
+  "product_name": "Yakuhintext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://yakuhintext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/yakuhintext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "薬品・化学品製造業者の品質管理、生産管理、研究開発部門の担当者、または経営層。",
+    "document_types": [
+      "安全データシート",
+      "品質管理記録",
+      "製品仕様書"
+    ],
+    "company_name_hint_keywords": [
+      "製薬",
+      "化学",
+      "薬品",
+      "工業",
+      "素材",
+      "ファイン",
+      "バイオ"
+    ],
+    "target_keywords": [
+      "安全データシート 作成",
+      "SDS作成 効率化",
+      "品質管理記録 自動生成",
+      "製品仕様書 AI",
+      "化学品 製造業 DX",
+      "医薬品 製造 文書管理",
+      "GHS分類 ツール"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/yakuhintext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "yakuhintext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/yakuhintext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/yakuhintext/feedback_reports",
+  "feedback_prompt_context": "Yakuhintextは薬品・化学品製造業者向けAI書類文案生成ツール。ユーザーは薬品・化学品製造業者の品質管理、生産管理、研究開発部門の担当者・管理者。安全データシート・品質管理記録・製品仕様書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/9B628re6K1I19HQgt7abK3o",
+  "stripe_pro_url": "https://buy.stripe.com/6oU6oHe6K5Yh4nwgt7abK3p",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "yakuhintext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Yakuhintextのご紹介 - 薬品・化学品製造業向け",
+    "fallback_opening": "突然のご連絡をご容赦ください。薬品・化学品製造業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "薬品・化学品製造業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB3ChYOhPaQz5m-WxNO6FcC1HwTKGL2HSc"
+}

@@ -1,0 +1,90 @@
+{
+  "project": "gogakutext",
+  "project_dir": "gogakutext",
+  "product_name": "Gogakutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://gogakutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/gogakutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "語学スクール・英会話教室の経営者、教室長、教務主任、または生徒管理・保護者対応を担当するスタッフ",
+    "document_types": [
+      "生徒別進捗報告書",
+      "保護者向けレポート",
+      "カリキュラム提案書"
+    ],
+    "company_name_hint_keywords": [
+      "英会話",
+      "語学",
+      "外国語",
+      "ランゲージ",
+      "スクール",
+      "アカデミー",
+      "教室",
+      "スタディ"
+    ],
+    "target_keywords": [
+      "語学スクール 業務効率化",
+      "英会話教室 レポート作成",
+      "生徒進捗管理 システム",
+      "保護者対応 効率化",
+      "カリキュラム作成 ツール",
+      "教務支援 AI",
+      "学習管理システム 比較",
+      "語学教育 DX"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/gogakutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "gogakutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/gogakutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/gogakutext/feedback_reports",
+  "feedback_prompt_context": "Gogakutextは語学スクール・英会話教室向けAI書類文案生成ツール。ユーザーは語学スクール・英会話教室の担当者・管理者。生徒別進捗報告書・保護者向けレポート・カリキュラム提案書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/8x200j2o272lf2a4KpabK1w",
+  "stripe_pro_url": "https://buy.stripe.com/3cI3cv0fU86p6vEgt7abK1x",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "gogakutext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Gogakutextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。語学スクール・英会話教室の実務でご多忙のことと存じます。",
+    "personalize_prompt": "語学スクール・英会話教室「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyB2xJgEhbm9mEYjxG-D676as4-RQH7UN1s"
+}

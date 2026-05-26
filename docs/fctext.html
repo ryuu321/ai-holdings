@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fctext — 加盟店向けマニュアル・指導レポートをAIで30秒に</title>
+  <meta name="description" content="加盟店名や指導内容などの情報を入力するだけで、加盟店向けマニュアル・指導レポート・FC契約説明書の文案を30秒で自動生成。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #1a4a7a 0%, #1a4a7acc 100%); }
+    .feature-card:hover { transform: translateY(-4px); transition: transform 0.2s; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+
+  <header class="gradient-hero text-white py-20 px-6 text-center">
+    <p class="text-blue-200 text-sm font-medium mb-4 tracking-widest uppercase">フランチャイズ本部向けAI書類ジェネレーター</p>
+    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6">
+      加盟店向け書類、まだ毎回ゼロから作ってますか？
+    </h1>
+    <p class="text-xl text-blue-100 mb-10 max-w-xl mx-auto">
+      加盟店名や指導内容などの情報を入力するだけで、加盟店向けマニュアル・指導レポート・FC契約説明書の文案を30秒で自動生成。<br>
+      加盟店向けマニュアル・指導レポート・FC契約説明書が自動で完成。
+    </p>
+    <a href="https://fctext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      無料で試してみる
+    </a>
+    <p class="text-blue-200 text-sm mt-4">クレジットカード不要・登録不要・5件まで無料</p>
+  </header>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10 text-gray-700">こんな悩み、ありませんか？</h2>
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">⏰</div>
+          <p class="font-semibold mb-1">書類作成に膨大な時間</p>
+          <p class="text-gray-500 text-sm">加盟店向けマニュアルや指導レポート、契約説明書など、多岐にわたる書類作成に追われ、本来のコア業務が圧迫されていませんか？</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">📋</div>
+          <p class="font-semibold mb-1">内容の品質にばらつき</p>
+          <p class="text-gray-500 text-sm">担当者によって書類の品質や表現に差が出てしまい、加盟店への情報伝達や指導効果にムラが生じることはありませんか？</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div class="text-3xl mb-3">😓</div>
+          <p class="font-semibold mb-1">法令・業界標準への対応</p>
+          <p class="text-gray-500 text-sm">FC契約や指導に関する法令改正、業界標準への対応が煩雑で、常に最新かつ適切な内容を維持するのが難しいと感じていませんか？</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-4">Fctext が解決します</h2>
+      <p class="text-gray-500 mb-12">業界の実務を知ったAIが、現場で使える書類の文案を自動で仕上げます</p>
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">📂</div>
+          <h3 class="font-bold text-lg mb-2">3種類の重要書類に対応</h3>
+          <p class="text-gray-600 text-sm">加盟店向けマニュアル、指導レポート、FC契約説明書といった、フランチャイズ本部運営に不可欠な主要書類の作成をサポートします。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">🏢</div>
+          <h3 class="font-bold text-lg mb-2">業務に即した実践的な文案</h3>
+          <p class="text-gray-600 text-sm">フランチャイズ業界に特化したAIが、貴社の業務内容や加盟店の状況に合わせた、具体的で実践的な文案を生成します。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">⚖️</div>
+          <h3 class="font-bold text-lg mb-2">法令・業界標準を踏まえた設計</h3>
+          <p class="text-gray-600 text-sm">最新の法令やフランチャイズ業界の標準的な慣行を考慮した設計で、コンプライアンスを強化し、安心して書類を作成できます。</p>
+        </div>
+        <div class="feature-card bg-blue-50 rounded-xl p-6 border border-blue-100">
+          <div class="text-2xl mb-3">💾</div>
+          <h3 class="font-bold text-lg mb-2">情報を保存・再利用</h3>
+          <p class="text-gray-600 text-sm">一度入力した加盟店情報や指導内容はシステムに保存され、次回以降の書類作成時に再利用可能。効率的な業務フローを実現します。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-12">使い方はシンプル</h2>
+      <div class="space-y-8">
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">1</div>
+          <div>
+            <p class="font-semibold text-lg">書類種別・必要情報を入力</p>
+            <p class="text-gray-500 text-sm">書類の種類と必要情報を入力（1〜2分）</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">2</div>
+          <div>
+            <p class="font-semibold text-lg">AIが文案を自動生成（30秒）</p>
+            <p class="text-gray-500 text-sm">必要な記載事項を含む文案を30秒で生成</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6 text-left">
+          <div class="flex-shrink-0 w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center font-bold text-lg">3</div>
+          <div>
+            <p class="font-semibold text-lg">確認・修正して完成</p>
+            <p class="text-gray-500 text-sm">生成された文案を確認し、固有名詞・数値・日付を追記して完成</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">対応書類一覧</h2>
+      <div class="grid md:grid-cols-2 gap-4 text-left">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-2">加盟店向け書類</p>
+          <ul class="text-gray-600 text-sm space-y-1"><li>• 加盟店向けマニュアル</li><li>• FC契約説明書</li></ul>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-4">
+          <p class="font-semibold text-blue-800 mb-2">運営・指導書類</p>
+          <ul class="text-gray-600 text-sm space-y-1"><li>• 指導レポート</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 bg-gray-50">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-10">料金プラン</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">無料トライアル</p>
+          <p class="text-3xl font-bold mb-1">¥0</p>
+          <p class="text-gray-400 text-sm mb-4">5件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ 全3書類種別に対応</li>
+            <li>✓ 登録不要</li>
+          </ul>
+        </div>
+        <div class="bg-blue-700 text-white rounded-xl p-6 shadow-lg border border-blue-600">
+          <p class="text-blue-200 text-sm mb-2">スタンダード</p>
+          <p class="text-3xl font-bold mb-1">¥8,980<span class="text-lg font-normal">/月</span></p>
+          <p class="text-blue-200 text-sm mb-4">月50件まで</p>
+          <ul class="text-blue-100 text-sm text-left space-y-1">
+            <li>✓ 全機能利用可能</li>
+            <li>✓ 生成履歴の閲覧</li>
+            <li>✓ 情報の保存・再利用</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+          <p class="text-gray-500 text-sm mb-2">プロ</p>
+          <p class="text-3xl font-bold mb-1">¥19,800<span class="text-lg font-normal">/月</span></p>
+          <p class="text-gray-400 text-sm mb-4">月200件まで</p>
+          <ul class="text-gray-600 text-sm text-left space-y-1">
+            <li>✓ スタンダードの全機能</li>
+            <li>✓ 大量・高頻度利用に対応</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-8">
+        <a href="https://fctext.streamlit.app"
+           target="_blank"
+           class="inline-block bg-blue-700 hover:bg-blue-600 text-white font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+          無料で試してみる
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-10 text-center">よくある質問</h2>
+      <div class="space-y-4">
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">生成した書類をそのまま使えますか？</summary>
+          <p class="text-gray-600 text-sm mt-3">Fctextが生成するのはあくまでドラフト（文案）です。貴社の具体的な状況や最新の法令、業界の慣行に合わせて、必ず担当者による内容確認・修正が必要です。特にFC契約説明書などの法務関連書類は、弁護士等の専門家による最終確認を強く推奨します。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">入力した情報は安全ですか？</summary>
+          <p class="text-gray-600 text-sm mt-3">お客様がFctextに入力した情報は、AIによる文案生成のためのみに使用されます。厳重なセキュリティ対策を講じており、第三者への開示や不正利用は一切ございません。安心してご利用いただけます。</p>
+        </details>
+        <details class="bg-gray-50 rounded-xl p-5 cursor-pointer">
+          <summary class="font-semibold text-gray-800">どのようなフランチャイズ本部が対象ですか？</summary>
+          <p class="text-gray-600 text-sm mt-3">飲食業、小売業、サービス業、学習塾など、様々な業種のフランチャイズ本部にご利用いただけます。多店舗展開している本部から、これからFC事業を拡大しようとしている本部まで、幅広いニーズに対応します。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 gradient-hero text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">まずは無料でお試しください</h2>
+    <p class="text-blue-100 mb-8">クレジットカード不要・登録不要・5件まで完全無料</p>
+    <a href="https://fctext.streamlit.app"
+       target="_blank"
+       class="inline-block bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold text-lg px-10 py-4 rounded-full shadow-lg transition">
+      Fctextを試してみる
+    </a>
+  </section>
+
+  <footer class="py-12 px-6 bg-gray-900 text-gray-400 text-sm">
+    <div class="max-w-3xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <p class="font-bold text-white text-lg mb-1">🏪 Fctext</p>
+        <p>フランチャイズ本部向けAI書類ジェネレーター</p>
+      </div>
+      <div class="text-right">
+        <p>© 2026 TextSeries</p>
+        <p class="mt-1"><a href="mailto:ryuumg03@gmail.com" class="hover:text-white">ryuumg03@gmail.com</a></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

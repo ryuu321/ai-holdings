@@ -1,0 +1,86 @@
+{
+  "project": "shinkyutext",
+  "project_dir": "shinkyutext",
+  "product_name": "Shinkyutext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://shinkyutext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/shinkyutext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "日々の書類作成業務に追われる鍼灸院の院長、管理者、または施術者。",
+    "document_types": [
+      "施術記録",
+      "養生指導書",
+      "症状改善報告書"
+    ],
+    "company_name_hint_keywords": [
+      "鍼灸院",
+      "治療院",
+      "整骨院",
+      "接骨院",
+      "はりきゅう"
+    ],
+    "target_keywords": [
+      "鍼灸院 業務効率化",
+      "鍼灸院 書類作成",
+      "施術記録 テンプレート",
+      "養生指導書 作成",
+      "鍼灸院 AI",
+      "治療院 経営",
+      "患者管理 システム"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/shinkyutext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "shinkyutext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/shinkyutext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/shinkyutext/feedback_reports",
+  "feedback_prompt_context": "Shinkyutextは鍼灸院向けAI書類文案生成ツール。ユーザーは鍼灸院の担当者・管理者。施術記録・養生指導書・症状改善報告書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/dRmdR9aUy5Yhg6efp3abK2W",
+  "stripe_pro_url": "https://buy.stripe.com/dRm28r4wa2M52fo4KpabK2X",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "shinkyutext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Shinkyutextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。鍼灸院の運営、日々の施術でご多忙のことと存じます。",
+    "personalize_prompt": "鍼灸院「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyCoFoBoZqnhTquXtUIJqmKP7gtKGTlXnWw"
+}

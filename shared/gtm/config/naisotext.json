@@ -1,0 +1,86 @@
+{
+  "project": "naisotext",
+  "project_dir": "naisotext",
+  "product_name": "Naisotext",
+  "sender_name": "TextSeries",
+  "sender_email": "ryuumg03@gmail.com",
+  "app_url": "https://naisotext.streamlit.app",
+  "lp_url": "https://ryuu321.github.io/ai-holdings/docs/naisotext.html",
+  "daily_send_limit": 30,
+  "send_interval_sec": 30,
+  "gemini_model": "gemini-2.5-flash",
+  "icp": {
+    "target_description": "内装工事業者の経営者、現場監督、営業担当者。書類作成業務の効率化や品質向上に課題を感じている。",
+    "document_types": [
+      "施工計画書",
+      "施工完了報告書",
+      "内装改修提案書"
+    ],
+    "company_name_hint_keywords": [
+      "内装",
+      "リフォーム",
+      "工務店",
+      "デザイン",
+      "建設",
+      "装飾"
+    ],
+    "target_keywords": [
+      "内装工事業者 書類作成",
+      "施工計画書 AI",
+      "内装改修提案書 自動生成",
+      "工事報告書 効率化",
+      "内装工事 業務改善"
+    ],
+    "good_domain_suffixes": [
+      "co.jp",
+      "jp",
+      "com"
+    ],
+    "bad_domain_suffixes": [
+      "gmail.com",
+      "yahoo.co.jp",
+      "hotmail.com"
+    ],
+    "exclude_keywords": [
+      "求人",
+      "転職",
+      "ランキング",
+      "比較",
+      "まとめ",
+      "選び方",
+      "一覧"
+    ]
+  },
+  "scoring": {
+    "target_keyword_hit": 30,
+    "good_domain": 20,
+    "has_company_type": 20,
+    "bad_domain_penalty": -20,
+    "exclude_keyword_penalty": -50,
+    "auto_approve_threshold": 70,
+    "review_threshold": 50
+  },
+  "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
+  "sent_log": "saas-dev/projects/naisotext/outreach/sent_log.csv",
+  "sent_log_gist_filename": "naisotext_sent_log.csv",
+  "followup_days": 7,
+  "followup_template": "shared/gtm/outreach/templates/naisotext_sequence_2.txt",
+  "feedback_csv_env": "",
+  "feedback_report_dir": "saas-dev/projects/naisotext/feedback_reports",
+  "feedback_prompt_context": "Naisotextは内装工事業者向けAI書類文案生成ツール。ユーザーは内装工事業者の担当者・管理者。施工計画書・施工完了報告書・内装改修提案書の文案をAIが自動生成する。",
+  "stripe_standard_url": "https://buy.stripe.com/8x2eVdd2G3Q98DMekZabK2o",
+  "stripe_pro_url": "https://buy.stripe.com/00w9AT1jY86pdY690FabK2p",
+  "history_columns": [
+    "doc_type text",
+    "company text",
+    "gyoshu text",
+    "draft text"
+  ],
+  "email_template": {
+    "template_file": "naisotext_sequence_1.txt",
+    "subject": "【書類作成をAIで効率化】Naisotextのご紹介",
+    "fallback_opening": "突然のご連絡をご容赦ください。内装工事業者の実務でご多忙のことと存じます。",
+    "personalize_prompt": "内装工事業者「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+  },
+  "gemini_api_key": "AIzaSyBiwwEqVT3otQMInWgtFuJCBPBTqrypRjs"
+}
