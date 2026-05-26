@@ -32,9 +32,19 @@ SLUG_DIR_MAP = {
     "fudotext": "fudosan-copy",
 }
 
-SUPABASE_URL       = "https://byzjkcywrhtmjicrrwfw.supabase.co"
-SUPABASE_ANON_KEY  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNjYyNjksImV4cCI6MjA5NDc0MjI2OX0.uaqpSsJ7BsAlWXIUiFkyuaG9SNNHUU_CLktQmZfMmHo"
-SUPABASE_SVC_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ5emprY3l3cmh0bWppY3Jyd2Z3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTE2NjI2OSwiZXhwIjoyMDk0NzQyMjY5fQ.-2O0KQc80F24NWT9bqmvqFgPdu1nRmXvLJru8p3bp4M"
+# Supabase credentials — .env から読み込む（コードにハードコード禁止）
+def _load_env():
+    env_path = AI_HOLDINGS / ".env"
+    if env_path.exists():
+        for line in env_path.read_text(encoding="utf-8").splitlines():
+            k, _, v = line.partition("=")
+            if v and k.strip() not in os.environ:
+                os.environ[k.strip()] = v.strip()
+
+_load_env()
+SUPABASE_URL      = os.environ.get("SUPABASE_URL", "")
+SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "")
+SUPABASE_SVC_KEY  = os.environ.get("SUPABASE_SERVICE_KEY", "")
 
 _KNOWN_BAD_KEYS = {
     "AIzaSyBGHxbXZuvyZSjRVsH1LFr8QQ5QKYtZjLI",

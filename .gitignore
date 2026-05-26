@@ -29,6 +29,10 @@ saas-dev/projects/fudosan-copy/outreach/emails_draft.csv
 shared/gtm/data/**/*.csv
 shared/gtm/data/**/*.json
 
+# APIキー・Stripe URL を含む設定ファイル（公開禁止）
+shared/gtm/config/gcp_pools.json
+clipboard.txt
+
 # キャッシュ・一時ファイル
 __pycache__/
 *.pyc
