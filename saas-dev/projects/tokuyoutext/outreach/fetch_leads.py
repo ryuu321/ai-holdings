@@ -170,6 +170,8 @@ def main(limit: int = 150):
 
                 company = _extract_company_name(html, r.get("title", ""))
                 if not company:
+                    company = _gemini_extract_company(html, url)
+                if not company:
                     existing.add(url)
                     continue
 
@@ -190,6 +192,67 @@ def main(limit: int = 150):
 
     print(f"\n完了。{collected}件収集しました -> {LEADS_FILE}")
 
+
+
+# ── Gemini会社名抽出フォールバック（_fix_fetch_leads.py により自動追加） ────────
+
+def _gemini_extract_company(html: str, url: str = "") -> str:
+    """
+    Gemini Flash Lite で会社名を抽出。
+    失敗時はドメイン名を返す（空文字を返さない保証）。
+    """
+    import json as _json
+    import os as _os
+    import re as _re
+    from urllib.parse import urlparse as _urlparse
+
+    gemini_key = _os.environ.get("GEMINI_API_KEY", "")
+
+    # Gemini API 呼び出し
+    if gemini_key and html:
+        text = _re.sub(r"<[^>]+>", " ", html)
+        text = _re.sub(r"\s+", " ", text).strip()[:1500]
+        prompt = (
+            f"以下はウェブサイト（{url}）のテキストです。\n"
+            "このウェブサイトを運営している会社・事務所・法人の正式名称を1つだけ答えてください。\n"
+            "「株式会社○○」「○○社会保険労務士事務所」「○○法人」のような形式で。\n"
+            "わからない場合は「UNKNOWN」とだけ答えてください。余計な説明は不要です。\n\n"
+            f"テキスト:\n{text}"
+        )
+        payload = _json.dumps({
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"maxOutputTokens": 30, "temperature": 0},
+        }).encode()
+        api_url = (
+            "https://generativelanguage.googleapis.com/v1beta/models/"
+            f"gemini-2.0-flash-lite:generateContent?key={gemini_key}"
+        )
+        try:
+            import urllib.request as _req
+            req = _req.Request(
+                api_url, data=payload,
+                headers={"Content-Type": "application/json"}, method="POST",
+            )
+            with _req.urlopen(req, timeout=15) as r:
+                data = _json.loads(r.read())
+            name = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            name = name.replace("「", "").replace("」", "").replace("*", "").strip()
+            if 2 <= len(name) <= 40 and name != "UNKNOWN":
+                return name
+        except Exception:
+            pass
+
+    # ドメイン名フォールバック
+    try:
+        domain = _urlparse(url).netloc.lower()
+        domain = _re.sub(r"^www\.", "", domain)
+        domain = _re.sub(r"\.(co\.jp|or\.jp|ne\.jp|gr\.jp|com|jp|net|org|info)$", "", domain)
+        if len(domain) >= 2:
+            return domain
+    except Exception:
+        pass
+
+    return "不明企業"
 
 if __name__ == "__main__":
     import argparse
