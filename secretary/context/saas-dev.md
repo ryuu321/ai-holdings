@@ -1,6 +1,6 @@
 ---
 company: saas-dev
-updated: 2026-05-22
+updated: 2026-05-27
 ---
 
 ## 稼働中プロジェクト
@@ -8,60 +8,36 @@ updated: 2026-05-22
 - 楽天ROOM自動投稿: 1日4回（07/12/18/22時JST）・**現在セッション切れ中**・要ローカルauth更新
 - Kindle KDP: EPUB自動生成（日曜・水曜 JST7時）累計6冊・手動アップロード待ち
 - Redbubble: MidnightTorii 手動アップロード（next_index=4、残16件）
-- ダッシュボード: docs/index.html（毎日JST7時自動生成）+ Flask app
 
-## SaaS プロダクト（3本稼働中）
+## TextSeries（最重要事業）
 
-### FudoText（不動産仲介向け）
-- LP: `docs/fudotext.html`（GitHub Pages公開済み）
-- コールドメール: 8社送信済み（2026-05-19）・返信待ち
-- Supabase: trials/codes/history テーブル稼働中
-- Stripe: payment link 作成済み（setup_stripe.py で自動作成）
-- PDCA: Google Forms CSV → Gemini 分析（週次・GitHub Actions）
+### 製品数・インフラ
+- **103製品** Cloud Run デプロイ中（2026-05-27時点: 59済み・44バックグラウンドデプロイ中）
+- URL: `https://{slug}-cup7okvfwq-an.a.run.app`
+- HOSTING_PROJECT: `textseries-tokutext-api`（課金有効）
+- GCP pool: pool-001〜010（各10製品）+ individual（6製品）
+- Supabase: 全製品共通（REST API直接呼び出し）
 
-### SharoText（社労士向け）
-- アプリ: Streamlit Cloud 稼働中
-- Supabase: trials/codes/history/feedback テーブル稼働中
-- in-app フィードバック: 👍/👎 → `sharotext_feedback` テーブル
-- Stripe: payment link 作成済み（スタンダード ¥8,980 / プロ ¥19,800）
-- GitHub Actions: check-replies / follow-up / feedback-pdca 稼働中
-- コールドメール: 送信中（sent_log Gist管理）
+### 全自動営業フロー（人手ゼロ）
+1. コールドメール送信（平日11:30 JST）← **現在0件送信中**（会社名スコアリング問題）
+2. デモ後フォローアップ（平日10/12/14/16時 JST）← **2026-05-27追加**
+3. Stripe課金検知（毎時）→ UUIDコード自動生成 → メール送信
+4. フォローアップシーケンス（7日後）
 
-### KenText（建設・工務店向け）
-- アプリ: Streamlit Cloud 稼働中
-- Supabase: trials/codes/history/feedback テーブル稼働中
-- in-app フィードバック: 👍/👎 → `kensetsu_feedback` テーブル
-- Stripe: payment link 作成済み（スタンダード ¥8,980 / プロ ¥19,800）
-- GitHub Actions: check-replies / follow-up / feedback-pdca 稼働中
+### 営業自動化の既知の穴
+- コールドメールが0件: 会社名が取れずスコア70未達（意図的に放置中・Bアプローチ）
+- デモ後フォローアップは正常動作予定
 
-## 新事業セットアップ（/saas-build スキル）
-- `/saas-build {project}` → 名前 + 1往復 + コピペ2回 = 新事業完成
-- `setup_stripe.py --project {name}` で自動完了するもの:
-  - Stripe 決済リンク作成
-  - sent_log Gist 作成
-  - GitHub Secrets (`{PROJECT}_SENT_LOG_GIST_ID`) 登録
-  - clipboard.txt: SQL + Streamlit Secrets の2点セット出力
-- 手動作業は2ステップのみ: Supabase SQL実行 + Streamlit Cloud デプロイ
+### Supabase テーブル
+- 各製品: `{slug}_trials`, `{slug}_codes`, `{slug}_history`, `{slug}_feedback`
+- 共通: `textseries_followup_log`（2026-05-27作成: slug/email/sent_at）
 
-## Gumroad（ventures-auto 傘下）
-- **9商品公開済み** / 売上 $0 / 全商品アフィリエイト25%設定済み
+### 課題
+- FUDOTEXT_PAT未登録: apply_pdca.pyが動かない（手動5分）
+- FudoText 8社返信待ち（2026-05-19送信・8日経過）
+- 楽天ROOM auth切れ・KDP手動アップロード6冊待ち
 
-## 重要パス
-- FudoText: `saas-dev/projects/fudosan-copy/`
-- SharoText: `fudotext/saas-dev/projects/sharotext/`
-- KenText: `fudotext/saas-dev/projects/kensetsu/`
-- 新事業セットアップ: `shared/gtm/scripts/setup_stripe.py`
-- GTM設定: `shared/gtm/config/{project}.json`
-- GitHub Actions: `.github/workflows/{project}-*.yml`
-
-## 現在の課題
-- FudoText: 8社からの返信待ち（2026-05-19送信・3日経過）
-- 楽天ROOM: セッション切れ（ローカルで `.\update_auth.ps1` 必須）
-- KDP: 6冊のEPUBが未アップロード
-- Gumroad売上 $0
-
-## 直近の決定
-- Stripe 復活: sk_live_ キーで payment link 作成成功（2026-05-22）
-- in-app フィードバック標準化: Google Forms 不要・Supabase 直接保存（2026-05-22）
-- /saas-build スキル全自動化: Gist + GitHub Secrets まで自動（2026-05-22）
-- icp.document_types をconfig標準フィールドに追加（2026-05-22）
+### 製品品質方針
+- 103製品全部を深掘りするのでなく、PMFシグナル（フィードバック・課金）が出た製品に集中
+- 業界知識は法令・専門用語レベルで入っている（十分なMVP）
+- フィードバックボタン（👍👎）がSupabaseに蓄積される仕組みあり
