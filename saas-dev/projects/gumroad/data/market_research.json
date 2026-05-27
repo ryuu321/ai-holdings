@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Free Resources",
-    "Digital Art Assets",
-    "Passive Income Builders"
+    "Graphic Designers",
+    "Life Coaches",
+    "SaaS Founders"
   ],
-  "recommended_niche": "Free Resources",
+  "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Free AI Assets",
-  "cached_at": "2026-05-25T02:13:47.412341+00:00",
+  "title_idea": "Procreate AI",
+  "cached_at": "2026-05-27T02:12:36.908497+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0

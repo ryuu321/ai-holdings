@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-05-26T23:16:27.795747+00:00",
+  "updated_at": "2026-05-27T02:13:54.655825+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -51,7 +51,8 @@
     "Procreate",
     "VA Pro Hacks",
     "Boost Focus",
-    "CoachGenie"
+    "CoachGenie",
+    "DesignSpark"
   ],
   "used_niches_recent": [
     "Content Creators",
@@ -60,6 +61,7 @@
     "Remote Team Managers",
     "Virtual Assistants",
     "ADHD Productivity",
-    "Life Coaches"
+    "Life Coaches",
+    "Graphic Designers"
   ]
 }
