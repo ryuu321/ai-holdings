@@ -50,9 +50,24 @@ if _env_file.exists():
             os.environ.setdefault(_k.strip(), _v.strip())
 
 ALL_PRODUCTS = [
-    "aftertext", "caretext", "churntext", "cmtext", "daytext", "denkitext",
-    "fudotext", "gyotext", "iintext", "jukutext", "kanritext", "kentext",
-    "pharmtext", "sharotext", "shoshitext", "taxtext", "tokutext", "tostext",
+    "sharotext", "kentext", "fudotext", "caretext", "taxtext", "churntext",
+    "aftertext", "cmtext", "daytext", "denkitext", "gyotext", "kanritext",
+    "pharmtext", "tokutext", "iintext", "jukutext", "shoshitext", "tostext",
+    "kangotext", "hoikutext", "shikatext", "sekkotsutext", "rifotext", "tokuyoutext",
+    "bengoshitext", "birutext", "braidaltext", "chukotext", "constext", "deliverytext",
+    "dobokutext", "drugtext", "eventtext", "extext", "fctext", "fittext",
+    "flowertext", "fptext", "fukushitext", "gakudotext", "gasutext", "ghtext",
+    "gogakutext", "gyogyotext", "haikantext", "haikitext", "hakentext", "hashitext",
+    "hokentext", "ihintext", "insatsutext", "iryokikitext", "iryotext", "iyakuhintext",
+    "juitext", "kaikeishitext", "kaitaitext", "kaiuntext", "kanteitext", "keibitext",
+    "kensetsuconstext", "kogutext", "komutentext", "kyoshujotext", "kyuhaisuitext",
+    "kyushokutext", "mokkotext", "nailtext", "naisotext", "nokitext", "nougyotext",
+    "pettotext", "phototext", "reizotext", "ringyotext", "ryokantext", "salontext",
+    "sangyoitext", "seibitext", "seishintext", "seisoutext", "sekizaitext", "senmontext",
+    "shindantext", "shinkyutext", "shogyotext", "shokuhintext", "shurotext", "shushokutext",
+    "sogitext", "sokotext", "sokuryotext", "sonpohokentext", "suisantext", "supertext",
+    "tenjikaitext", "unsotext", "yakuhintext", "yakuzaishitext", "yanetext", "yunyutext",
+    "yurohokentext", "zoentext",
 ]
 
 PLAN_LIMITS = {"standard": 50, "pro": 200}

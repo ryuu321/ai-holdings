@@ -1,0 +1,42 @@
+name: Demo Followup Email
+
+on:
+  schedule:
+    # JST 10:00, 12:00, 14:00, 16:00 (UTC 01:00, 03:00, 05:00, 07:00) 平日
+    - cron: "0 1 * * 1-5"
+    - cron: "0 3 * * 1-5"
+    - cron: "0 5 * * 1-5"
+    - cron: "0 7 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "dry-run (送信しない)"
+        type: boolean
+        default: true
+      slug:
+        description: "特定製品のみ (空欄=全製品)"
+        type: string
+
+jobs:
+  send-followup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run demo followup
+        env:
+          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_ANON_KEY:   ${{ secrets.SUPABASE_ANON_KEY }}
+          GMAIL_ADDRESS:       ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD:  ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          DRY=""
+          SLUG_OPT=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then DRY="--dry-run"; fi
+          if [ -n "${{ github.event.inputs.slug }}" ]; then SLUG_OPT="--slug ${{ github.event.inputs.slug }}"; fi
+          python shared/gtm/outreach/send_demo_followup.py $DRY $SLUG_OPT --limit 100
