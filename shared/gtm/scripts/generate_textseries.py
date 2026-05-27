@@ -1242,8 +1242,8 @@ jobs:
       - name: Restore sent_log from Gist
         env:
           GIST_TOKEN: ${{{{ secrets.GIST_TOKEN }}}}
-          GIST_ID: ${{{{ secrets.{slug_upper}_SENT_LOG_GIST_ID }}}}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('{slug}',''))")
           curl -sf -H "Authorization: token $GIST_TOKEN" \\
             "https://api.github.com/gists/$GIST_ID" \\
             | python3 -c "
@@ -1272,8 +1272,8 @@ jobs:
         if: always()
         env:
           GIST_TOKEN: ${{{{ secrets.GIST_TOKEN }}}}
-          GIST_ID: ${{{{ secrets.{slug_upper}_SENT_LOG_GIST_ID }}}}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('{slug}',''))")
           [ -f saas-dev/projects/{slug}/outreach/sent_log.csv ] || exit 0
           python3 -c "
           import json
@@ -1311,8 +1311,8 @@ jobs:
       - name: Restore sent_log from Gist
         env:
           GIST_TOKEN: ${{{{ secrets.GIST_TOKEN }}}}
-          GIST_ID: ${{{{ secrets.{slug_upper}_SENT_LOG_GIST_ID }}}}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('{slug}',''))")
           curl -sf -H "Authorization: token $GIST_TOKEN" \\
             "https://api.github.com/gists/$GIST_ID" \\
             | python3 -c "
@@ -1334,8 +1334,8 @@ jobs:
         if: always()
         env:
           GIST_TOKEN: ${{{{ secrets.GIST_TOKEN }}}}
-          GIST_ID: ${{{{ secrets.{slug_upper}_SENT_LOG_GIST_ID }}}}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('{slug}',''))")
           [ -f saas-dev/projects/{slug}/outreach/sent_log.csv ] || exit 0
           python3 -c "
           import json
@@ -1380,8 +1380,8 @@ jobs:
       - name: Restore sent_log from Gist
         env:
           GIST_TOKEN: ${{{{ secrets.GIST_TOKEN }}}}
-          GIST_ID: ${{{{ secrets.{slug_upper}_SENT_LOG_GIST_ID }}}}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('{slug}',''))")
           curl -sf -H "Authorization: token $GIST_TOKEN" \\
             "https://api.github.com/gists/$GIST_ID" \\
             | python3 -c "
@@ -1405,8 +1405,8 @@ jobs:
         if: always()
         env:
           GIST_TOKEN: ${{{{ secrets.GIST_TOKEN }}}}
-          GIST_ID: ${{{{ secrets.{slug_upper}_SENT_LOG_GIST_ID }}}}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('{slug}',''))")
           [ -f saas-dev/projects/{slug}/outreach/sent_log.csv ] || exit 0
           python3 -c "
           import json
@@ -2175,7 +2175,7 @@ def main() -> None:
     print(f"  1. clipboard.txt の {slug.upper()} セクションを Streamlit Cloud secrets に貼り付け")
     print(f"  2. {FUDOTEXT / 'saas-dev' / 'projects' / slug} を Streamlit Cloud にデプロイ")
     print(f"  3. saas-dev/projects/{slug}/outreach/ に pipeline.py・send_emails.py を配置")
-    print(f"  4. GitHub Secrets に {slug.upper()}_SENT_LOG_GIST_ID を追加")
+    print(f"  4. shared/gtm/config/gist_ids.json に {slug} の Gist ID を追加")
     print(f"  5. LP: https://ryuu321.github.io/ai-holdings/docs/{slug}.html")
 
 

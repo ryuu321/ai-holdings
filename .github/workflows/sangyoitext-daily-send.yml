@@ -29,8 +29,8 @@ jobs:
       - name: Restore sent_log from Gist
         env:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
-          GIST_ID: ${{ secrets.SANGYOITEXT_SENT_LOG_GIST_ID }}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('sangyoitext',''))")
           curl -sf -H "Authorization: token $GIST_TOKEN" \
             "https://api.github.com/gists/$GIST_ID" \
             | python3 -c "
@@ -59,8 +59,8 @@ jobs:
         if: always()
         env:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
-          GIST_ID: ${{ secrets.SANGYOITEXT_SENT_LOG_GIST_ID }}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('sangyoitext',''))")
           [ -f saas-dev/projects/sangyoitext/outreach/sent_log.csv ] || exit 0
           python3 -c "
           import json
