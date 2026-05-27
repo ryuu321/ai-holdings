@@ -1,0 +1,59 @@
+name: textseries-note-post
+
+on:
+  schedule:
+    - cron: "0 22 * * 0,2,4"  # 日・火・木 JST 7:00 (UTC 22:00前日)
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: '投稿件数'
+        default: '2'
+      generate:
+        description: '記事生成する (true/false)'
+        default: 'true'
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Restore note session
+        env:
+          NOTE_SESSION_TEXTSERIES_B64: ${{ secrets.NOTE_SESSION_TEXTSERIES_B64 }}
+        run: |
+          mkdir -p saas-dev/projects/note-auto
+          echo "$NOTE_SESSION_TEXTSERIES_B64" | base64 -d > saas-dev/projects/note-auto/note_session_textseries.json
+
+      - name: Generate articles
+        if: ${{ inputs.generate != 'false' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python shared/gtm/scripts/generate_note_articles.py \
+            --limit ${{ inputs.limit || '2' }} \
+            --skip-existing
+
+      - name: Post to note.com
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python shared/gtm/scripts/note_textseries_upload.py \
+            --limit ${{ inputs.limit || '2' }}
+
+      - name: Commit posted log
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add shared/gtm/content/note/ || true
+          git diff --staged --quiet || git commit -m "note: TextSeries記事投稿ログ更新 [skip ci]"
+          git pull --rebase -X theirs
+          git push
