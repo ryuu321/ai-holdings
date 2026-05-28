@@ -99,6 +99,7 @@ jobs:
         env:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('kentext',''))")
           [ -f saas-dev/projects/kensetsu/outreach/sent_log.csv ] || exit 0
           python3 -c "
           import json
