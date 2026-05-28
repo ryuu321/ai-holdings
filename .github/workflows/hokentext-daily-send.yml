@@ -40,6 +40,9 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/hokentext/outreach/sent_log.csv || echo "Gist取得失敗"
 
+      - name: Seed static leads
+        run: python shared/gtm/scripts/seed_leads_from_static.py --project hokentext --limit 100 || true
+
       - name: Run GTM pipeline
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}

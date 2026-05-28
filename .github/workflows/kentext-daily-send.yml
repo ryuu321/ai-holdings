@@ -39,8 +39,8 @@ jobs:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python saas-dev/projects/kensetsu/outreach/fetch_leads.py \
-            --limit 100
+          python saas-dev/projects/kensetsu/outreach/fetch_leads.py --limit 100 || true
+          python shared/gtm/scripts/seed_leads_from_static.py --project kentext --limit 100
 
       # Step 2: ICPスコアリング (閾値70点)
       - name: Qualify leads

@@ -1,0 +1,55 @@
+name: textseries-generate-leads
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 毎日 JST 9:00 (UTC 0:00) — Gemini枠リセット直後
+  workflow_dispatch:
+    inputs:
+      project:
+        description: '特定製品のみ（空白=全製品）'
+        default: ''
+      limit:
+        description: '1製品あたり件数'
+        default: '300'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Generate static leads
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
+          GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
+        run: |
+          if [ -n "${{ inputs.project }}" ]; then
+            python shared/gtm/scripts/generate_static_leads.py \
+              --project "${{ inputs.project }}" \
+              --limit ${{ inputs.limit || '300' }} \
+              --skip-existing
+          else
+            python shared/gtm/scripts/generate_static_leads.py \
+              --limit ${{ inputs.limit || '300' }} \
+              --skip-existing
+          fi
+
+      - name: Commit generated leads
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add saas-dev/projects/*/outreach/leads_static.csv || true
+          git diff --staged --quiet || git commit -m "leads: 静的リードリスト生成 [skip ci]"
+          git pull --rebase -X theirs
+          git push

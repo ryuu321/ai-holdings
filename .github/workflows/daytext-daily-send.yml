@@ -37,7 +37,9 @@ jobs:
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python saas-dev/projects/daytext/outreach/fetch_leads.py --limit 100
+        run: |
+          python saas-dev/projects/daytext/outreach/fetch_leads.py --limit 100 || true
+          python shared/gtm/scripts/seed_leads_from_static.py --project daytext --limit 100
 
       - name: Qualify leads
         run: python shared/gtm/leads/qualify_leads.py --project daytext --input saas-dev/projects/daytext/outreach/leads.csv

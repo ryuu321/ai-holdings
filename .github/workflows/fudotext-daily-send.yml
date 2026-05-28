@@ -38,7 +38,9 @@ jobs:
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python saas-dev/projects/fudosan-copy/outreach/fetch_mlit_leads.py
+        run: |
+          python saas-dev/projects/fudosan-copy/outreach/fetch_mlit_leads.py || true
+          python shared/gtm/scripts/seed_leads_from_static.py --project fudotext --limit 100
 
       # Step 2: ICPスコアリング (閾値70点)
       - name: Qualify leads
