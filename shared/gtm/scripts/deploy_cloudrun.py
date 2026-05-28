@@ -69,11 +69,12 @@ def load_pools() -> dict:
     data = json.loads(POOLS_JSON.read_text(encoding="utf-8"))
     result = {}
     for pool in data["pools"]:
+        individual = pool.get("individual_keys", {})
         for slug in pool["products"]:
             result[slug] = {
                 "project_id": pool["project_id"],
                 "account":    pool["account"],
-                "api_key":    pool["api_key"],
+                "api_key":    individual.get(slug, pool["api_key"]),
             }
     return result
 
