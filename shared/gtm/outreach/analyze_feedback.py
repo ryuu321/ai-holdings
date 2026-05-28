@@ -174,19 +174,55 @@ def build_prompt(rows: list[dict], product_name: str, extra_context: str = "") -
     """)
 
 
-def call_gemini(prompt: str, api_key: str) -> str:
+def _load_gemini_keys() -> list[str]:
+    keys = []
+    k = os.environ.get("GEMINI_API_KEY", "")
+    if k:
+        keys.append(k)
+    for i in range(2, 27):
+        k = os.environ.get(f"GEMINI_API_KEY_{i}", "")
+        if k:
+            keys.append(k)
+    return keys
+
+
+_ANALYZE_KEY_INDEX = 0
+
+
+def call_gemini(prompt: str, api_key: str = "") -> str:
+    global _ANALYZE_KEY_INDEX
     import urllib.error
+    keys = _load_gemini_keys()
+    if not keys and api_key:
+        keys = [api_key]
+    if not keys:
+        raise RuntimeError("GEMINI_API_KEY が設定されていません")
+
     payload = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": MAX_TOKENS, "temperature": 0.3},
     }).encode()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={api_key}"
-    req = urllib.request.Request(
-        url, data=payload, headers={"Content-Type": "application/json"}, method="POST"
-    )
-    with urllib.request.urlopen(req, timeout=60) as r:
-        data = json.loads(r.read())
-    return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+
+    tried = set()
+    while len(tried) < len(keys):
+        key = keys[_ANALYZE_KEY_INDEX % len(keys)]
+        _ANALYZE_KEY_INDEX += 1
+        if key in tried:
+            continue
+        tried.add(key)
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={key}"
+        req = urllib.request.Request(
+            url, data=payload, headers={"Content-Type": "application/json"}, method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                data = json.loads(r.read())
+            return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                continue
+            raise
+    raise RuntimeError(f"全{len(keys)}キーが429制限")
 
 
 def save_report(analysis: str, stats: dict, report_path: Path) -> None:

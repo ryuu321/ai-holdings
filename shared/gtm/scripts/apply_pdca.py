@@ -117,25 +117,55 @@ def extract_prompt_improvements(report_content: str) -> str | None:
     return content
 
 
+def _load_gemini_keys() -> list[str]:
+    keys = []
+    k = os.environ.get("GEMINI_API_KEY", "")
+    if k:
+        keys.append(k)
+    for i in range(2, 27):
+        k = os.environ.get(f"GEMINI_API_KEY_{i}", "")
+        if k:
+            keys.append(k)
+    return keys
+
+
+_PDCA_KEY_INDEX = 0
+
+
 def call_gemini(prompt: str) -> str:
-    api_key = os.environ.get("GEMINI_API_KEY", "")
-    if not api_key:
+    global _PDCA_KEY_INDEX
+    keys = _load_gemini_keys()
+    if not keys:
         raise RuntimeError("GEMINI_API_KEY が設定されていません")
     payload = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": 8192, "temperature": 0.2},
     }).encode()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={api_key}"
-    req = urllib.request.Request(
-        url, data=payload, headers={"Content-Type": "application/json"}, method="POST"
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=120) as r:
-            data = json.loads(r.read())
-        return data["candidates"][0]["content"]["parts"][0]["text"].strip()
-    except urllib.error.HTTPError as e:
-        body = e.read().decode()
-        raise RuntimeError(f"Gemini API エラー ({e.code}): {body}") from None
+
+    tried = set()
+    last_err = None
+    while len(tried) < len(keys):
+        key = keys[_PDCA_KEY_INDEX % len(keys)]
+        _PDCA_KEY_INDEX += 1
+        if key in tried:
+            continue
+        tried.add(key)
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={key}"
+        req = urllib.request.Request(
+            url, data=payload, headers={"Content-Type": "application/json"}, method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                data = json.loads(r.read())
+            return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        except urllib.error.HTTPError as e:
+            body = e.read().decode()
+            if e.code == 429:
+                last_err = f"429 ({key[:8]}...)"
+                continue
+            raise RuntimeError(f"Gemini API エラー ({e.code}): {body}") from None
+
+    raise RuntimeError(f"全{len(keys)}キーが429制限: {last_err}")
 
 
 def build_pdca_prompt(gen_py_content: str, improvements: str, product_name: str) -> str:
