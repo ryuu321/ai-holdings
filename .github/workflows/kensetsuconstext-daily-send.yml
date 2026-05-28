@@ -2,7 +2,7 @@ name: kensetsuconstext-daily-send
 
 on:
   schedule:
-    - cron: "30 2 * * 1-5"  # 平日 JST 11:30 (UTC 02:30)
+    - cron: "0 3 * * 1-5"  # JST 12:00 平日
   workflow_dispatch:
     inputs:
       dry_run:
@@ -10,7 +10,7 @@ on:
         default: 'true'
       limit:
         description: '送信件数上限'
-        default: '30'
+        default: '5'
 
 jobs:
   send:
@@ -72,14 +72,14 @@ jobs:
           GEMINI_API_KEY_24: ${{ secrets.GEMINI_API_KEY_24 }}
           GEMINI_API_KEY_25: ${{ secrets.GEMINI_API_KEY_25 }}
           GEMINI_API_KEY_26: ${{ secrets.GEMINI_API_KEY_26 }}
-        run: python saas-dev/projects/kensetsuconstext/outreach/pipeline.py --limit ${{ inputs.limit || '30' }}
+        run: python saas-dev/projects/kensetsuconstext/outreach/pipeline.py --limit ${{ inputs.limit || '5' }}
 
       - name: Send emails
         env:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
-          ARGS="--limit ${{ inputs.limit || '30' }}"
+          ARGS="--limit ${{ inputs.limit || '5' }}"
           [ "${{ inputs.dry_run }}" = "true" ] && ARGS="$ARGS --dry-run"
           python saas-dev/projects/kensetsuconstext/outreach/send_emails.py $ARGS
 

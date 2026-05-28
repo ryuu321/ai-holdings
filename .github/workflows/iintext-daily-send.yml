@@ -2,7 +2,7 @@ name: iintext-daily-send
 
 on:
   schedule:
-    - cron: "30 2 * * 1-5"  # 平日 JST 11:30 (UTC 02:30)
+    - cron: "30 3 * * 1-5"  # JST 12:30 平日
   workflow_dispatch:
 
 jobs:
@@ -80,7 +80,7 @@ jobs:
           GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           SENDER_ADDRESS: ${{ secrets.SENDER_ADDRESS }}
-        run: python saas-dev/projects/iintext/outreach/send_emails.py --limit 30
+        run: python saas-dev/projects/iintext/outreach/send_emails.py --limit 5
 
       - name: Upload sent_log to Gist
         if: always()

@@ -2,7 +2,7 @@ name: sharotext-daily-send
 
 on:
   schedule:
-    - cron: "0 2 * * 1-5"  # 平日 JST 11:00 (UTC 02:00)
+    - cron: "30 1 * * 1-5"  # JST 10:30 平日
   workflow_dispatch:
 
 jobs:
@@ -88,7 +88,7 @@ jobs:
           SENDER_ADDRESS: ${{ secrets.SENDER_ADDRESS }}
         run: |
           python saas-dev/projects/sharotext/outreach/send_emails.py \
-            --limit 30
+            --limit 5
 
       - name: Upload sent_log to Gist
         if: always()
