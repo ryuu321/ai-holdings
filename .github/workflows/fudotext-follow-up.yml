@@ -29,14 +29,14 @@ jobs:
       - name: Restore sent_log from Gist
         env:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
-          GIST_ID: ${{ secrets.SENT_LOG_GIST_ID }}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('fudotext',''))")
           curl -sf -H "Authorization: token $GIST_TOKEN" \
             "https://api.github.com/gists/$GIST_ID" \
             | python3 -c "
           import sys, json
           data = json.load(sys.stdin)
-          content = data['files'].get('sent_log.csv', {}).get('content', '')
+          content = data['files'].get('fudotext_sent_log.csv', {}).get('content', '')
           print(content, end='')
           " > saas-dev/projects/fudosan-copy/outreach/sent_log.csv || echo "Gist取得失敗"
 
@@ -54,13 +54,13 @@ jobs:
         if: always()
         env:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
-          GIST_ID: ${{ secrets.SENT_LOG_GIST_ID }}
         run: |
+          GIST_ID=$(python3 -c "import json; print(json.load(open('shared/gtm/config/gist_ids.json')).get('fudotext',''))")
           [ -f saas-dev/projects/fudosan-copy/outreach/sent_log.csv ] || exit 0
           python3 -c "
           import json
           content = open('saas-dev/projects/fudosan-copy/outreach/sent_log.csv', encoding='utf-8').read()
-          print(json.dumps({'files': {'sent_log.csv': {'content': content}}}))
+          print(json.dumps({'files': {'fudotext_sent_log.csv': {'content': content}}}))
           " | curl -sf -X PATCH \
             -H "Authorization: token $GIST_TOKEN" \
             -H "Content-Type: application/json" \
