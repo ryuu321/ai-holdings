@@ -44,16 +44,45 @@ def load_template(name: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _load_gemini_keys() -> list[str]:
+    keys = []
+    k = os.environ.get("GEMINI_API_KEY", "")
+    if k:
+        keys.append(k)
+    for i in range(2, 27):
+        k = os.environ.get(f"GEMINI_API_KEY_{i}", "")
+        if k:
+            keys.append(k)
+    return keys
+
+_GEMINI_KEYS: list[str] = []
+_GEMINI_KEY_INDEX = 0
+
+
 def _gemini_personalize(company_name: str, prompt_template: str, model: str, api_key: str) -> tuple[str, bool]:
-    if not api_key:
+    global _GEMINI_KEYS, _GEMINI_KEY_INDEX
+    # 初回呼び出し時にキーリストをロード
+    if not _GEMINI_KEYS:
+        _GEMINI_KEYS = _load_gemini_keys()
+    keys = _GEMINI_KEYS if _GEMINI_KEYS else ([api_key] if api_key else [])
+    if not keys:
         return "", False
+
     prompt = prompt_template.format(company_name=company_name)
     payload = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"maxOutputTokens": 100, "temperature": 0.7}
     }).encode()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-    for attempt in range(3):
+
+    tried = set()
+    while len(tried) < len(keys):
+        key = keys[_GEMINI_KEY_INDEX % len(keys)]
+        _GEMINI_KEY_INDEX += 1
+        if key in tried:
+            continue
+        tried.add(key)
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
         try:
             req = urllib.request.Request(url, data=payload,
                                           headers={"Content-Type": "application/json"}, method="POST")
@@ -63,13 +92,13 @@ def _gemini_personalize(company_name: str, prompt_template: str, model: str, api
             return text, True
         except urllib.error.HTTPError as e:
             if e.code == 429:
-                sleep = 2 ** (attempt + 1)
-                print(f"    Gemini 429 → {sleep}s待機")
-                time.sleep(sleep)
-            else:
-                return "", False
+                # このキーはRPM/RPD制限 → 次のキーへ
+                continue
+            return "", False
         except Exception:
             return "", False
+
+    # 全キー制限 → フォールバック
     return "", False
 
 
@@ -253,7 +282,8 @@ def main():
             f.flush()
             generated += 1
             print(f"{'AI' if personalized else 'FB'}")
-            time.sleep(0.5)
+            if personalized:
+                time.sleep(2)  # RPM対策: 1キーあたり15RPM = 4秒/リクエスト、26キーで割れば余裕あり
 
     print(f"\n完了。{generated}件を emails_draft.csv に追加しました。")
 
