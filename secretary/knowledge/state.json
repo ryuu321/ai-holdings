@@ -1,0 +1,363 @@
+{
+  "version": "1.4",
+  "last_updated": "2026-05-28",
+  "session_count": 24,
+  "owner": {
+    "profile": "公立千歳科学技術大学 情報システム工学科 大学生",
+    "constraints": [
+      "初期資金ほぼゼロ",
+      "Claude Pro（追加課金不可）"
+    ],
+    "goals": [
+      "1ヶ月で月10万",
+      "6ヶ月で月100万"
+    ],
+    "preferences": [
+      "数値・データ重視",
+      "並走戦略・リスク分散",
+      "シンプルな仕組み"
+    ],
+    "dislikes": [
+      "余計な質問",
+      "回りくどい説明",
+      "コーチング"
+    ]
+  },
+  "group_strategy": {
+    "current_focus": [
+      "TextSeries 18製品 コールドメール顧客獲得（全自動GTMパイプライン稼働中）",
+      "FudoText: 8社返信待ち・最優先フォロー",
+      "SEOガイドページ拡充（検索流入→Gumroad誘導）",
+      "楽天ROOM auth維持"
+    ],
+    "quarter_goal": "月10万達成",
+    "key_decisions": [
+      "noteは恋愛系・チビの哲学ブランドで展開",
+      "マガジンは買い切り¥480スタート・記事増加で値上げ",
+      "収益が出るまでClaude Pro以外の追加課金なし・完全無料縛り",
+      "投資ボットはルールベース・APIキー不要・完全無料",
+      "GitHub Actions全ボットを4時間ごとに統一（月間約1,246分・2,000分枠内）",
+      "リポジトリはプライベートのまま維持（Rakuten自動化の監視対策）",
+      "副業は並走戦略（時間はとれる・芽が出たものに集中投資）",
+      "LINEスタンプ・Audiostockはやらない（単価低・利用規約リスク）",
+      "KDPはEPUB生成のみ・手動アップロード（Playwright廃止）",
+      "KDP著者名D.ryuに統一・需要ドリブンのパブリッシングハウスモデル",
+      "Redbubble自動化は永久廃止（Cloudflare Turnstile）→ 手動アップロード運用",
+      "Reddit from GitHub Actions は不可・追わない（Azure VM IPブロック確定・2026-05-15）",
+      "Dev.to 2x/day化（JST 11:00 + 20:00）（2026-05-15）",
+      "ジャンル別Gumroad CTA対応（2026-05-15）",
+      "YouTube Shorts一時停止: 完全自律でないため（OAuthアカウント混乱・要Google Cloud Console手動設定・2026-05-17）",
+      "SEOガイドページ戦略を主軸に: 完全自律・無課金・高検索意図キーワード（2026-05-17）",
+      "/resumeコマンド作成: 不在時の指示ゼロ継続を実現（2026-05-17）",
+      "FudoText商用化GO: 技術完成・LP作成→顧客獲得が次フェーズ（2026-05-19）",
+      "FudoText APIキー専用化: 別GCPプロジェクトで500RPD無料枠確保（2026-05-19）",
+      "Supabaseクライアント廃止: バージョン互換問題→REST API直接呼び出し（2026-05-20）",
+      "FudoText無料トライアルにメール必須化: リロードリセット問題を根本解決（2026-05-20）",
+      "Stripe復活: setup_stripe.pyでpayment link作成成功・sk_live_キー稼働（2026-05-22）",
+      "in-appフィードバック標準化: 新製品はGoogle Forms不要・Supabase直接保存（2026-05-22）",
+      "/saas-buildスキル全自動化: 名前+1往復+コピペ2回=新事業完成体制確立（2026-05-22）",
+      "Gist作成・GitHub Secrets登録をsetup_stripe.pyに統合（2026-05-22）",
+      "icp.document_typesをconfig標準フィールドに追加（2026-05-22）",
+      "TextSeries 18製品体制確立: /saas-buildスキルで量産・各製品にGTM+LP+App+5本ワークフロー（〜2026-05-23）",
+      "製品ラインナップ: FudoText/SharoText/KenText/DayText/PharmText/CmText/KanriText/DenkiText/ShoshiText/AfterText/IinText/GyoText/JukuText/TosText/CareText/TaxText/ChurnText/TokuText",
+      "setup_stripe.py完全体: Stripe+GCP専用PJ+GeminiAPIキー(gemini-2.5-flash)+SupabaseSQL+Gist+GitHubSecrets=全自動（2026-05-24）",
+      "Streamlit Secrets自動化はやらない: PlaywrightOAuth複雑・手動15秒で十分（2026-05-24）",
+      "SUPABASE_ACCESS_TOKEN: .envに追加済み（2026-05-24）",
+      "ポートフォリオ自動更新: registry.json+update_portfolio.py+setup_stripe.py連携で新製品リリース時にryuu321.github.ioを自動更新（2026-05-25）",
+      "ryuu321.github.io: 6製品稼働中に修正・push完了（2026-05-25）",
+      "TextSeries 12製品 Streamlit Cloud デプロイ完了（Public設定・全自動GTM稼働）（2026-05-25）",
+      "GitHub Actions secrets 追加: SUPABASE_URL/ANON_KEY/SERVICE_KEY/STRIPE_SECRET_KEY（2026-05-25）",
+      "feedback-pdca 12ワークフロー修正: 製品別Supabase参照名→共有名統一（2026-05-25）",
+      "clipboard.txt 完全版完成: 全12製品のStreamlit Secrets（GCP実キー確認済み）（2026-05-25）",
+      "setup_stripe.py改善: gemini_api_key+stripe URLをconfig JSONに自動保存・clipboard.txt追記モード（2026-05-25）",
+      "TextSeries 103製品体制: 計画100→103に（pool overflow）そのまま続行（2026-05-27）",
+      "製品品質方針: PMFシグナルが出た製品だけ深掘り・全103の事前改修はしない（2026-05-27）",
+      "HuggingFace完全廃止→Cloud Run移行: textseries-tokutext-apiに全製品デプロイ（2026-05-27）",
+      "デモ後FUメール追加: 1回使ったユーザーへ自動フォロー（2026-05-27）",
+      "コールドメール0件問題は現状維持（本名メールで失礼を避ける優先）（2026-05-27）",
+      "GTM全自動化完成: 静的リード生成(Gemini 103製品300件/製品) + Workflow Gemini26キーローテーション + スタッガー送信(UTC01-08:30, 5通/日/製品) (2026-05-28)",
+      "fudotext旧フォーマット(SENT_LOG_GIST_ID secret) → gist_ids.json形式に統一 (2026-05-28)",
+      "kentext GIST_ID未設定バグ修正 (daily-send/check-replies/follow-up) (2026-05-28)",
+      "note記事自動リサイクル: 全103記事投稿後にposted_logリセット→再サイクル開始 (2026-05-28)"
+    ],
+    "decisions_archive": "secretary/knowledge/decisions_archive.md"
+  },
+  "companies": {
+    "saas-dev": {
+      "status": "稼働中",
+      "active_projects": [
+        "TextSeries 18製品 全自動GTMパイプライン（各5本ワークフロー: daily-send/check-replies/follow-up/send-code/feedback-pdca）",
+        "TextSeries製品一覧: FudoText(不動産仲介) / SharoText(社労士) / KenText(建設業) / DayText(デイサービス) / PharmText(調剤薬局) / CmText(ケアマネ) / KanriText(不動産管理) / DenkiText(電気工事) / ShoshiText(司法書士) / AfterText(放課後等デイ) / IinText(クリニック) / GyoText(行政書士) / JukuText(学習塾) / TosText(塗装防水) / CareText(訪問介護) / TaxText(税理士) / ChurnText(SaaS解約防止) / TokuText(特養)",
+        "全自動投資ボット6本（ペーパートレード）",
+        "楽天ROOM自動投稿（セッション切れ中・ローカルauth更新必要）",
+        "Kindle KDP EPUB自動生成（累計6冊・手動アップロード待ち）",
+        "Redbubble MidnightTorii（手動アップ・next_index=4）",
+        "Gumroad自動生成・出品（9商品/$0売上）",
+        "Dev.to自動投稿（記事量産・2x/day）"
+      ],
+      "latest_update": "2026-05-27",
+      "wins": [
+        "Gemini26キーローテーション全スクリプト対応: analyze_feedback/apply_pdca/generate_leads/note-post/103×feedback-pdca (2026-05-28)",
+        "GTMパイプライン修正: fudotext旧GIST形式→gist_ids.json統一 + kentext GIST_ID未設定修正 (2026-05-28)",
+        "ワークフロー95%成功率確認: 84件中80成功（2026-05-28 UTC05時点）",
+        "静的リード生成スケジュール稼働: 2026-05-29 JST9:00 初回実行予定",
+        "TextSeries 103製品 Cloud Run デプロイ開始（59/103完了・残44バックグラウンド実行中）（2026-05-27）",
+        "営業全自動フロー完成: デモ後FU→Stripe課金検知→コード自動送付（2026-05-27）"
+      ],
+      "issues": [
+        "静的リード初回生成待ち: 2026-05-29 JST9:00 (textseries-generate-leads.yml)",
+        "Cloud Run: 44製品デプロイ中（バックグラウンド・完了確認必要）",
+        "楽天ROOM: AkamaiブロックでCIログイン不可→ローカルupdate_auth.ps1実行必要",
+        "KDP: CIブロック→手動アップロード6冊必要",
+        "FudoText: 8社からの返信待ち（2026-05-19送信・9日経過）",
+        "FUDOTEXT_PAT: GitHub secretsに未登録→apply_pdca.pyが動かない"
+      ],
+      "context_file": "secretary/context/saas-dev.md"
+    },
+    "note-biz": {
+      "status": "稼働中・全自動完成",
+      "active_projects": [
+        "全自動3アカウント 毎日JST10時自動投稿（AI副業・節約投資・転職キャリア）"
+      ],
+      "latest_update": "2026-05-01",
+      "issues": [],
+      "wins": [
+        "GitHub Actions 3アカウント同時自動投稿 稼働中"
+      ],
+      "context_file": "secretary/context/note-biz.md"
+    },
+    "sns-ops": {
+      "status": "準備中",
+      "active_projects": [
+        "個人サロン向けInstagram運用代行"
+      ],
+      "latest_update": "2026-04-13",
+      "issues": [
+        "アカウント未作成"
+      ]
+    },
+    "consulting": {
+      "status": "保留中",
+      "active_projects": [],
+      "latest_update": "2026-04-13"
+    },
+    "research": {
+      "status": "稼働中",
+      "active_projects": [
+        "市場リサーチ・CSO配下・毎朝JST7時自動実行"
+      ],
+      "latest_update": "2026-04-15",
+      "context_file": "secretary/context/research.md"
+    },
+    "rakuten-room": {
+      "status": "セッション切れ（要更新）",
+      "posted_count": 150,
+      "total_products_in_csv": 5767,
+      "latest_update": "2026-05-17",
+      "note": "Akamaiがe01_008でGitHub Actions IPをブロック。ローカルで update_auth.ps1 実行必須"
+    },
+    "redbubble": {
+      "status": "立ち上げ中",
+      "active_projects": [
+        "MidnightTorii ショップ"
+      ],
+      "uploaded_count": 4,
+      "total_designs": 20,
+      "next_index": 4,
+      "shop_url": "https://www.redbubble.com/people/MidnightTorii",
+      "latest_update": "2026-05-01",
+      "workflow": "週1回手動アップロード（残り16件・upload_data.txt使用）"
+    },
+    "ventures-auto": {
+      "status": "稼働中（自律実験中）",
+      "latest_update": "2026-05-17",
+      "active_projects": [
+        "news_publisher: AI日報→Dev.to+Telegram（毎日JST9時）",
+        "product_articles: Gumroad商品記事→Dev.to（毎日JST17時）",
+        "pages_publisher: SEOランディングページ生成（毎週月曜）",
+        "youtube_shorts: 一時停止中（OAuth要修正）",
+        "telegram_signals: 投資シグナル配信（毎日JST09時）"
+      ],
+      "path": "saas-dev/projects/ventures/",
+      "seo_guides": {
+        "count": 55,
+        "pages": [
+          "adhd",
+          "etsy-sellers",
+          "content-creators",
+          "side-hustles",
+          "graphic-designers",
+          "procreate-artists",
+          "teachers",
+          "real-estate-agents",
+          "freelancers",
+          "writers",
+          "social-media-managers",
+          "small-business-owners",
+          "virtual-assistants",
+          "fitness-coaches",
+          "photographers",
+          "hr-professionals",
+          "project-managers",
+          "consultants",
+          "digital-marketers",
+          "personal-finance",
+          "nonprofit-managers",
+          "personal-trainers",
+          "youtube-creators",
+          "amazon-sellers",
+          "copywriters",
+          "ux-designers",
+          "podcasters",
+          "restaurant-owners",
+          "product-managers",
+          "ecommerce-sellers",
+          "interior-designers",
+          "financial-advisors",
+          "insurance-agents",
+          "dentists",
+          "sales-professionals",
+          "web-designers",
+          "online-course-creators",
+          "accountants",
+          "life-coaches",
+          "therapists",
+          "lawyers",
+          "nurses",
+          "brand-strategists",
+          "real-estate-investors",
+          "career-coaches",
+          "chiropractors",
+          "nutritionists",
+          "mortgage-brokers",
+          "data-analysts",
+          "recruiters",
+          "brand-strategists-2",
+          "startup-founders",
+          "career-coaches-2",
+          "cybersecurity-professionals",
+          "technical-writers"
+        ]
+      },
+      "gumroad_products": {
+        "count": 9,
+        "revenue_usd": 0,
+        "urls": {
+          "Procreate Assets": "https://ryuumg.gumroad.com/l/ndtsjv",
+          "DesignGenie": "https://ryuumg.gumroad.com/l/zkiwh",
+          "AI Content Boost": "https://ryuumg.gumroad.com/l/qhanl",
+          "Procreate AI": "https://ryuumg.gumroad.com/l/yugogd",
+          "Procreate Aid": "https://ryuumg.gumroad.com/l/ikres",
+          "Viral Content": "https://ryuumg.gumroad.com/l/rboqqr",
+          "ADHD Unlocked": "https://ryuumg.gumroad.com/l/akikab",
+          "Etsy Seller Boost": "https://ryuumg.gumroad.com/l/nnijeb",
+          "Etsy Success Boost": "https://ryuumg.gumroad.com/l/fnvjgp"
+        }
+      },
+      "youtube_issue": "ryumgrweb@gmail.comをGoogle Cloud Console > OAuth consent screen > Test usersに追加が必要"
+    }
+  },
+  "infrastructure": {
+    "investment_bots": {
+      "universe": [
+        "BTC-USD",
+        "ETH-USD",
+        "SOL-USD",
+        "NVDA",
+        "AMD",
+        "TSLA",
+        "META",
+        "PLTR",
+        "COIN",
+        "MSTR",
+        "ARM",
+        "AVGO"
+      ],
+      "bots": {
+        "SHORT": {
+          "interval": "4時間ごと"
+        },
+        "MEDIUM": {
+          "interval": "毎日",
+          "universe": "14銘柄自動選定"
+        },
+        "LONG": {
+          "interval": "毎週月曜",
+          "watchlist": "17銘柄"
+        },
+        "MACRO": {
+          "interval": "毎週月曜"
+        },
+        "VOLT": {
+          "interval": "4時間ごと",
+          "strategy": "VolTargeting+CPPI 12銘柄スキャン"
+        },
+        "ATTACK": {
+          "interval": "4時間ごと",
+          "strategy": "MA200+RSI+MACD 12銘柄スキャン"
+        }
+      }
+    },
+    "note_auto": {
+      "schedule": "毎日JST10時",
+      "accounts": 3,
+      "session_expiry": "2026-07-25"
+    },
+    "gemini_research": {
+      "model": "gemini-flash-latest",
+      "schedule": "毎朝JST7時"
+    },
+    "github_secrets": {
+      "registered": [
+        "REDDIT_SESSION_B64",
+        "PINTEREST_SESSION_B64",
+        "RAKUTEN_AUTH_JSON",
+        "GUMROAD_ACCESS_TOKEN",
+        "GROQ_API_KEY",
+        "DEVTO_API_KEY",
+        "GEMINI_API_KEY",
+        "YOUTUBE_CLIENT_ID",
+        "YOUTUBE_CLIENT_SECRET",
+        "YOUTUBE_REFRESH_TOKEN",
+        "SHAROTEXT_SENT_LOG_GIST_ID",
+        "KENTEXT_SENT_LOG_GIST_ID"
+      ]
+    },
+    "saas_setup": {
+      "script": "shared/gtm/scripts/setup_stripe.py",
+      "automates": [
+        "Stripe payment links",
+        "GCP専用PJ作成",
+        "Gemini APIキー発行",
+        "Supabase SQL実行",
+        "Gist作成",
+        "GitHub Secrets登録",
+        "clipboard.txt出力",
+        "ryuu321.github.ioポートフォリオ自動更新"
+      ],
+      "manual_remaining": [
+        "Streamlit Cloud デプロイ + Secrets設定（15秒）"
+      ],
+      "portfolio_registry": "shared/portfolio/registry.json",
+      "portfolio_update_script": "shared/gtm/scripts/update_portfolio.py"
+    }
+  },
+  "knowledge_base": {
+    "lessons_ref": "secretary/knowledge/lessons.md"
+  },
+  "pending_tasks": [
+    "【要監視】2026-05-29 JST9:00: textseries-generate-leads.yml 初回実行 → 103製品の静的リード生成確認",
+    "【要監視】2026-05-29 JST10:00-17:30: 初回コールドメール送信確認 (103製品×5通=515通)",
+    "【要確認】Cloud Run残44製品デプロイ完了確認: _deploy_remaining.log を確認",
+    "【最優先・手動5分】FUDOTEXT_PAT登録: GitHub Fine-grained token→gh secret set FUDOTEXT_PAT",
+    "【最優先】FudoText: 8社への返信確認・対応（9日経過）",
+    "【手動】楽天ROOM auth refresh: update_auth.ps1 実行",
+    "【手動】KDP手動アップロード: 6冊・¥980・70%ロイヤリティ",
+    "【中優先】YouTube OAuth修正: Google Cloud Console > Test users に ryumgrweb@gmail.com 追加"
+  ],
+  "next_session_agenda": [
+    "1. 2026-05-29 JST9:00以降: 静的リード生成結果確認（gh run list --workflow=textseries-generate-leads.yml）",
+    "2. JST10:00以降: コールドメール初送信確認（Gistのsent_log確認）",
+    "3. FUDOTEXT_PAT登録（5分・GitHub Fine-grained token）"
+  ]
+}
