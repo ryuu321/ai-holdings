@@ -211,8 +211,14 @@ def main():
     print(f"記事: {len(all_articles)}件 / 未投稿: {len(unposted)}件")
 
     if not unposted:
-        print("未投稿記事なし。--generate で生成できます。")
-        return
+        if all_articles:
+            # 全記事投稿済み → posted_log をリセットして再投稿サイクル開始
+            print("全記事投稿済み。posted_log をリセットして再投稿サイクルを開始します。")
+            save_posted(set())
+            unposted = list(all_articles)
+        else:
+            print("未投稿記事なし。--generate で生成できます。")
+            return
 
     posted_count = 0
     for md_path in unposted[:args.limit]:
