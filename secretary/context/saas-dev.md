@@ -5,7 +5,7 @@ updated: 2026-05-27
 
 ## 稼働中プロジェクト
 - 投資ボット6本: SHORT/MEDIUM/LONG/MACRO/ATTACK/VOLT（GitHub Actions 4時間ごと/毎日/毎週）
-- 楽天ROOM自動投稿: 1日4回（07/12/18/22時JST）・**現在セッション切れ中**・要ローカルauth更新
+- 楽天ROOM: **撤退決定（2026-05-27）**
 - Kindle KDP: EPUB自動生成（日曜・水曜 JST7時）累計6冊・手動アップロード待ち
 - Redbubble: MidnightTorii 手動アップロード（next_index=4、残16件）
 
@@ -35,7 +35,7 @@ updated: 2026-05-27
 ### 課題
 - FUDOTEXT_PAT未登録: apply_pdca.pyが動かない（手動5分）
 - FudoText 8社返信待ち（2026-05-19送信・8日経過）
-- 楽天ROOM auth切れ・KDP手動アップロード6冊待ち
+- KDP手動アップロード6冊待ち
 
 ### 製品品質方針
 - 103製品全部を深掘りするのでなく、PMFシグナル（フィードバック・課金）が出た製品に集中

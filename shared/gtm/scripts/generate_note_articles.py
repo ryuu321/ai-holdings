@@ -50,18 +50,35 @@ try:
 except Exception:
     pass
 
-GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 GEMINI_MODEL = "gemini-2.0-flash-lite"
 
 # API呼び出し間隔（レート制限対策）
 API_INTERVAL = 2.0
 
+# 全APIキーをローテーション
+_GEMINI_KEYS: list[str] = []
+_key_index = 0
+
+def _load_gemini_keys() -> list[str]:
+    keys = []
+    # GEMINI_API_KEY, GEMINI_API_KEY_2 ... GEMINI_API_KEY_26
+    k = os.environ.get("GEMINI_API_KEY", "")
+    if k:
+        keys.append(k)
+    for i in range(2, 27):
+        k = os.environ.get(f"GEMINI_API_KEY_{i}", "")
+        if k:
+            keys.append(k)
+    return keys
+
+_GEMINI_KEYS = _load_gemini_keys()
 
 # ── Gemini helper ──────────────────────────────────────────────────────────────
 
 def _call_gemini(prompt: str, max_tokens: int = 1200) -> str:
-    """Gemini Flash Lite に prompt を送って応答テキストを返す"""
-    if not GEMINI_KEY:
+    """Gemini Flash Lite に prompt を送って応答テキストを返す（全キーローテーション）"""
+    global _key_index
+    if not _GEMINI_KEYS:
         raise RuntimeError("GEMINI_API_KEY が未設定です。.env に追加してください。")
 
     payload = json.dumps({
@@ -73,35 +90,46 @@ def _call_gemini(prompt: str, max_tokens: int = 1200) -> str:
         },
     }).encode()
 
-    api_url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{GEMINI_MODEL}:generateContent?key={GEMINI_KEY}"
-    )
+    tried = set()
+    while len(tried) < len(_GEMINI_KEYS):
+        key = _GEMINI_KEYS[_key_index % len(_GEMINI_KEYS)]
+        _key_index += 1
+        if key in tried:
+            continue
+        tried.add(key)
 
-    for attempt in range(3):
-        try:
-            req = urllib.request.Request(
-                api_url, data=payload,
-                headers={"Content-Type": "application/json"}, method="POST",
-            )
-            with urllib.request.urlopen(req, timeout=30) as r:
-                data = json.loads(r.read())
-            return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        api_url = (
+            f"https://generativelanguage.googleapis.com/v1beta/models/"
+            f"{GEMINI_MODEL}:generateContent?key={key}"
+        )
 
-        except urllib.error.HTTPError as e:
-            if e.code == 429:
-                wait = 2 ** (attempt + 2)
-                print(f"    Gemini 429 → {wait}s待機...")
-                time.sleep(wait)
-            else:
-                raise
-        except Exception as e:
-            if attempt == 2:
-                raise
-            print(f"    リトライ ({attempt + 1}/3): {e}")
-            time.sleep(2)
+        for attempt in range(3):
+            try:
+                req = urllib.request.Request(
+                    api_url, data=payload,
+                    headers={"Content-Type": "application/json"}, method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    data = json.loads(r.read())
+                return data["candidates"][0]["content"]["parts"][0]["text"].strip()
 
-    raise RuntimeError("Gemini API 呼び出しが3回失敗しました")
+            except urllib.error.HTTPError as e:
+                if e.code == 429:
+                    if attempt < 2:
+                        wait = 2 ** (attempt + 1)
+                        print(f"    Gemini 429 → {wait}s待機...")
+                        time.sleep(wait)
+                    else:
+                        break  # このキーは限界、次のキーへ
+                else:
+                    raise
+            except Exception as e:
+                if attempt == 2:
+                    raise
+                print(f"    リトライ ({attempt + 1}/3): {e}")
+                time.sleep(2)
+
+    raise RuntimeError(f"全{len(_GEMINI_KEYS)}キーが429制限。後でリトライしてください。")
 
 
 # ── プロンプト生成 ─────────────────────────────────────────────────────────────
@@ -199,7 +227,7 @@ def main():
         config_files = sorted(CONFIG_DIR.glob("*text.json"))  # TextSeriesのみ
 
     print(f"対象: {len(config_files)}製品")
-    if not GEMINI_KEY and not args.dry_run:
+    if not _GEMINI_KEYS and not args.dry_run:
         print("ERROR: GEMINI_API_KEY が未設定です。.env に追加してください。")
         sys.exit(1)
 
@@ -233,6 +261,9 @@ def main():
 
         try:
             content = generate_article(cfg, dry_run=args.dry_run)
+            if args.dry_run:
+                stats["generated"] += 1
+                continue
             saved = save_article(slug, content)
             char_count = len(content)
             print(f"{char_count}字 → {saved.name}")

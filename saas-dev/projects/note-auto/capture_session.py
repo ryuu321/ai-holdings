@@ -58,26 +58,42 @@ def capture(account_id: int):
     print(f"Value: 上記のbase64文字列")
 
 
-def capture_to_file(session_filename: str, secret_name: str):
+def capture_to_file(session_filename: str, secret_name: str, timeout_sec: int = 120):
     session_file = Path(__file__).parent / session_filename
-    print(f"ブラウザを開きます... note.comにログインしてEnterを押してください。")
+    print(f"ブラウザを開きます... note.comにメールアドレスでログインしてください。")
+    print(f"（ログイン完了後、{timeout_sec}秒待つか、ログイン済みを検知したら自動保存します）")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context(user_agent=UA, viewport={"width": 1280, "height": 900}, locale="ja-JP")
         page = context.new_page()
         page.goto("https://note.com/login")
-        input("\n>>> ログイン完了後にEnterを押してください...")
+
+        # ログイン完了を自動検知（ダッシュボードへのリダイレクト or ホームページ）
+        print("ログイン中... 自動検知待機（最大120秒）")
+        try:
+            # ログイン後はnote.com/のホームかダッシュボードに遷移する
+            page.wait_for_url(
+                lambda url: "note.com/login" not in url and "note.com" in url,
+                timeout=timeout_sec * 1000
+            )
+            print("✓ ログイン検知。セッション保存中...")
+            import time as _time
+            _time.sleep(2)  # Cookie確定待ち
+        except Exception:
+            print("タイムアウト。現在のセッションで保存します...")
+
         context.storage_state(path=str(session_file))
-        print(f"\n✓ セッション保存: {session_file}")
+        print(f"✓ セッション保存: {session_file}")
         browser.close()
 
     raw = session_file.read_bytes()
     b64 = base64.b64encode(raw).decode()
-    print(f"\n=== GitHub Secrets に登録する値（{secret_name}）===")
-    print(b64[:80] + "..." if len(b64) > 80 else b64)
-    print(f"\n登録コマンド:")
-    print(f'  gh secret set {secret_name} --body "$(base64 -w0 {session_file})" --repo ryuu321/ai-holdings')
+    b64_file = Path(__file__).parent / "session_b64.txt"
+    b64_file.write_text(b64, encoding="utf-8")
+    print(f"\n=== GitHub Secret 登録コマンド（PowerShellで実行）===")
+    print(f'$b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes("{session_file}")); gh secret set {secret_name} --body $b64 --repo ryuu321/ai-holdings')
+    print(f"\n（base64値は {b64_file} にも保存済み）")
 
 
 if __name__ == "__main__":
