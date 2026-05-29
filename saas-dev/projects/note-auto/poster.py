@@ -110,18 +110,15 @@ def post_article(
     # ── Step 3: 下書き保存（タイトル・本文）──────────────────
     free_html = _text_to_html(free_body)
     pay_html  = _text_to_html(paid_body) if paid_body else ""
-    free_len  = len(free_body)
-    body_length = free_len + (len(paid_body) if paid_body else 0)
+    body_length = len(free_body) + len(paid_body) if paid_body else len(free_body)
     hashtags  = [t.lstrip("#") for t in tags[:5]]
-    is_paid   = bool(paid_body and price > 0)
 
-    # draft_saveは無料部分のみ（有料境界マーカーなし）
     r3 = s.post(
         f"{NOTE_BASE}/api/v1/text_notes/draft_save",
         params={"id": note_id, "is_temp_saved": "true"},
         json={
             "name":          title,
-            "body":          free_html,
+            "body":          free_html + pay_html,
             "body_length":   body_length,
             "price":         price,
             "hashtag_list":  hashtags,
@@ -149,33 +146,28 @@ def post_article(
         "index":                       False,
         "is_refund":                   False,
         "lead_form":                   {"is_active": False, "consent_url": ""},
-        "limited":                     is_paid,
+        "limited":                     price > 0,
         "line_add_friend":             {"is_active": False, "keyword": "", "add_friend_url": ""},
         "line_add_friend_access_token": line_token,
         "magazine_ids":                [],
         "magazine_keys":               [],
         "name":                        title,
-        "pay_body":                    pay_html if is_paid else "",
+        "pay_body":                    pay_html if (paid_body and price > 0) else "",
         "price":                       price,
         "pro_coupon_keys":             [],
         "send_notifications_flag":     True,
         "slug":                        slug,
         "status":                      "published",
     }
-    if is_paid:
-        put_body["split_position"] = free_len  # 無料部分の文字数で境界指定
 
-    print(f"  [DEBUG] PUT price={price} limited={is_paid} split_pos={free_len if is_paid else 'N/A'} pay_body_len={len(pay_html) if is_paid else 0}")
     r4 = s.put(f"{NOTE_BASE}/api/v1/text_notes/{note_id}", json=put_body)
-    print(f"  [DEBUG] PUT response: {r4.status_code} {r4.text[:300]}")
     if r4.status_code not in (200, 201):
         if price > 0 and r4.status_code == 422:
-            print(f"  [WARN] 422詳細: {r4.text[:1000]}")
+            print(f"  [WARN] 422詳細: {r4.text[:500]}")
             print(f"  [WARN] 有料記事不可 → 無料で公開")
-            put_body["price"]        = 0
-            put_body["limited"]      = False
-            put_body["pay_body"]     = ""
-            put_body.pop("split_position", None)
+            put_body["price"]   = 0
+            put_body["limited"] = False
+            put_body["pay_body"] = ""
             r4 = s.put(f"{NOTE_BASE}/api/v1/text_notes/{note_id}", json=put_body)
         if r4.status_code not in (200, 201):
             raise RuntimeError(f"公開失敗 HTTP {r4.status_code}: {r4.text[:300]}")
