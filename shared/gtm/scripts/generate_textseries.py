@@ -1198,6 +1198,7 @@ def write_lp_html(slug: str, product_name: str, emoji: str,
       <div class="text-right">
         <p>© 2026 TextSeries</p>
         <p class="mt-1"><a href="mailto:ryuumg03@gmail.com" class="hover:text-white">ryuumg03@gmail.com</a></p>
+        <p class="mt-2 text-xs"><a href="https://ryuu321.github.io/" class="hover:text-white underline">他の業種向けAIツールを見る →</a></p>
       </div>
     </div>
   </footer>
