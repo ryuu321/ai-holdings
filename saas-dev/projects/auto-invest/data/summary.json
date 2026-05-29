@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-29T02:57:00.569057+00:00",
+  "updated_at": "2026-05-29T05:15:25.259254+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9269.43376006749,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 9214.166379305754,
+      "balance": 9389.21812063413,
       "initial_balance": 10000.0,
-      "last_run": "2026-05-28T05:11:16.027438+00:00",
+      "last_run": "2026-05-29T05:15:25.259086+00:00",
       "positions": {
         "QQQ": {
           "ticker": "QQQ",
@@ -40,7 +40,7 @@
           "buy_price": 674.15,
           "bought_at": "2026-05-02T04:19:42.088439+00:00",
           "cost_basis": 318.25,
-          "peak_price": 730.28,
+          "peak_price": 735.6,
           "ladder_hits": [
             "0.05"
           ],
@@ -48,12 +48,14 @@
         },
         "ARM": {
           "ticker": "ARM",
-          "shares": 1.582186960381778,
+          "shares": 1.0600652634557912,
           "buy_price": 306.51,
           "bought_at": "2026-05-23T04:43:18.409210+00:00",
-          "cost_basis": 484.9561252266187,
+          "cost_basis": 324.9206039018345,
           "peak_price": 321.22,
-          "ladder_hits": [],
+          "ladder_hits": [
+            "0.05"
+          ],
           "last_dca_date": ""
         }
       },
@@ -157,7 +159,7 @@
           "entry_date": "2026-05-02T16:43:18.445656+00:00"
         }
       },
-      "last_run": "2026-05-28T21:53:29.724940+00:00",
+      "last_run": "2026-05-29T02:58:31.955824+00:00",
       "trade_count": 1,
       "total_realized_pnl": 0.0
     },
@@ -177,6 +179,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-05-29T05:15:25.256640+00:00",
+      "action": "SELL",
+      "coin": "ARM",
+      "price": 335.27,
+      "amount": 0.5221216969259868,
+      "value_usd": 175.05174132837556,
+      "balance_after": 9389.21812063413,
+      "pnl": 15.016220003591371,
+      "reasoning": "ラダー利確 +5%: 33%売却",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-05-23T04:43:18.409225+00:00",
       "action": "BUY",
@@ -474,8 +490,8 @@
   ],
   "stats": {
     "total_buys": 15,
-    "total_sells": 6,
-    "realized_pnl": 226.68,
-    "win_rate": 83.3
+    "total_sells": 7,
+    "realized_pnl": 241.7,
+    "win_rate": 85.7
   }
 }
