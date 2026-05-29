@@ -1,7 +1,7 @@
 {
   "version": "1.4",
-  "last_updated": "2026-05-28",
-  "session_count": 24,
+  "last_updated": "2026-05-29",
+  "session_count": 25,
   "owner": {
     "profile": "公立千歳科学技術大学 情報システム工学科 大学生",
     "constraints": [
@@ -78,7 +78,9 @@
       "GTM全自動化完成: 静的リード生成(Gemini 103製品300件/製品) + Workflow Gemini26キーローテーション + スタッガー送信(UTC01-08:30, 5通/日/製品) (2026-05-28)",
       "fudotext旧フォーマット(SENT_LOG_GIST_ID secret) → gist_ids.json形式に統一 (2026-05-28)",
       "kentext GIST_ID未設定バグ修正 (daily-send/check-replies/follow-up) (2026-05-28)",
-      "note記事自動リサイクル: 全103記事投稿後にposted_logリセット→再サイクル開始 (2026-05-28)"
+      "note記事自動リサイクル: 全103記事投稿後にposted_logリセット→再サイクル開始 (2026-05-28)",
+      "note-biz: GEMINI_API_KEY期限切れ修正 → GEMINI_API_KEY_1使用 + gemini-2.0-flash-lite (2026-05-29)",
+      "note-biz: 有料記事分割修正 → split_position + draft_save無料部分のみ + PUT詳細ログ追加 (2026-05-29)"
     ],
     "decisions_archive": "secretary/knowledge/decisions_archive.md"
   },
@@ -110,19 +112,24 @@
         "楽天ROOM: AkamaiブロックでCIログイン不可→ローカルupdate_auth.ps1実行必要",
         "KDP: CIブロック→手動アップロード6冊必要",
         "FudoText: 8社からの返信待ち（2026-05-19送信・9日経過）",
-        "FUDOTEXT_PAT: GitHub secretsに未登録→apply_pdca.pyが動かない"
+        "FUDOTEXT_PAT: 登録済み確認済み（2026-05-28）"
       ],
       "context_file": "secretary/context/saas-dev.md"
     },
     "note-biz": {
-      "status": "稼働中・全自動完成",
+      "status": "修正完了・翌朝確認待ち",
       "active_projects": [
         "全自動3アカウント 毎日JST10時自動投稿（AI副業・節約投資・転職キャリア）"
       ],
-      "latest_update": "2026-05-01",
-      "issues": [],
+      "latest_update": "2026-05-29",
+      "issues": [
+        "有料記事分割が正しく機能していなかった（全記事が無料部分に） → split_position修正済み・次回実行で確認必要",
+        "ワークフロー5日連続failure (2026-05-23〜29) → Geminiキー更新で修正済み"
+      ],
       "wins": [
-        "GitHub Actions 3アカウント同時自動投稿 稼働中"
+        "GEMINI_API_KEY期限切れ修正: _1に切り替え + gemini-2.0-flash-lite + キーローテーション実装 (2026-05-29)",
+        "poster.py有料分割修正: split_position追加 + draft_saveを無料部分のみに変更 (2026-05-29)",
+        "詳細デバッグログ追加: PUT response + price/limited/pay_body_lenを出力 (2026-05-29)"
       ],
       "context_file": "secretary/context/note-biz.md"
     },
@@ -349,7 +356,6 @@
     "【要監視】2026-05-29 JST9:00: textseries-generate-leads.yml 初回実行 → 103製品の静的リード生成確認",
     "【要監視】2026-05-29 JST10:00-17:30: 初回コールドメール送信確認 (103製品×5通=515通)",
     "【要確認】Cloud Run残44製品デプロイ完了確認: _deploy_remaining.log を確認",
-    "【最優先・手動5分】FUDOTEXT_PAT登録: GitHub Fine-grained token→gh secret set FUDOTEXT_PAT",
     "【最優先】FudoText: 8社への返信確認・対応（9日経過）",
     "【手動】楽天ROOM auth refresh: update_auth.ps1 実行",
     "【手動】KDP手動アップロード: 6冊・¥980・70%ロイヤリティ",
