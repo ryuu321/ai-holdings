@@ -347,6 +347,29 @@ def process_product(cfg_path: Path, limit: int) -> int:
     return generated
 
 
+def _write_sitemap():
+    """docs/ 以下の全HTMLをスキャンしてsitemap.xmlを生成"""
+    urls = []
+    for html in sorted(DOCS_DIR.rglob("*.html")):
+        rel = html.relative_to(DOCS_DIR)
+        # _topics.json は除外、index.html はパス簡略化
+        if str(rel).startswith("_"):
+            continue
+        url = f"{SITE_URL}/docs/{rel.as_posix()}"
+        urls.append(url)
+
+    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    today = time.strftime("%Y-%m-%d")
+    for url in urls:
+        sitemap += f"  <url><loc>{url}</loc><lastmod>{today}</lastmod></url>\n"
+    sitemap += "</urlset>\n"
+
+    out = DOCS_DIR / "sitemap.xml"
+    out.write_text(sitemap, encoding="utf-8")
+    print(f"\n[sitemap] {len(urls)}件のURLを docs/sitemap.xml に書き込みました")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--project", default="")
@@ -366,6 +389,7 @@ def main():
     for cfg_path in configs:
         total += process_product(cfg_path, args.limit)
 
+    _write_sitemap()
     print(f"\n[完了] 合計{total}件のSEO記事を生成しました")
 
 

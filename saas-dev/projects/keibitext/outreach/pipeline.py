@@ -13,7 +13,7 @@ _ROOT = _DIR.parent.parent.parent
 
 
 def run(cmd: list[str]) -> int:
-    print(f"\n{"="*60}")
+    print(f"\n{'='*60}")
     print(f"実行: {' '.join(cmd)}")
     print("="*60)
     result = subprocess.run(cmd, cwd=str(_ROOT))

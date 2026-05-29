@@ -1,0 +1,85 @@
+name: textseries-syndication-daily
+
+on:
+  schedule:
+    # 毎日 JST 14:00 (UTC 5:00) — コールドメールの後
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+    inputs:
+      project:
+        description: '特定製品のみ（例: sharotext）。空欄で今日の担当製品'
+        required: false
+        default: ''
+      per_day:
+        description: '1日あたり処理製品数（デフォルト: 3）'
+        required: false
+        default: '3'
+      dry_run:
+        description: 'ドライラン（投稿しない）'
+        required: false
+        default: 'false'
+
+jobs:
+  syndicate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run syndication
+        env:
+          QIITA_ACCESS_TOKEN: ${{ secrets.QIITA_ACCESS_TOKEN }}
+          DEVTO_API_KEY:      ${{ secrets.DEVTO_API_KEY }}
+          GEMINI_API_KEY_1:   ${{ secrets.GEMINI_API_KEY_1 }}
+          GEMINI_API_KEY_2:   ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3:   ${{ secrets.GEMINI_API_KEY_3 }}
+          GEMINI_API_KEY_4:   ${{ secrets.GEMINI_API_KEY_4 }}
+          GEMINI_API_KEY_5:   ${{ secrets.GEMINI_API_KEY_5 }}
+          GEMINI_API_KEY_6:   ${{ secrets.GEMINI_API_KEY_6 }}
+          GEMINI_API_KEY_7:   ${{ secrets.GEMINI_API_KEY_7 }}
+          GEMINI_API_KEY_8:   ${{ secrets.GEMINI_API_KEY_8 }}
+          GEMINI_API_KEY_9:   ${{ secrets.GEMINI_API_KEY_9 }}
+          GEMINI_API_KEY_10:  ${{ secrets.GEMINI_API_KEY_10 }}
+          GEMINI_API_KEY_11:  ${{ secrets.GEMINI_API_KEY_11 }}
+          GEMINI_API_KEY_12:  ${{ secrets.GEMINI_API_KEY_12 }}
+          GEMINI_API_KEY_13:  ${{ secrets.GEMINI_API_KEY_13 }}
+          GEMINI_API_KEY_14:  ${{ secrets.GEMINI_API_KEY_14 }}
+          GEMINI_API_KEY_15:  ${{ secrets.GEMINI_API_KEY_15 }}
+          GEMINI_API_KEY_16:  ${{ secrets.GEMINI_API_KEY_16 }}
+          GEMINI_API_KEY_17:  ${{ secrets.GEMINI_API_KEY_17 }}
+          GEMINI_API_KEY_18:  ${{ secrets.GEMINI_API_KEY_18 }}
+          GEMINI_API_KEY_19:  ${{ secrets.GEMINI_API_KEY_19 }}
+          GEMINI_API_KEY_20:  ${{ secrets.GEMINI_API_KEY_20 }}
+          GEMINI_API_KEY_21:  ${{ secrets.GEMINI_API_KEY_21 }}
+          GEMINI_API_KEY_22:  ${{ secrets.GEMINI_API_KEY_22 }}
+          GEMINI_API_KEY_23:  ${{ secrets.GEMINI_API_KEY_23 }}
+          GEMINI_API_KEY_24:  ${{ secrets.GEMINI_API_KEY_24 }}
+          GEMINI_API_KEY_25:  ${{ secrets.GEMINI_API_KEY_25 }}
+          GEMINI_API_KEY_26:  ${{ secrets.GEMINI_API_KEY_26 }}
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.project }}" ]; then
+            ARGS="--project ${{ github.event.inputs.project }}"
+          fi
+          PER_DAY="${{ github.event.inputs.per_day || '3' }}"
+          DRY="${{ github.event.inputs.dry_run }}"
+          if [ "$DRY" = "true" ]; then
+            python shared/gtm/scripts/textseries_syndication.py $ARGS --per-day $PER_DAY --dry-run
+          else
+            python shared/gtm/scripts/textseries_syndication.py $ARGS --per-day $PER_DAY
+          fi
+
+      - name: Commit syndication state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase -X theirs
+          git add shared/gtm/state/syndication_state.json || true
+          git diff --cached --quiet || git commit -m "syndication: $(date '+%Y-%m-%d') Qiita+DevTo投稿ログ [skip ci]"
+          git push
