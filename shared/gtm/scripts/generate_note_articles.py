@@ -61,12 +61,13 @@ _key_index = 0
 
 def _load_gemini_keys() -> list[str]:
     keys = []
-    # GEMINI_API_KEY, GEMINI_API_KEY_2 ... GEMINI_API_KEY_26
-    k = os.environ.get("GEMINI_API_KEY", "")
-    if k:
-        keys.append(k)
-    for i in range(2, 27):
+    # GEMINI_API_KEY_1 〜 _26 を優先。なければ GEMINI_API_KEY にフォールバック
+    for i in range(1, 27):
         k = os.environ.get(f"GEMINI_API_KEY_{i}", "")
+        if k and k not in keys:
+            keys.append(k)
+    if not keys:
+        k = os.environ.get("GEMINI_API_KEY", "")
         if k:
             keys.append(k)
     return keys
@@ -114,22 +115,31 @@ def _call_gemini(prompt: str, max_tokens: int = 1200) -> str:
                 return data["candidates"][0]["content"]["parts"][0]["text"].strip()
 
             except urllib.error.HTTPError as e:
-                if e.code == 429:
+                body = ""
+                try:
+                    body = e.read().decode("utf-8", errors="replace")[:200]
+                except Exception:
+                    pass
+                if e.code in (429, 503):
                     if attempt < 2:
                         wait = 2 ** (attempt + 1)
-                        print(f"    Gemini 429 → {wait}s待機...")
+                        print(f"    Gemini {e.code} → {wait}s待機...")
                         time.sleep(wait)
                     else:
                         break  # このキーは限界、次のキーへ
+                elif e.code == 400:
+                    print(f"    Gemini 400 (キー無効?) → 次のキーへ: {body[:80]}")
+                    break  # 次のキーへ
                 else:
-                    raise
+                    print(f"    Gemini {e.code}: {body[:80]}")
+                    break
             except Exception as e:
                 if attempt == 2:
-                    raise
+                    break
                 print(f"    リトライ ({attempt + 1}/3): {e}")
                 time.sleep(2)
 
-    raise RuntimeError(f"全{len(_GEMINI_KEYS)}キーが429制限。後でリトライしてください。")
+    return ""  # 全キー失敗時は空文字を返す（raiseしない）
 
 
 # ── プロンプト生成 ─────────────────────────────────────────────────────────────
@@ -188,7 +198,7 @@ note.comに投稿する記事を書いてください。
 # ── 記事生成 ──────────────────────────────────────────────────────────────────
 
 def generate_article(cfg: dict, dry_run: bool = False) -> str:
-    """1製品の記事を生成して返す"""
+    """1製品の記事を生成して返す。失敗時は空文字を返す。"""
     prompt = _build_prompt(cfg)
 
     if dry_run:
@@ -264,12 +274,18 @@ def main():
             if args.dry_run:
                 stats["generated"] += 1
                 continue
+            if not content.strip():
+                print("生成失敗（全キー枯渇）→ スキップ")
+                stats["error"] += 1
+                time.sleep(3)
+                continue
             saved = save_article(slug, content)
             char_count = len(content)
             print(f"{char_count}字 → {saved.name}")
             stats["generated"] += 1
+            if stats["generated"] >= limit:
+                break
 
-            # レート制限対策（dry-runは不要）
             if not args.dry_run and i < len(config_files):
                 time.sleep(API_INTERVAL)
 
@@ -279,7 +295,7 @@ def main():
         except Exception as e:
             print(f"ERROR: {e}")
             stats["error"] += 1
-            time.sleep(5)  # エラー後は少し待つ
+            time.sleep(5)
 
     print(f"\n完了:")
     print(f"  生成: {stats['generated']}件 → {OUTPUT_DIR}")
