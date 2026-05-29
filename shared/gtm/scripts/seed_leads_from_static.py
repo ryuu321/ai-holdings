@@ -30,9 +30,8 @@ def main():
     sent_path = proj_dir / "sent_log.csv"
 
     if not static_path.exists():
-        print(f"leads_static.csv が見つかりません: {static_path}")
-        print("generate_static_leads.py を先に実行してください")
-        sys.exit(1)
+        print(f"leads_static.csv が見つかりません（generate-leads未実行）: {static_path}")
+        sys.exit(0)  # エラーではない・daily-sendを止めない
 
     # 送信済みメールを収集
     sent_emails = set()
