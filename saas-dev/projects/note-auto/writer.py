@@ -13,17 +13,25 @@ except ImportError:
     print("pip install google-genai")
     exit(1)
 
-API_KEY = os.environ.get("GEMINI_API_KEY")
-if not API_KEY:
-    env_path = Path(__file__).parent.parent.parent.parent / ".env"
-    if env_path.exists():
-        for line in env_path.read_text(encoding="utf-8").splitlines():
-            if line.startswith("GEMINI_API_KEY="):
-                API_KEY = line.split("=", 1)[1].strip()
-                break
+def _load_gemini_keys() -> list[str]:
+    keys = []
+    for name in ["GEMINI_API_KEY"] + [f"GEMINI_API_KEY_{i}" for i in range(2, 27)]:
+        k = os.environ.get(name, "")
+        if k:
+            keys.append(k)
+    if not keys:
+        env_path = Path(__file__).parent.parent.parent.parent / ".env"
+        if env_path.exists():
+            for line in env_path.read_text(encoding="utf-8").splitlines():
+                if line.startswith("GEMINI_API_KEY="):
+                    keys.append(line.split("=", 1)[1].strip())
+                    break
+    return keys or [""]
 
-client = genai.Client(api_key=API_KEY)
-MODEL = "gemini-3.1-flash-lite"
+_WRITER_KEYS = _load_gemini_keys()
+_WRITER_KEY_IDX = 0
+MODEL = "gemini-2.0-flash-lite"
+client = genai.Client(api_key=_WRITER_KEYS[0])
 
 SEPARATOR = "|||SPLIT|||"
 AFFILIATE_FILE = Path(__file__).parent / "data" / "affiliate_links.json"
@@ -163,9 +171,12 @@ PAID_BODY:
 {SEPARATOR}
 TAGS: タグ1,タグ2,タグ3,タグ4,タグ5
 """
-    for attempt in range(5):
+    global _WRITER_KEY_IDX
+    for attempt in range(len(_WRITER_KEYS) * 2):
+        key = _WRITER_KEYS[_WRITER_KEY_IDX % len(_WRITER_KEYS)]
         try:
-            response = client.models.generate_content(
+            c = genai.Client(api_key=key)
+            response = c.models.generate_content(
                 model=MODEL,
                 contents=prompt,
                 config={"temperature": 0.8}
@@ -174,9 +185,13 @@ TAGS: タグ1,タグ2,タグ3,タグ4,タグ5
             return _parse_response(text, research)
         except Exception as e:
             err = str(e)
-            if attempt < 4 and ("429" in err or "503" in err or "UNAVAILABLE" in err or "RESOURCE_EXHAUSTED" in err):
-                wait = 60 * (attempt + 1)
-                print(f"  [WAIT] APIエラー({err[:60]})。{wait}秒後にリトライ({attempt+1}/4)...")
+            if "429" in err or "503" in err or "UNAVAILABLE" in err or "RESOURCE_EXHAUSTED" in err or "QUOTA" in err.upper():
+                _WRITER_KEY_IDX += 1
+                print(f"  [KEY] Geminiキー切替 → キー{(_WRITER_KEY_IDX % len(_WRITER_KEYS)) + 1} (attempt {attempt+1})")
+                time.sleep(5)
+            elif attempt < 4:
+                wait = 30 * (attempt + 1)
+                print(f"  [WAIT] APIエラー({err[:60]})。{wait}秒後にリトライ...")
                 time.sleep(wait)
             else:
                 raise

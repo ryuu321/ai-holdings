@@ -6,7 +6,11 @@ on:
   workflow_dispatch:
 
 env:
-  GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY }}
+  GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY_1 }}
+  GEMINI_API_KEY_2:  ${{ secrets.GEMINI_API_KEY_2 }}
+  GEMINI_API_KEY_3:  ${{ secrets.GEMINI_API_KEY_3 }}
+  GEMINI_API_KEY_4:  ${{ secrets.GEMINI_API_KEY_4 }}
+  GEMINI_API_KEY_5:  ${{ secrets.GEMINI_API_KEY_5 }}
   NOTE_EMAIL_1:      ${{ secrets.NOTE_EMAIL_1 }}
   NOTE_PASSWORD_1:   ${{ secrets.NOTE_PASSWORD_1 }}
   NOTE_EMAIL_2:      ${{ secrets.NOTE_EMAIL_2 }}
