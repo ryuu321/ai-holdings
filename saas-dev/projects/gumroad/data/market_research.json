@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Graphic Designers",
-    "Life Coaches",
-    "SaaS Founders"
+    "ADHD Productivity",
+    "E-commerce Entrepreneurs",
+    "UX Designers"
   ],
-  "recommended_niche": "Graphic Designers",
+  "recommended_niche": "E-commerce Entrepreneurs",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate AI",
-  "cached_at": "2026-05-27T02:12:36.908497+00:00",
+  "title_idea": "Ecom Success",
+  "cached_at": "2026-05-29T02:03:33.360537+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
