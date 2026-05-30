@@ -33,6 +33,10 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/iintext/outreach/sent_log.csv || echo "Gist取得失敗: 新規作成"
 
+      - name: Fetch leads (MHLW医療機能情報)
+        run: |
+          python saas-dev/projects/iintext/outreach/fetch_mhlw_iintext_leads.py \n            --limit 100 --prefs 13,27,14,23 || true
+
       - name: Fetch leads (Web検索)
         run: |
           python shared/gtm/leads/fetch_web_leads.py \
