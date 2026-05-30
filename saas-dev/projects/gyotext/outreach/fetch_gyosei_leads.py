@@ -36,7 +36,7 @@ PREFS_MAP = {
 }
 DEFAULT_PREF_CODES = [13, 27, 14, 23, 11, 12, 1, 28, 40, 26, 34, 4, 22]
 
-SEARCH_URL = "https://www.gyosei.or.jp/search/"
+SEARCH_URL = "https://www.gyosei.or.jp/members-search/"
 
 
 def _emails_from_html(html: str) -> list[str]:
@@ -111,28 +111,20 @@ def main():
                     page.goto(SEARCH_URL, timeout=30000)
                     page.wait_for_load_state("networkidle", timeout=15000)
 
-                    # 利用規約チェックボックスにチェック
+                    # 都道府県選択 (value は2桁コード文字列: "13", "27" など)
+                    pref_val = f"{pref_code:02d}"
                     try:
-                        page.check("input[name='field_kiyaku_value']", timeout=5000)
+                        page.select_option("select[name='prefecture']",
+                                           value=pref_val, timeout=8000)
                     except PWTimeout:
-                        try:
-                            page.check("input[type='checkbox']", timeout=3000)
-                        except PWTimeout:
-                            pass
-
-                    # 都道府県選択
-                    try:
-                        page.select_option("select[name='field_address_pref_code']",
-                                           label=pref_name, timeout=5000)
-                    except PWTimeout:
-                        try:
-                            page.select_option("select", label=pref_name, timeout=3000)
-                        except PWTimeout:
-                            print(f"  都道府県選択失敗: {pref_name}")
-                            continue
+                        print(f"  都道府県選択失敗: {pref_name} (value={pref_val})")
+                        continue
 
                     # 検索実行
-                    page.click("input[type='submit'], button[type='submit']", timeout=5000)
+                    page.click(
+                        "#edit-submit-member-search, input[type='submit'], button[type='submit']",
+                        timeout=5000
+                    )
                     page.wait_for_load_state("networkidle", timeout=20000)
                     time.sleep(2)
 

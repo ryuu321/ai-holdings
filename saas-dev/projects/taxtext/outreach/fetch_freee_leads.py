@@ -2,8 +2,8 @@
 freee認定アドバイザーディレクトリから税理士リードを収集
   python fetch_freee_leads.py [--limit 100] [--prefs 13,27,14,23]
 
-freee認定アドバイザーは「クライアント獲得」目的で登録しているため
-  営業連絡は歓迎されており、ToS上の問題なし。
+URL: https://search-advisors.freee.co.jp/advisors/search/01_{pref_en}?page=N
+各プロフィールのホームページURLを取得 → そのサイトからメールを抽出
 
 出力: leads.csv (company_name, email, url, phone, address, scraped_at)
 """
@@ -12,7 +12,6 @@ import csv
 import re
 import sys
 import time
-import urllib.parse
 import urllib.request
 from datetime import datetime
 from pathlib import Path
@@ -26,30 +25,33 @@ if sys.platform == "win32":
 _DIR = Path(__file__).parent
 LEADS_FILE = _DIR / "leads.csv"
 
+BASE = "https://search-advisors.freee.co.jp"
+
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
         "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
     ),
-    "Accept": "text/html,application/xhtml+xml,application/json",
+    "Accept": "text/html,application/xhtml+xml",
     "Accept-Language": "ja,en-US;q=0.7",
 }
 
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
 EMAIL_SKIP = ["noreply", "no-reply", "example", "freee.co.jp", "google",
-              "schema.org", "w3.org", "placeholder", "test@", "sentry"]
+              "schema.org", "w3.org", "placeholder", "test@", "sentry",
+              "cloudflare", "amazonaws", "sendgrid"]
 
-# freee アドバイザー検索 API
-FREEE_SEARCH = "https://advisor.freee.co.jp/api/v1/advisors"
-FREEE_LIST_URL = "https://advisor.freee.co.jp/advisors"
-
-# 都道府県コード → freee prefecture_id マッピング
-PREF_IDS = {
-    13: 13, 27: 27, 14: 14, 23: 23, 11: 11, 12: 12,
-    1: 1, 28: 28, 40: 40, 26: 26, 34: 34, 4: 4, 22: 22,
-    8: 8, 9: 9, 10: 10, 15: 15, 17: 17, 20: 20, 25: 25,
+# 都道府県コード → freee URL で使う英語名
+PREF_EN = {
+    1: "hokkaido", 4: "miyagi", 8: "ibaraki", 9: "tochigi",
+    10: "gunma", 11: "saitama", 12: "chiba", 13: "tokyo",
+    14: "kanagawa", 15: "niigata", 17: "ishikawa", 20: "nagano",
+    22: "shizuoka", 23: "aichi", 24: "mie", 25: "shiga",
+    26: "kyoto", 27: "osaka", 28: "hyogo", 29: "nara",
+    33: "okayama", 34: "hiroshima", 37: "kagawa", 40: "fukuoka",
+    43: "kumamoto", 47: "okinawa",
 }
-DEFAULT_PREF_CODES = [13, 27, 14, 23, 11, 12, 1, 28, 40, 26, 34, 4, 22]
+DEFAULT_PREFS = [13, 27, 14, 23, 11, 12, 1, 28, 40, 26, 34, 4, 22]
 
 
 def _fetch(url: str, timeout: int = 15) -> str:
@@ -78,87 +80,74 @@ def _emails_from_html(html: str) -> list[str]:
     return result[:2]
 
 
-def _scrape_freee_list(pref_id: int, page: int = 1) -> list[dict]:
-    """freee アドバイザー一覧ページをスクレイプ"""
-    params = urllib.parse.urlencode({
-        "prefecture_id": pref_id,
-        "page": page,
-        "qualification[]": "tax_accountant",  # 税理士に絞る
-    })
-    url = f"{FREEE_LIST_URL}?{params}"
+def _get_advisor_ids(pref_en: str, page: int) -> list[str]:
+    """一覧ページからアドバイザーIDのリストを返す"""
+    url = f"{BASE}/advisors/search/01_{pref_en}?page={page}"
     html = _fetch(url)
     if not html:
         return []
-
-    advisors = []
-    # アドバイザーカードを抽出
-    for block in re.split(r'(?=<(?:article|div)[^>]+class="[^"]*advisor[^"]*")', html):
-        # 名前
-        name_m = re.search(
-            r'<h[123][^>]*>([^<]{3,60}(?:税理士|会計士|事務所|法人)[^<]{0,30})</h[123]>',
-            block
-        ) or re.search(
-            r'class="[^"]*name[^"]*"[^>]*>([^<]{3,60})</[^>]+>',
-            block
-        )
-        if not name_m:
-            continue
-        name = name_m.group(1).strip()
-
-        # プロフィールURL
-        link_m = re.search(r'href="(/advisors/[^"]+)"', block)
-        profile_url = ""
-        if link_m:
-            profile_url = "https://advisor.freee.co.jp" + link_m.group(1)
-
-        # ウェブサイト（プロフィールに直接記載されている場合）
-        site_m = re.search(r'href="(https?://(?!advisor\.freee)[^"]{5,})"', block)
-        site_url = site_m.group(1) if site_m else ""
-
-        advisors.append({
-            "name": name,
-            "profile_url": profile_url,
-            "site_url": site_url,
-        })
-
-    return advisors
+    # /advisors/{数字} の形式のリンクを抽出（重複除去・一覧ページ内のリンク）
+    ids = re.findall(r'href="/advisors/(\d+)"', html)
+    # 重複排除しつつ順序保持
+    seen: set[str] = set()
+    result = []
+    for aid in ids:
+        if aid not in seen:
+            seen.add(aid)
+            result.append(aid)
+    return result
 
 
-def _get_email_from_advisor(profile_url: str, site_url: str) -> tuple[str, str]:
-    """アドバイザープロフィールページとサイトからメールを取得 (email, site_url)"""
-    # プロフィールページにウェブサイトURLが掲載されている場合が多い
-    if profile_url:
-        html = _fetch(profile_url)
-        if html:
-            emails = _emails_from_html(html)
+def _get_profile(advisor_id: str) -> dict:
+    """プロフィールページから事務所名・電話・ホームページURLを取得"""
+    url = f"{BASE}/advisors/{advisor_id}"
+    html = _fetch(url)
+    if not html:
+        return {}
+
+    # ホームページURL: <a href="https://...">...</a> でfreee以外の外部リンク
+    site_m = re.search(
+        r'href="(https?://(?!(?:search-advisors|advisor|freee)[^"]*)[^"]{5,})"',
+        html
+    )
+    site_url = site_m.group(1).strip() if site_m else ""
+
+    # 事務所名
+    name_m = re.search(
+        r'<h1[^>]*>([^<]{3,80})</h1>|<title[^>]*>([^|｜–\-<]{3,60})',
+        html
+    )
+    name = ""
+    if name_m:
+        name = (name_m.group(1) or name_m.group(2) or "").strip()
+
+    # 電話番号
+    phone_m = re.search(r'(\d{2,4}-\d{2,4}-\d{4})', html)
+    phone = phone_m.group(1) if phone_m else ""
+
+    # 住所
+    addr_m = re.search(r'〒\d{3}-\d{4}\s*([^\n<]{5,60})', html)
+    address = addr_m.group(0).strip() if addr_m else ""
+
+    return {"name": name, "site_url": site_url, "phone": phone, "address": address}
+
+
+def _email_from_site(site_url: str) -> str:
+    """オフィスサイトからメールアドレスを取得"""
+    if not site_url:
+        return ""
+    html = _fetch(site_url)
+    if html:
+        emails = _emails_from_html(html)
+        if emails:
+            return emails[0]
+        for path in ["/contact", "/inquiry", "/toiawase", "/about"]:
+            h2 = _fetch(site_url.rstrip("/") + path)
+            emails = _emails_from_html(h2)
             if emails:
-                return emails[0], site_url
-
-            # サイトURL を抽出
-            site_m = re.search(
-                r'href="(https?://(?!advisor\.freee|freee\.co\.jp)[^"]{5,})"',
-                html
-            )
-            if site_m and not site_url:
-                site_url = site_m.group(1)
-
-        time.sleep(0.5)
-
-    if site_url:
-        html = _fetch(site_url)
-        if html:
-            emails = _emails_from_html(html)
-            if emails:
-                return emails[0], site_url
-            for path in ["/contact", "/inquiry", "/toiawase", "/about"]:
-                h2 = _fetch(site_url.rstrip("/") + path)
-                emails = _emails_from_html(h2)
-                if emails:
-                    return emails[0], site_url
-                time.sleep(0.3)
-        time.sleep(0.5)
-
-    return "", site_url
+                return emails[0]
+            time.sleep(0.3)
+    return ""
 
 
 def load_existing() -> set[str]:
@@ -175,7 +164,7 @@ def main():
     parser.add_argument("--pages", type=int, default=5)
     args = parser.parse_args()
 
-    pref_codes = [int(p) for p in args.prefs.split(",") if p.strip()] if args.prefs else DEFAULT_PREF_CODES
+    pref_codes = [int(p) for p in args.prefs.split(",") if p.strip()] if args.prefs else DEFAULT_PREFS
     limit = args.limit if args.limit > 0 else 99999
 
     existing = load_existing()
@@ -194,47 +183,59 @@ def main():
         for pref_code in pref_codes:
             if found >= limit:
                 break
-            pref_id = PREF_IDS.get(pref_code, pref_code)
-            print(f"\n[都道府県 {pref_code:02d}]")
+            pref_en = PREF_EN.get(pref_code)
+            if not pref_en:
+                print(f"  スキップ: 都道府県コード {pref_code} は未マップ")
+                continue
+            print(f"\n[都道府県 {pref_code:02d} / {pref_en}]")
 
             for page in range(1, args.pages + 1):
                 if found >= limit:
                     break
 
-                advisors = _scrape_freee_list(pref_id, page)
-                print(f"  [Page {page}] {len(advisors)}件")
-                if not advisors:
+                advisor_ids = _get_advisor_ids(pref_en, page)
+                print(f"  [Page {page}] {len(advisor_ids)}件のID取得")
+                if not advisor_ids:
                     break
 
-                for adv in advisors:
+                new_on_page = 0
+                for aid in advisor_ids:
                     if found >= limit:
                         break
 
-                    name = adv["name"]
-                    email, site_url = _get_email_from_advisor(
-                        adv.get("profile_url", ""), adv.get("site_url", "")
-                    )
+                    profile = _get_profile(aid)
+                    if not profile:
+                        continue
+
+                    site_url = profile.get("site_url", "")
+                    name = profile.get("name", "")
+                    email = _email_from_site(site_url)
 
                     if not email or email in existing:
                         if email:
                             print(f"  DUP: {email}")
+                        time.sleep(0.5)
                         continue
 
                     row = {
                         "company_name": name,
                         "email": email,
                         "url": site_url,
-                        "phone": "",
-                        "address": "",
+                        "phone": profile.get("phone", ""),
+                        "address": profile.get("address", ""),
                         "scraped_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
                     }
                     writer.writerow(row)
                     f.flush()
                     existing.add(email)
                     found += 1
+                    new_on_page += 1
                     print(f"  [{found}] {name[:35]} | {email}")
                     time.sleep(1.0)
 
+                if new_on_page == 0:
+                    print(f"  新規なし → 次の都道府県へ")
+                    break
                 time.sleep(2.0)
 
     print(f"\n完了: {found}件追加 → {LEADS_FILE}")
