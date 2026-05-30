@@ -33,6 +33,13 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/kanritext/outreach/sent_log.csv || echo "Gist取得失敗: 新規作成"
 
+      - name: Fetch leads (MLIT建設業DB)
+        run: |
+          python shared/gtm/leads/fetch_mlit_leads.py \
+            --output saas-dev/projects/kanritext/outreach/leads.csv \
+            --koumoku 01 \
+            --limit 100 --prefs 13,27,14,23 || true
+
       - name: Fetch leads
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}

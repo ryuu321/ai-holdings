@@ -118,5 +118,6 @@
     "fallback_opening": "貴社の物件説明文作成業務において、ご担当者様のお時間を少しでも省けるのではと思い、ご連絡させていただきました。"
   },
   "stripe_standard_url": "https://buy.stripe.com/eVqfZh5Ae1I1aLU5OtabK00",
-  "stripe_pro_url": "https://buy.stripe.com/00w7sLgeSfyR6vE1ydabK01"
+  "stripe_pro_url": "https://buy.stripe.com/00w7sLgeSfyR6vE1ydabK01",
+  "project_dir": "fudosan-copy"
 }

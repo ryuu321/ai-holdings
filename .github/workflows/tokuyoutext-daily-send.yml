@@ -40,6 +40,13 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/tokuyoutext/outreach/sent_log.csv || echo "Gist取得失敗"
 
+      - name: Fetch leads (MHLW介護DB)
+        run: |
+          python shared/gtm/leads/fetch_mhlw_leads.py \
+            --output saas-dev/projects/tokuyoutext/outreach/leads.csv \
+            --service-codes 320 \
+            --limit 100 --prefs 13,27,14,23 || true
+
       - name: Seed static leads
         run: python shared/gtm/scripts/seed_leads_from_static.py --project tokuyoutext --limit 100 || true
 

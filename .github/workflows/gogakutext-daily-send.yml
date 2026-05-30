@@ -40,6 +40,11 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/gogakutext/outreach/sent_log.csv || echo "Gist取得失敗"
 
+      - name: Fetch leads (Web検索)
+        run: |
+          python shared/gtm/leads/fetch_web_leads.py \
+            --project gogakutext --limit 50 || true
+
       - name: Seed static leads
         run: python shared/gtm/scripts/seed_leads_from_static.py --project gogakutext --limit 100 || true
 

@@ -19,6 +19,9 @@ jobs:
       - name: Install dependencies
         run: pip install python-dotenv
 
+      - name: Install Playwright
+        run: pip install playwright && playwright install chromium --with-deps
+
       - name: Restore sent_log from Gist
         env:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}

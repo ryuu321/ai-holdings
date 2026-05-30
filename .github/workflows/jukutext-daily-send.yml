@@ -30,6 +30,11 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/jukutext/outreach/sent_log.csv || echo "Gist取得失敗: 新規作成"
 
+      - name: Fetch leads (Web検索)
+        run: |
+          python shared/gtm/leads/fetch_web_leads.py \
+            --project jukutext --limit 50 || true
+
       - name: Fetch leads
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
