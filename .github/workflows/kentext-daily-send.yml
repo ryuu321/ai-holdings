@@ -33,13 +33,14 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/kensetsu/outreach/sent_log.csv || echo "Gist取得失敗: 新規作成"
 
-      # Step 1: リード収集 (Brave API + Gemini業種判定)
+      # Step 1: リード収集 (MLIT建設業DB + Brave API fallback)
       - name: Fetch leads
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python saas-dev/projects/kensetsu/outreach/fetch_leads.py --limit 100 || true
+          python saas-dev/projects/kensetsu/outreach/fetch_mlit_kensetsu_leads.py --limit 100 --prefs 13,27,14,23 || true
+          python saas-dev/projects/kensetsu/outreach/fetch_leads.py --limit 50 || true
           python shared/gtm/scripts/seed_leads_from_static.py --project kentext --limit 100
 
       # Step 2: ICPスコアリング (閾値70点)

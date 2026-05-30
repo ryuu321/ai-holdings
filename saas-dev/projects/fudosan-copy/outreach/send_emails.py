@@ -108,19 +108,6 @@ def _check_safety(drafts: list[dict], limit: int) -> bool:
     if limit > 30:
         print(f"WARNING: --limit {limit} は30件超です。Gmailの信頼スコアへの影響に注意してください。")
 
-    # 会社名チェック: ブログタイトルや未抽出の会社名が混入していないか
-    _company_required = ["株式会社", "有限会社", "合同会社", "一般社団法人"]
-    _blog_signals = ["コツ", "方法", "選び方", "探し方", "ランキング", "名簿", "営業リスト", "お問い合わせ |", "お問い合わせ｜",
-                     "お任せ", "ご相談", "はこちら", "サポート", "にお任せ"]
-    for d in drafts:
-        name = d.get("company_name", "")
-        if any(sig in name for sig in _blog_signals):
-            print(f"WARNING: {d['email']} — 会社名がブログタイトルの可能性: 「{name[:30]}」")
-            ok = False
-        elif name and not any(kw in name for kw in _company_required):
-            print(f"WARNING: {d['email']} — 法人格なし（送信先が特定できない）: 「{name[:30]}」")
-            ok = False
-
     # personalized列がある場合: フォールバック率チェック
     if drafts and "personalized" in drafts[0]:
         fp_count = sum(1 for d in drafts if d.get("personalized", "").lower() == "false")
@@ -131,11 +118,11 @@ def _check_safety(drafts: list[dict], limit: int) -> bool:
     for d in drafts:
         body = d.get("body", "")
         missing = []
-        if "TextSeries" not in body:
+        if not any(s in body for s in ["TextSeries", "真柄", "ryuumg03"]):
             missing.append("送信者名")
         if "配信停止" not in body:
             missing.append("配信停止文言")
-        if "住所" not in body:
+        if "住所" not in body and "〒" not in body:
             missing.append("住所")
         if "※要設定" in body:
             missing.append("住所（未設定: .envのSENDER_ADDRESSを設定してください）")
@@ -235,6 +222,21 @@ def main(limit: int = DAILY_LIMIT, dry_run: bool = False, preview_n: int = 0, te
 
     targets = [d for d in drafts if d.get("status") == "draft" and d["email"] not in already_sent and d["email"] not in opt_out]
     targets = targets[:remaining]
+
+    # 法人格なし・ブログタイトルのリードをスキップ（エラーにせずスキップのみ）
+    _company_kw = ["株式会社", "有限会社", "合同会社", "一般社団法人"]
+    _blog_kw = ["コツ", "方法", "選び方", "探し方", "ランキング", "名簿", "営業リスト", "にお任せ", "はこちら"]
+    valid_targets = []
+    for d in targets:
+        name = d.get("company_name", "")
+        if any(s in name for s in _blog_kw):
+            print(f"SKIP: {d['email']} — ブログタイトル: 「{name[:30]}」")
+        elif name and not any(kw in name for kw in _company_kw):
+            print(f"SKIP: {d['email']} — 法人格なし: 「{name[:30]}」")
+        else:
+            valid_targets.append(d)
+    targets = valid_targets
+
     print(f"送信対象: {len(targets)}件")
 
     if not targets:

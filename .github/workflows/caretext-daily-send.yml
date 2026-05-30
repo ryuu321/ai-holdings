@@ -38,7 +38,8 @@ jobs:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python saas-dev/projects/caretext/outreach/fetch_leads.py --limit 100 || true
+          python saas-dev/projects/caretext/outreach/fetch_mhlw_leads.py --limit 100 --prefs 13,27,14,23 || true
+          python saas-dev/projects/caretext/outreach/fetch_leads.py --limit 50 || true
           python shared/gtm/scripts/seed_leads_from_static.py --project caretext --limit 100
 
       - name: Qualify leads

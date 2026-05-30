@@ -93,16 +93,9 @@ _BLOG_SIGNALS = ["コツ", "方法", "選び方", "ランキング", "名簿", "
 def _check_safety(drafts: list[dict]) -> bool:
     ok = True
     for d in drafts:
-        name = d.get("company_name", "")
-        if any(sig in name for sig in _BLOG_SIGNALS):
-            print(f"WARNING: {d['email']} — 会社名がブログタイトルの可能性: 「{name[:30]}」")
-            ok = False
-        elif name and not any(kw in name for kw in _COMPANY_REQUIRED):
-            print(f"WARNING: {d['email']} — 税理士事務所名なし: 「{name[:30]}」")
-            ok = False
         body = d.get("body", "")
         missing = []
-        if "TextSeries" not in body:
+        if not any(s in body for s in ["TextSeries", "真柄", "ryuumg03"]):
             missing.append("送信者名")
         if not any(p in body for p in ["配信停止", "送付を停止", "送信停止", "ご連絡いたしません"]):
             missing.append("配信停止文言")
@@ -168,6 +161,20 @@ def main(limit: int = DAILY_LIMIT, dry_run: bool = False, test_to: str = "", for
     print(f"本日送信済み: {today_count}件 / 残り: {remaining}件")
     targets = [d for d in drafts if d.get("status") == "draft" and d["email"] not in already_sent and d["email"] not in opt_out]
     targets = targets[:remaining]
+
+    # 法人格なし・ブログタイトルのリードをスキップ
+    _extra_blog = ["するなら", "なら", "お任せ", "はこちら", "にお問い合わせ", "について", "するには", "講座"]
+    valid_targets = []
+    for d in targets:
+        name = d.get("company_name", "")
+        if any(s in name for s in _BLOG_SIGNALS) or any(s in name for s in _extra_blog):
+            print(f"SKIP: {d['email']} — ブログタイトル: 「{name[:30]}」")
+        elif name and not any(kw in name for kw in _COMPANY_REQUIRED):
+            print(f"SKIP: {d['email']} — 法人格なし: 「{name[:30]}」")
+        else:
+            valid_targets.append(d)
+    targets = valid_targets
+
     print(f"送信対象: {len(targets)}件")
 
     if not targets:
