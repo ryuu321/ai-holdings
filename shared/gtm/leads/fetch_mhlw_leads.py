@@ -33,7 +33,12 @@ HEADERS = {
 }
 
 DEFAULT_PREFS = [13, 27, 14, 23, 11, 12, 1, 28, 40, 26, 34, 4, 22]
-BASE_API = "https://api.kaigokensaku.mhlw.go.jp"
+# api. サブドメインが GHA からDNS解決できない場合は www. を試す
+BASE_API_CANDIDATES = [
+    "https://api.kaigokensaku.mhlw.go.jp",
+    "https://www.kaigokensaku.mhlw.go.jp",
+]
+BASE_API = BASE_API_CANDIDATES[0]
 
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
 EMAIL_SKIP = ["noreply", "no-reply", "example", "sentry", "google",
@@ -75,13 +80,18 @@ def _emails_from_html(html: str) -> list[str]:
 
 
 def _get_providers(pref_cd: str, service_code: str, page: int = 1) -> list[dict]:
-    url = (f"{BASE_API}/{pref_cd}/api/index.php"
-           f"?kind=1&serviceTypeCode={service_code}&page={page}&detail=0")
-    data = _fetch_json(url)
-    if not data:
-        url2 = (f"{BASE_API}/{pref_cd}/api/serviceType/{service_code}/list.json"
-                f"?page={page}")
-        data = _fetch_json(url2)
+    global BASE_API
+    urls = []
+    for base in BASE_API_CANDIDATES:
+        urls.append(f"{base}/{pref_cd}/api/index.php?kind=1&serviceTypeCode={service_code}&page={page}&detail=0")
+        urls.append(f"{base}/{pref_cd}/api/serviceType/{service_code}/list.json?page={page}")
+    data = None
+    for url in urls:
+        data = _fetch_json(url)
+        if data:
+            # 成功したベースURLを記憶
+            BASE_API = url.split(f"/{pref_cd}/")[0]
+            break
     if not data:
         return []
     if isinstance(data, list):

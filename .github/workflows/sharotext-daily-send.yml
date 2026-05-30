@@ -33,6 +33,16 @@ jobs:
           print(content, end='')
           " > saas-dev/projects/sharotext/outreach/sent_log.csv || echo "Gist取得失敗: 新規作成"
 
+      - name: Fetch leads (全国社労士会ディレクトリ)
+        run: |
+          python saas-dev/projects/sharotext/outreach/fetch_pref_sr_leads.py \
+            --limit 200 --pages 5 || true
+
+      - name: Fetch leads (tokyosr.jp)
+        run: |
+          python saas-dev/projects/sharotext/outreach/fetch_tokyosr_leads.py \
+            --limit 100 --pages 20 --skip-no-email || true
+
       - name: Fetch leads
         env:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
