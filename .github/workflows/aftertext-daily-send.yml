@@ -35,7 +35,8 @@ jobs:
 
       - name: Fetch leads (WAM Net 障害福祉DB)
         run: |
-          python saas-dev/projects/aftertext/outreach/fetch_wam_leads.py \n            --limit 100 --prefs 13,27,14,23 || true
+          python saas-dev/projects/aftertext/outreach/fetch_wam_leads.py \
+            --limit 100 || true
 
       - name: Fetch leads (Web検索)
         run: |

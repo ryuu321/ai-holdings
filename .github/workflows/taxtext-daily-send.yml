@@ -35,7 +35,8 @@ jobs:
 
       - name: Fetch leads (freee認定アドバイザー)
         run: |
-          python saas-dev/projects/taxtext/outreach/fetch_freee_leads.py \n            --limit 100 --prefs 13,27,14,23 || true
+          python saas-dev/projects/taxtext/outreach/fetch_freee_leads.py \
+            --limit 100 || true
 
       - name: Fetch leads (Web検索)
         run: |

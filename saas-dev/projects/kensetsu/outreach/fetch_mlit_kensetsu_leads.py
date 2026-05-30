@@ -90,9 +90,21 @@ def _get_companies_from_mlit(pref_code: int, koumoku: str, kyoka: str,
         "kyokaKubun": kyoka,
         "dispCount": str(count),
         "pageNo": str(page),
-    })
-    url = f"{MLIT_KENSETSU_LIST}?{params}"
-    html = _fetch(url)
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        MLIT_KENSETSU_LIST,
+        data=params,
+        headers={**HEADERS, "Content-Type": "application/x-www-form-urlencoded"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            raw = r.read()
+            enc = r.headers.get_content_charset("utf-8")
+            html = raw.decode(enc or "utf-8", errors="replace")
+    except Exception as e:
+        print(f"  fetch error {MLIT_KENSETSU_LIST[:60]}: {e}")
+        html = ""
     if not html:
         return []
 

@@ -80,6 +80,11 @@ def _emails_from_html(html: str) -> list[str]:
     return result[:3]
 
 
+_SKIP_DOMAINS = ["youtube", "twitter", "x.com", "facebook", "instagram",
+                 "wikipedia", "indeed", "recruit", "mynavi", "townwork",
+                 "hellowork", "r.search.yahoo", "search.yahoo"]
+
+
 def _yahoo_search(query: str, page: int = 1) -> list[dict]:
     """Yahoo Japan HTML検索結果からURLと会社名を取得"""
     b = (page - 1) * 10 + 1
@@ -90,21 +95,25 @@ def _yahoo_search(query: str, page: int = 1) -> list[dict]:
         return []
 
     results = []
-    # 検索結果のタイトルとURLを抽出
-    for match in re.finditer(
-        r'<h3[^>]*>\s*<a[^>]+href="(https?://(?!search\.yahoo|yahoo\.co\.jp)[^"]+)"[^>]*>([^<]+)</a>',
-        html, re.IGNORECASE
-    ):
-        link_url = match.group(1)
-        title = re.sub(r'<[^>]+>', '', match.group(2)).strip()
-        # リダイレクトURLを外す
-        if "r.search.yahoo" in link_url or "search.yahoo" in link_url:
-            continue
-        if any(skip in link_url for skip in ["youtube", "twitter", "facebook",
-                                              "instagram", "wikipedia", "indeed",
-                                              "recruit", "mynavi", "townwork"]):
-            continue
-        results.append({"url": link_url, "title": title})
+    # 複数パターンで抽出（Yahoo Japanの構造変化に対応）
+    patterns = [
+        r'<h3[^>]*>\s*<a[^>]+href="(https?://[^"]+)"[^>]*>\s*([^<]+)',
+        r'data-url="(https?://[^"]+)"[^>]*>([^<]+)<',
+        r'href="(https?://(?!(?:search|r\.search)\.yahoo)[^"]+)"[^>]*>\s*<h3[^>]*>([^<]+)',
+        r'<a[^>]+href="(https?://(?!(?:search|r\.search)\.yahoo\.co\.jp)[^"]+)"[^>]*class="[^"]*title[^"]*"[^>]*>([^<]+)',
+    ]
+    seen = set()
+    for pat in patterns:
+        for match in re.finditer(pat, html, re.IGNORECASE):
+            link_url = match.group(1)
+            title = re.sub(r'<[^>]+>', '', match.group(2)).strip()
+            if any(s in link_url for s in _SKIP_DOMAINS):
+                continue
+            if link_url not in seen:
+                seen.add(link_url)
+                results.append({"url": link_url, "title": title})
+        if results:
+            break
 
     return results[:10]
 
@@ -118,16 +127,49 @@ def _ddg_search(query: str) -> list[dict]:
         return []
 
     results = []
-    for match in re.finditer(
+    # 複数パターンで抽出
+    patterns = [
         r'class="result__a"[^>]+href="(https?://[^"]+)"[^>]*>([^<]+)</a>',
+        r'href="(https?://[^"]+)"[^>]*class="result__a"[^>]*>([^<]+)</a>',
+        r'<a[^>]+class="[^"]*result[^"]*"[^>]+href="(https?://[^"]+)"[^>]*>([^<]+)</a>',
+    ]
+    seen = set()
+    for pat in patterns:
+        for match in re.finditer(pat, html, re.IGNORECASE):
+            link_url = match.group(1)
+            title = re.sub(r'<[^>]+>', '', match.group(2)).strip()
+            if any(s in link_url for s in _SKIP_DOMAINS):
+                continue
+            if link_url not in seen:
+                seen.add(link_url)
+                results.append({"url": link_url, "title": title})
+        if results:
+            break
+
+    return results[:10]
+
+
+def _bing_search(query: str) -> list[dict]:
+    """Bing HTML検索（Yahoo/DDG失敗時のフォールバック）"""
+    params = urllib.parse.urlencode({"q": query, "setlang": "ja", "mkt": "ja-JP"})
+    url = f"https://www.bing.com/search?{params}"
+    html = _fetch(url)
+    if not html:
+        return []
+
+    results = []
+    seen = set()
+    for match in re.finditer(
+        r'<h2[^>]*>\s*<a[^>]+href="(https?://(?!(?:bing|microsoft)[^"]*)[^"]+)"[^>]*>([^<]+)',
         html, re.IGNORECASE
     ):
         link_url = match.group(1)
-        title = match.group(2).strip()
-        if any(skip in link_url for skip in ["youtube", "twitter", "facebook",
-                                              "instagram", "wikipedia"]):
+        title = re.sub(r'<[^>]+>', '', match.group(2)).strip()
+        if any(s in link_url for s in _SKIP_DOMAINS):
             continue
-        results.append({"url": link_url, "title": title})
+        if link_url not in seen:
+            seen.add(link_url)
+            results.append({"url": link_url, "title": title})
 
     return results[:10]
 
@@ -230,11 +272,14 @@ def main():
                 break
             print(f"\n[Query {i+1}/{len(queries)}] {query}")
 
-            # Yahoo Japan → DDG フォールバック
+            # Yahoo Japan → DDG → Bing フォールバック
             results = _yahoo_search(query)
             if not results:
                 time.sleep(1.0)
                 results = _ddg_search(query)
+            if not results:
+                time.sleep(1.0)
+                results = _bing_search(query)
             print(f"  {len(results)}件のURL取得")
 
             for item in results:
