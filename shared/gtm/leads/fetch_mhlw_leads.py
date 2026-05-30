@@ -1,12 +1,10 @@
 """
-MHLW 介護サービス情報公表システムから汎用リード収集スクリプト（v2）
+MHLW 介護サービス情報公表システムから汎用リード収集スクリプト（v3）
   python fetch_mhlw_leads.py --output path/to/leads.csv --service-codes 110 [--limit 100]
 
-主要サービス種別コード (kaigokensaku.mhlw.go.jp):
-  110=訪問介護  111=訪問入浴  113=訪問看護  120=訪問リハ
-  130=通所介護  141=通所リハ  150=短期入所生活  160=短期入所療養
-  210=グループホーム  260=特定施設  310=老健  320=特養
-  400=居宅介護支援  421=予防支援
+--service-codes は以下の3桁コードをカンマ区切りで指定（内部でServiceGroupCdに変換）:
+  110=訪問介護  113=訪問看護  130=通所介護  310=老健  320=特養
+  400=居宅介護支援
 
 出力: CSV (company_name, email, url, phone, address, scraped_at)
 """
@@ -37,6 +35,32 @@ BROWSER_UA = (
 )
 
 DEFAULT_PREFS = [13, 27, 14, 23, 11, 12, 1, 28, 40, 26, 34, 4, 22]
+
+# 旧3桁サービス種別コード → ServiceGroupCd (検索フォームのチェックボックス値)
+_SERVICE_CODE_TO_GROUP = {
+    "110": "2",   # 訪問介護
+    "111": "6",   # 夜間対応型訪問介護
+    "113": "4",   # 訪問看護
+    "120": "5",   # 訪問リハビリ
+    "130": "8",   # 通所介護
+    "141": "9",   # 通所リハビリ
+    "150": "14",  # 短期入所生活介護
+    "160": "15",  # 短期入所療養介護
+    "210": "20",  # 認知症対応型共同生活介護
+    "260": "19",  # 特定施設入居者生活介護
+    "310": "17",  # 介護老人保健施設（老健）
+    "320": "16",  # 介護老人福祉施設（特養）
+    "400": "1",   # 居宅介護支援
+}
+
+
+def _to_group_cds(service_codes: list[str]) -> list[str]:
+    result = []
+    for sc in service_codes:
+        gcd = _SERVICE_CODE_TO_GROUP.get(sc, sc)
+        if gcd not in result:
+            result.append(gcd)
+    return result
 
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
 EMAIL_SKIP = [
@@ -72,20 +96,23 @@ def _fetch(opener: urllib.request.OpenerDirector, url: str,
 
 
 def _init_session(opener: urllib.request.OpenerDirector,
-                  pref_str: str, service_codes: list[str]) -> bool:
+                  pref_str: str, group_cds: list[str]) -> bool:
     """都道府県ページをGETしてPHPセッションを確立し、検索条件をセッションに保存"""
     top_url = f"{BASE}/{pref_str}/index.php"
     _fetch(opener, top_url)
 
-    conditions = json.dumps({"ServiceTypeCode": service_codes, "CityCdList": [], "PrefCd": pref_str})
-    post_body = urllib.parse.urlencode({
-        "action_kouhyou_pref_search_list_list": "true",
-        "method": "search",
-        "PrefCd": pref_str,
-        "FromPage": "kaigoTopPage",
-        "SearchConditions": conditions,
-        "SearchKeyword": "",
-    }).encode("utf-8")
+    # ServiceGroupCd[] をmultipart形式で送信 (複数チェックボックスと同じ)
+    params = [
+        ("action_kouhyou_pref_search_list_list", "true"),
+        ("method", "search"),
+        ("PrefCd", pref_str),
+        ("FromPage", "kaigoConditionSearchPage"),
+        ("SearchConditions", "{}"),
+        ("SearchKeyword", ""),
+    ]
+    for gcd in group_cds:
+        params.append(("ServiceGroupCd[]", gcd))
+    post_body = urllib.parse.urlencode(params).encode("utf-8")
 
     html = _fetch(
         opener,
@@ -180,11 +207,12 @@ def main():
     leads_file = Path(args.output)
     leads_file.parent.mkdir(parents=True, exist_ok=True)
     service_codes = [c.strip() for c in args.service_codes.split(",") if c.strip()]
+    group_cds = _to_group_cds(service_codes)
     prefs = [int(p) for p in args.prefs.split(",") if p.strip()] if args.prefs else DEFAULT_PREFS
     limit = args.limit if args.limit > 0 else 99999
 
     existing = load_existing(leads_file)
-    print(f"既存リード: {len(existing)}件 | サービスコード: {service_codes}")
+    print(f"既存リード: {len(existing)}件 | サービスコード: {service_codes} → ServiceGroupCd: {group_cds}")
 
     write_header = not leads_file.exists()
     found = 0
@@ -203,7 +231,7 @@ def main():
             print(f"\n[都道府県 {pref_str}] セッション初期化中...")
 
             opener = _new_opener()
-            ok = _init_session(opener, pref_str, service_codes)
+            ok = _init_session(opener, pref_str, group_cds)
             if not ok:
                 print(f"  セッション初期化失敗 → スキップ")
                 continue
