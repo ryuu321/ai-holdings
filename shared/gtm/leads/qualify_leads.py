@@ -35,7 +35,8 @@ def load_config(project: str) -> dict:
 _PLACEHOLDER_DOMAINS = {
     "sample.co.jp", "sample.jp", "mail.jp",
     "example.com", "example.co.jp", "example.jp",
-    "test.com", "noreply.com",
+    "test.com", "noreply.com", "form.jp",
+    "aaa.com", "abc.com", "test.jp",
 }
 
 
@@ -69,8 +70,12 @@ def score_lead(company_name: str, email: str, url: str, cfg: dict) -> tuple[int,
         score += scoring["good_domain"]
         reasons.append(f"+{scoring['good_domain']}: 法人ドメイン ({domain})")
 
-    # 会社種別チェック
-    company_types = ["株式会社", "有限会社", "合同会社", "一般社団法人", "公益社団法人"]
+    # 会社種別チェック（フル表記 + 略称）
+    company_types = [
+        "株式会社", "有限会社", "合同会社", "一般社団法人", "公益社団法人",
+        "社会福祉法人", "医療法人", "特定非営利活動法人", "NPO法人",
+        "(株)", "（株）", "(有)", "（有）", "(合)", "（合）", "(一社)", "（一社）",
+    ]
     if any(ct in company_name for ct in company_types):
         score += scoring["has_company_type"]
         reasons.append(f"+{scoring['has_company_type']}: 法人登記あり")

@@ -44,11 +44,7 @@ jobs:
         run: |
           python shared/gtm/leads/fetch_mhlw_leads.py \
             --output saas-dev/projects/tokutext/outreach/leads.csv \
-            --service-codes 31,32 \
-            --limit 100 --prefs 13,27,14,23 || true
-          python shared/gtm/leads/fetch_mhlw_leads.py \
-            --output saas-dev/projects/tokutext/outreach/leads.csv \
-            --service-codes 311,321 \
+            --service-codes 310,320 \
             --limit 100 --prefs 13,27,14,23 || true
 
       - name: Seed static leads
