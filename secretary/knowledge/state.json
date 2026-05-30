@@ -1,7 +1,7 @@
 {
   "version": "1.4",
-  "last_updated": "2026-05-29",
-  "session_count": 25,
+  "last_updated": "2026-05-30",
+  "session_count": 26,
   "owner": {
     "profile": "公立千歳科学技術大学 情報システム工学科 大学生",
     "constraints": [
@@ -80,7 +80,11 @@
       "kentext GIST_ID未設定バグ修正 (daily-send/check-replies/follow-up) (2026-05-28)",
       "note記事自動リサイクル: 全103記事投稿後にposted_logリセット→再サイクル開始 (2026-05-28)",
       "note-biz: GEMINI_API_KEY期限切れ修正 → GEMINI_API_KEY_1使用 + gemini-2.0-flash-lite (2026-05-29)",
-      "note-biz: 有料記事分割修正 → split_position + draft_save無料部分のみ + PUT詳細ログ追加 (2026-05-29)"
+      "note-biz: 有料記事分割修正 → split_position + draft_save無料部分のみ + PUT詳細ログ追加 (2026-05-29)",
+      "Brave API完全廃止・全103製品を専用スクレイパーに移行（2026-05-30）",
+      "TaxTextはzeirishikensaku.jp禁止→freee認定アドバイザーを採用（2026-05-30）",
+      "GyoTextはPlaywright(GHA)+gyosei.or.jpで対応（2026-05-30）",
+      "send_emails.py: 法人格チェックをバッチ停止→個別SKIPに修正（全製品）（2026-05-30）"
     ],
     "decisions_archive": "secretary/knowledge/decisions_archive.md"
   },
@@ -353,17 +357,18 @@
     "lessons_ref": "secretary/knowledge/lessons.md"
   },
   "pending_tasks": [
-    "【要監視】2026-05-29 JST9:00: textseries-generate-leads.yml 初回実行 → 103製品の静的リード生成確認",
-    "【要監視】2026-05-29 JST10:00-17:30: 初回コールドメール送信確認 (103製品×5通=515通)",
     "【要確認】Cloud Run残44製品デプロイ完了確認: _deploy_remaining.log を確認",
     "【最優先】FudoText: 8社への返信確認・対応（9日経過）",
     "【手動】楽天ROOM auth refresh: update_auth.ps1 実行",
     "【手動】KDP手動アップロード: 6冊・¥980・70%ロイヤリティ",
-    "【中優先】YouTube OAuth修正: Google Cloud Console > Test users に ryumgrweb@gmail.com 追加"
+    "【中優先】YouTube OAuth修正: Google Cloud Console > Test users に ryumgrweb@gmail.com 追加",
+    "【要確認】2026-05-31〜: GHA実行結果確認（MLIT/MHLW/freee/WAM スクレイパーが0件でないか）",
+    "【要確認】GyoText Playwright: gyosei.or.jpのDOM構造確認・必要なら修正",
+    "【要確認】TaxText freee認定アドバイザー: リード収集できているか確認"
   ],
   "next_session_agenda": [
-    "1. 2026-05-29 JST9:00以降: 静的リード生成結果確認（gh run list --workflow=textseries-generate-leads.yml）",
-    "2. JST10:00以降: コールドメール初送信確認（Gistのsent_log確認）",
-    "3. FUDOTEXT_PAT登録（5分・GitHub Fine-grained token）"
+    "1. GHA実行結果確認: gh run list で各製品ワークフロー成否確認（特に MLIT/MHLW/Playwright）",
+    "2. SharoText: 30件自動送信完了確認・返信チェック",
+    "3. FudoText 8社返信対応（最優先・9日以上経過）"
   ]
 }

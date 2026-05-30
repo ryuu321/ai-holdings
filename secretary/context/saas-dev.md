@@ -1,6 +1,6 @@
 ---
 company: saas-dev
-updated: 2026-05-27
+updated: 2026-05-30
 ---
 
 ## 稼働中プロジェクト
@@ -24,9 +24,18 @@ updated: 2026-05-27
 3. Stripe課金検知（毎時）→ UUIDコード自動生成 → メール送信
 4. フォローアップシーケンス（7日後）
 
-### 営業自動化の既知の穴
-- コールドメールが0件: 会社名が取れずスコア70未達（意図的に放置中・Bアプローチ）
-- デモ後フォローアップは正常動作予定
+### GTM リード収集（2026-05-30 本格化）
+- **Brave API 完全廃止** → 製品別専用スクレイパーに切り替え完了
+- SharoText: tokyosr.jp（291リード・26件送信・63件ドラフト待機）
+- CareText: MHLW介護サービス API（kaigokensaku.mhlw.go.jp）
+- KenText + 建設系16製品: MLIT 建設業 DB（etsuran2.mlit.go.jp）工種コード別
+- TokuText/KangoText/DayText等: MHLW 介護 DB（サービスコード別）
+- GyoText: gyosei.or.jp を Playwright で突破（GitHub Actions 上）
+- TaxText: freee 認定アドバイザーディレクトリ（DM 歓迎・ToS 問題なし）
+- AfterText: WAM Net 障害福祉サービス等情報公表（code 615/614）
+- IinText: MHLW 医療機能情報公表 mfis.mhlw.go.jp
+- 残り 75 製品: Yahoo Japan/DDG 検索フォールバック
+- send_emails.py バグ修正（法人格チェックで全バッチ停止 → 個別 SKIP に修正）
 
 ### Supabase テーブル
 - 各製品: `{slug}_trials`, `{slug}_codes`, `{slug}_history`, `{slug}_feedback`
