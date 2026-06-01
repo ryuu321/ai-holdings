@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-05-31T23:09:53.268316+00:00",
+  "updated_at": "2026-06-01T02:36:52.985907+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -53,7 +53,8 @@
     "Boost Focus",
     "CoachGenie",
     "DesignSpark",
-    "Ecom Success"
+    "Ecom Success",
+    "UX Spark"
   ],
   "used_niches_recent": [
     "Content Creators",
@@ -64,6 +65,7 @@
     "ADHD Productivity",
     "Life Coaches",
     "Graphic Designers",
-    "E-commerce Entrepreneurs"
+    "E-commerce Entrepreneurs",
+    "UX Designers"
   ]
 }
