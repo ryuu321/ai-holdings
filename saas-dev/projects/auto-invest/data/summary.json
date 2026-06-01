@@ -1,30 +1,30 @@
 {
-  "updated_at": "2026-06-01T06:57:19.354603+00:00",
+  "updated_at": "2026-06-01T06:59:19.405028+00:00",
   "portfolios": {
     "LONG": {
-      "balance": 9269.43376006749,
+      "balance": 9456.496736367075,
       "initial_balance": 10000.0,
-      "last_run": "2026-05-25T06:37:35.283871+00:00",
+      "last_run": "2026-06-01T06:59:19.404851+00:00",
       "positions": {
         "MSFT": {
           "ticker": "MSFT",
-          "shares": 0.9615553417985012,
+          "shares": 0.769244273438801,
           "buy_price": 422.79,
           "bought_at": "2026-04-20T05:15:05.717280+00:00",
-          "cost_basis": 406.5359829589883,
-          "peak_price": 424.6,
+          "cost_basis": 325.22878636719065,
+          "peak_price": 450.24,
           "ladder_hits": [],
-          "last_dca_date": "2026-04-27T05:26:44.171567+00:00"
+          "last_dca_date": "2026-06-01T06:59:19.401111+00:00"
         },
         "META": {
           "ticker": "META",
-          "shares": 0.7942707694843856,
+          "shares": 0.6354166155875085,
           "buy_price": 614.23,
           "bought_at": "2026-05-18T06:16:59.502075+00:00",
-          "cost_basis": 487.8649347403942,
-          "peak_price": 614.23,
+          "cost_basis": 390.29194779231534,
+          "peak_price": 632.51,
           "ladder_hits": [],
-          "last_dca_date": ""
+          "last_dca_date": "2026-06-01T06:59:19.402567+00:00"
         }
       },
       "short_positions": {}
@@ -177,6 +177,34 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-06-01T06:59:19.402555+00:00",
+      "action": "SELL",
+      "coin": "META",
+      "price": 632.51,
+      "amount": 0.15885415389687713,
+      "value_usd": 100.47684088131375,
+      "balance_after": 9456.496736367075,
+      "pnl": 2.903853933234913,
+      "reasoning": "DCA週次利確: +3.0%  20%売却",
+      "confidence": 0.7,
+      "risk_level": "MEDIUM",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-06-01T06:59:19.401096+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 450.24,
+      "amount": 0.19231106835970024,
+      "value_usd": 86.58613541827144,
+      "balance_after": 9356.01989548576,
+      "pnl": 5.278938826473777,
+      "reasoning": "DCA週次利確: +6.5%  20%売却",
+      "confidence": 0.7,
+      "risk_level": "MEDIUM",
+      "bot_type": "LONG"
+    },
     {
       "timestamp": "2026-05-31T05:21:24.116780+00:00",
       "action": "BUY",
@@ -516,8 +544,8 @@
   ],
   "stats": {
     "total_buys": 16,
-    "total_sells": 8,
-    "realized_pnl": 258.07,
-    "win_rate": 87.5
+    "total_sells": 10,
+    "realized_pnl": 266.25,
+    "win_rate": 90.0
   }
 }
