@@ -313,5 +313,40 @@
       "require_volume_spike": false,
       "updated_at": "2026-05-31T16:05:14.284822+00:00"
     }
+  },
+  {
+    "timestamp": "2026-06-01T19:54:32.360102+00:00",
+    "version": 11,
+    "reasoning": "勝率が低いためエントリー条件を絞り、トレード数が少なすぎるため条件を緩めるためにrsi_oversoldを下げ、タイムアウトが多いのでmax_hold_minutesを短縮します。",
+    "metrics": {
+      "total": 3,
+      "win_rate": 33.3,
+      "avg_win_pct": 0.26,
+      "avg_loss_pct": -0.048,
+      "total_pnl_pct": 0.164,
+      "recent_7d_trades": 0,
+      "recent_7d_pnl_pct": 0,
+      "max_drawdown_pct": 0.1,
+      "exit_reasons": {
+        "timeout": 3
+      },
+      "avg_hold_min": 208.5
+    },
+    "strategy": {
+      "version": 11,
+      "rsi_period": 14.0,
+      "rsi_oversold": 30.0,
+      "rsi_overbought": 65.0,
+      "bb_period": 20.0,
+      "bb_std": 2.0,
+      "stop_loss_pct": 0.008,
+      "take_profit_pct": 0.015,
+      "invest_pct": 0.8,
+      "max_hold_minutes": 90.0,
+      "require_bb": true,
+      "require_rsi": true,
+      "require_volume_spike": false,
+      "updated_at": "2026-06-01T19:54:32.360102+00:00"
+    }
   }
 ]
