@@ -245,6 +245,8 @@ def main():
 
     stats = {"generated": 0, "skipped": 0, "error": 0}
     limit = args.limit if args.limit > 0 else len(config_files)
+    consecutive_failures = 0
+    MAX_CONSECUTIVE_FAILURES = 3  # 連続失敗でキー枯渇と判断→即中断
 
     for i, cfg_path in enumerate(config_files, 1):
         if stats["generated"] >= limit and not args.dry_run:
@@ -275,10 +277,15 @@ def main():
                 stats["generated"] += 1
                 continue
             if not content.strip():
-                print("生成失敗（全キー枯渇）→ スキップ")
+                consecutive_failures += 1
+                print(f"生成失敗（全キー枯渇）→ スキップ [{consecutive_failures}/{MAX_CONSECUTIVE_FAILURES}]")
                 stats["error"] += 1
+                if consecutive_failures >= MAX_CONSECUTIVE_FAILURES:
+                    print(f"全APIキーが枯渇（{MAX_CONSECUTIVE_FAILURES}連続失敗）。本日分を中断します。")
+                    break
                 time.sleep(3)
                 continue
+            consecutive_failures = 0  # 成功したらリセット
             saved = save_article(slug, content)
             char_count = len(content)
             print(f"{char_count}字 → {saved.name}")

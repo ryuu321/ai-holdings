@@ -9,12 +9,17 @@ on:
         description: '投稿件数'
         default: '2'
       generate:
-        description: '記事生成する (true/false)'
-        default: 'true'
+        description: '記事生成する (true/false) — 通常はfalse（ローカル生成済み）'
+        default: 'false'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   post:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -33,8 +38,9 @@ jobs:
           mkdir -p saas-dev/projects/note-auto
           echo "$NOTE_SESSION_TEXTSERIES_B64" | base64 -d > saas-dev/projects/note-auto/note_session_textseries.json
 
-      - name: Generate articles
-        if: ${{ inputs.generate != 'false' }}
+      - name: Generate articles (手動実行時のみ)
+        if: ${{ inputs.generate == 'true' }}
+        timeout-minutes: 10
         env:
           GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
@@ -64,7 +70,7 @@ jobs:
           GEMINI_API_KEY_26: ${{ secrets.GEMINI_API_KEY_26 }}
         run: |
           python shared/gtm/scripts/generate_note_articles.py \
-            --limit ${{ inputs.limit || '2' }} \
+            --limit ${{ inputs.limit || '5' }} \
             --skip-existing
 
       - name: Post to note.com
@@ -72,9 +78,10 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python shared/gtm/scripts/note_textseries_upload.py \
-            --limit ${{ inputs.limit || '2' }}
+            --limit ${{ github.event_name == 'workflow_dispatch' && inputs.limit || '2' }}
 
       - name: Commit posted log
+        if: always()
         run: |
           git config user.email "actions@github.com"
           git config user.name "Auto Bot"
