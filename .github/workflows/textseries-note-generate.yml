@@ -1,0 +1,70 @@
+name: textseries-note-generate
+
+on:
+  schedule:
+    - cron: "0 15 * * *"  # 毎日 JST 0:00 (UTC 15:00) ← GTMパイプラインと時間帯を分離
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: '生成件数'
+        default: '5'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate articles
+        timeout-minutes: 15
+        env:
+          GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
+          GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
+          GEMINI_API_KEY_6: ${{ secrets.GEMINI_API_KEY_6 }}
+          GEMINI_API_KEY_7: ${{ secrets.GEMINI_API_KEY_7 }}
+          GEMINI_API_KEY_8: ${{ secrets.GEMINI_API_KEY_8 }}
+          GEMINI_API_KEY_9: ${{ secrets.GEMINI_API_KEY_9 }}
+          GEMINI_API_KEY_10: ${{ secrets.GEMINI_API_KEY_10 }}
+          GEMINI_API_KEY_11: ${{ secrets.GEMINI_API_KEY_11 }}
+          GEMINI_API_KEY_12: ${{ secrets.GEMINI_API_KEY_12 }}
+          GEMINI_API_KEY_13: ${{ secrets.GEMINI_API_KEY_13 }}
+          GEMINI_API_KEY_14: ${{ secrets.GEMINI_API_KEY_14 }}
+          GEMINI_API_KEY_15: ${{ secrets.GEMINI_API_KEY_15 }}
+          GEMINI_API_KEY_16: ${{ secrets.GEMINI_API_KEY_16 }}
+          GEMINI_API_KEY_17: ${{ secrets.GEMINI_API_KEY_17 }}
+          GEMINI_API_KEY_18: ${{ secrets.GEMINI_API_KEY_18 }}
+          GEMINI_API_KEY_19: ${{ secrets.GEMINI_API_KEY_19 }}
+          GEMINI_API_KEY_20: ${{ secrets.GEMINI_API_KEY_20 }}
+          GEMINI_API_KEY_21: ${{ secrets.GEMINI_API_KEY_21 }}
+          GEMINI_API_KEY_22: ${{ secrets.GEMINI_API_KEY_22 }}
+          GEMINI_API_KEY_23: ${{ secrets.GEMINI_API_KEY_23 }}
+          GEMINI_API_KEY_24: ${{ secrets.GEMINI_API_KEY_24 }}
+          GEMINI_API_KEY_25: ${{ secrets.GEMINI_API_KEY_25 }}
+          GEMINI_API_KEY_26: ${{ secrets.GEMINI_API_KEY_26 }}
+        run: |
+          python shared/gtm/scripts/generate_note_articles.py \
+            --limit ${{ inputs.limit || '5' }} \
+            --skip-existing
+
+      - name: Commit generated articles
+        if: always()
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "Auto Bot"
+          git add shared/gtm/content/note/ || true
+          git diff --staged --quiet || git commit -m "note: TextSeries記事バッチ生成 $(date -u '+%Y-%m-%d') [skip ci]"
+          git pull --rebase -X theirs
+          git push
