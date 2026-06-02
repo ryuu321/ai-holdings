@@ -104,7 +104,8 @@ def _gemini_personalize(company_name: str, prompt_template: str, model: str, api
 
 _COMPANY_KEYWORDS = ["株式会社", "有限会社", "合同会社", "一般社団法人", "公益社団法人",
                      "社会保険労務士法人", "社労士法人", "社会保険労務士事務所", "社労士事務所",
-                     "行政書士法人", "司法書士法人", "税理士法人"]
+                     "行政書士法人", "行政書士事務所", "司法書士法人", "司法書士事務所",
+                     "税理士法人", "税理士事務所", "弁護士法人", "法律事務所"]
 
 # これらが含まれる文字列は会社名ではなくブログタイトル等と判定してスキップ
 _BLOG_SIGNALS = [
@@ -156,8 +157,8 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
             if hint_keywords and any(kw in part for kw in hint_keywords) and len(part) <= 25:
                 return part
 
-    # Step2: 【】パターン
-    for m in re.finditer(r'[【(]([^)】]{2,30})[)】]', raw):
+    # Step2: 【】「」() パターン
+    for m in re.finditer(r'[【(「]([^)】」]{2,30})[)】」]', raw):
         candidate = m.group(1).strip()
         if any(kw in candidate for kw in _COMPANY_KEYWORDS):
             return candidate
