@@ -56,8 +56,11 @@ def score_lead(company_name: str, email: str, url: str, cfg: dict) -> tuple[int,
         return 0, ["-100: placeholderドメイン（送信禁止）"]
 
     # ターゲットキーワードチェック（URL + 会社名）
+    # target_keywords は検索クエリ用フレーズのため、単語単位の hint_keywords も併用
     text = f"{company_name} {url}".lower()
-    hit = any(kw in text for kw in icp["target_keywords"])
+    hint_kws = icp.get("company_name_hint_keywords", [])
+    all_kws = list(icp["target_keywords"]) + hint_kws
+    hit = any(kw in text for kw in all_kws)
     if hit:
         score += scoring["target_keyword_hit"]
         reasons.append(f"+{scoring['target_keyword_hit']}: ターゲットキーワード一致")
@@ -143,9 +146,9 @@ def qualify(project: str, input_file: str) -> None:
     write_csv(rejected, out_dir / "leads_rejected.csv")
 
     print(f"スコアリング完了 ({len(leads)}件)")
-    print(f"  承認 (80点+): {len(approved)}件 → leads_approved.csv")
-    print(f"  要確認(60-79): {len(review)}件 → leads_review.csv")
-    print(f"  却下 (60点未満): {len(rejected)}件 → leads_rejected.csv")
+    print(f"  承認 ({approve_threshold}点+): {len(approved)}件 → leads_approved.csv")
+    print(f"  要確認({review_threshold}-{approve_threshold - 1}): {len(review)}件 → leads_review.csv")
+    print(f"  却下 ({review_threshold}点未満): {len(rejected)}件 → leads_rejected.csv")
 
     if review:
         print(f"\n【要確認リスト】 leads_review.csv を目視確認してください:")
