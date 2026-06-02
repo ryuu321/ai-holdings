@@ -63,8 +63,8 @@
     "has_company_type": 20,
     "bad_domain_penalty": -20,
     "exclude_keyword_penalty": -50,
-    "auto_approve_threshold": 70,
-    "review_threshold": 50
+    "auto_approve_threshold": 50,
+    "review_threshold": 30
   },
   "sender_address": "〒060-0001 北海道札幌市中央区北一条西3丁目3番地33 リープロビル302",
   "sent_log": "saas-dev/projects/yakuzaishitext/outreach/sent_log.csv",
