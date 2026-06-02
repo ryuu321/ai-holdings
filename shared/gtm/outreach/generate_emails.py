@@ -129,12 +129,15 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
     5. 末尾法人格パターン
     6. hint_keyword を含む短い名前を信頼（fetch_leads で既にAI検証済み）
     """
-    _LEAD_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
+    _LEAD_TYPES = (
+        "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
+        "|社会福祉法人|医療法人|特定非営利活動法人|NPO法人|公益財団法人|一般財団法人|公益社団法人"
+    )
     _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店"
 
     # Step0: 前置マーケティング語除去 ＋ 「法人　固有名詞」の全角スペースを結合
     raw = re.sub(r'^(?:全国対応の?|全国の|地域密着型?の?)[　\s]*', '', raw)
-    raw = re.sub(r'(社会保険労務士法人|社労士法人|株式会社|有限会社|合同会社|行政書士法人|司法書士法人|税理士法人)　(.{1,15})$', r'\1\2', raw)
+    raw = re.sub(r'(社会保険労務士法人|社労士法人|株式会社|有限会社|合同会社|行政書士法人|司法書士法人|税理士法人|社会福祉法人|医療法人)　(.{1,15})$', r'\1\2', raw)
 
     # Step1: 区切り文字で分割（ブログシグナルチェックより先）
     for sep in ["｜", "|", "–", "—", " - "]:
@@ -169,11 +172,12 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
     if m3:
         return m3.group(1).strip()
 
-    # Step6: hint_keyword を含む短い名前を信頼（スペースなし＝事務所名、fetch_leads.py でAI検証済み）
-    # ただし「業者」「一覧」等の業種カテゴリ語が含まれる場合は除外
+    # Step6: hint_keyword を含む短い名前を信頼（fetch_leads.py でAI検証済み）
+    # DBデータ由来（MHLW等）の名前は半角スペースを含む場合があるため許容する
+    # ただし「業者」「一覧」等の業種カテゴリ語・全角スペース（SEOタイトル）は除外
     _STEP6_BAD = ["業者", "一覧", "業者認定", "工事業", "認定協会"]
     if (hint_keywords and any(kw in raw for kw in hint_keywords)
-            and len(raw) <= 20 and " " not in raw and "　" not in raw
+            and len(raw) <= 35 and "　" not in raw
             and not any(sig in raw for sig in _STEP6_BAD)):
         return raw
 

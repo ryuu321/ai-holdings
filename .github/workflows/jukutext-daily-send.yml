@@ -95,4 +95,4 @@ jobs:
           import json
           content = open('saas-dev/projects/jukutext/outreach/sent_log.csv', encoding='utf-8').read()
           print(json.dumps({'files': {'jukutext_sent_log.csv': {'content': content}}}))
-          " | curl -sf -X PATCH             -H "Authorization: token $GIST_TOKEN"             -H "Content-Type: application/json"             -d @-             "https://api.github.com/gists/$GIST_ID"
+          " | curl -sf -X PATCH             -H "Authorization: token $GIST_TOKEN"             -H "Content-Type: application/json"             -d @-             "https://api.github.com/gists/$GIST_ID" || true

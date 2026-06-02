@@ -114,5 +114,5 @@ jobs:
             -H "Authorization: token $GIST_TOKEN" \
             -H "Content-Type: application/json" \
             -d @- \
-            "https://api.github.com/gists/$GIST_ID"
+            "https://api.github.com/gists/$GIST_ID" || true
           echo "sent_log.csv をGistに保存"

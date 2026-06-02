@@ -9,7 +9,7 @@ from pathlib import Path
 
 PROJECT = "gakudotext"
 _DIR = Path(__file__).parent
-_ROOT = _DIR.parent.parent.parent
+_ROOT = _DIR.parent.parent.parent.parent  # ai-holdings/
 
 
 def run(cmd: list[str]) -> int:
