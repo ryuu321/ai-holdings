@@ -126,11 +126,15 @@ def qualify(project: str, input_file: str) -> None:
     out_dir = _GTM_DIR / "data" / project
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    fields = list(leads[0].keys()) if leads else []
+    # Remove None keys from rows (caused by trailing commas in source CSVs)
+    for lead in approved + review + rejected:
+        lead.pop(None, None)
+
+    fields = [k for k in (leads[0].keys() if leads else []) if k is not None]
 
     def write_csv(rows, path):
         with open(path, "w", encoding="utf-8", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=fields)
+            writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
             writer.writeheader()
             writer.writerows(rows)
 
