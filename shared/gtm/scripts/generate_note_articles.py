@@ -120,13 +120,15 @@ def _call_gemini(prompt: str, max_tokens: int = 1200) -> str:
                     body = e.read().decode("utf-8", errors="replace")[:200]
                 except Exception:
                     pass
-                if e.code in (429, 503):
+                if e.code == 429:
+                    break  # レートリミット → 即次のキーへ（同キーリトライ不要）
+                elif e.code == 503:
                     if attempt < 2:
                         wait = 2 ** (attempt + 1)
-                        print(f"    Gemini {e.code} → {wait}s待機...")
+                        print(f"    Gemini 503 → {wait}s待機...")
                         time.sleep(wait)
                     else:
-                        break  # このキーは限界、次のキーへ
+                        break
                 elif e.code == 400:
                     print(f"    Gemini 400 (キー無効?) → 次のキーへ: {body[:80]}")
                     break  # 次のキーへ
