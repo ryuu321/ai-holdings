@@ -112,6 +112,7 @@ _BLOG_SIGNALS = [
     "とは", "について", "の仕方", "ガイド", "まとめ", "おすすめ",
     "お問い合わせ方法", "メールで", "相談を", "スムーズ", "名簿", "営業リスト",
     "お任せ", "ご相談", "はこちら", "サポート", "にお任せ",
+    "お探しなら", "をお探しの", "ようこそ",  # SEOディレクトリタイトル（Step2.5で救済できなかった残余）
 ]
 
 
@@ -131,9 +132,14 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
     """
     _LEAD_TYPES = (
         "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|行政書士法人|司法書士法人|税理士法人"
+        "|弁護士法人"
         "|社会福祉法人|医療法人|特定非営利活動法人|NPO法人|公益財団法人|一般財団法人|公益社団法人"
     )
-    _TRAIL_TYPES = "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店"
+    _TRAIL_TYPES = (
+        "株式会社|有限会社|合同会社|社会保険労務士法人|社労士法人|社会保険労務士事務所|社労士事務所|工務店"
+        "|法律事務所|弁護士法人|行政書士法人|行政書士事務所|司法書士法人|司法書士事務所|税理士法人|税理士事務所"
+        "|クリニック|診療所|歯科|調剤薬局|薬局|病院"
+    )
 
     # Step0: 前置マーケティング語除去 ＋ 「法人　固有名詞」の全角スペースを結合
     raw = re.sub(r'^(?:全国対応の?|全国の|地域密着型?の?)[　\s]*', '', raw)
@@ -158,6 +164,16 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
         if hint_keywords and any(kw in candidate for kw in hint_keywords) and len(candidate) <= 25:
             return candidate
 
+    # Step2.5: 「〜をお探しなら[法人名]へ」等のSEOディレクトリパターン（Step3より先に評価）
+    # 「お探しなら」自体はStep3のブログシグナルだが、法人名を安全に抽出できる場合は救済する
+    _SEO_ENTITY = r'(?:事務所|法人|クリニック|病院|工務店|薬局|診療所|歯科|センター)'
+    m_seo = re.search(
+        rf'(?:をお探しなら?|に相談なら?|といえば|と言えば)([^\s　。、！？・「」【】]{{2,15}}{_SEO_ENTITY})(?:[へにでのはがも]|$)',
+        raw
+    )
+    if m_seo:
+        return m_seo.group(1).strip()
+
     # Step3: 区切りなしの場合のみブログシグナルで弾く
     if any(sig in raw for sig in _BLOG_SIGNALS):
         return ""
@@ -167,8 +183,9 @@ def _clean_company_name(raw: str, hint_keywords: list[str] | None = None) -> str
     if m2:
         return m2.group(1).strip()
 
-    # Step5: 末尾法人格パターン（「XXX工務店」等）
-    m3 = re.search(rf'([^\s　。、！？・「」【】]{{1,20}}(?:{_TRAIL_TYPES}))$', raw.strip())
+    # Step5: 末尾法人格パターン（末尾の格助詞を除いてから評価）
+    raw5 = re.sub(r'[へにでのはがも]$', '', raw.strip())
+    m3 = re.search(rf'([^\s　。、！？・「」【】]{{1,20}}(?:{_TRAIL_TYPES}))$', raw5)
     if m3:
         return m3.group(1).strip()
 
