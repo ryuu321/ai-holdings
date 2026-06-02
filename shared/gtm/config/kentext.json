@@ -85,10 +85,10 @@
   "feedback_report_dir": "saas-dev/projects/kensetsu/feedback_reports",
   "feedback_prompt_context": "KenTextは建設業・工務店向けAI工事完了報告書生成ツール。ユーザーは施工管理担当者・現場監督。Word(.docx)形式で出力予定。",
   "email_template": {
-    "template_file": "kentext_sequence_1.txt",
-    "subject": "【工事報告書をAIで自動化】KenTextのご紹介",
-    "fallback_opening": "平素より建設・施工管理業務でご尽力されていることと存じます。",
-    "personalize_prompt": "建設会社「{company_name}」の現場監督・施工管理担当者に向けた、工事完了報告書の作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+    "template_file": "discovery_sequence_1.txt",
+    "subject": "貴社の業務について少しお聞きしてもよいでしょうか",
+    "fallback_opening": "日頃より業務にご尽力されていることと存じます。",
+    "personalize_prompt": "「{company_name}」のご担当者に向けた、日常業務の中で発生する繰り返し作業・文書作成の苦労への共感の一文を書いてください。「御社では〜」で始め、1文以内で。製品名や宣伝は一切含めないこと。"
   },
   "stripe_standard_url": "https://buy.stripe.com/aFa14n0fUfyR7zI7WBabK28",
   "stripe_pro_url": "https://buy.stripe.com/bJeaEX4wa4Udg6e1ydabK29"

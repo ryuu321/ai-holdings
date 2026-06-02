@@ -80,9 +80,9 @@
     "draft text"
   ],
   "email_template": {
-    "template_file": "gakudotext_sequence_1.txt",
-    "subject": "【書類作成をAIで効率化】Gakudotextのご紹介",
-    "fallback_opening": "突然のご連絡をご容赦ください。学童保育（民間）の実務でご多忙のことと存じます。",
-    "personalize_prompt": "学童保育（民間）「{company_name}」の担当者に向けた、書類作成業務への共感と課題提起の一文を書いてください。「御社では〜」で始め、2文以内で。"
+    "template_file": "discovery_sequence_1.txt",
+    "subject": "貴社の業務について少しお聞きしてもよいでしょうか",
+    "fallback_opening": "日頃より業務にご尽力されていることと存じます。",
+    "personalize_prompt": "「{company_name}」のご担当者に向けた、日常業務の中で発生する繰り返し作業・文書作成の苦労への共感の一文を書いてください。「御社では〜」で始め、1文以内で。製品名や宣伝は一切含めないこと。"
   }
 }

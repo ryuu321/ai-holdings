@@ -113,9 +113,10 @@
     "不動産売買 仲介 contact@ co.jp"
   ],
   "email_template": {
-    "subject": "【無料ツール】物件説明文の作成時間を大幅に短縮できます",
-    "personalize_prompt": "不動産仲介会社へのビジネスメールの書き出し（1〜2文、60字以内）を書いてください。会社名: {company_name}。要件: 自然で押しつけがましくない / 物件説明文の作成工数削減の文脈 / 敬体・丁寧語 / 60字以内",
-    "fallback_opening": "貴社の物件説明文作成業務において、ご担当者様のお時間を少しでも省けるのではと思い、ご連絡させていただきました。"
+    "subject": "貴社の業務について少しお聞きしてもよいでしょうか",
+    "personalize_prompt": "「{company_name}」のご担当者に向けた、日常業務の中で発生する繰り返し作業・文書作成の苦労への共感の一文を書いてください。「御社では〜」で始め、1文以内で。製品名や宣伝は一切含めないこと。",
+    "fallback_opening": "日頃より業務にご尽力されていることと存じます。",
+    "template_file": "discovery_sequence_1.txt"
   },
   "stripe_standard_url": "https://buy.stripe.com/eVqfZh5Ae1I1aLU5OtabK00",
   "stripe_pro_url": "https://buy.stripe.com/00w7sLgeSfyR6vE1ydabK01",

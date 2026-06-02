@@ -84,10 +84,10 @@
     "result text"
   ],
   "email_template": {
-    "template_file": "churntext_sequence_1.txt",
-    "subject": "【解約率を下げるAI文章生成】ChurnTextのご紹介",
-    "fallback_opening": "平素よりサービス運営にご尽力されていることと存じます。",
-    "personalize_prompt": "SaaS・サブスクサービスを運営する「{company_name}」のご担当者に向けた、解約対策への共感と課題提起の一文を書いてください。「御社のような〜」で始め、2文以内で。"
+    "template_file": "discovery_sequence_1.txt",
+    "subject": "貴社の業務について少しお聞きしてもよいでしょうか",
+    "fallback_opening": "日頃より業務にご尽力されていることと存じます。",
+    "personalize_prompt": "「{company_name}」のご担当者に向けた、日常業務の中で発生する繰り返し作業・文書作成の苦労への共感の一文を書いてください。「御社では〜」で始め、1文以内で。製品名や宣伝は一切含めないこと。"
   },
   "stripe_standard_url": "https://buy.stripe.com/fZu7sLbYC72l9HQgt7abK0g",
   "stripe_pro_url": "https://buy.stripe.com/bJecN52o24Ud9HQgt7abK0h"
