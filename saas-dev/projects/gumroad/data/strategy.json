@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-06-02T23:54:51.056557+00:00",
+  "updated_at": "2026-06-03T02:42:00.816832+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -54,10 +54,10 @@
     "CoachGenie",
     "DesignSpark",
     "Ecom Success",
-    "UX Spark"
+    "UX Spark",
+    "VA Prompt Pro"
   ],
   "used_niches_recent": [
-    "Content Creators",
     "Graphic Designers",
     "Personal Finance Beginners",
     "Remote Team Managers",
@@ -66,6 +66,7 @@
     "Life Coaches",
     "Graphic Designers",
     "E-commerce Entrepreneurs",
-    "UX Designers"
+    "UX Designers",
+    "Virtual Assistants"
   ]
 }
