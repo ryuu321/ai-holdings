@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Content Creators",
     "Graphic Designers",
-    "Solopreneurs"
+    "E-commerce Entrepreneurs",
+    "Freelance Copywriters"
   ],
   "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Free Procreate",
-  "cached_at": "2026-06-03T02:40:40.487843+00:00",
+  "title_idea": "Procreate Assets",
+  "cached_at": "2026-06-05T02:10:58.511944+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
