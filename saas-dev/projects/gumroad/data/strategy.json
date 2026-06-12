@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-06-11T23:44:30.428792+00:00",
+  "updated_at": "2026-06-12T02:30:41.352480+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -58,10 +58,10 @@
     "VA Prompt Pro",
     "Artify",
     "CopyGenius",
-    "UX Boost"
+    "UX Boost",
+    "Procreate Assets"
   ],
   "used_niches_recent": [
-    "Virtual Assistants",
     "ADHD Productivity",
     "Life Coaches",
     "Graphic Designers",
@@ -70,6 +70,7 @@
     "Virtual Assistants",
     "Graphic Designers",
     "Freelance Copywriters",
-    "UX Designers"
+    "UX Designers",
+    "Virtual Assistants"
   ]
 }
