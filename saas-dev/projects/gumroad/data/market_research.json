@@ -1,13 +1,13 @@
 {
   "top_niches": [
+    "ADHD Productivity",
     "Graphic Designers",
-    "UX Designers",
-    "Side Hustle Seekers"
+    "Life Coaches"
   ],
   "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate Assets",
-  "cached_at": "2026-06-12T02:29:08.568011+00:00",
+  "title_idea": "Free Procreate",
+  "cached_at": "2026-06-15T02:38:10.464447+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
