@@ -1,21 +1,11 @@
 {
-  "updated_at": "2026-06-15T07:21:32.976795+00:00",
+  "updated_at": "2026-06-15T07:23:08.611883+00:00",
   "portfolios": {
     "LONG": {
-      "balance": 9288.166860391779,
+      "balance": 9648.435373097584,
       "initial_balance": 10000.0,
-      "last_run": "2026-06-08T06:45:40.863909+00:00",
+      "last_run": "2026-06-15T07:23:08.611669+00:00",
       "positions": {
-        "META": {
-          "ticker": "META",
-          "shares": 0.6354166155875085,
-          "buy_price": 614.23,
-          "bought_at": "2026-05-18T06:16:59.502075+00:00",
-          "cost_basis": 390.29194779231534,
-          "peak_price": 632.51,
-          "ladder_hits": [],
-          "last_dca_date": "2026-06-01T06:59:19.402567+00:00"
-        },
         "MSFT": {
           "ticker": "MSFT",
           "shares": 1.1732327438717474,
@@ -181,6 +171,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-06-15T07:23:08.609068+00:00",
+      "action": "SELL",
+      "coin": "META",
+      "price": 566.98,
+      "amount": 0.6354166155875085,
+      "value_usd": 360.26851270580556,
+      "balance_after": 9648.435373097584,
+      "pnl": -30.023435086509778,
+      "reasoning": "トレーリングストップ: 高値$632.51から-10.4% (閾値-7%)",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    },
     {
       "timestamp": "2026-06-14T05:52:41.845301+00:00",
       "action": "SELL",
@@ -660,8 +664,8 @@
   ],
   "stats": {
     "total_buys": 19,
-    "total_sells": 15,
-    "realized_pnl": 347.42,
-    "win_rate": 93.3
+    "total_sells": 16,
+    "realized_pnl": 317.39,
+    "win_rate": 87.5
   }
 }
