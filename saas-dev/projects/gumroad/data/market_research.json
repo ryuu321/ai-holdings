@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "ADHD Productivity",
-    "Graphic Designers",
-    "Life Coaches"
+    "Side Hustle Seekers",
+    "Solopreneurs",
+    "SaaS Founders"
   ],
-  "recommended_niche": "Graphic Designers",
+  "recommended_niche": "Side Hustle Seekers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Free Procreate",
-  "cached_at": "2026-06-15T02:38:10.464447+00:00",
+  "title_idea": "Hustle Smarter",
+  "cached_at": "2026-06-17T02:37:35.304842+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
