@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Side Hustle Seekers",
-    "Solopreneurs",
-    "SaaS Founders"
+    "Content Creators",
+    "Freelance Copywriters",
+    "Side Hustle Seekers"
   ],
-  "recommended_niche": "Side Hustle Seekers",
+  "recommended_niche": "Content Creators",
   "recommended_type": "ai_prompts",
-  "title_idea": "Hustle Smarter",
-  "cached_at": "2026-06-17T02:37:35.304842+00:00",
+  "title_idea": "Create Content",
+  "cached_at": "2026-06-19T02:51:00.355665+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
