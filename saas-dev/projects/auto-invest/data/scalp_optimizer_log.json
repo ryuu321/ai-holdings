@@ -978,5 +978,40 @@
       "require_volume_spike": false,
       "updated_at": "2026-06-19T17:17:13.196824+00:00"
     }
+  },
+  {
+    "timestamp": "2026-06-20T16:14:55.351101+00:00",
+    "version": 30,
+    "reasoning": "現在の勝率は33.3%と低いため、エントリー条件を絞り、勝率を向上させるためにrsi_oversoldを35から30に下げる。タイムアウトが多いことからmax_hold_minutesを120から90に短縮する.",
+    "metrics": {
+      "total": 3,
+      "win_rate": 33.3,
+      "avg_win_pct": 0.26,
+      "avg_loss_pct": -0.048,
+      "total_pnl_pct": 0.164,
+      "recent_7d_trades": 0,
+      "recent_7d_pnl_pct": 0,
+      "max_drawdown_pct": 0.1,
+      "exit_reasons": {
+        "timeout": 3
+      },
+      "avg_hold_min": 208.5
+    },
+    "strategy": {
+      "version": 30,
+      "rsi_period": 14.0,
+      "rsi_oversold": 30.0,
+      "rsi_overbought": 65.0,
+      "bb_period": 20.0,
+      "bb_std": 2.0,
+      "stop_loss_pct": 0.008,
+      "take_profit_pct": 0.015,
+      "invest_pct": 0.8,
+      "max_hold_minutes": 90.0,
+      "require_bb": true,
+      "require_rsi": true,
+      "require_volume_spike": false,
+      "updated_at": "2026-06-20T16:14:55.351101+00:00"
+    }
   }
 ]
