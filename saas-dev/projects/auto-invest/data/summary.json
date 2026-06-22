@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-22T07:24:56.136552+00:00",
+  "updated_at": "2026-06-22T07:26:30.145910+00:00",
   "portfolios": {
     "LONG": {
-      "balance": 9648.435373097584,
+      "balance": 9588.881882316398,
       "initial_balance": 10000.0,
-      "last_run": "2026-06-15T07:23:08.611669+00:00",
+      "last_run": "2026-06-22T07:26:30.145742+00:00",
       "positions": {
         "MSFT": {
           "ticker": "MSFT",
-          "shares": 1.1732327438717474,
-          "buy_price": 416.67,
-          "bought_at": "2026-06-08T06:45:40.861999+00:00",
-          "cost_basis": 488.85088738904096,
-          "peak_price": 416.67,
+          "shares": 1.3302002999634326,
+          "buy_price": 379.4,
+          "bought_at": "2026-06-22T07:26:30.143857+00:00",
+          "cost_basis": 504.67799380612627,
+          "peak_price": 379.4,
           "ladder_hits": [],
           "last_dca_date": ""
         }
@@ -171,6 +171,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-06-22T07:26:30.143872+00:00",
+      "action": "BUY",
+      "coin": "MSFT",
+      "price": 379.4,
+      "amount": 1.3302002999634326,
+      "value_usd": 504.67799380612627,
+      "balance_after": 9588.881882316398,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+9.0 → BUY | M2 YoY=4.7% 緩やかに拡大 | PER=22.6 適正（15〜25） | 売上成長=18.3% 成長継続 | 利益率=39.3% 高収益 | D/E=3…",
+      "confidence": 1.0,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    },
     {
       "timestamp": "2026-06-20T05:18:14.228011+00:00",
       "action": "SELL",
@@ -705,7 +719,7 @@
     }
   ],
   "stats": {
-    "total_buys": 20,
+    "total_buys": 21,
     "total_sells": 18,
     "realized_pnl": 338.67,
     "win_rate": 88.9
