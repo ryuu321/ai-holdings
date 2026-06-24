@@ -320,5 +320,25 @@
     "epub_path": "/home/runner/work/ai-holdings/ai-holdings/saas-dev/projects/kindle-kdp/output/016_メンタルを強くする習慣の教科書：不安・ス/メンタルを強くする習慣の教科書不安・ストレスに負けない心の作り方.epub",
     "status": "epub_ready",
     "generated_at": "2026-06-21T23:01:26.555276+00:00"
+  },
+  {
+    "topic": "Kindle出版で副収入を作る完全ガイド：AIを使って月10冊出版する方法",
+    "title": "Kindle出版で副収入を作る完全ガイド：AIを使って月10冊出版する方法",
+    "subtitle": "初心者でもAIの力を借りて、Kindle出版で安定した副収入を得るための実践書",
+    "author": "D.ryu",
+    "description": "Kindle出版で副収入を作りたいという人は多くいます。しかし、書籍を作るためのアイデアが浮かばない、時間が足りない、書くのが苦手という理由で実現しない場合が多いです。本書では、そんな悩みを解決するために、AIの力を借りて効率的に書籍を作る方法を紹介します。具体的には、アイデアの発見から書籍の完成まで、AIツールを活用するステップバイステップのガイドを提供します。読者は、本書を読んで実践することで、月10冊というペースでKindle書籍を出版し、安定した副収入を得ることができます。本書では、実践的なアドバイスと具体的なツールの使い方を紹介することで、Kindle出版を始めるためのハードルを下げます。読み終わったらすぐに実践できる内容なので、Kindle出版で副収入を作りたい方にぴったりの一冊です。",
+    "keywords": [
+      "Kindle出版",
+      "電子書籍",
+      "副業",
+      "KDP",
+      "AI",
+      "副収入",
+      "出版"
+    ],
+    "category": "副業・Kindle出版",
+    "epub_path": "/home/runner/work/ai-holdings/ai-holdings/saas-dev/projects/kindle-kdp/output/017_Kindle出版で副収入を作る完全ガイド/Kindle出版で副収入を作る完全ガイドAIを使って月10冊出版する方法.epub",
+    "status": "epub_ready",
+    "generated_at": "2026-06-24T22:59:36.641601+00:00"
   }
 ]
