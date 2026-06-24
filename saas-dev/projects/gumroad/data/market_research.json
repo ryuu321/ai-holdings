@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Graphic Designers",
-    "Freelance Copywriters",
-    "Etsy Sellers"
+    "Content Creators",
+    "Side Hustle Seekers",
+    "Freelance Copywriters"
   ],
-  "recommended_niche": "Graphic Designers",
+  "recommended_niche": "Content Creators",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate Assets",
-  "cached_at": "2026-06-22T02:39:37.867676+00:00",
+  "title_idea": "Create Sell",
+  "cached_at": "2026-06-24T02:08:24.524173+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
