@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-06-25T23:24:29.300288+00:00",
+  "updated_at": "2026-06-26T02:11:32.436338+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -64,10 +64,10 @@
     "Hustle Smarter",
     "ContentFire",
     "ADHD Flow",
-    "Create Sell"
+    "Create Sell",
+    "AI Spark"
   ],
   "used_niches_recent": [
-    "Virtual Assistants",
     "Graphic Designers",
     "Freelance Copywriters",
     "UX Designers",
@@ -76,6 +76,7 @@
     "Side Hustle Seekers",
     "Content Creators",
     "ADHD Productivity",
-    "Freelance Copywriters"
+    "Freelance Copywriters",
+    "Solopreneurs"
   ]
 }
