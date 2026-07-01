@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-06-29T23:06:40.176408+00:00",
+  "updated_at": "2026-07-01T02:16:40.658938+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -66,10 +66,10 @@
     "ADHD Flow",
     "Create Sell",
     "AI Spark",
-    "DesignGenie"
+    "DesignGenie",
+    "UX Turbo"
   ],
   "used_niches_recent": [
-    "Freelance Copywriters",
     "UX Designers",
     "Virtual Assistants",
     "Graphic Designers",
@@ -78,6 +78,7 @@
     "ADHD Productivity",
     "Freelance Copywriters",
     "Solopreneurs",
-    "Graphic Designers"
+    "Graphic Designers",
+    "UX Designers"
   ]
 }
