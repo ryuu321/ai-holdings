@@ -1,7 +1,7 @@
 {
-  "balance": 9466.886302953362,
+  "balance": 9640.03868716418,
   "initial_balance": 10000.0,
-  "last_run": "2026-06-30T05:06:49.650891+00:00",
+  "last_run": "2026-07-01T05:24:38.914232+00:00",
   "positions": {
     "QQQ": {
       "ticker": "QQQ",
@@ -18,12 +18,14 @@
     },
     "AMD": {
       "ticker": "AMD",
-      "shares": 0.903245243804091,
+      "shares": 0.6051743133487409,
       "buy_price": 551.63,
       "bought_at": "2026-06-23T05:05:04.360937+00:00",
-      "cost_basis": 498.2571738396507,
+      "cost_basis": 333.83230647256596,
       "peak_price": 551.63,
-      "ladder_hits": [],
+      "ladder_hits": [
+        "0.05"
+      ],
       "last_dca_date": ""
     }
   },
