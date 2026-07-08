@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-07-06T23:15:11.429334+00:00",
+  "updated_at": "2026-07-08T01:29:58.778821+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -69,10 +69,10 @@
     "DesignGenie",
     "UX Turbo",
     "ScriptSphere",
-    "VA Boost"
+    "VA Boost",
+    "SaaS Surge"
   ],
   "used_niches_recent": [
-    "Graphic Designers",
     "Side Hustle Seekers",
     "Content Creators",
     "ADHD Productivity",
@@ -81,6 +81,7 @@
     "Graphic Designers",
     "UX Designers",
     "Content Creators",
-    "Virtual Assistants"
+    "Virtual Assistants",
+    "SaaS Founders"
   ]
 }
