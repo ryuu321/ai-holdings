@@ -1,13 +1,13 @@
 {
   "top_niches": [
+    "Graphic Designers",
     "Content Creators",
-    "UX Designers",
-    "Free assets creators"
+    "Passive Income Builders"
   ],
-  "recommended_niche": "Content Creators",
+  "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Boost Views",
-  "cached_at": "2026-07-08T01:28:21.516336+00:00",
+  "title_idea": "Procreate Assets",
+  "cached_at": "2026-07-10T01:48:58.767170+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
