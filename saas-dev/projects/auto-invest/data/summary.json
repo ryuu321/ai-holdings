@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-16T04:10:37.448383+00:00",
+  "updated_at": "2026-07-16T06:14:42.477481+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9692.767865342943,
@@ -85,7 +85,7 @@
     "SHORT": {
       "balance": 5000.0,
       "initial_balance": 10000.0,
-      "last_run": "2026-07-16T02:22:17.229049+00:00",
+      "last_run": "2026-07-16T06:14:42.477072+00:00",
       "positions": {
         "bitcoin": {
           "ticker": "bitcoin",
