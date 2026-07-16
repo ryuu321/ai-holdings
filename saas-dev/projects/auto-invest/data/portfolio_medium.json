@@ -1,7 +1,7 @@
 {
   "balance": 8265.128169407388,
   "initial_balance": 10000.0,
-  "last_run": "2026-07-15T04:07:22.620332+00:00",
+  "last_run": "2026-07-16T04:10:37.448130+00:00",
   "positions": {
     "QQQ": {
       "ticker": "QQQ",
@@ -54,7 +54,7 @@
       "buy_price": 669.21,
       "bought_at": "2026-07-11T04:14:25.996262+00:00",
       "cost_basis": 435.0067457582836,
-      "peak_price": 669.21,
+      "peak_price": 681.31,
       "ladder_hits": [],
       "last_dca_date": ""
     }
