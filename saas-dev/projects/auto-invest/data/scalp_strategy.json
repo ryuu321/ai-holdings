@@ -1,16 +1,16 @@
 {
-  "version": 55,
+  "version": 56,
   "rsi_period": 14.0,
-  "rsi_oversold": 30.0,
+  "rsi_oversold": 35.0,
   "rsi_overbought": 65.0,
   "bb_period": 20.0,
   "bb_std": 2.0,
-  "stop_loss_pct": 0.01,
+  "stop_loss_pct": 0.008,
   "take_profit_pct": 0.015,
   "invest_pct": 0.8,
-  "max_hold_minutes": 90.0,
+  "max_hold_minutes": 120.0,
   "require_bb": true,
   "require_rsi": true,
   "require_volume_spike": false,
-  "updated_at": "2026-07-15T16:18:33.071278+00:00"
+  "updated_at": "2026-07-16T16:15:01.500702+00:00"
 }
