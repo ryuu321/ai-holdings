@@ -1,7 +1,7 @@
 {
-  "version": 57,
+  "version": 58,
   "rsi_period": 14.0,
-  "rsi_oversold": 35.0,
+  "rsi_oversold": 40.0,
   "rsi_overbought": 65.0,
   "bb_period": 20.0,
   "bb_std": 2.0,
@@ -12,5 +12,5 @@
   "require_bb": true,
   "require_rsi": true,
   "require_volume_spike": false,
-  "updated_at": "2026-07-17T16:12:37.444379+00:00"
+  "updated_at": "2026-07-18T15:53:47.123207+00:00"
 }
