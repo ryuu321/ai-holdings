@@ -1,7 +1,7 @@
 {
-  "balance": 8568.284189936307,
+  "balance": 9005.145798035697,
   "initial_balance": 10000.0,
-  "last_run": "2026-07-17T04:09:35.595564+00:00",
+  "last_run": "2026-07-18T03:56:35.837314+00:00",
   "positions": {
     "QQQ": {
       "ticker": "QQQ",
@@ -23,16 +23,6 @@
       "bought_at": "2026-07-08T04:16:32.267587+00:00",
       "cost_basis": 482.00193435820904,
       "peak_price": 754.95,
-      "ladder_hits": [],
-      "last_dca_date": ""
-    },
-    "AVGO": {
-      "ticker": "AVGO",
-      "shares": 1.1780643639926383,
-      "buy_price": 388.69,
-      "bought_at": "2026-07-09T04:56:42.869307+00:00",
-      "cost_basis": 457.90183764029854,
-      "peak_price": 401.11,
       "ladder_hits": [],
       "last_dca_date": ""
     },
