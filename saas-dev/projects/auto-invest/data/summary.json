@@ -1,20 +1,20 @@
 {
-  "updated_at": "2026-07-20T05:40:12.788479+00:00",
+  "updated_at": "2026-07-20T05:41:22.794189+00:00",
   "portfolios": {
     "LONG": {
-      "balance": 9692.767865342943,
+      "balance": 9776.585382484,
       "initial_balance": 10000.0,
-      "last_run": "2026-07-13T05:39:32.675008+00:00",
+      "last_run": "2026-07-20T05:41:22.794025+00:00",
       "positions": {
         "MSFT": {
           "ticker": "MSFT",
-          "shares": 1.0641602399707462,
+          "shares": 0.8513281919765969,
           "buy_price": 379.4,
           "bought_at": "2026-06-22T07:26:30.143857+00:00",
-          "cost_basis": 403.742395044901,
-          "peak_price": 390.49,
+          "cost_basis": 322.9939160359208,
+          "peak_price": 393.82,
           "ladder_hits": [],
-          "last_dca_date": "2026-07-06T06:38:19.203975+00:00"
+          "last_dca_date": "2026-07-20T05:41:22.791674+00:00"
         }
       },
       "short_positions": {}
@@ -168,6 +168,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-07-20T05:41:22.791655+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 393.82,
+      "amount": 0.21283204799414923,
+      "value_usd": 83.81751714105584,
+      "balance_after": 9776.585382484,
+      "pnl": 3.069038132075633,
+      "reasoning": "DCA週次利確: +3.8%  20%売却",
+      "confidence": 0.7,
+      "risk_level": "MEDIUM",
+      "bot_type": "LONG"
+    },
     {
       "timestamp": "2026-07-18T03:56:35.834410+00:00",
       "action": "SELL",
@@ -853,26 +867,12 @@
       "confidence": 1.0,
       "risk_level": "LOW",
       "bot_type": "LONG"
-    },
-    {
-      "timestamp": "2026-04-12T17:39:05.262599+00:00",
-      "action": "BUY",
-      "coin": "MSFT",
-      "price": 370.87,
-      "amount": 4.044543910265053,
-      "value_usd": 1500.0,
-      "balance_after": 8500.0,
-      "pnl": 0.0,
-      "reasoning": "合計スコア:+7 → BUY | PER=23.2 適正（15〜25） | 売上成長率=16.7% 成長中 | 利益率=39.0% 高収益企業 | D/E=32 低負債 → 財務健全 | 高値から-3",
-      "confidence": 1.0,
-      "risk_level": "LOW",
-      "bot_type": "LONG"
     }
   ],
   "stats": {
     "total_buys": 25,
-    "total_sells": 25,
-    "realized_pnl": -106.68,
-    "win_rate": 76.0
+    "total_sells": 26,
+    "realized_pnl": -103.61,
+    "win_rate": 76.9
   }
 }
