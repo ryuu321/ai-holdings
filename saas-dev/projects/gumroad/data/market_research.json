@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Graphic Designers",
-    "Personal Finance Beginners",
-    "Freelance Copywriters"
+    "Etsy Sellers",
+    "Freelance Copywriters",
+    "UX Designers"
   ],
-  "recommended_niche": "Graphic Designers",
+  "recommended_niche": "Etsy Sellers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate Brushes",
-  "cached_at": "2026-07-20T01:52:49.209973+00:00",
+  "title_idea": "Etsy Sales Boost",
+  "cached_at": "2026-07-22T01:25:49.068092+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
