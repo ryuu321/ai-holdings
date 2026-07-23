@@ -1,7 +1,7 @@
 {
-  "balance": 9005.145798035697,
+  "balance": 8942.184008351125,
   "initial_balance": 10000.0,
-  "last_run": "2026-07-22T04:19:17.377339+00:00",
+  "last_run": "2026-07-23T04:17:06.636849+00:00",
   "positions": {
     "QQQ": {
       "ticker": "QQQ",
@@ -26,13 +26,13 @@
       "ladder_hits": [],
       "last_dca_date": ""
     },
-    "META": {
-      "ticker": "META",
-      "shares": 0.6500302532213857,
-      "buy_price": 669.21,
-      "bought_at": "2026-07-11T04:14:25.996262+00:00",
-      "cost_basis": 435.0067457582836,
-      "peak_price": 681.31,
+    "NVDA": {
+      "ticker": "NVDA",
+      "shares": 2.2193778345629904,
+      "buy_price": 212.06,
+      "bought_at": "2026-07-23T04:17:06.634170+00:00",
+      "cost_basis": 470.6412635974277,
+      "peak_price": 212.06,
       "ladder_hits": [],
       "last_dca_date": ""
     }
