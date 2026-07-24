@@ -1,13 +1,13 @@
 {
   "top_niches": [
+    "UX Designers",
     "Etsy Sellers",
-    "Freelance Copywriters",
-    "UX Designers"
+    "Solopreneurs"
   ],
-  "recommended_niche": "Etsy Sellers",
+  "recommended_niche": "UX Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Etsy Sales Boost",
-  "cached_at": "2026-07-22T01:25:49.068092+00:00",
+  "title_idea": "UX Design AI",
+  "cached_at": "2026-07-24T01:30:14.566558+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0

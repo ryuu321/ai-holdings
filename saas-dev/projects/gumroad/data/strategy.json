@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-07-23T23:04:24.552202+00:00",
+  "updated_at": "2026-07-24T01:31:55.901285+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -76,10 +76,10 @@
     "UX Craft",
     "EcomAI Pro",
     "BrushBoost",
-    "Etsy Sales Blast"
+    "Etsy Sales Blast",
+    "DesignGenie"
   ],
   "used_niches_recent": [
-    "UX Designers",
     "Content Creators",
     "Virtual Assistants",
     "SaaS Founders",
@@ -88,6 +88,7 @@
     "UX Designers",
     "E-commerce Entrepreneurs",
     "Graphic Designers",
-    "Etsy Sellers"
+    "Etsy Sellers",
+    "UX Designers"
   ]
 }
