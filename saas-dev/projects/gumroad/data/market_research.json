@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "UX Designers",
-    "Etsy Sellers",
-    "Solopreneurs"
+    "Graphic Designers",
+    "Virtual Assistants",
+    "Etsy Sellers"
   ],
-  "recommended_niche": "UX Designers",
+  "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "UX Design AI",
-  "cached_at": "2026-07-24T01:30:14.566558+00:00",
+  "title_idea": "Procreate Assets",
+  "cached_at": "2026-07-27T01:51:14.097156+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
