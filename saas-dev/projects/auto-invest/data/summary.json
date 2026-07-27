@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-27T04:38:34.569142+00:00",
+  "updated_at": "2026-07-27T05:51:27.991669+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9776.585382484,
@@ -116,21 +116,10 @@
       "short_positions": {}
     },
     "MACRO": {
-      "balance": 7707.007062627335,
+      "balance": 9590.38730015253,
       "initial_balance": 10000.0,
-      "last_run": "2026-07-20T05:40:12.788216+00:00",
-      "positions": {
-        "MSFT": {
-          "ticker": "MSFT",
-          "shares": 4.934189776068103,
-          "buy_price": 390.49,
-          "bought_at": "2026-07-06T06:36:22.650919+00:00",
-          "cost_basis": 1926.7517656568336,
-          "peak_price": 390.49,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        }
-      },
+      "last_run": "2026-07-27T05:51:27.991549+00:00",
+      "positions": {},
       "short_positions": {}
     },
     "ATTACK": {
@@ -165,6 +154,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-07-27T05:51:27.988714+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 381.7,
+      "amount": 4.934189776068103,
+      "value_usd": 1883.3802375251948,
+      "balance_after": 9590.38730015253,
+      "pnl": -43.3715281316388,
+      "reasoning": "マクロテーゼ崩壊: 地政学スコア極端悪化 (-13) → 重大ショック発生",
+      "confidence": 0.95,
+      "risk_level": "LOW",
+      "bot_type": "MACRO"
+    },
     {
       "timestamp": "2026-07-27T04:38:34.566630+00:00",
       "action": "BUY",
@@ -850,26 +853,12 @@
       "confidence": 1.0,
       "risk_level": "MANUAL",
       "bot_type": "SHORT"
-    },
-    {
-      "timestamp": "2026-04-16T10:30:08.367268+00:00",
-      "action": "SELL",
-      "coin": "MSFT",
-      "price": 411.27,
-      "amount": 4.044543910265053,
-      "value_usd": 1663.3995739747081,
-      "balance_after": 10163.399573974708,
-      "pnl": 163.39957397470812,
-      "reasoning": "手動売買",
-      "confidence": 1.0,
-      "risk_level": "MANUAL",
-      "bot_type": "LONG"
     }
   ],
   "stats": {
     "total_buys": 23,
     "total_sells": 28,
-    "realized_pnl": -125.31,
-    "win_rate": 75.0
+    "realized_pnl": -214.15,
+    "win_rate": 71.4
   }
 }
