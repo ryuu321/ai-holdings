@@ -1,13 +1,13 @@
 {
   "top_niches": [
     "Graphic Designers",
-    "Virtual Assistants",
-    "Etsy Sellers"
+    "Content Creators",
+    "Life Coaches"
   ],
   "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
   "title_idea": "Procreate Assets",
-  "cached_at": "2026-07-27T01:51:14.097156+00:00",
+  "cached_at": "2026-07-29T01:25:52.096184+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
