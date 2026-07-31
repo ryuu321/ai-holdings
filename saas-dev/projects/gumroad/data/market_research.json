@@ -1,13 +1,13 @@
 {
   "top_niches": [
     "Graphic Designers",
-    "Content Creators",
-    "Life Coaches"
+    "UX Designers",
+    "Solopreneurs"
   ],
   "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate Assets",
-  "cached_at": "2026-07-29T01:25:52.096184+00:00",
+  "title_idea": "Procreate AI",
+  "cached_at": "2026-07-31T01:45:59.645581+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0

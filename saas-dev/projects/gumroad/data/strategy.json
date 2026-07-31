@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-07-30T23:13:25.701504+00:00",
+  "updated_at": "2026-07-31T01:47:37.307308+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -79,10 +79,10 @@
     "Etsy Sales Blast",
     "DesignGenie",
     "FocusForge",
-    "DesignSpark"
+    "DesignSpark",
+    "CoachGenius"
   ],
   "used_niches_recent": [
-    "SaaS Founders",
     "Graphic Designers",
     "Freelance Copywriters",
     "UX Designers",
@@ -91,6 +91,7 @@
     "Etsy Sellers",
     "UX Designers",
     "ADHD Productivity",
-    "Graphic Designers"
+    "Graphic Designers",
+    "Life Coaches"
   ]
 }
