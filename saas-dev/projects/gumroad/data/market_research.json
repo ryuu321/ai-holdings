@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Graphic Designers",
-    "UX Designers",
-    "Solopreneurs"
+    "Freelance Copywriters",
+    "E-commerce Entrepreneurs",
+    "Virtual Assistants"
   ],
-  "recommended_niche": "Graphic Designers",
+  "recommended_niche": "Freelance Copywriters",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate AI",
-  "cached_at": "2026-07-31T01:45:59.645581+00:00",
+  "title_idea": "Copywriter AI",
+  "cached_at": "2026-08-03T01:45:44.846901+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
