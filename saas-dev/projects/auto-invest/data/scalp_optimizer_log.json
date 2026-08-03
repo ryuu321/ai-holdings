@@ -1,40 +1,5 @@
 [
   {
-    "timestamp": "2026-07-04T15:59:38.972074+00:00",
-    "version": 44,
-    "reasoning": "勝率が低いためエントリー条件を絞る必要があります。また、タイムアウトが多いのでmax_hold_minutesを短縮します。トレード数も少ないため、条件を緩和してトレード数を増やすことを目指します。",
-    "metrics": {
-      "total": 3,
-      "win_rate": 33.3,
-      "avg_win_pct": 0.26,
-      "avg_loss_pct": -0.048,
-      "total_pnl_pct": 0.164,
-      "recent_7d_trades": 0,
-      "recent_7d_pnl_pct": 0,
-      "max_drawdown_pct": 0.1,
-      "exit_reasons": {
-        "timeout": 3
-      },
-      "avg_hold_min": 208.5
-    },
-    "strategy": {
-      "version": 44,
-      "rsi_period": 14.0,
-      "rsi_oversold": 35.0,
-      "rsi_overbought": 65.0,
-      "bb_period": 20.0,
-      "bb_std": 2.0,
-      "stop_loss_pct": 0.008,
-      "take_profit_pct": 0.015,
-      "invest_pct": 0.8,
-      "max_hold_minutes": 120.0,
-      "require_bb": true,
-      "require_rsi": true,
-      "require_volume_spike": false,
-      "updated_at": "2026-07-04T15:59:38.972074+00:00"
-    }
-  },
-  {
     "timestamp": "2026-07-05T16:05:28.049973+00:00",
     "version": 45,
     "reasoning": "勝率が30%と低いため、エントリー条件を絞るためにrsi_oversoldを上げて緩和し、タイムアウトが多いのでmax_hold_minutesを短縮します。また、トレード数が少なすぎるため、require_rsiのみに絞ります。",
@@ -1047,6 +1012,41 @@
       "require_rsi": true,
       "require_volume_spike": false,
       "updated_at": "2026-08-02T15:57:46.196369+00:00"
+    }
+  },
+  {
+    "timestamp": "2026-08-03T17:06:44.088174+00:00",
+    "version": 74,
+    "reasoning": "勝率が33.3%と低いこと、そしてタイムアウトが多いため、エントリー条件を絞り、max_hold_minutesを短縮することを検討します。さらに、stop_loss_pctも調整して損失を最小限に抑えます。",
+    "metrics": {
+      "total": 3,
+      "win_rate": 33.3,
+      "avg_win_pct": 0.26,
+      "avg_loss_pct": -0.048,
+      "total_pnl_pct": 0.164,
+      "recent_7d_trades": 0,
+      "recent_7d_pnl_pct": 0,
+      "max_drawdown_pct": 0.1,
+      "exit_reasons": {
+        "timeout": 3
+      },
+      "avg_hold_min": 208.5
+    },
+    "strategy": {
+      "version": 74,
+      "rsi_period": 14.0,
+      "rsi_oversold": 30.0,
+      "rsi_overbought": 65.0,
+      "bb_period": 20.0,
+      "bb_std": 2.0,
+      "stop_loss_pct": 0.006,
+      "take_profit_pct": 0.012,
+      "invest_pct": 0.8,
+      "max_hold_minutes": 90.0,
+      "require_bb": true,
+      "require_rsi": true,
+      "require_volume_spike": false,
+      "updated_at": "2026-08-03T17:06:44.088174+00:00"
     }
   }
 ]
