@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Freelance Copywriters",
-    "E-commerce Entrepreneurs",
-    "Virtual Assistants"
+    "Content Creators",
+    "Graphic Designers",
+    "Passive Income Builders"
   ],
-  "recommended_niche": "Freelance Copywriters",
+  "recommended_niche": "Graphic Designers",
   "recommended_type": "ai_prompts",
-  "title_idea": "Copywriter AI",
-  "cached_at": "2026-08-03T01:45:44.846901+00:00",
+  "title_idea": "Procreate Brushes",
+  "cached_at": "2026-08-05T01:27:10.136797+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
