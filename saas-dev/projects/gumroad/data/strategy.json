@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-08-07T01:31:26.037921+00:00",
+  "updated_at": "2026-08-07T02:04:42.040635+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -82,10 +82,10 @@
     "DesignSpark",
     "CoachGenius",
     "CopyPro",
-    "FitForge"
+    "FitForge",
+    "ProCreate Boost"
   ],
   "used_niches_recent": [
-    "UX Designers",
     "E-commerce Entrepreneurs",
     "Graphic Designers",
     "Etsy Sellers",
@@ -94,6 +94,7 @@
     "Graphic Designers",
     "Life Coaches",
     "Freelance Copywriters",
-    "Fitness Coaches"
+    "Fitness Coaches",
+    "Graphic Designers"
   ]
 }
