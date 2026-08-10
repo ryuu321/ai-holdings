@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Graphic Designers",
-    "UX Designers",
-    "ADHD Productivity"
+    "Fitness Coaches",
+    "Life Coaches",
+    "SaaS Founders"
   ],
-  "recommended_niche": "Graphic Designers",
+  "recommended_niche": "Fitness Coaches",
   "recommended_type": "ai_prompts",
-  "title_idea": "Procreate Boost",
-  "cached_at": "2026-08-07T02:03:07.055265+00:00",
+  "title_idea": "Fit Fast",
+  "cached_at": "2026-08-10T00:52:57.330385+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
