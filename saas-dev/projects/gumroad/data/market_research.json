@@ -1,13 +1,13 @@
 {
   "top_niches": [
-    "Etsy Sellers",
-    "Freelance Copywriters",
-    "Life Coaches"
+    "Content Creators",
+    "Fitness Coaches",
+    "Freelance Copywriters"
   ],
-  "recommended_niche": "Etsy Sellers",
+  "recommended_niche": "Content Creators",
   "recommended_type": "ai_prompts",
-  "title_idea": "Etsy Sales Boost",
-  "cached_at": "2026-08-12T00:58:40.492479+00:00",
+  "title_idea": "AI Content Boost",
+  "cached_at": "2026-08-14T00:59:21.383336+00:00",
   "source": "groq_analysis",
   "gumroad_titles_count": 20,
   "reddit_topics_count": 0
