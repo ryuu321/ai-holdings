@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-14T03:25:19.394137+00:00",
+  "updated_at": "2026-08-14T05:29:36.344357+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9417.60188105954,
@@ -75,7 +75,7 @@
     "SHORT": {
       "balance": 5000.0,
       "initial_balance": 10000.0,
-      "last_run": "2026-08-14T01:42:03.759803+00:00",
+      "last_run": "2026-08-14T05:29:36.344038+00:00",
       "positions": {
         "bitcoin": {
           "ticker": "bitcoin",
@@ -882,7 +882,7 @@
     }
   ],
   "stats": {
-    "total_buys": 20,
+    "total_buys": 19,
     "total_sells": 31,
     "realized_pnl": -397.86,
     "win_rate": 67.7
