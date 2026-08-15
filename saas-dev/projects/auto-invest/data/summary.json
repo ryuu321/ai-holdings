@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-15T01:03:11.890695+00:00",
+  "updated_at": "2026-08-15T02:14:39.096651+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9417.60188105954,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 9084.489097062029,
+      "balance": 8938.1446530294,
       "initial_balance": 10000.0,
-      "last_run": "2026-08-14T03:25:19.393860+00:00",
+      "last_run": "2026-08-15T02:14:39.096404+00:00",
       "positions": {
         "SPY": {
           "ticker": "SPY",
@@ -42,18 +42,6 @@
           "cost_basis": 482.00193435820904,
           "peak_price": 777.88,
           "ladder_hits": [],
-          "last_dca_date": ""
-        },
-        "AVGO": {
-          "ticker": "AVGO",
-          "shares": 0.824662769832023,
-          "buy_price": 389.28,
-          "bought_at": "2026-08-02T04:25:16.662248+00:00",
-          "cost_basis": 321.0247230402099,
-          "peak_price": 427.76,
-          "ladder_hits": [
-            "0.05"
-          ],
           "last_dca_date": ""
         },
         "PLTR": {
@@ -67,6 +55,16 @@
             "0.05",
             "0.10"
           ],
+          "last_dca_date": ""
+        },
+        "NVDA": {
+          "ticker": "NVDA",
+          "shares": 2.0893083405085973,
+          "buy_price": 225.16,
+          "bought_at": "2026-08-15T02:14:39.094093+00:00",
+          "cost_basis": 470.42866594891575,
+          "peak_price": 225.16,
+          "ladder_hits": [],
           "last_dca_date": ""
         }
       },
@@ -160,7 +158,7 @@
           "entry_date": "2026-08-05T17:26:18.684753+00:00"
         }
       },
-      "last_run": "2026-08-14T20:27:49.299942+00:00",
+      "last_run": "2026-08-15T01:04:16.173583+00:00",
       "trade_count": 3,
       "total_realized_pnl": 1931.5680061832572
     },
@@ -180,6 +178,34 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-08-15T02:14:39.094109+00:00",
+      "action": "BUY",
+      "coin": "NVDA",
+      "price": 225.16,
+      "amount": 2.0893083405085973,
+      "value_usd": 470.42866594891575,
+      "balance_after": 8938.1446530294,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+4.0 → BUY | 価格が200MA上 → 長期上昇トレンド | 価格が50MA上 → 中期上昇トレンド | VIX=14.2 低恐怖（<20）→ リスクオン環境 | US10Y=4…",
+      "confidence": 0.57,
+      "risk_level": "MEDIUM",
+      "bot_type": "MEDIUM"
+    },
+    {
+      "timestamp": "2026-08-15T02:14:39.091546+00:00",
+      "action": "SELL",
+      "coin": "AVGO",
+      "price": 392.99,
+      "amount": 0.824662769832023,
+      "value_usd": 324.0842219162867,
+      "balance_after": 9408.573318978315,
+      "pnl": 3.059498876076816,
+      "reasoning": "トレーリングストップ: 高値$427.76から-8.1% (閾値-7%)",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-08-14T03:25:19.390884+00:00",
       "action": "SELL",
@@ -851,40 +877,12 @@
       "confidence": 0.56,
       "risk_level": "MEDIUM",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-05-23T04:43:18.407461+00:00",
-      "action": "SELL",
-      "coin": "BTC-USD",
-      "price": 75433.98,
-      "amount": 0.004423858462940281,
-      "value_usd": 333.70925081626785,
-      "balance_after": 9699.122504532374,
-      "pnl": -1.2907491837321459,
-      "reasoning": "トレーリングストップ: 高値$81,229.86から-7.1% (閾値-7%)",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-05-18T06:16:59.502095+00:00",
-      "action": "BUY",
-      "coin": "META",
-      "price": 614.23,
-      "amount": 0.7942707694843856,
-      "value_usd": 487.8649347403942,
-      "balance_after": 9269.43376006749,
-      "pnl": 0.0,
-      "reasoning": "合計スコア:+8.0 → BUY | US10Y=4.59% 上昇中 → バリュエーション圧迫 | M2 YoY=4.6% 緩やかに拡大 | PER=22.3 適正（15〜25） | 予想PER=17…",
-      "confidence": 0.8,
-      "risk_level": "LOW",
-      "bot_type": "LONG"
     }
   ],
   "stats": {
-    "total_buys": 19,
-    "total_sells": 31,
-    "realized_pnl": -397.86,
-    "win_rate": 67.7
+    "total_buys": 20,
+    "total_sells": 32,
+    "realized_pnl": -394.8,
+    "win_rate": 68.8
   }
 }
