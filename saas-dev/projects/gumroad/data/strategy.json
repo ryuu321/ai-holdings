@@ -17,7 +17,7 @@
     "Remote Team Managers": 1.0
   },
   "preferred_type": null,
-  "updated_at": "2026-08-16T22:29:14.097442+00:00",
+  "updated_at": "2026-08-17T00:36:54.673313+00:00",
   "niche_revenue": {
     "Freelance Copywriters": 0.0,
     "Real Estate Agents": 0.0,
@@ -86,10 +86,10 @@
     "ProCreate Boost",
     "Producify",
     "Etsy Sales Surge",
-    "AI Content Boost"
+    "AI Content Boost",
+    "FitPros"
   ],
   "used_niches_recent": [
-    "UX Designers",
     "ADHD Productivity",
     "Graphic Designers",
     "Life Coaches",
@@ -98,6 +98,7 @@
     "Graphic Designers",
     "ADHD Productivity",
     "Etsy Sellers",
-    "Content Creators"
+    "Content Creators",
+    "Fitness Coaches"
   ]
 }
