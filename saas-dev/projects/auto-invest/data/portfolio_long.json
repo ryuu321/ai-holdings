@@ -1,27 +1,27 @@
 {
-  "balance": 9521.876161598108,
+  "balance": 9465.213227571627,
   "initial_balance": 10000.0,
-  "last_run": "2026-08-17T03:00:53.622249+00:00",
+  "last_run": "2026-08-24T03:04:22.903921+00:00",
   "positions": {
     "MSFT": {
       "ticker": "MSFT",
-      "shares": 0.544850042865022,
+      "shares": 0.4358800342920176,
       "buy_price": 379.4,
       "bought_at": "2026-06-22T07:26:30.143857+00:00",
-      "cost_basis": 206.71610626298929,
+      "cost_basis": 165.37288501039143,
       "peak_price": 499.99,
       "ladder_hits": [],
-      "last_dca_date": "2026-08-10T03:57:32.714197+00:00"
+      "last_dca_date": "2026-08-24T03:04:22.896415+00:00"
     },
     "META": {
       "ticker": "META",
-      "shares": 0.7071240521391383,
-      "buy_price": 556.71,
-      "bought_at": "2026-08-03T05:43:34.760819+00:00",
-      "cost_basis": 393.6630310663797,
-      "peak_price": 592.1,
+      "shares": 0.9059267453002582,
+      "buy_price": 549.9,
+      "bought_at": "2026-08-24T03:04:22.901837+00:00",
+      "cost_basis": 498.16911724061197,
+      "peak_price": 549.9,
       "ladder_hits": [],
-      "last_dca_date": "2026-08-17T03:00:53.619540+00:00"
+      "last_dca_date": ""
     }
   },
   "short_positions": {}
