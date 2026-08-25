@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-25T01:04:47.389696+00:00",
+  "updated_at": "2026-08-25T02:18:50.697543+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9465.213227571627,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 8647.444672041225,
+      "balance": 9195.594086304212,
       "initial_balance": 10000.0,
-      "last_run": "2026-08-24T02:23:38.135818+00:00",
+      "last_run": "2026-08-25T02:18:50.697280+00:00",
       "positions": {
         "SPY": {
           "ticker": "SPY",
@@ -57,25 +57,16 @@
           ],
           "last_dca_date": ""
         },
-        "NVDA": {
-          "ticker": "NVDA",
-          "shares": 2.0893083405085973,
-          "buy_price": 225.16,
-          "bought_at": "2026-08-15T02:14:39.094093+00:00",
-          "cost_basis": 470.42866594891575,
-          "peak_price": 225.16,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        },
         "SOL-USD": {
           "ticker": "SOL-USD",
-          "shares": 3.3624687914259956,
+          "shares": 2.252854090255417,
           "buy_price": 89.05,
           "bought_at": "2026-08-21T02:23:57.231256+00:00",
-          "cost_basis": 299.42784587648487,
+          "cost_basis": 200.61665673724485,
           "peak_price": 94.56,
           "ladder_hits": [
-            "0.05"
+            "0.05",
+            "0.10"
           ],
           "last_dca_date": ""
         }
@@ -170,7 +161,7 @@
           "entry_date": "2026-08-05T17:26:18.684753+00:00"
         }
       },
-      "last_run": "2026-08-24T20:26:47.527083+00:00",
+      "last_run": "2026-08-25T01:05:57.514691+00:00",
       "trade_count": 3,
       "total_realized_pnl": 1931.5680061832572
     },
@@ -190,6 +181,34 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-08-25T02:18:50.694768+00:00",
+      "action": "SELL",
+      "coin": "SOL-USD",
+      "price": 101.45,
+      "amount": 1.1096147011705786,
+      "value_usd": 112.5704114337552,
+      "balance_after": 9195.594086304212,
+      "pnl": 13.759222294515183,
+      "reasoning": "ラダー利確 +10%: 33%売却",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
+    {
+      "timestamp": "2026-08-25T02:18:50.693103+00:00",
+      "action": "SELL",
+      "coin": "NVDA",
+      "price": 208.48,
+      "amount": 2.0893083405085973,
+      "value_usd": 435.5790028292323,
+      "balance_after": 9083.023674870457,
+      "pnl": -34.84966311968344,
+      "reasoning": "トレーリングストップ: 高値$225.16から-7.4% (閾値-7%)",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-08-24T03:04:22.901854+00:00",
       "action": "BUY",
@@ -861,40 +880,12 @@
       "confidence": 0.9,
       "risk_level": "LOW",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-06-02T05:52:16.661935+00:00",
-      "action": "SELL",
-      "coin": "QQQ",
-      "price": 742.74,
-      "amount": 0.1557850626715123,
-      "value_usd": 115.70779744863904,
-      "balance_after": 9391.249946131044,
-      "pnl": 10.685297448639034,
-      "reasoning": "ラダー利確 +10%: 33%売却",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-06-01T06:59:19.402555+00:00",
-      "action": "SELL",
-      "coin": "META",
-      "price": 632.51,
-      "amount": 0.15885415389687713,
-      "value_usd": 100.47684088131375,
-      "balance_after": 9456.496736367075,
-      "pnl": 2.903853933234913,
-      "reasoning": "DCA週次利確: +3.0%  20%売却",
-      "confidence": 0.7,
-      "risk_level": "MEDIUM",
-      "bot_type": "LONG"
     }
   ],
   "stats": {
     "total_buys": 19,
-    "total_sells": 31,
-    "realized_pnl": -404.27,
-    "win_rate": 71.0
+    "total_sells": 33,
+    "realized_pnl": -425.36,
+    "win_rate": 69.7
   }
 }
