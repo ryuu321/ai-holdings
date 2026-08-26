@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-26T01:07:03.356205+00:00",
+  "updated_at": "2026-08-26T02:25:32.700694+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9465.213227571627,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 9195.594086304212,
+      "balance": 8735.814381989001,
       "initial_balance": 10000.0,
-      "last_run": "2026-08-25T02:18:50.697280+00:00",
+      "last_run": "2026-08-26T02:25:32.700525+00:00",
       "positions": {
         "SPY": {
           "ticker": "SPY",
@@ -63,11 +63,21 @@
           "buy_price": 89.05,
           "bought_at": "2026-08-21T02:23:57.231256+00:00",
           "cost_basis": 200.61665673724485,
-          "peak_price": 94.56,
+          "peak_price": 97.26,
           "ladder_hits": [
             "0.05",
             "0.10"
           ],
+          "last_dca_date": ""
+        },
+        "BTC-USD": {
+          "ticker": "BTC-USD",
+          "shares": 0.0058157573798136835,
+          "buy_price": 79057.58,
+          "bought_at": "2026-08-26T02:25:32.697661+00:00",
+          "cost_basis": 459.77970431521067,
+          "peak_price": 79057.58,
+          "ladder_hits": [],
           "last_dca_date": ""
         }
       },
@@ -161,7 +171,7 @@
           "entry_date": "2026-08-05T17:26:18.684753+00:00"
         }
       },
-      "last_run": "2026-08-25T20:25:01.658270+00:00",
+      "last_run": "2026-08-26T01:07:50.150514+00:00",
       "trade_count": 3,
       "total_realized_pnl": 1931.5680061832572
     },
@@ -181,6 +191,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-08-26T02:25:32.697675+00:00",
+      "action": "BUY",
+      "coin": "BTC-USD",
+      "price": 79057.58,
+      "amount": 0.0058157573798136835,
+      "value_usd": 459.77970431521067,
+      "balance_after": 8735.814381989001,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+4.0 → BUY | ADX=33.6 強トレンド(上昇) → 方向性明確 | 価格が200MA上 → 長期上昇トレンド | 価格が50MA上 → 中期上昇トレンド | BTC-ETH…",
+      "confidence": 0.44,
+      "risk_level": "MEDIUM",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-08-25T02:18:50.694768+00:00",
       "action": "SELL",
@@ -866,24 +890,10 @@
       "confidence": 0.9,
       "risk_level": "LOW",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-06-02T05:52:16.663529+00:00",
-      "action": "SELL",
-      "coin": "ARM",
-      "price": 408.85,
-      "amount": 0.456003627415854,
-      "value_usd": 186.4370830689719,
-      "balance_after": 9577.687029200015,
-      "pnl": 25.33556153922484,
-      "reasoning": "ラダー利確 +5%: 33%売却",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
-    "total_buys": 19,
+    "total_buys": 20,
     "total_sells": 31,
     "realized_pnl": -438.95,
     "win_rate": 67.7
