@@ -1,7 +1,7 @@
 {
-  "balance": 8738.62279441534,
+  "balance": 8301.691654694572,
   "initial_balance": 10000.0,
-  "last_run": "2026-09-03T05:33:13.956778+00:00",
+  "last_run": "2026-09-04T05:38:32.359409+00:00",
   "positions": {
     "SPY": {
       "ticker": "SPY",
@@ -19,7 +19,7 @@
       "buy_price": 79057.58,
       "bought_at": "2026-08-26T02:25:32.697661+00:00",
       "cost_basis": 459.77970431521067,
-      "peak_price": 79619.49,
+      "peak_price": 80971.71,
       "ladder_hits": [],
       "last_dca_date": ""
     },
@@ -30,6 +30,16 @@
       "bought_at": "2026-08-27T11:00:40.544788+00:00",
       "cost_basis": 448.5145717851392,
       "peak_price": 104.98,
+      "ladder_hits": [],
+      "last_dca_date": ""
+    },
+    "MSTR": {
+      "ticker": "MSTR",
+      "shares": 3.0170635252089975,
+      "buy_price": 144.82,
+      "bought_at": "2026-09-04T05:38:32.357191+00:00",
+      "cost_basis": 436.931139720767,
+      "peak_price": 144.82,
       "ladder_hits": [],
       "last_dca_date": ""
     }
