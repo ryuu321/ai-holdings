@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-16T03:15:16.822111+00:00",
+  "updated_at": "2026-09-16T05:45:38.250269+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9743.205946661807,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 8266.953185265314,
+      "balance": 8685.862692598455,
       "initial_balance": 10000.0,
-      "last_run": "2026-09-15T05:57:07.967766+00:00",
+      "last_run": "2026-09-16T05:45:38.250093+00:00",
       "positions": {
         "SPY": {
           "ticker": "SPY",
@@ -54,23 +54,13 @@
           "ladder_hits": [],
           "last_dca_date": ""
         },
-        "SOL-USD": {
-          "ticker": "SOL-USD",
-          "shares": 4.309325247743459,
-          "buy_price": 104.08,
-          "bought_at": "2026-08-27T11:00:40.544788+00:00",
-          "cost_basis": 448.5145717851392,
-          "peak_price": 106.71,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        },
         "META": {
           "ticker": "META",
           "shares": 0.6656103033922659,
           "buy_price": 653.69,
           "bought_at": "2026-09-10T05:42:35.502198+00:00",
           "cost_basis": 435.1027992244903,
-          "peak_price": 665.6,
+          "peak_price": 670.24,
           "ladder_hits": [],
           "last_dca_date": ""
         }
@@ -165,7 +155,7 @@
           "entry_date": "2026-08-05T17:26:18.684753+00:00"
         }
       },
-      "last_run": "2026-09-15T22:42:33.779015+00:00",
+      "last_run": "2026-09-16T03:17:42.066570+00:00",
       "trade_count": 3,
       "total_realized_pnl": 1931.5680061832572
     },
@@ -185,6 +175,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-09-16T05:45:38.177556+00:00",
+      "action": "SELL",
+      "coin": "SOL-USD",
+      "price": 97.21,
+      "amount": 4.309325247743459,
+      "value_usd": 418.9095073331416,
+      "balance_after": 8685.862692598455,
+      "pnl": -29.605064451997578,
+      "reasoning": "トレーリングストップ: 高値$106.71から-8.9% (閾値-7%)",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-09-14T07:39:27.112855+00:00",
       "action": "SELL",
@@ -870,26 +874,12 @@
       "confidence": 0.62,
       "risk_level": "MEDIUM",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-06-23T05:05:04.289118+00:00",
-      "action": "SELL",
-      "coin": "ARM",
-      "price": 407.72,
-      "amount": 0.5627651464698296,
-      "value_usd": 229.4506055186789,
-      "balance_after": 9965.143476793013,
-      "pnl": 6.404267366826673,
-      "reasoning": "トレーリングストップ: 高値$439.46から-7.2% (閾値-7%)",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
     "total_buys": 19,
-    "total_sells": 31,
-    "realized_pnl": -416.02,
-    "win_rate": 67.7
+    "total_sells": 32,
+    "realized_pnl": -445.62,
+    "win_rate": 65.6
   }
 }

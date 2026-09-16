@@ -1,7 +1,7 @@
 {
-  "balance": 8266.953185265314,
+  "balance": 8685.862692598455,
   "initial_balance": 10000.0,
-  "last_run": "2026-09-15T05:57:07.967766+00:00",
+  "last_run": "2026-09-16T05:45:38.250093+00:00",
   "positions": {
     "SPY": {
       "ticker": "SPY",
@@ -23,23 +23,13 @@
       "ladder_hits": [],
       "last_dca_date": ""
     },
-    "SOL-USD": {
-      "ticker": "SOL-USD",
-      "shares": 4.309325247743459,
-      "buy_price": 104.08,
-      "bought_at": "2026-08-27T11:00:40.544788+00:00",
-      "cost_basis": 448.5145717851392,
-      "peak_price": 106.71,
-      "ladder_hits": [],
-      "last_dca_date": ""
-    },
     "META": {
       "ticker": "META",
       "shares": 0.6656103033922659,
       "buy_price": 653.69,
       "bought_at": "2026-09-10T05:42:35.502198+00:00",
       "cost_basis": 435.1027992244903,
-      "peak_price": 665.6,
+      "peak_price": 670.24,
       "ladder_hits": [],
       "last_dca_date": ""
     }
