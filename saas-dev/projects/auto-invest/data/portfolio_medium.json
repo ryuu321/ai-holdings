@@ -1,7 +1,7 @@
 {
-  "balance": 9354.605755841378,
+  "balance": 8886.87546804931,
   "initial_balance": 10000.0,
-  "last_run": "2026-09-28T06:27:40.938105+00:00",
+  "last_run": "2026-09-29T06:40:17.009975+00:00",
   "positions": {
     "SPY": {
       "ticker": "SPY",
@@ -23,6 +23,16 @@
       "ladder_hits": [
         "0.05"
       ],
+      "last_dca_date": ""
+    },
+    "PLTR": {
+      "ticker": "PLTR",
+      "shares": 2.4948276498403508,
+      "buy_price": 187.48,
+      "bought_at": "2026-09-29T06:40:17.008137+00:00",
+      "cost_basis": 467.7302877920689,
+      "peak_price": 187.48,
+      "ladder_hits": [],
       "last_dca_date": ""
     }
   },

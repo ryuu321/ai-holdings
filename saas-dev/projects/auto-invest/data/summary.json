@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29T00:10:07.214885+00:00",
+  "updated_at": "2026-09-29T06:40:17.010247+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9940.722650630405,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 9354.605755841378,
+      "balance": 8886.87546804931,
       "initial_balance": 10000.0,
-      "last_run": "2026-09-28T06:27:40.938105+00:00",
+      "last_run": "2026-09-29T06:40:17.009975+00:00",
       "positions": {
         "SPY": {
           "ticker": "SPY",
@@ -54,6 +54,16 @@
           "ladder_hits": [
             "0.05"
           ],
+          "last_dca_date": ""
+        },
+        "PLTR": {
+          "ticker": "PLTR",
+          "shares": 2.4948276498403508,
+          "buy_price": 187.48,
+          "bought_at": "2026-09-29T06:40:17.008137+00:00",
+          "cost_basis": 467.7302877920689,
+          "peak_price": 187.48,
+          "ladder_hits": [],
           "last_dca_date": ""
         }
       },
@@ -157,7 +167,7 @@
           "entry_date": "2026-08-05T17:26:18.684753+00:00"
         }
       },
-      "last_run": "2026-09-28T19:13:30.329527+00:00",
+      "last_run": "2026-09-29T00:10:47.588396+00:00",
       "trade_count": 3,
       "total_realized_pnl": 1931.5680061832572
     },
@@ -177,6 +187,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-09-29T06:40:17.008156+00:00",
+      "action": "BUY",
+      "coin": "PLTR",
+      "price": 187.48,
+      "amount": 2.4948276498403508,
+      "value_usd": 467.7302877920689,
+      "balance_after": 8886.87546804931,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+3.0 → BUY | ADX=25.8 強トレンド(上昇) → 方向性明確 | 価格が200MA上 → 長期上昇トレンド | 価格が50MA上 → 中期上昇トレンド | VIX=16.…",
+      "confidence": 0.33,
+      "risk_level": "MEDIUM",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-09-28T08:21:25.474755+00:00",
       "action": "SELL",
@@ -862,24 +886,10 @@
       "confidence": 0.9,
       "risk_level": "LOW",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-07-17T04:09:35.592842+00:00",
-      "action": "SELL",
-      "coin": "AMD",
-      "price": 500.94,
-      "amount": 0.6051743133487409,
-      "value_usd": 303.1560205289183,
-      "balance_after": 8568.284189936307,
-      "pnl": -30.676285943647656,
-      "reasoning": "トレーリングストップ: 高値$557.89から-10.2% (閾値-7%)",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
-    "total_buys": 15,
+    "total_buys": 16,
     "total_sells": 35,
     "realized_pnl": 74.57,
     "win_rate": 74.3
