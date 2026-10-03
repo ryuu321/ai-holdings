@@ -1,7 +1,7 @@
 {
-  "balance": 8442.531694646845,
+  "balance": 8020.405109914503,
   "initial_balance": 10000.0,
-  "last_run": "2026-10-02T06:48:45.158979+00:00",
+  "last_run": "2026-10-03T06:11:35.890834+00:00",
   "positions": {
     "SPY": {
       "ticker": "SPY",
@@ -42,6 +42,16 @@
       "bought_at": "2026-09-30T06:24:29.246229+00:00",
       "cost_basis": 444.3437734024655,
       "peak_price": 121.83,
+      "ladder_hits": [],
+      "last_dca_date": ""
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "shares": 1.8043453076825915,
+      "buy_price": 233.95,
+      "bought_at": "2026-10-03T06:11:35.888743+00:00",
+      "cost_basis": 422.1265847323423,
+      "peak_price": 233.95,
       "ladder_hits": [],
       "last_dca_date": ""
     }
