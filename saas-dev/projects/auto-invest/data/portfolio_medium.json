@@ -1,7 +1,7 @@
 {
   "balance": 8020.405109914503,
   "initial_balance": 10000.0,
-  "last_run": "2026-10-07T06:59:09.118028+00:00",
+  "last_run": "2026-10-08T07:07:01.246089+00:00",
   "positions": {
     "SPY": {
       "ticker": "SPY",
@@ -31,7 +31,7 @@
       "buy_price": 187.48,
       "bought_at": "2026-09-29T06:40:17.008137+00:00",
       "cost_basis": 467.7302877920689,
-      "peak_price": 192.07,
+      "peak_price": 194.12,
       "ladder_hits": [],
       "last_dca_date": ""
     },
