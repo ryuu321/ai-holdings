@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09T04:29:29.825428+00:00",
+  "updated_at": "2026-10-09T07:13:02.026300+00:00",
   "portfolios": {
     "LONG": {
       "balance": 10013.235624566256,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 8020.405109914503,
+      "balance": 8597.982459138468,
       "initial_balance": 10000.0,
-      "last_run": "2026-10-08T07:07:01.246089+00:00",
+      "last_run": "2026-10-09T07:13:02.026020+00:00",
       "positions": {
         "SPY": {
           "ticker": "SPY",
@@ -58,22 +58,14 @@
         },
         "PLTR": {
           "ticker": "PLTR",
-          "shares": 2.4948276498403508,
+          "shares": 1.671534525393035,
           "buy_price": 187.48,
           "bought_at": "2026-09-29T06:40:17.008137+00:00",
-          "cost_basis": 467.7302877920689,
+          "cost_basis": 313.37929282068615,
           "peak_price": 194.12,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        },
-        "SOL-USD": {
-          "ticker": "SOL-USD",
-          "shares": 3.7510026456395873,
-          "buy_price": 118.46,
-          "bought_at": "2026-09-30T06:24:29.246229+00:00",
-          "cost_basis": 444.3437734024655,
-          "peak_price": 121.83,
-          "ladder_hits": [],
+          "ladder_hits": [
+            "0.05"
+          ],
           "last_dca_date": ""
         },
         "NVDA": {
@@ -187,7 +179,7 @@
           "entry_date": "2026-08-05T17:26:18.684753+00:00"
         }
       },
-      "last_run": "2026-10-08T21:01:11.747802+00:00",
+      "last_run": "2026-10-09T04:31:54.627383+00:00",
       "trade_count": 3,
       "total_realized_pnl": 1931.5680061832572
     },
@@ -207,6 +199,34 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-10-09T07:13:02.023628+00:00",
+      "action": "SELL",
+      "coin": "SOL-USD",
+      "price": 110.35,
+      "amount": 3.7510026456395873,
+      "value_usd": 413.9231419463284,
+      "balance_after": 8597.982459138468,
+      "pnl": -30.420631456137073,
+      "reasoning": "トレーリングストップ: 高値$121.83から-9.4% (閾値-7%)",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
+    {
+      "timestamp": "2026-10-09T07:13:02.021823+00:00",
+      "action": "SELL",
+      "coin": "PLTR",
+      "price": 198.78,
+      "amount": 0.8232931244473158,
+      "value_usd": 163.65420727763745,
+      "balance_after": 8184.05931719214,
+      "pnl": 9.303212306254721,
+      "reasoning": "ラダー利確 +5%: 33%売却",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-10-05T08:32:37.814209+00:00",
       "action": "SELL",
@@ -878,40 +898,12 @@
       "confidence": 0.95,
       "risk_level": "LOW",
       "bot_type": "MACRO"
-    },
-    {
-      "timestamp": "2026-07-27T04:38:34.566630+00:00",
-      "action": "BUY",
-      "coin": "BTC-USD",
-      "price": 65302.38,
-      "amount": 0.007014326774161779,
-      "value_usd": 458.05223245048666,
-      "balance_after": 8702.992416559246,
-      "pnl": 0.0,
-      "reasoning": "合計スコア:+4.0 → BUY | ADX=17.0 レンジ相場 → トレンドフォロー無効 | 価格が200MA下 → 長期下降トレンド | 価格が50MA上 → 中期上昇トレンド | BTC-ET…",
-      "confidence": 0.44,
-      "risk_level": "MEDIUM",
-      "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-07-24T04:17:13.008204+00:00",
-      "action": "SELL",
-      "coin": "QQQ",
-      "price": 691.96,
-      "amount": 0.3162908848179189,
-      "value_usd": 218.86064065860717,
-      "balance_after": 9161.044649009733,
-      "pnl": 5.633140658607175,
-      "reasoning": "トレーリングストップ: 高値$746.16から-7.3% (閾値-7%)",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
     "total_buys": 17,
-    "total_sells": 33,
-    "realized_pnl": 168.7,
-    "win_rate": 81.8
+    "total_sells": 35,
+    "realized_pnl": 147.58,
+    "win_rate": 80.0
   }
 }
