@@ -1,18 +1,11 @@
 {
-  "balance": 596.578400309163,
-  "position": {
-    "ticker": "ARM",
-    "price": 277.2385561065674,
-    "shares": 40.84444377179462,
-    "cost": 11334.989605874094,
-    "peak": 333.20001220703125,
-    "entry_date": "2026-08-05T17:26:18.684753+00:00"
-  },
-  "last_decision": "2026-08-05T17:26:18.684753+00:00",
+  "balance": 10395.965052639043,
+  "position": null,
+  "last_decision": "2026-10-14T16:30:36.046044+00:00",
   "initial_balance": 10000.0,
-  "last_updated": "2026-10-14T09:16:10.592808+00:00",
-  "trade_count": 3,
-  "total_realized_pnl": 1931.5680061832572,
+  "last_updated": "2026-10-14T16:30:36.046044+00:00",
+  "trade_count": 4,
+  "total_realized_pnl": 395.9650526390433,
   "win_count": 1,
-  "loss_count": 0
+  "loss_count": 1
 }
