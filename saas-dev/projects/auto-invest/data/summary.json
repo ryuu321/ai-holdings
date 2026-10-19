@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-19T05:52:28.915698+00:00",
+  "updated_at": "2026-10-19T07:22:48.362875+00:00",
   "portfolios": {
     "LONG": {
       "balance": 10071.188369071178,
@@ -118,31 +118,10 @@
       "short_positions": {}
     },
     "MACRO": {
-      "balance": 6184.837341715337,
+      "balance": 10064.305569676211,
       "initial_balance": 10000.0,
-      "last_run": "2026-10-12T08:42:18.379687+00:00",
-      "positions": {
-        "META": {
-          "ticker": "META",
-          "shares": 3.1336830087164467,
-          "buy_price": 616.77,
-          "bought_at": "2026-09-07T07:03:23.831979+00:00",
-          "cost_basis": 1932.761669286043,
-          "peak_price": 616.77,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        },
-        "MSFT": {
-          "ticker": "MSFT",
-          "shares": 3.1313729503601495,
-          "buy_price": 493.78,
-          "bought_at": "2026-09-21T07:40:57.756206+00:00",
-          "cost_basis": 1546.2093354288345,
-          "peak_price": 493.78,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        }
-      },
+      "last_run": "2026-10-19T07:22:48.362634+00:00",
+      "positions": {},
       "short_positions": {}
     },
     "ATTACK": {
@@ -169,6 +148,34 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-10-19T07:22:48.361020+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 529.05,
+      "amount": 3.1313729503601495,
+      "value_usd": 1656.6528593880369,
+      "balance_after": 10064.305569676211,
+      "pnl": 110.44352395920237,
+      "reasoning": "マクロテーゼ崩壊: 経済フェーズ=CONTRACTION: 先行指標が景気後退を示す",
+      "confidence": 0.95,
+      "risk_level": "LOW",
+      "bot_type": "MACRO"
+    },
+    {
+      "timestamp": "2026-10-19T07:22:48.359455+00:00",
+      "action": "SELL",
+      "coin": "META",
+      "price": 709.33,
+      "amount": 3.1336830087164467,
+      "value_usd": 2222.815368572837,
+      "balance_after": 8407.652710288174,
+      "pnl": 290.0536992867942,
+      "reasoning": "マクロテーゼ崩壊: 経済フェーズ=CONTRACTION: 先行指標が景気後退を示す",
+      "confidence": 0.95,
+      "risk_level": "LOW",
+      "bot_type": "MACRO"
+    },
     {
       "timestamp": "2026-10-17T05:23:57.364725+00:00",
       "action": "SELL",
@@ -840,40 +847,12 @@
       "confidence": 0.9,
       "risk_level": "LOW",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-08-03T05:43:34.760835+00:00",
-      "action": "BUY",
-      "coin": "META",
-      "price": 556.71,
-      "amount": 0.8839050651739229,
-      "value_usd": 492.0787888329746,
-      "balance_after": 9349.496987826518,
-      "pnl": 0.0,
-      "reasoning": "合計スコア:+10.0 → BUY | US10Y=4.75% 上昇中 → バリュエーション圧迫 | M2 YoY=5.5% 拡大中 → 流動性環境良好 / 資産価格に追い風 | PER=21.0 適…",
-      "confidence": 0.91,
-      "risk_level": "LOW",
-      "bot_type": "LONG"
-    },
-    {
-      "timestamp": "2026-08-03T05:42:13.728323+00:00",
-      "action": "BUY",
-      "coin": "META",
-      "price": 556.71,
-      "amount": 3.445379928563356,
-      "value_usd": 1918.077460030506,
-      "balance_after": 7672.309840122024,
-      "pnl": 0.0,
-      "reasoning": "合計スコア:+9.0 → BUY | フェーズ:MID_EXPANSION | テック・工業株・素材が有利。継続保有・追加投資を検討。 | 経済サイクル: 成長中期 → 成長継続。保有継続・追加投資を…",
-      "confidence": 1.0,
-      "risk_level": "LOW",
-      "bot_type": "MACRO"
     }
   ],
   "stats": {
     "total_buys": 15,
-    "total_sells": 35,
-    "realized_pnl": 235.7,
-    "win_rate": 82.9
+    "total_sells": 37,
+    "realized_pnl": 636.2,
+    "win_rate": 83.8
   }
 }
