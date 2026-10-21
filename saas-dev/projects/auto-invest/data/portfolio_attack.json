@@ -1,9 +1,9 @@
 {
   "balance": 10395.965052639043,
   "position": null,
-  "last_decision": "2026-10-14T16:30:36.046044+00:00",
+  "last_decision": "2026-10-21T16:35:43.049354+00:00",
   "initial_balance": 10000.0,
-  "last_updated": "2026-10-14T16:30:36.046044+00:00",
+  "last_updated": "2026-10-21T16:35:43.049354+00:00",
   "trade_count": 4,
   "total_realized_pnl": 395.9650526390433,
   "win_count": 1,
