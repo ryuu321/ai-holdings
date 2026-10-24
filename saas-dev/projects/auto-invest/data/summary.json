@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-24T03:12:23.966293+00:00",
+  "updated_at": "2026-10-24T05:31:35.431036+00:00",
   "portfolios": {
     "LONG": {
       "balance": 10071.188369071178,
@@ -30,9 +30,9 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 9320.937622663092,
+      "balance": 9635.13848047707,
       "initial_balance": 10000.0,
-      "last_run": "2026-10-23T05:49:42.633491+00:00",
+      "last_run": "2026-10-24T05:31:35.430180+00:00",
       "positions": {
         "SPY": {
           "ticker": "SPY",
@@ -42,18 +42,6 @@
           "cost_basis": 482.00193435820904,
           "peak_price": 779.09,
           "ladder_hits": [],
-          "last_dca_date": ""
-        },
-        "BTC-USD": {
-          "ticker": "BTC-USD",
-          "shares": 0.0038965574444751678,
-          "buy_price": 79057.58,
-          "bought_at": "2026-08-26T02:25:32.697661+00:00",
-          "cost_basis": 308.05240189119115,
-          "peak_price": 86767.5,
-          "ladder_hits": [
-            "0.05"
-          ],
           "last_dca_date": ""
         }
       },
@@ -148,6 +136,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-10-24T05:31:35.427642+00:00",
+      "action": "SELL",
+      "coin": "BTC-USD",
+      "price": 80635.5,
+      "amount": 0.0038965574444751678,
+      "value_usd": 314.2008578139774,
+      "balance_after": 9635.13848047707,
+      "pnl": 6.1484559227862405,
+      "reasoning": "トレーリングストップ: 高値$86,767.50から-7.1% (閾値-7%)",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-10-19T07:22:48.361020+00:00",
       "action": "SELL",
@@ -833,26 +835,12 @@
       "confidence": 0.44,
       "risk_level": "MEDIUM",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-08-05T04:12:55.808116+00:00",
-      "action": "SELL",
-      "coin": "AVGO",
-      "price": 418.16,
-      "amount": 0.4061771851411457,
-      "value_usd": 169.8470517386215,
-      "balance_after": 9273.533227505768,
-      "pnl": 11.730397106876325,
-      "reasoning": "ラダー利確 +5%: 33%売却",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
     "total_buys": 13,
-    "total_sells": 37,
-    "realized_pnl": 636.2,
-    "win_rate": 83.8
+    "total_sells": 38,
+    "realized_pnl": 642.35,
+    "win_rate": 84.2
   }
 }

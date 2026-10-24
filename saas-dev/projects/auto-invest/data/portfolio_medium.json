@@ -1,7 +1,7 @@
 {
-  "balance": 9320.937622663092,
+  "balance": 9635.13848047707,
   "initial_balance": 10000.0,
-  "last_run": "2026-10-23T05:49:42.633491+00:00",
+  "last_run": "2026-10-24T05:31:35.430180+00:00",
   "positions": {
     "SPY": {
       "ticker": "SPY",
@@ -11,18 +11,6 @@
       "cost_basis": 482.00193435820904,
       "peak_price": 779.09,
       "ladder_hits": [],
-      "last_dca_date": ""
-    },
-    "BTC-USD": {
-      "ticker": "BTC-USD",
-      "shares": 0.0038965574444751678,
-      "buy_price": 79057.58,
-      "bought_at": "2026-08-26T02:25:32.697661+00:00",
-      "cost_basis": 308.05240189119115,
-      "peak_price": 86767.5,
-      "ladder_hits": [
-        "0.05"
-      ],
       "last_dca_date": ""
     }
   },
