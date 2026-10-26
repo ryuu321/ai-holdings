@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-26T05:51:33.697370+00:00",
+  "updated_at": "2026-10-26T07:28:08.022797+00:00",
   "portfolios": {
     "LONG": {
       "balance": 10071.188369071178,
@@ -106,10 +106,21 @@
       "short_positions": {}
     },
     "MACRO": {
-      "balance": 10064.305569676211,
+      "balance": 8051.444455740969,
       "initial_balance": 10000.0,
-      "last_run": "2026-10-19T07:22:48.362634+00:00",
-      "positions": {},
+      "last_run": "2026-10-26T07:28:08.022537+00:00",
+      "positions": {
+        "META": {
+          "ticker": "META",
+          "shares": 3.1322727489577704,
+          "buy_price": 642.62,
+          "bought_at": "2026-10-26T07:28:08.020238+00:00",
+          "cost_basis": 2012.8611139352424,
+          "peak_price": 642.62,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        }
+      },
       "short_positions": {}
     },
     "ATTACK": {
@@ -136,6 +147,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-10-26T07:28:08.020251+00:00",
+      "action": "BUY",
+      "coin": "META",
+      "price": 642.62,
+      "amount": 3.1322727489577704,
+      "value_usd": 2012.8611139352424,
+      "balance_after": 8051.444455740969,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+6.0 → BUY | フェーズ:LATE_EXPANSION | エネルギー・素材・ヘルスケアに比重移動。保有株の一部利確を検討。 | 経済サイクル: 成長後期（過熱注意） → 過熱注…",
+      "confidence": 1.0,
+      "risk_level": "MEDIUM",
+      "bot_type": "MACRO"
+    },
     {
       "timestamp": "2026-10-24T05:31:35.427642+00:00",
       "action": "SELL",
@@ -821,24 +846,10 @@
       "confidence": 0.9,
       "risk_level": "LOW",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-08-05T04:12:55.810180+00:00",
-      "action": "BUY",
-      "coin": "PLTR",
-      "price": 162.66,
-      "amount": 2.850588106327852,
-      "value_usd": 463.6766613752884,
-      "balance_after": 8809.85656613048,
-      "pnl": 0.0,
-      "reasoning": "合計スコア:+4.0 → BUY | ADX=15.0 レンジ相場 → トレンドフォロー無効 | 価格が200MA上 → 長期上昇トレンド | 価格が50MA上 → 中期上昇トレンド | VIX=16…",
-      "confidence": 0.44,
-      "risk_level": "MEDIUM",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
-    "total_buys": 13,
+    "total_buys": 14,
     "total_sells": 37,
     "realized_pnl": 630.61,
     "win_rate": 83.8
