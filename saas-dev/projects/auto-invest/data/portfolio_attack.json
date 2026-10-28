@@ -1,10 +1,17 @@
 {
-  "balance": 10395.965052639043,
-  "position": null,
-  "last_decision": "2026-10-21T16:35:43.049354+00:00",
+  "balance": 519.798252631952,
+  "position": {
+    "ticker": "TSLA",
+    "price": 402.9363528442383,
+    "shares": 24.485977905848227,
+    "cost": 9876.166800007091,
+    "peak": 402.9363528442383,
+    "entry_date": "2026-10-28T17:52:50.560457+00:00"
+  },
+  "last_decision": "2026-10-28T17:52:50.560457+00:00",
   "initial_balance": 10000.0,
-  "last_updated": "2026-10-21T16:35:43.049354+00:00",
-  "trade_count": 4,
+  "last_updated": "2026-10-28T17:52:50.560457+00:00",
+  "trade_count": 5,
   "total_realized_pnl": 395.9650526390433,
   "win_count": 1,
   "loss_count": 1
