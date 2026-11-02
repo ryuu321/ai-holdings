@@ -1,20 +1,20 @@
 {
-  "updated_at": "2026-11-02T08:56:37.541561+00:00",
+  "updated_at": "2026-11-02T08:58:51.988932+00:00",
   "portfolios": {
     "LONG": {
-      "balance": 9723.996998791768,
+      "balance": 9246.861695838279,
       "initial_balance": 10000.0,
-      "last_run": "2026-10-26T07:30:15.820079+00:00",
+      "last_run": "2026-11-02T08:58:51.988608+00:00",
       "positions": {
         "MSFT": {
           "ticker": "MSFT",
-          "shares": 0.09141066856755733,
+          "shares": 0.07312853485404587,
           "buy_price": 379.4,
           "bought_at": "2026-06-22T07:26:30.143857+00:00",
-          "cost_basis": 34.68120765453124,
+          "cost_basis": 27.744966123624994,
           "peak_price": 535.07,
           "ladder_hits": [],
-          "last_dca_date": "2026-10-26T07:30:15.815035+00:00"
+          "last_dca_date": "2026-11-02T08:58:51.984389+00:00"
         },
         "META": {
           "ticker": "META",
@@ -23,6 +23,16 @@
           "bought_at": "2026-10-26T07:30:15.818156+00:00",
           "cost_basis": 511.78931572588255,
           "peak_price": 642.62,
+          "ladder_hits": [],
+          "last_dca_date": ""
+        },
+        "GOOGL": {
+          "ticker": "GOOGL",
+          "shares": 1.739125683819002,
+          "buy_price": 279.84,
+          "bought_at": "2026-11-02T08:58:51.986421+00:00",
+          "cost_basis": 486.6769313599094,
+          "peak_price": 279.84,
           "ladder_hits": [],
           "last_dca_date": ""
         }
@@ -154,6 +164,34 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-11-02T08:58:51.986459+00:00",
+      "action": "BUY",
+      "coin": "GOOGL",
+      "price": 279.84,
+      "amount": 1.739125683819002,
+      "value_usd": 486.6769313599094,
+      "balance_after": 9246.861695838279,
+      "pnl": 0.0,
+      "reasoning": "合計スコア:+12.0 → BUY | M2 YoY=5.7% 拡大中 → 流動性環境良好 / 資産価格に追い風 | PER=14.6 割安（<15） | 売上成長=24.7% 高成長 | 利益率=5…",
+      "confidence": 1.0,
+      "risk_level": "LOW",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-11-02T08:58:51.984371+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 521.91,
+      "amount": 0.018282133713511468,
+      "value_usd": 9.54162840641877,
+      "balance_after": 9733.538627198188,
+      "pnl": 2.6053868755125213,
+      "reasoning": "DCA週次利確: +37.6%  20%売却",
+      "confidence": 0.7,
+      "risk_level": "MEDIUM",
+      "bot_type": "LONG"
+    },
     {
       "timestamp": "2026-11-02T08:56:37.539211+00:00",
       "action": "SELL",
@@ -825,40 +863,12 @@
       "confidence": 0.3,
       "risk_level": "MEDIUM",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-08-17T03:00:53.619523+00:00",
-      "action": "SELL",
-      "coin": "META",
-      "price": 589.85,
-      "amount": 0.17678101303478458,
-      "value_usd": 104.2742805385677,
-      "balance_after": 9521.876161598108,
-      "pnl": 5.858522771972758,
-      "reasoning": "DCA週次利確: +6.0%  20%売却",
-      "confidence": 0.7,
-      "risk_level": "MEDIUM",
-      "bot_type": "LONG"
-    },
-    {
-      "timestamp": "2026-08-15T02:14:39.094109+00:00",
-      "action": "BUY",
-      "coin": "NVDA",
-      "price": 225.16,
-      "amount": 2.0893083405085973,
-      "value_usd": 470.42866594891575,
-      "balance_after": 8938.1446530294,
-      "pnl": 0.0,
-      "reasoning": "合計スコア:+4.0 → BUY | 価格が200MA上 → 長期上昇トレンド | 価格が50MA上 → 中期上昇トレンド | VIX=14.2 低恐怖（<20）→ リスクオン環境 | US10Y=4…",
-      "confidence": 0.57,
-      "risk_level": "MEDIUM",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
-    "total_buys": 15,
+    "total_buys": 16,
     "total_sells": 36,
-    "realized_pnl": 511.86,
+    "realized_pnl": 511.41,
     "win_rate": 80.6
   }
 }
