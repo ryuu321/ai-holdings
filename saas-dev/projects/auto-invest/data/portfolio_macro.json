@@ -1,18 +1,7 @@
 {
-  "balance": 8051.444455740969,
+  "balance": 9977.760873622508,
   "initial_balance": 10000.0,
-  "last_run": "2026-10-26T07:28:08.022537+00:00",
-  "positions": {
-    "META": {
-      "ticker": "META",
-      "shares": 3.1322727489577704,
-      "buy_price": 642.62,
-      "bought_at": "2026-10-26T07:28:08.020238+00:00",
-      "cost_basis": 2012.8611139352424,
-      "peak_price": 642.62,
-      "ladder_hits": [],
-      "last_dca_date": ""
-    }
-  },
+  "last_run": "2026-11-02T08:56:37.541342+00:00",
+  "positions": {},
   "short_positions": {}
 }

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-02T07:27:53.380468+00:00",
+  "updated_at": "2026-11-02T08:56:37.541561+00:00",
   "portfolios": {
     "LONG": {
       "balance": 9723.996998791768,
@@ -116,21 +116,10 @@
       "short_positions": {}
     },
     "MACRO": {
-      "balance": 8051.444455740969,
+      "balance": 9977.760873622508,
       "initial_balance": 10000.0,
-      "last_run": "2026-10-26T07:28:08.022537+00:00",
-      "positions": {
-        "META": {
-          "ticker": "META",
-          "shares": 3.1322727489577704,
-          "buy_price": 642.62,
-          "bought_at": "2026-10-26T07:28:08.020238+00:00",
-          "cost_basis": 2012.8611139352424,
-          "peak_price": 642.62,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        }
-      },
+      "last_run": "2026-11-02T08:56:37.541342+00:00",
+      "positions": {},
       "short_positions": {}
     },
     "ATTACK": {
@@ -165,6 +154,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-11-02T08:56:37.539211+00:00",
+      "action": "SELL",
+      "coin": "META",
+      "price": 614.99,
+      "amount": 3.1322727489577704,
+      "value_usd": 1926.3164178815393,
+      "balance_after": 9977.760873622508,
+      "pnl": -86.54469605370309,
+      "reasoning": "マクロテーゼ崩壊: 経済フェーズ=CONTRACTION: 先行指標が景気後退を示す",
+      "confidence": 0.95,
+      "risk_level": "LOW",
+      "bot_type": "MACRO"
+    },
     {
       "timestamp": "2026-10-28T06:42:25.390944+00:00",
       "action": "BUY",
@@ -850,26 +853,12 @@
       "confidence": 0.57,
       "risk_level": "MEDIUM",
       "bot_type": "MEDIUM"
-    },
-    {
-      "timestamp": "2026-08-15T02:14:39.091546+00:00",
-      "action": "SELL",
-      "coin": "AVGO",
-      "price": 392.99,
-      "amount": 0.824662769832023,
-      "value_usd": 324.0842219162867,
-      "balance_after": 9408.573318978315,
-      "pnl": 3.059498876076816,
-      "reasoning": "トレーリングストップ: 高値$427.76から-8.1% (閾値-7%)",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
     "total_buys": 15,
-    "total_sells": 35,
-    "realized_pnl": 598.4,
-    "win_rate": 82.9
+    "total_sells": 36,
+    "realized_pnl": 511.86,
+    "win_rate": 80.6
   }
 }
