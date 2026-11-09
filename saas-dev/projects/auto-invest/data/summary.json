@@ -1,20 +1,20 @@
 {
-  "updated_at": "2026-11-09T09:13:26.387226+00:00",
+  "updated_at": "2026-11-09T09:18:56.107906+00:00",
   "portfolios": {
     "LONG": {
-      "balance": 9246.861695838279,
+      "balance": 9353.675884661656,
       "initial_balance": 10000.0,
-      "last_run": "2026-11-02T08:58:51.988608+00:00",
+      "last_run": "2026-11-09T09:18:56.107620+00:00",
       "positions": {
         "MSFT": {
           "ticker": "MSFT",
-          "shares": 0.07312853485404587,
+          "shares": 0.0585028278832367,
           "buy_price": 379.4,
           "bought_at": "2026-06-22T07:26:30.143857+00:00",
-          "cost_basis": 27.744966123624994,
+          "cost_basis": 22.195972898899996,
           "peak_price": 535.07,
           "ladder_hits": [],
-          "last_dca_date": "2026-11-02T08:58:51.984389+00:00"
+          "last_dca_date": "2026-11-09T09:18:56.103651+00:00"
         },
         "META": {
           "ticker": "META",
@@ -28,13 +28,13 @@
         },
         "GOOGL": {
           "ticker": "GOOGL",
-          "shares": 1.739125683819002,
+          "shares": 1.3913005470552016,
           "buy_price": 279.84,
           "bought_at": "2026-11-02T08:58:51.986421+00:00",
-          "cost_basis": 486.6769313599094,
-          "peak_price": 279.84,
+          "cost_basis": 389.34154508792756,
+          "peak_price": 284.78,
           "ladder_hits": [],
-          "last_dca_date": ""
+          "last_dca_date": "2026-11-09T09:18:56.105337+00:00"
         }
       },
       "short_positions": {}
@@ -146,6 +146,34 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-11-09T09:18:56.105327+00:00",
+      "action": "SELL",
+      "coin": "GOOGL",
+      "price": 284.78,
+      "amount": 0.3478251367638004,
+      "value_usd": 99.05364244759507,
+      "balance_after": 9353.675884661656,
+      "pnl": 1.7182561756131776,
+      "reasoning": "DCA週次利確: +1.8%  20%売却",
+      "confidence": 0.7,
+      "risk_level": "MEDIUM",
+      "bot_type": "LONG"
+    },
+    {
+      "timestamp": "2026-11-09T09:18:56.103629+00:00",
+      "action": "SELL",
+      "coin": "MSFT",
+      "price": 530.61,
+      "amount": 0.014625706970809175,
+      "value_usd": 7.760546375781057,
+      "balance_after": 9254.62224221406,
+      "pnl": 2.2115531510560578,
+      "reasoning": "DCA週次利確: +39.9%  20%売却",
+      "confidence": 0.7,
+      "risk_level": "MEDIUM",
+      "bot_type": "LONG"
+    },
     {
       "timestamp": "2026-11-06T07:46:14.077965+00:00",
       "action": "SELL",
@@ -817,40 +845,12 @@
       "confidence": 1.0,
       "risk_level": "LOW",
       "bot_type": "LONG"
-    },
-    {
-      "timestamp": "2026-08-24T03:04:22.896394+00:00",
-      "action": "SELL",
-      "coin": "MSFT",
-      "price": 483.24,
-      "amount": 0.10897000857300441,
-      "value_usd": 52.658666942818655,
-      "balance_after": 9574.534828540925,
-      "pnl": 11.315445690220798,
-      "reasoning": "DCA週次利確: +27.4%  20%売却",
-      "confidence": 0.7,
-      "risk_level": "MEDIUM",
-      "bot_type": "LONG"
-    },
-    {
-      "timestamp": "2026-08-22T02:15:59.946919+00:00",
-      "action": "SELL",
-      "coin": "SOL-USD",
-      "price": 94.32,
-      "amount": 1.6561413450307143,
-      "value_usd": 156.20725166329697,
-      "balance_after": 8647.444672041225,
-      "pnl": 8.72786488831187,
-      "reasoning": "ラダー利確 +5%: 33%売却",
-      "confidence": 0.9,
-      "risk_level": "LOW",
-      "bot_type": "MEDIUM"
     }
   ],
   "stats": {
     "total_buys": 14,
-    "total_sells": 36,
-    "realized_pnl": 430.15,
-    "win_rate": 77.8
+    "total_sells": 38,
+    "realized_pnl": 434.08,
+    "win_rate": 78.9
   }
 }
