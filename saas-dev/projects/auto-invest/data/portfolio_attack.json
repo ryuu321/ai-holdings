@@ -1,10 +1,17 @@
 {
-  "balance": 8871.788387309292,
-  "position": null,
-  "last_decision": "2026-11-05T19:28:16.788118+00:00",
+  "balance": 443.5894193654658,
+  "position": {
+    "ticker": "AMD",
+    "price": 585.5926377868652,
+    "shares": 14.378204618139987,
+    "cost": 8428.198967943827,
+    "peak": 585.5926377868652,
+    "entry_date": "2026-11-13T00:52:37.753914+00:00"
+  },
+  "last_decision": "2026-11-13T00:52:37.753914+00:00",
   "initial_balance": 10000.0,
-  "last_updated": "2026-11-05T19:28:16.788118+00:00",
-  "trade_count": 6,
+  "last_updated": "2026-11-13T00:52:37.753914+00:00",
+  "trade_count": 7,
   "total_realized_pnl": -1128.2116126907076,
   "win_count": 1,
   "loss_count": 2
