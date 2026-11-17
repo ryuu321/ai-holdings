@@ -1,7 +1,7 @@
 {
-  "balance": 9248.73257588359,
+  "balance": 9540.822157875522,
   "initial_balance": 10000.0,
-  "last_run": "2026-11-16T07:45:08.094071+00:00",
+  "last_run": "2026-11-17T08:54:23.940429+00:00",
   "positions": {
     "SPY": {
       "ticker": "SPY",
@@ -11,18 +11,6 @@
       "cost_basis": 482.00193435820904,
       "peak_price": 779.09,
       "ladder_hits": [],
-      "last_dca_date": ""
-    },
-    "AMD": {
-      "ticker": "AMD",
-      "shares": 0.5792210319503692,
-      "buy_price": 552.9,
-      "bought_at": "2026-11-12T08:02:01.846194+00:00",
-      "cost_basis": 320.2513085653591,
-      "peak_price": 552.9,
-      "ladder_hits": [
-        "0.05"
-      ],
       "last_dca_date": ""
     }
   },
