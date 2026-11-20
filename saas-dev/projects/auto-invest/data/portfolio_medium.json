@@ -1,18 +1,7 @@
 {
-  "balance": 9540.822157875522,
+  "balance": 10002.298832988883,
   "initial_balance": 10000.0,
-  "last_run": "2026-11-19T08:30:25.875774+00:00",
-  "positions": {
-    "SPY": {
-      "ticker": "SPY",
-      "shares": 0.6446375390969882,
-      "buy_price": 747.71,
-      "bought_at": "2026-07-08T04:16:32.267587+00:00",
-      "cost_basis": 482.00193435820904,
-      "peak_price": 779.09,
-      "ladder_hits": [],
-      "last_dca_date": ""
-    }
-  },
+  "last_run": "2026-11-20T08:12:22.235035+00:00",
+  "positions": {},
   "short_positions": {}
 }

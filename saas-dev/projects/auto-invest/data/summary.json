@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-20T05:39:56.597322+00:00",
+  "updated_at": "2026-11-20T08:12:22.235293+00:00",
   "portfolios": {
     "LONG": {
       "balance": 8885.992090428574,
@@ -50,21 +50,10 @@
       "short_positions": {}
     },
     "MEDIUM": {
-      "balance": 9540.822157875522,
+      "balance": 10002.298832988883,
       "initial_balance": 10000.0,
-      "last_run": "2026-11-19T08:30:25.875774+00:00",
-      "positions": {
-        "SPY": {
-          "ticker": "SPY",
-          "shares": 0.6446375390969882,
-          "buy_price": 747.71,
-          "bought_at": "2026-07-08T04:16:32.267587+00:00",
-          "cost_basis": 482.00193435820904,
-          "peak_price": 779.09,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        }
-      },
+      "last_run": "2026-11-20T08:12:22.235035+00:00",
+      "positions": {},
       "short_positions": {}
     },
     "SHORT": {
@@ -155,7 +144,7 @@
           "entry_date": "2026-11-13T00:52:37.753914+00:00"
         }
       },
-      "last_run": "2026-11-19T22:53:24.698375+00:00",
+      "last_run": "2026-11-20T05:41:21.246537+00:00",
       "trade_count": 7,
       "total_realized_pnl": -1128.2116126907076
     },
@@ -175,6 +164,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-11-20T08:12:22.232610+00:00",
+      "action": "SELL",
+      "coin": "SPY",
+      "price": 715.87,
+      "amount": 0.6446375390969882,
+      "value_usd": 461.47667511336095,
+      "balance_after": 10002.298832988883,
+      "pnl": -20.525259244848087,
+      "reasoning": "トレーリングストップ: 高値$779.09から-8.1% (閾値-7%)",
+      "confidence": 0.9,
+      "risk_level": "LOW",
+      "bot_type": "MEDIUM"
+    },
     {
       "timestamp": "2026-11-17T08:54:23.938337+00:00",
       "action": "SELL",
@@ -860,26 +863,12 @@
       "confidence": 0.7,
       "risk_level": "MEDIUM",
       "bot_type": "LONG"
-    },
-    {
-      "timestamp": "2026-08-31T08:10:15.517318+00:00",
-      "action": "SELL",
-      "coin": "META",
-      "price": 578.02,
-      "amount": 3.445379928563356,
-      "value_usd": 1991.498506308191,
-      "balance_after": 9663.808346430214,
-      "pnl": 73.42104627768504,
-      "reasoning": "マクロテーゼ崩壊: 地政学スコア極端悪化 (-14) → 重大ショック発生",
-      "confidence": 0.95,
-      "risk_level": "LOW",
-      "bot_type": "MACRO"
     }
   ],
   "stats": {
     "total_buys": 14,
-    "total_sells": 36,
-    "realized_pnl": 416.21,
-    "win_rate": 77.8
+    "total_sells": 37,
+    "realized_pnl": 395.68,
+    "win_rate": 75.7
   }
 }
