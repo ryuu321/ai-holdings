@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-23T08:42:42.275730+00:00",
+  "updated_at": "2026-11-23T10:22:00.428313+00:00",
   "portfolios": {
     "LONG": {
       "balance": 8885.992090428574,
@@ -115,21 +115,10 @@
       "short_positions": {}
     },
     "MACRO": {
-      "balance": 7982.208698898006,
+      "balance": 9520.44428067981,
       "initial_balance": 10000.0,
-      "last_run": "2026-11-16T09:04:00.684679+00:00",
-      "positions": {
-        "NVDA": {
-          "ticker": "NVDA",
-          "shares": 12.253927999536394,
-          "buy_price": 162.85,
-          "bought_at": "2026-11-16T09:04:00.682247+00:00",
-          "cost_basis": 1995.5521747245018,
-          "peak_price": 162.85,
-          "ladder_hits": [],
-          "last_dca_date": ""
-        }
-      },
+      "last_run": "2026-11-23T10:22:00.428071+00:00",
+      "positions": {},
       "short_positions": {}
     },
     "ATTACK": {
@@ -156,6 +145,20 @@
     }
   },
   "recent_trades": [
+    {
+      "timestamp": "2026-11-23T10:22:00.426215+00:00",
+      "action": "SELL",
+      "coin": "NVDA",
+      "price": 125.53,
+      "amount": 12.253927999536394,
+      "value_usd": 1538.2355817818036,
+      "balance_after": 9520.44428067981,
+      "pnl": -457.3165929426982,
+      "reasoning": "マクロテーゼ崩壊: 経済フェーズ=SEVERE_CONTRACTION: 先行指標が景気後退を示す",
+      "confidence": 0.95,
+      "risk_level": "LOW",
+      "bot_type": "MACRO"
+    },
     {
       "timestamp": "2026-11-20T08:12:22.232610+00:00",
       "action": "SELL",
@@ -841,26 +844,12 @@
       "confidence": 0.7,
       "risk_level": "MEDIUM",
       "bot_type": "LONG"
-    },
-    {
-      "timestamp": "2026-08-31T08:14:39.400059+00:00",
-      "action": "SELL",
-      "coin": "MSFT",
-      "price": 513.53,
-      "amount": 0.08717600685840353,
-      "value_usd": 44.76749480199596,
-      "balance_after": 9509.980722373622,
-      "pnl": 11.692917799917673,
-      "reasoning": "DCA週次利確: +35.4%  20%売却",
-      "confidence": 0.7,
-      "risk_level": "MEDIUM",
-      "bot_type": "LONG"
     }
   ],
   "stats": {
     "total_buys": 14,
-    "total_sells": 36,
-    "realized_pnl": 322.26,
-    "win_rate": 75.0
+    "total_sells": 37,
+    "realized_pnl": -135.05,
+    "win_rate": 73.0
   }
 }
