@@ -1,45 +1,15 @@
 {
-  "balance": 8885.992090428574,
+  "balance": 9586.070501105964,
   "initial_balance": 10000.0,
-  "last_run": "2026-11-16T09:07:08.113336+00:00",
+  "last_run": "2026-11-23T10:25:12.519371+00:00",
   "positions": {
-    "MSFT": {
-      "ticker": "MSFT",
-      "shares": 0.0585028278832367,
-      "buy_price": 379.4,
-      "bought_at": "2026-06-22T07:26:30.143857+00:00",
-      "cost_basis": 22.195972898899996,
-      "peak_price": 535.07,
-      "ladder_hits": [],
-      "last_dca_date": "2026-11-09T09:18:56.103651+00:00"
-    },
-    "META": {
-      "ticker": "META",
-      "shares": 0.7964105003359412,
-      "buy_price": 642.62,
-      "bought_at": "2026-10-26T07:30:15.818156+00:00",
-      "cost_basis": 511.78931572588255,
-      "peak_price": 642.62,
-      "ladder_hits": [],
-      "last_dca_date": ""
-    },
-    "GOOGL": {
-      "ticker": "GOOGL",
-      "shares": 1.3913005470552016,
-      "buy_price": 279.84,
-      "bought_at": "2026-11-02T08:58:51.986421+00:00",
-      "cost_basis": 389.34154508792756,
-      "peak_price": 295.77,
-      "ladder_hits": [],
-      "last_dca_date": "2026-11-09T09:18:56.105337+00:00"
-    },
     "NVDA": {
       "ticker": "NVDA",
-      "shares": 2.8718685553152157,
-      "buy_price": 162.85,
-      "bought_at": "2026-11-16T09:07:08.111090+00:00",
-      "cost_basis": 467.68379423308284,
-      "peak_price": 162.85,
+      "shares": 4.01919880804587,
+      "buy_price": 125.53,
+      "bought_at": "2026-11-23T10:25:12.517468+00:00",
+      "cost_basis": 504.53002637399806,
+      "peak_price": 125.53,
       "ladder_hits": [],
       "last_dca_date": ""
     }
