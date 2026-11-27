@@ -1,10 +1,17 @@
 {
-  "balance": 6690.596210888373,
-  "position": null,
-  "last_decision": "2026-11-20T16:41:03.757838+00:00",
+  "balance": 334.529810544419,
+  "position": {
+    "ticker": "PLTR",
+    "price": 172.2560831680298,
+    "shares": 36.86203829300872,
+    "cost": 6356.066400343954,
+    "peak": 172.2560831680298,
+    "entry_date": "2026-11-27T23:53:46.211287+00:00"
+  },
+  "last_decision": "2026-11-27T23:53:46.211287+00:00",
   "initial_balance": 10000.0,
-  "last_updated": "2026-11-20T16:41:03.757838+00:00",
-  "trade_count": 8,
+  "last_updated": "2026-11-27T23:53:46.211287+00:00",
+  "trade_count": 9,
   "total_realized_pnl": -3309.403789111627,
   "win_count": 1,
   "loss_count": 3
