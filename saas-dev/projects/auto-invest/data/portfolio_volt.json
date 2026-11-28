@@ -1,11 +1,11 @@
 {
-  "balance": 8629.63881726453,
-  "shares": 5.452009106303798,
-  "cost_basis": 2480.237396901408,
-  "last_decision": "2026-11-21T01:40:19.591497+00:00",
+  "balance": 10940.764073150865,
+  "shares": 0.0,
+  "cost_basis": 0.0,
+  "last_decision": "2026-11-28T08:18:57.318771+00:00",
   "initial_balance": 10000.0,
-  "last_updated": "2026-11-13T22:05:15.498392+00:00",
-  "trade_count": 12,
-  "total_realized_pnl": 1109.8762141659354,
-  "ticker": "AMD"
+  "last_updated": "2026-11-28T08:18:57.318771+00:00",
+  "trade_count": 13,
+  "total_realized_pnl": 940.7640731508645,
+  "ticker": "BTC-USD"
 }
